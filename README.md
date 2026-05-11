@@ -56,9 +56,26 @@ uv run python scripts/ingest_opensanctions.py --input data/raw/opensanctions/ent
 # 4. Build the unified company table
 uv run python scripts/build_candidate_tables.py
 
-# 5. Sanity-check the GoldenMatch config and build the smoke graph
+# 5. Sanity-check the GoldenMatch config
 uv run python scripts/run_goldenmatch_smoke.py
+
+# 6. Run the real GoldenMatch dedupe pass (writes reports/generated/company_*)
+uv run python scripts/run_goldenmatch_full.py --what company
+
+# 7. Derive cheap seed labels, score the run, and build the graph
+uv run python scripts/derive_seed_labels.py
+uv run python scripts/eval_against_labels.py
 uv run python scripts/build_graph_smoke.py
+
+# 8. Address-cluster pass + persons table (optional, but cheap)
+uv run python scripts/build_address_table.py
+uv run python scripts/report_shared_addresses.py
+uv run python scripts/build_person_table.py
+uv run python scripts/run_goldenmatch_full.py --what address
+uv run python scripts/run_goldenmatch_full.py --what person
+
+# 9. Coverage report across everything in interim/ and processed/
+uv run python scripts/coverage_report.py
 ```
 
 If you have `just` installed, all of the above are also available as recipes:
@@ -85,17 +102,33 @@ without it but at lower rate limits and with less data per record.
 
 ## Status
 
-Scaffolding-complete. What works today:
+Phase 0 (scaffolding) and the analytical plumbing for Phases 2–5 are in place.
+What works today:
 
-- All four source adapters parse their fixture-shaped inputs into parquet.
-- The unified company table builder concatenates whichever sources are present.
-- The GoldenMatch config validates against the real `goldenmatch` engine.
-- The graph smoke builds a `MultiDiGraph` and writes a JSON summary.
-- The pytest suite runs end-to-end on tiny synthetic fixtures (no network).
+- All four source adapters parse fixture-shaped inputs to parquet, including
+  ICIJ officers and intermediaries.
+- Three unified tables: `company_entities`, `address_entities`,
+  `person_entities`. Each gracefully handles missing sources.
+- Three GoldenMatch configs (`goldenmatch_company.yml`,
+  `goldenmatch_address.yml`, `goldenmatch_person.yml`) — all validated against
+  the real engine, the company config runs end-to-end on fixtures.
+- `scripts/run_goldenmatch_full.py` shells out to the GoldenMatch CLI and
+  joins its cluster output back to our entity ids.
+- `scripts/generate_candidate_pairs.py` + `derive_seed_labels.py` +
+  `eval_against_labels.py` form a labelling + evaluation pipeline.
+- `scripts/build_address_table.py` + `report_shared_addresses.py` surface
+  shared-agent clusters as Markdown + parquet.
+- `scripts/build_person_table.py` fuses ICIJ officers/intermediaries with
+  OpenSanctions Persons.
+- The graph smoke layers GoldenMatch `same_as` edges on top of source
+  relationships.
+- `scripts/coverage_report.py` writes per-column fill-rate tables for every
+  interim/processed parquet.
+- 60 pytest tests run end-to-end with no network.
 
-What hasn't been built yet (see `docs/roadmap.md`): full GoldenMatch runs on
-real-data, evaluation against a labelled subset, GLEIF XML parsing, address-
-cluster analysis, an investigation-ready report.
+What's still ahead (`docs/roadmap.md`): real-data ingestion (sandbox blocks
+remote downloads, so this is a follow-up), a labelled evaluation subset
+contributed by humans, GLEIF XML parsing, an investigation writeup.
 
 ## Legal & ethical
 

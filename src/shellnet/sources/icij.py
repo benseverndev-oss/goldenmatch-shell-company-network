@@ -112,6 +112,25 @@ _RELATIONSHIP_COLS = {
     "sourceID": "source_id_label",
 }
 
+# Officers (natural persons or corporate officers who hold roles in entities).
+_OFFICER_COLS = {
+    "node_id": "node_id",
+    "name": "name",
+    "country_codes": "country_codes",
+    "countries": "countries",
+    "sourceID": "source_id_label",
+}
+
+# Intermediaries (law firms, agents, banks that arranged entities).
+_INTERMEDIARY_COLS = {
+    "node_id": "node_id",
+    "name": "name",
+    "country_codes": "country_codes",
+    "countries": "countries",
+    "status": "status",
+    "sourceID": "source_id_label",
+}
+
 
 def _read_csv_subset(path: Path, wanted: dict[str, str]) -> pl.DataFrame:
     """Read a CSV but only the columns we care about, renaming as we go.
@@ -205,6 +224,39 @@ def load_addresses(path: Path) -> pl.DataFrame:
     ).select("source", "source_id", "raw_text", "normalized_text", "country", "source_label")
 
 
+def _load_person_like(path: Path, columns: dict[str, str]) -> pl.DataFrame:
+    """Shared body for officers + intermediaries.
+
+    Both shapes carry name + country codes (officers also sometimes carry
+    a 'countries' textual description). We emit one canonical row per
+    ICIJ node with normalized name + best-effort country.
+    """
+    df = _read_csv_subset(path, columns)
+    norm_name = pl.col("name").map_elements(normalize_company_name, return_dtype=pl.Utf8)
+    norm_country = (
+        pl.coalesce([pl.col("country_codes"), pl.col("countries")])
+        .map_elements(normalize_jurisdiction, return_dtype=pl.Utf8)
+    )
+    out = df.with_columns(
+        pl.lit("icij").alias("source"),
+        pl.col("node_id").alias("source_id"),
+        norm_name.alias("normalized_name"),
+        norm_country.alias("country"),
+    )
+    keep = ["source", "source_id", "name", "normalized_name", "country", "source_id_label"]
+    if "status" in df.columns:
+        keep.insert(-1, "status")
+    return out.select([c for c in keep if c in out.columns])
+
+
+def load_officers(path: Path) -> pl.DataFrame:
+    return _load_person_like(path, _OFFICER_COLS)
+
+
+def load_intermediaries(path: Path) -> pl.DataFrame:
+    return _load_person_like(path, _INTERMEDIARY_COLS)
+
+
 def load_relationships(path: Path) -> pl.DataFrame:
     df = _read_csv_subset(path, _RELATIONSHIP_COLS)
     return df.with_columns(
@@ -261,6 +313,20 @@ def ingest(raw_dir: Path = ICIJ_RAW, out_dir: Path = INTERIM_DIR) -> dict[str, P
         df.write_parquet(out)
         written["addresses"] = out
         log.info("Wrote %d ICIJ address rows to %s", df.height, out)
+
+    if files.officers is not None:
+        df = load_officers(files.officers)
+        out = out_dir / "icij_officers.parquet"
+        df.write_parquet(out)
+        written["officers"] = out
+        log.info("Wrote %d ICIJ officer rows to %s", df.height, out)
+
+    if files.intermediaries is not None:
+        df = load_intermediaries(files.intermediaries)
+        out = out_dir / "icij_intermediaries.parquet"
+        df.write_parquet(out)
+        written["intermediaries"] = out
+        log.info("Wrote %d ICIJ intermediary rows to %s", df.height, out)
 
     if files.relationships is not None:
         df = load_relationships(files.relationships)

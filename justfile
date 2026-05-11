@@ -37,6 +37,38 @@ smoke-match:
 smoke-graph:
     uv run python scripts/build_graph_smoke.py
 
+# --- Full runs + reporting ------------------------------------------------
+
+addresses:
+    uv run python scripts/build_address_table.py
+
+persons:
+    uv run python scripts/build_person_table.py
+
+run-company:
+    uv run python scripts/run_goldenmatch_full.py --what company
+
+run-address:
+    uv run python scripts/run_goldenmatch_full.py --what address
+
+run-person:
+    uv run python scripts/run_goldenmatch_full.py --what person
+
+candidates-csv:
+    uv run python scripts/generate_candidate_pairs.py
+
+seed-labels:
+    uv run python scripts/derive_seed_labels.py
+
+eval:
+    uv run python scripts/eval_against_labels.py
+
+shared-addresses:
+    uv run python scripts/report_shared_addresses.py
+
+coverage:
+    uv run python scripts/coverage_report.py
+
 # --- QA --------------------------------------------------------------------
 
 test:
