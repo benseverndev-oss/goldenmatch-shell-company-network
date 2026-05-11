@@ -1,0 +1,39 @@
+# Data — keep schemas, docs, and code, never commit raw or derived datasets
+data/raw/**
+!data/raw/.gitkeep
+data/interim/**
+!data/interim/.gitkeep
+data/processed/**
+!data/processed/.gitkeep
+reports/generated/**
+!reports/generated/.gitkeep
+
+# Caches
+.cache/
+.goldenmatch/
+**/__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Environments
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp

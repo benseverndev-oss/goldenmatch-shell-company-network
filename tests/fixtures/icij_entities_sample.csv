@@ -1,0 +1,6 @@
+node_id,name,jurisdiction,jurisdiction_description,country_codes,incorporation_date,inactivation_date,struck_off_date,status,company_type,address,sourceID
+10000001,ACME HOLDINGS LIMITED,VGB,British Virgin Islands,VGB,2003-04-10,,,Active,BVI Business Company,"3rd Floor, Geneva Place, Waterfront Drive, Road Town, Tortola, British Virgin Islands",Panama Papers
+10000002,Acme Holdings Ltd,KYM,Cayman Islands,KYM,2010-09-01,,,Active,Exempted Company,"Ugland House, South Church Street, George Town, Grand Cayman",Pandora Papers
+10000003,Sunrise Trading S.A.,PAN,Panama,PAN,1999-02-12,,2017-05-30,Struck off,Sociedad Anonima,"Edificio Comosa, Calle Manuel Maria Icaza, Panama City, Panama",Panama Papers
+10000004,Sunrise Trading SA,VGB,British Virgin Islands,VGB,2001-06-22,,,Active,BVI Business Company,"Akara Bldg, 24 De Castro Street, Wickhams Cay 1, Road Town, Tortola",Paradise Papers
+10000005,BLUE LAGOON FOUNDATION,LIE,Liechtenstein,LIE,1995-11-30,,,Active,Stiftung,"Heiligkreuz 6, FL-9490 Vaduz, Liechtenstein",Offshore Leaks

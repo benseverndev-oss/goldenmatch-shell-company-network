@@ -1,0 +1,36 @@
+# GoldenMatch configuration for resolving registered-address clusters.
+#
+# Used in a later phase to spot "shared registered agent" addresses that
+# host many otherwise unrelated entities — a common shell-company tell.
+# Today this is a placeholder so the pipeline has a stub to point at.
+
+input:
+  files:
+    - path: data/processed/address_entities.parquet
+      id_column: address_uid
+      source_label: source
+
+output:
+  directory: reports/generated
+  run_name: address_smoke
+
+blocking:
+  strategy: static
+  max_block_size: 5000
+  keys:
+    - fields: [country, normalized_text]
+      transforms: [substring:0:6]
+
+matchkeys:
+  - name: address_text_weighted
+    type: weighted
+    threshold: 0.88
+    fields:
+      - field: normalized_text
+        transforms: [normalize_whitespace]
+        scorer: token_sort
+        weight: 0.80
+      - field: country
+        transforms: [strip_all]
+        scorer: exact
+        weight: 0.20

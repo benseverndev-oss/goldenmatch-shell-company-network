@@ -1,0 +1,34 @@
+# Example sources manifest. Copy to configs/sources.yml and edit locally
+# (configs/sources.yml is git-ignored via the data/.gitignore conventions
+# only if you keep it under data/; otherwise feel free to commit it
+# with non-secret values). Secrets must come from .env, never from here.
+
+icij:
+  raw_dir: data/raw/icij
+  notes: |
+    Manually download the bundle from
+    https://offshoreleaks.icij.org/pages/database and unzip into raw_dir.
+
+opencorporates:
+  api_base: https://api.opencorporates.com/v0.4
+  per_page: 30
+  max_pages: 5
+  sleep_seconds: 0.5
+  queries:
+    # Each query becomes one ingest call.
+    - q: "Acme Holdings"
+      jurisdiction: gb
+      limit: 100
+
+gleif:
+  raw_dir: data/raw/gleif
+  notes: |
+    Download a Golden Copy snapshot from
+    https://www.gleif.org/en/lei-data/gleif-golden-copy and point ingest_gleif.py
+    at the resulting JSON or JSONL file.
+
+opensanctions:
+  raw_dir: data/raw/opensanctions
+  notes: |
+    Pick a dataset from https://www.opensanctions.org/datasets/ (the FtM
+    JSON export is preferred) and place it in raw_dir.
