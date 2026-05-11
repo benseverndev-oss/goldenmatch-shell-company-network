@@ -81,6 +81,93 @@ uv run python scripts/coverage_report.py
 If you have `just` installed, all of the above are also available as recipes:
 `just setup`, `just test`, `just ingest-icij`, `just smoke-graph`, etc.
 
+## Running on Railway
+
+The full ICIJ + GLEIF dataset is too big to dedupe on a laptop (4.1M rows
+of unified company entities). The repo ships a small FastAPI control
+plane (`src/shellnet/job_server.py`) that wraps each pipeline stage as
+an HTTP endpoint and is deployable to Railway via the included
+`Dockerfile` + `railway.json`.
+
+Architecture:
+
+```
+laptop  --POST /upload-zip-->  shellnet-job (FastAPI)
+                                |
+                                +-- /data           (Railway volume, 50 GB)
+                                +-- /unzip /ingest /build /match /publish ...
+                                |
+                                +-- DATABASE_URL --> Postgres (shellnet schema)
+```
+
+Setup (one-time):
+
+```bash
+railway link --project <project-id>
+railway add --service shellnet-job
+railway volume add --mount-path /data            # MSYS users: pass //data
+railway variables -s shellnet-job \
+  --set "SHELLNET_JOB_TOKEN=<your-token>" \
+  --set "SHELLNET_DATA_DIR=/data" \
+  --set 'DATABASE_URL=postgresql://${{postgres.POSTGRES_USER}}:${{postgres.POSTGRES_PASSWORD}}@${{postgres.RAILWAY_PRIVATE_DOMAIN}}:${{postgres.RAILWAY_TCP_APPLICATION_PORT}}/${{postgres.POSTGRES_DB}}'
+railway up --service shellnet-job
+railway domain --service shellnet-job
+```
+
+A typical run end-to-end (`$URL` = the generated Railway domain,
+`$TOK` = your token):
+
+```bash
+# 1. Upload the ICIJ Offshore Leaks zip from your laptop
+SHELLNET_JOB_URL=$URL SHELLNET_JOB_TOKEN=$TOK \
+  uv run python scripts/upload_icij.py full-oldb.LATEST.zip
+curl -X POST -H "Authorization: Bearer $TOK" "$URL/unzip"
+curl -X POST -H "Authorization: Bearer $TOK" "$URL/ingest?source=icij"
+
+# 2. Pull GLEIF + OpenSanctions inside the container
+curl -X POST -H "Authorization: Bearer $TOK" \
+  "$URL/fetch-url?url=https://data.opensanctions.org/datasets/latest/us_ofac_sdn/entities.ftm.json&dest=raw/opensanctions/us_ofac_sdn.ftm.json"
+curl -X POST -H "Authorization: Bearer $TOK" "$URL/ingest?source=opensanctions"
+
+# (GLEIF: see docs/data-sources.md for the GLEIF API URL, then
+#  /fetch-url + /unzip-file + /ingest?source=gleif)
+
+# 3. Build the unified table, filter, dedupe, list-match, publish
+curl -X POST -H "Authorization: Bearer $TOK" "$URL/build?what=company"
+curl -X POST -H "Authorization: Bearer $TOK" \
+  "$URL/run-script?name=filter_company_no_gleif"
+curl -X POST -H "Authorization: Bearer $TOK" "$URL/match?what=company"
+curl -X POST -H "Authorization: Bearer $TOK" "$URL/publish?what=company"
+
+# 4. Cross-source: match ICIJ+OS deduped entities against GLEIF as a reference
+curl -X POST -H "Authorization: Bearer $TOK" \
+  "$URL/run-script?name=extract_gleif_unified"
+curl -X POST -H "Authorization: Bearer $TOK" \
+  "$URL/match-against?target=processed/company_entities.parquet&against=processed/gleif_unified.parquet&run_name=icij_os_vs_gleif"
+curl -X POST -H "Authorization: Bearer $TOK" \
+  "$URL/publish-list-match?run_name=icij_os_vs_gleif"
+curl -X POST -H "Authorization: Bearer $TOK" \
+  "$URL/run-script?name=review_matches"
+
+# Poll state any time
+curl -H "Authorization: Bearer $TOK" "$URL/status"
+curl -H "Authorization: Bearer $TOK" "$URL/logs/<stage>?tail=200"
+```
+
+Results land in two places:
+
+- `/data/processed/` and `/data/reports/generated/` on the Railway volume
+  (parquet + CSV + markdown reports).
+- `shellnet.runs`, `shellnet.clusters`, `shellnet.same_as_pairs`, and
+  `shellnet.list_matches` in the project Postgres — query directly or
+  surface from the showcase frontend.
+
+The full ICIJ + OpenSanctions dedupe at this scale fits in ~3 GB and runs
+in ~1 minute. The ICIJ+OS → GLEIF list-match runs in ~10 minutes on the
+default Railway Pro service (24 vCPU / 24 GB). Full pairwise dedupe over
+ICIJ + GLEIF + OpenSanctions (4.1M rows) does **not** fit at 24 GB —
+list-match is the supported shape at this scale.
+
 ## Directory layout
 
 ```
@@ -92,6 +179,8 @@ reports/        Generated reports (git-ignored except .gitkeep)
 scripts/        Thin Typer CLIs that wrap library code
 src/shellnet/   Library code: schemas, normalization, source adapters, matching, graph
 tests/          Pytest suite + tiny synthetic fixtures
+Dockerfile      Container image for the Railway job service
+railway.json    Railway deploy config (healthcheck path, restart policy)
 ```
 
 ## Configuration
@@ -102,33 +191,56 @@ without it but at lower rate limits and with less data per record.
 
 ## Status
 
-Phase 0 (scaffolding) and the analytical plumbing for Phases 2–5 are in place.
-What works today:
+The scaffolding (Phase 0), most of the analytical plumbing for Phases 2–5,
+and a first real-data ingest pass are all in place. What works today:
 
 - All four source adapters parse fixture-shaped inputs to parquet, including
   ICIJ officers and intermediaries.
+- A streaming GLEIF Golden Copy adapter
+  (`shellnet.sources.gleif_golden_copy`) for the multi-GB CDF JSON file —
+  the v1-API adapter OOMs on the real file, this one chunks via `ijson`
+  + per-batch parquet writes.
 - Three unified tables: `company_entities`, `address_entities`,
   `person_entities`. Each gracefully handles missing sources.
 - Three GoldenMatch configs (`goldenmatch_company.yml`,
-  `goldenmatch_address.yml`, `goldenmatch_person.yml`) — all validated against
-  the real engine, the company config runs end-to-end on fixtures.
+  `goldenmatch_address.yml`, `goldenmatch_person.yml`). The company config
+  has been **tuned post-spot-check**: `token_sort` instead of
+  `jaro_winkler` on names + threshold raised to 0.92 to suppress
+  leading-token false positives. See `docs/roadmap.md` § Phase 2.
+- A FastAPI control plane (`src/shellnet/job_server.py`) deployable to
+  Railway via the included `Dockerfile` / `railway.json`. Each pipeline
+  stage is an endpoint (upload, fetch-url, unzip, ingest, build, match,
+  match-against, publish, run-script). See § Running on Railway below.
+- A Postgres writer (`src/shellnet/publish.py`) that persists dedupe runs
+  and list-match results into a `shellnet` schema.
 - `scripts/run_goldenmatch_full.py` shells out to the GoldenMatch CLI and
   joins its cluster output back to our entity ids.
 - `scripts/generate_candidate_pairs.py` + `derive_seed_labels.py` +
   `eval_against_labels.py` form a labelling + evaluation pipeline.
 - `scripts/build_address_table.py` + `report_shared_addresses.py` surface
-  shared-agent clusters as Markdown + parquet.
+  shared-agent clusters as Markdown + parquet (top hit on the full ICIJ
+  ingest: Portcullis TrustNet Chambers hosts 33,858 entities).
 - `scripts/build_person_table.py` fuses ICIJ officers/intermediaries with
   OpenSanctions Persons.
+- `scripts/filter_company_table.py` drops placeholder names, mega-blocks,
+  and optionally individual sources before matching.
+- `scripts/review_matches.py` produces a heuristic precision review of a
+  list-match run (identical / normalized_eq / jur_close / jur_loose /
+  low_overlap classes crosstabbed against score bands).
 - The graph smoke layers GoldenMatch `same_as` edges on top of source
   relationships.
 - `scripts/coverage_report.py` writes per-column fill-rate tables for every
   interim/processed parquet.
 - 60 pytest tests run end-to-end with no network.
 
-What's still ahead (`docs/roadmap.md`): real-data ingestion (sandbox blocks
-remote downloads, so this is a follow-up), a labelled evaluation subset
-contributed by humans, GLEIF XML parsing, an investigation writeup.
+What's still ahead (`docs/roadmap.md`):
+
+- Hand-labelled evaluation subset (~200–500 pairs from the marginal band).
+- Address + person GoldenMatch dedupe needs the same mega-block filter
+  + tighter blocking before it'll fit in memory.
+- OpenCorporates seed ingest (needs an API key and a curated seed list).
+- Centrality + community detection on the merged graph.
+- Investigation writeup with full provenance.
 
 ## Legal & ethical
 
