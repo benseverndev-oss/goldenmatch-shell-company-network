@@ -1,0 +1,52 @@
+# GoldenMatch configuration for resolving person / officer / intermediary records.
+#
+# Personal names are noisier than company names (initials, transliteration,
+# name order, married names). Thresholds are lower and we rely more on
+# transformations than on exact matches. Treat this as Phase-5 exploratory.
+
+input:
+  files:
+    - path: data/processed/person_entities.parquet
+      id_column: entity_uid
+      source_label: source
+
+output:
+  directory: reports/generated
+  run_name: person_smoke
+
+blocking:
+  strategy: multi_pass
+  max_block_size: 5000
+  passes:
+    # Name prefix + country: cheap, useful, doesn't over-block.
+    - fields: [normalized_name, country]
+      transforms: [substring:0:6]
+    # Token-sort prefix: catches reordered names ("John Doe" vs "Doe John").
+    - fields: [normalized_name]
+      transforms: [token_sort, substring:0:8]
+
+matchkeys:
+  # Token-sort + Jaro-Winkler on the name; country adds a smaller weight.
+  - name: person_name_country_weighted
+    type: weighted
+    threshold: 0.82
+    fields:
+      - field: normalized_name
+        transforms: [token_sort, normalize_whitespace]
+        scorer: jaro_winkler
+        weight: 0.70
+      - field: normalized_name
+        transforms: [soundex]
+        scorer: exact
+        weight: 0.10
+      - field: country
+        transforms: [strip_all]
+        scorer: exact
+        weight: 0.20
+
+golden_rules:
+  default_strategy: most_complete
+  field_rules:
+    name:
+      strategy: source_priority
+      source_priority: [opensanctions, icij]

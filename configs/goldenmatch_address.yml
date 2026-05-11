@@ -1,0 +1,52 @@
+# GoldenMatch configuration for address deduplication and clustering.
+#
+# Goal: collapse near-identical address lines across sources into shared
+# clusters, so we can spot "registered agent" buildings hosting many
+# unrelated entities. Operates over data/processed/address_entities.parquet
+# produced by scripts/build_address_table.py.
+
+input:
+  files:
+    - path: data/processed/address_entities.parquet
+      id_column: address_uid
+      source_label: source
+
+output:
+  directory: reports/generated
+  run_name: address_smoke
+
+blocking:
+  strategy: multi_pass
+  max_block_size: 5000
+  passes:
+    - fields: [block_key]
+      transforms: [strip_all]
+    - fields: [country, normalized_text]
+      transforms: [substring:0:8]
+
+matchkeys:
+  # Strict exact match on the fully-normalized line: cheap, very high precision.
+  - name: address_text_exact
+    type: exact
+    fields:
+      - field: normalized_text
+        transforms: [normalize_whitespace, strip_all]
+        scorer: exact
+      - field: country
+        transforms: [strip_all]
+        scorer: exact
+
+  # Weighted fuzzy match for near-duplicates that survived normalization
+  # (different ordering of "Suite 12" vs. building name, etc.).
+  - name: address_text_weighted
+    type: weighted
+    threshold: 0.90
+    fields:
+      - field: normalized_text
+        transforms: [token_sort, normalize_whitespace]
+        scorer: token_sort
+        weight: 0.80
+      - field: country
+        transforms: [strip_all]
+        scorer: exact
+        weight: 0.20

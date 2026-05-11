@@ -1,0 +1,69 @@
+{
+  "data": [
+    {
+      "type": "lei-records",
+      "id": "529900T8BM49AURSDO55",
+      "attributes": {
+        "lei": "529900T8BM49AURSDO55",
+        "entity": {
+          "legalName": {"name": "ACME HOLDINGS LIMITED", "language": "en"},
+          "legalForm": {"id": "G1XL"},
+          "jurisdiction": "GB",
+          "category": "GENERAL",
+          "legalAddress": {
+            "addressLines": ["10 Downing Mews"],
+            "city": "London",
+            "region": "GB-LND",
+            "postalCode": "EC1A 1AA",
+            "country": "GB"
+          },
+          "headquartersAddress": {
+            "addressLines": ["10 Downing Mews"],
+            "city": "London",
+            "region": "GB-LND",
+            "postalCode": "EC1A 1AA",
+            "country": "GB"
+          }
+        },
+        "registration": {
+          "status": "ISSUED",
+          "initialRegistrationDate": "2014-06-26T00:00:00Z",
+          "lastUpdateDate": "2024-01-01T00:00:00Z"
+        }
+      },
+      "relationships": {
+        "direct-parent": {
+          "data": {"type": "lei-records", "id": "ABCDEFGHIJKLMNOPQRST"}
+        }
+      }
+    },
+    {
+      "type": "lei-records",
+      "id": "549300SUNRISE000ABCD",
+      "attributes": {
+        "lei": "549300SUNRISE000ABCD",
+        "entity": {
+          "legalName": {"name": "Sunrise Trading S.A.", "language": "fr"},
+          "legalForm": {"id": "SA"},
+          "jurisdiction": "LU",
+          "legalAddress": {
+            "addressLines": ["5 rue Guillaume Kroll"],
+            "city": "Luxembourg",
+            "postalCode": "L-1882",
+            "country": "LU"
+          },
+          "headquartersAddress": {
+            "addressLines": ["5 rue Guillaume Kroll"],
+            "city": "Luxembourg",
+            "postalCode": "L-1882",
+            "country": "LU"
+          }
+        },
+        "registration": {
+          "status": "ISSUED",
+          "initialRegistrationDate": "2014-06-26T00:00:00Z"
+        }
+      }
+    }
+  ]
+}

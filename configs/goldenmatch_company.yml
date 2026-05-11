@@ -1,0 +1,83 @@
+# GoldenMatch configuration for the shell-company case study.
+#
+# Conservative starting point — high precision, low recall — so the first
+# matches we ship are easy to defend. Iterate by adding probabilistic
+# matchkeys, weight tuning, and (eventually) negative evidence once we
+# have a labelled subset to evaluate against.
+#
+# Operates over data/processed/company_entities.parquet. Schema:
+#   entity_uid, source, source_id, name, normalized_name, jurisdiction,
+#   company_number, lei, status, legal_form, address_raw, normalized_address
+
+input:
+  files:
+    - path: data/processed/company_entities.parquet
+      id_column: entity_uid
+      source_label: source
+
+output:
+  directory: reports/generated
+  run_name: company_smoke
+
+blocking:
+  strategy: multi_pass
+  max_block_size: 5000
+  passes:
+    # Identifier-based blocks first — cheap and very precise when present.
+    - fields: [lei]
+      transforms: [strip_all]
+    - fields: [company_number, jurisdiction]
+      transforms: [strip_all]
+    # Fall back to a coarse name+jurisdiction block.
+    - fields: [normalized_name, jurisdiction]
+      transforms: [substring:0:8]
+
+matchkeys:
+  # Exact LEI match — when both sides carry an LEI and they agree, ship it.
+  - name: lei_exact
+    type: exact
+    fields:
+      - field: lei
+        transforms: [strip_all]
+        scorer: exact
+
+  # Exact company-number match within the same jurisdiction.
+  - name: registry_id_exact
+    type: exact
+    fields:
+      - field: company_number
+        transforms: [strip_all]
+        scorer: exact
+      - field: jurisdiction
+        transforms: [strip_all]
+        scorer: exact
+
+  # Weighted name + jurisdiction + address. Weights sum to 1.0.
+  # Threshold is intentionally high — this is the precision tier.
+  - name: name_juris_address_weighted
+    type: weighted
+    threshold: 0.85
+    fields:
+      - field: normalized_name
+        transforms: [normalize_whitespace]
+        scorer: jaro_winkler
+        weight: 0.55
+      - field: jurisdiction
+        transforms: [strip_all]
+        scorer: exact
+        weight: 0.20
+      - field: normalized_address
+        transforms: [normalize_whitespace]
+        scorer: token_sort
+        weight: 0.25
+
+golden_rules:
+  default_strategy: most_complete
+  field_rules:
+    name:
+      strategy: source_priority
+      source_priority: [gleif, opencorporates, opensanctions, icij]
+    jurisdiction:
+      strategy: majority_vote
+    lei:
+      strategy: first_non_null

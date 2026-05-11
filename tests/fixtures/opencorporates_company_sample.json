@@ -1,0 +1,50 @@
+{
+  "api_version": "0.4",
+  "results": {
+    "companies": [
+      {
+        "company": {
+          "name": "ACME HOLDINGS LIMITED",
+          "company_number": "1234567",
+          "jurisdiction_code": "gb",
+          "incorporation_date": "2003-04-10",
+          "dissolution_date": null,
+          "company_type": "Private Limited Company",
+          "current_status": "Active",
+          "registered_address_in_full": "10 Downing Mews, London, EC1A 1AA, United Kingdom",
+          "opencorporates_url": "https://opencorporates.com/companies/gb/1234567"
+        }
+      },
+      {
+        "company": {
+          "name": "Acme Holdings (Scotland) Ltd",
+          "company_number": "SC987654",
+          "jurisdiction_code": "gb",
+          "incorporation_date": "2015-08-19",
+          "dissolution_date": null,
+          "company_type": "Private Limited Company",
+          "current_status": "Active",
+          "registered_address_in_full": "1 Princes Street, Edinburgh, EH2 2EN, Scotland",
+          "opencorporates_url": "https://opencorporates.com/companies/gb/SC987654"
+        }
+      },
+      {
+        "company": {
+          "name": "Sunrise Trading SA",
+          "company_number": "B12345",
+          "jurisdiction_code": "lu",
+          "incorporation_date": "2005-03-14",
+          "dissolution_date": null,
+          "company_type": "Société Anonyme",
+          "current_status": "Active",
+          "registered_address_in_full": "5 rue Guillaume Kroll, L-1882 Luxembourg",
+          "opencorporates_url": "https://opencorporates.com/companies/lu/B12345"
+        }
+      }
+    ],
+    "page": 1,
+    "per_page": 30,
+    "total_pages": 1,
+    "total_count": 3
+  }
+}
