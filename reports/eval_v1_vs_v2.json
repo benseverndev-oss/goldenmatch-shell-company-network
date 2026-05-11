@@ -1,0 +1,66 @@
+{
+  "labels_csv": "data\\labels\\marginal_v1.csv",
+  "v1_run": "f40d7099-44c6-4282-9925-036dc4307951",
+  "v2_run": "a01cce05-896b-4d19-911c-b3efe7b5f56f",
+  "v1_pair_count": 20297,
+  "v2_pair_count": 5630,
+  "v1_band_counts": {
+    "high": 850,
+    "borderline": 14255,
+    "perfect": 5192
+  },
+  "v2_band_counts": {
+    "high": 263,
+    "borderline": 244,
+    "perfect": 5123
+  },
+  "by_bucket": {
+    "v1_dropped": {
+      "v1": {
+        "fp": 81,
+        "unsure_in_run": 13,
+        "tp": 6
+      },
+      "v2": {
+        "tn": 81,
+        "unsure_out_run": 13,
+        "fn": 6
+      }
+    },
+    "v2_marginal": {
+      "v1": {
+        "fp": 43,
+        "tp": 41,
+        "unsure_in_run": 16
+      },
+      "v2": {
+        "fp": 43,
+        "tp": 41,
+        "unsure_in_run": 16
+      }
+    },
+    "perfect_sanity": {
+      "v1": {
+        "tp": 50
+      },
+      "v2": {
+        "tp": 50
+      }
+    },
+    "v2_borderline_class": {
+      "v1": {
+        "tp": 11,
+        "fp": 23,
+        "unsure_in_run": 15,
+        "tn": 1
+      },
+      "v2": {
+        "tp": 11,
+        "fp": 24,
+        "unsure_in_run": 15
+      }
+    }
+  },
+  "estimated_v2_overall_precision_strict": 0.9442,
+  "estimated_v2_overall_precision_generous": 0.9556
+}
