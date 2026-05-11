@@ -1,0 +1,594 @@
+"""FastAPI control plane for running the shell-company pipeline on Railway.
+
+The container mounts a persistent volume at ``/data`` and exposes stage
+endpoints that the operator triggers from their laptop. State is persisted
+to ``/data/state.json`` so a redeploy doesn't lose progress.
+
+Auth is a single bearer token from ``SHELLNET_JOB_TOKEN``. There is no
+fine-grained authorization; whoever holds the token can wipe data.
+"""
+
+from __future__ import annotations
+
+import json
+import logging
+import os
+import shutil
+import subprocess
+import time
+import zipfile
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
+
+from fastapi import (
+    BackgroundTasks,
+    Depends,
+    FastAPI,
+    Header,
+    HTTPException,
+    UploadFile,
+    status,
+)
+from fastapi.responses import JSONResponse, PlainTextResponse
+
+from shellnet.paths import (
+    DATA_DIR,
+    ICIJ_RAW,
+    INTERIM_DIR,
+    PROCESSED_DIR,
+    ensure_dirs,
+)
+
+log = logging.getLogger("shellnet.job")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+)
+
+STATE_PATH = DATA_DIR / "state.json"
+LOGS_DIR = DATA_DIR / "logs"
+REPORTS_DIR = DATA_DIR / "reports" / "generated"
+ZIP_PATH = ICIJ_RAW / "full-oldb.LATEST.zip"
+
+STAGES = ("upload", "unzip", "ingest", "build", "match", "publish")
+
+
+def _now() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _load_state() -> dict[str, Any]:
+    if STATE_PATH.exists():
+        try:
+            return json.loads(STATE_PATH.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            log.warning("state.json corrupt; resetting")
+    return {"stages": {s: {"status": "pending"} for s in STAGES}}
+
+
+def _save_state(state: dict[str, Any]) -> None:
+    STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    tmp = STATE_PATH.with_suffix(".json.tmp")
+    tmp.write_text(json.dumps(state, indent=2), encoding="utf-8")
+    tmp.replace(STATE_PATH)
+
+
+def _mark(stage: str, **fields: Any) -> dict[str, Any]:
+    state = _load_state()
+    state["stages"].setdefault(stage, {})
+    state["stages"][stage].update(fields)
+    state["updated_at"] = _now()
+    _save_state(state)
+    return state["stages"][stage]
+
+
+def _require_idle(stage: str) -> None:
+    state = _load_state()
+    cur = state["stages"].get(stage, {}).get("status")
+    if cur == "running":
+        raise HTTPException(status.HTTP_409_CONFLICT, f"stage {stage} already running")
+
+
+def _auth(authorization: str | None = Header(default=None)) -> None:
+    expected = os.environ.get("SHELLNET_JOB_TOKEN")
+    if not expected:
+        raise HTTPException(500, "SHELLNET_JOB_TOKEN not configured on server")
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "missing bearer token")
+    if authorization.removeprefix("Bearer ").strip() != expected:
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "invalid token")
+
+
+def _run_subprocess(stage: str, cmd: list[str], cwd: Path | None = None) -> dict[str, Any]:
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
+    log_path = LOGS_DIR / f"{stage}-{int(time.time())}.log"
+    started = _now()
+    _mark(stage, status="running", started_at=started, log=str(log_path), cmd=cmd)
+    log.info("[%s] $ %s", stage, " ".join(cmd))
+    try:
+        with log_path.open("wb") as fh:
+            proc = subprocess.run(cmd, stdout=fh, stderr=subprocess.STDOUT, cwd=cwd)
+        if proc.returncode != 0:
+            _mark(
+                stage,
+                status="failed",
+                finished_at=_now(),
+                returncode=proc.returncode,
+                error=f"exit {proc.returncode}",
+            )
+            return {"ok": False, "returncode": proc.returncode, "log": str(log_path)}
+    except Exception as exc:  # noqa: BLE001
+        _mark(stage, status="failed", finished_at=_now(), error=repr(exc))
+        return {"ok": False, "error": repr(exc), "log": str(log_path)}
+    _mark(stage, status="completed", finished_at=_now(), returncode=0)
+    return {"ok": True, "returncode": 0, "log": str(log_path)}
+
+
+app = FastAPI(title="shellnet-job", version="0.1.0")
+
+
+@app.on_event("startup")
+def _startup() -> None:
+    ensure_dirs()
+    ICIJ_RAW.mkdir(parents=True, exist_ok=True)
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
+    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    _load_state()  # touch / create
+    log.info("shellnet-job ready; data dir = %s", DATA_DIR)
+
+
+@app.get("/healthz")
+def healthz() -> dict[str, Any]:
+    return {"ok": True, "data_dir": str(DATA_DIR), "now": _now()}
+
+
+@app.get("/status", dependencies=[Depends(_auth)])
+def get_status() -> dict[str, Any]:
+    state = _load_state()
+    state["files"] = _file_summary()
+    return state
+
+
+@app.get("/files", dependencies=[Depends(_auth)])
+def list_files() -> dict[str, Any]:
+    return {"data_dir": str(DATA_DIR), "tree": _file_summary(deep=True)}
+
+
+def _file_summary(deep: bool = False) -> dict[str, Any]:
+    out: dict[str, Any] = {}
+    targets = [DATA_DIR / "raw", DATA_DIR / "interim", DATA_DIR / "processed", REPORTS_DIR]
+    for t in targets:
+        if not t.exists():
+            continue
+        entries = []
+        glob = t.rglob("*") if deep else t.glob("*")
+        for p in glob:
+            if p.is_file():
+                entries.append({"path": str(p.relative_to(DATA_DIR)), "bytes": p.stat().st_size})
+        entries.sort(key=lambda e: e["path"])
+        out[str(t.relative_to(DATA_DIR))] = entries
+    return out
+
+
+@app.get("/logs/{stage}", dependencies=[Depends(_auth)], response_class=PlainTextResponse)
+def get_log(stage: str, tail: int = 500) -> str:
+    state = _load_state()
+    info = state["stages"].get(stage, {})
+    log_path = info.get("log")
+    if not log_path or not Path(log_path).exists():
+        raise HTTPException(404, f"no log for {stage}")
+    text = Path(log_path).read_text(encoding="utf-8", errors="replace").splitlines()
+    return "\n".join(text[-tail:])
+
+
+@app.post("/upload-zip", dependencies=[Depends(_auth)])
+async def upload_zip(file: UploadFile) -> dict[str, Any]:
+    _require_idle("upload")
+    _mark("upload", status="running", started_at=_now(), name=file.filename)
+    ICIJ_RAW.mkdir(parents=True, exist_ok=True)
+    tmp = ZIP_PATH.with_suffix(".zip.partial")
+    bytes_written = 0
+    try:
+        with tmp.open("wb") as fh:
+            while True:
+                chunk = await file.read(8 * 1024 * 1024)
+                if not chunk:
+                    break
+                fh.write(chunk)
+                bytes_written += len(chunk)
+        tmp.replace(ZIP_PATH)
+    except Exception as exc:  # noqa: BLE001
+        tmp.unlink(missing_ok=True)
+        _mark("upload", status="failed", finished_at=_now(), error=repr(exc))
+        raise HTTPException(500, repr(exc)) from exc
+    _mark(
+        "upload",
+        status="completed",
+        finished_at=_now(),
+        bytes=bytes_written,
+        path=str(ZIP_PATH),
+    )
+    return {"ok": True, "bytes": bytes_written, "path": str(ZIP_PATH)}
+
+
+def _do_unzip() -> None:
+    started = _now()
+    _mark("unzip", status="running", started_at=started)
+    try:
+        if not ZIP_PATH.exists():
+            raise FileNotFoundError(str(ZIP_PATH))
+        with zipfile.ZipFile(ZIP_PATH) as zf:
+            zf.extractall(ICIJ_RAW)
+        csvs = sorted(p.name for p in ICIJ_RAW.glob("*.csv"))
+        _mark("unzip", status="completed", finished_at=_now(), csvs=csvs)
+    except Exception as exc:  # noqa: BLE001
+        _mark("unzip", status="failed", finished_at=_now(), error=repr(exc))
+
+
+@app.post("/unzip", dependencies=[Depends(_auth)])
+def trigger_unzip(bg: BackgroundTasks) -> dict[str, Any]:
+    _require_idle("unzip")
+    bg.add_task(_do_unzip)
+    return {"ok": True, "queued": "unzip"}
+
+
+def _do_ingest_icij() -> None:
+    from shellnet.sources import icij
+
+    started = _now()
+    _mark("ingest_icij", status="running", started_at=started)
+    try:
+        written = icij.ingest(raw_dir=ICIJ_RAW, out_dir=INTERIM_DIR)
+        _mark(
+            "ingest_icij",
+            status="completed",
+            finished_at=_now(),
+            written={k: str(v) for k, v in written.items()},
+        )
+    except Exception as exc:  # noqa: BLE001
+        log.exception("ingest icij failed")
+        _mark("ingest_icij", status="failed", finished_at=_now(), error=repr(exc))
+
+
+def _do_ingest_script(stage: str, cmd: list[str]) -> None:
+    _run_subprocess(stage, cmd, cwd=Path("/app"))
+
+
+def _do_ingest_gleif_streaming(input_path: Path) -> None:
+    from shellnet.sources import gleif_golden_copy
+
+    stage = "ingest_gleif"
+    _mark(stage, status="running", started_at=_now(), input=str(input_path))
+    try:
+        out = gleif_golden_copy.ingest_streaming(input_path, out_dir=INTERIM_DIR)
+        _mark(stage, status="completed", finished_at=_now(), output=str(out))
+    except Exception as exc:  # noqa: BLE001
+        log.exception("ingest gleif streaming failed")
+        _mark(stage, status="failed", finished_at=_now(), error=repr(exc))
+
+
+@app.post("/ingest", dependencies=[Depends(_auth)])
+def trigger_ingest(bg: BackgroundTasks, source: str = "icij") -> dict[str, Any]:
+    stage = f"ingest_{source}"
+    _require_idle(stage)
+    if source == "icij":
+        bg.add_task(_do_ingest_icij)
+    elif source == "gleif":
+        gleif_dir = DATA_DIR / "raw" / "gleif"
+        inputs = sorted(p for p in gleif_dir.glob("*") if p.is_file()
+                        and p.suffix.lower() in {".json", ".jsonl", ".ndjson"})
+        if not inputs:
+            raise HTTPException(400, f"no gleif inputs under {gleif_dir}")
+        target = inputs[0]
+        # Files > 200 MB or that match the Golden Copy filename pattern go
+        # through the streaming CDF adapter; everything else hits the original
+        # v1-API adapter via the script entry point.
+        is_golden_copy = "goldencopy" in target.name.lower() or target.stat().st_size > 200 * 1024 * 1024
+        if is_golden_copy:
+            bg.add_task(_do_ingest_gleif_streaming, target)
+        else:
+            bg.add_task(_do_ingest_script, stage,
+                        ["python", "scripts/ingest_gleif.py", "--input", str(target)])
+    elif source == "opensanctions":
+        os_dir = DATA_DIR / "raw" / "opensanctions"
+        inputs = sorted(p for p in os_dir.glob("*") if p.is_file()
+                        and p.suffix.lower() in {".json", ".jsonl", ".ndjson", ".ftm"})
+        if not inputs:
+            raise HTTPException(400, f"no opensanctions inputs under {os_dir}")
+        bg.add_task(_do_ingest_script, stage,
+                    ["python", "scripts/ingest_opensanctions.py", "--input", str(inputs[0])])
+    else:
+        raise HTTPException(400, "source must be icij|gleif|opensanctions")
+    return {"ok": True, "queued": stage, "source": source}
+
+
+def _do_fetch_url(stage: str, url: str, dest: Path) -> None:
+    import httpx
+    started = _now()
+    _mark(stage, status="running", started_at=started, url=url, dest=str(dest))
+    try:
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        bytes_total = 0
+        with httpx.stream("GET", url, follow_redirects=True, timeout=600.0) as r:
+            r.raise_for_status()
+            with dest.open("wb") as fh:
+                for chunk in r.iter_bytes(1 << 20):
+                    fh.write(chunk)
+                    bytes_total += len(chunk)
+        _mark(stage, status="completed", finished_at=_now(), bytes=bytes_total)
+    except Exception as exc:  # noqa: BLE001
+        log.exception("fetch_url failed")
+        _mark(stage, status="failed", finished_at=_now(), error=repr(exc))
+
+
+_ALLOWED_SCRIPTS = {
+    "shared_addresses": ["scripts/report_shared_addresses.py"],
+    "coverage": ["scripts/coverage_report.py"],
+    "candidate_pairs": ["scripts/generate_candidate_pairs.py"],
+    "derive_labels": ["scripts/derive_seed_labels.py"],
+    "eval_labels": ["scripts/eval_against_labels.py"],
+    "graph_smoke": ["scripts/build_graph_smoke.py"],
+    "filter_company": ["scripts/filter_company_table.py"],
+    "filter_company_no_gleif": [
+        "scripts/filter_company_table.py", "--drop-sources", "gleif"
+    ],
+    "extract_gleif_unified": [
+        "scripts/filter_company_table.py",
+        "--keep-only-sources", "gleif",
+        "--out", "/data/processed/gleif_unified.parquet",
+        "--no-keep-unfiltered",
+    ],
+    "summarize_match": ["scripts/_summarize_match.py"],
+    "review_matches": ["scripts/review_matches.py"],
+    "review_matches_v2": [
+        "scripts/review_matches.py",
+        "--matched-csv", "/data/reports/generated/icij_os_vs_gleif_v2_matched.csv",
+        "--out-md", "/data/reports/generated/icij_os_vs_gleif_v2_review.md",
+    ],
+    "check_schemas": [
+        "scripts/_check_schemas.py",
+        "/data/processed/company_entities.parquet",
+        "/data/processed/gleif_unified.parquet",
+    ],
+}
+
+
+def _do_script(stage: str, args: list[str]) -> None:
+    _run_subprocess(stage, args, cwd=Path("/app"))
+
+
+@app.post("/run-script", dependencies=[Depends(_auth)])
+def trigger_run_script(bg: BackgroundTasks, name: str) -> dict[str, Any]:
+    if name not in _ALLOWED_SCRIPTS:
+        raise HTTPException(400, f"name must be one of {sorted(_ALLOWED_SCRIPTS)}")
+    stage = f"script_{name}"
+    _require_idle(stage)
+    bg.add_task(_do_script, stage, ["python", *_ALLOWED_SCRIPTS[name]])
+    return {"ok": True, "queued": stage}
+
+
+def _do_unzip_file(stage: str, path: Path) -> None:
+    started = _now()
+    _mark(stage, status="running", started_at=started, path=str(path))
+    try:
+        if not path.exists():
+            raise FileNotFoundError(str(path))
+        with zipfile.ZipFile(path) as zf:
+            zf.extractall(path.parent)
+            names = zf.namelist()
+        _mark(stage, status="completed", finished_at=_now(), extracted=names[:20], count=len(names))
+    except Exception as exc:  # noqa: BLE001
+        log.exception("unzip_file failed")
+        _mark(stage, status="failed", finished_at=_now(), error=repr(exc))
+
+
+@app.post("/unzip-file", dependencies=[Depends(_auth)])
+def trigger_unzip_file(bg: BackgroundTasks, path: str) -> dict[str, Any]:
+    """Extract a zip file under /data to its parent directory."""
+    if path.startswith("/") or ".." in Path(path).parts:
+        raise HTTPException(400, "path must be a relative path inside /data")
+    full = DATA_DIR / path
+    stage = f"unzip_{full.stem}"
+    _require_idle(stage)
+    bg.add_task(_do_unzip_file, stage, full)
+    return {"ok": True, "queued": stage, "path": str(full)}
+
+
+@app.post("/fetch-url", dependencies=[Depends(_auth)])
+def trigger_fetch_url(bg: BackgroundTasks, url: str, dest: str) -> dict[str, Any]:
+    """Download a URL into a path under /data. ``dest`` is relative to /data."""
+    if dest.startswith("/") or ".." in Path(dest).parts:
+        raise HTTPException(400, "dest must be a relative path inside /data")
+    full = DATA_DIR / dest
+    stage = f"fetch_{Path(dest).stem}"
+    _require_idle(stage)
+    bg.add_task(_do_fetch_url, stage, url, full)
+    return {"ok": True, "queued": stage, "dest": str(full)}
+
+
+_BUILD_SCRIPTS = {
+    "company": "scripts/build_candidate_tables.py",
+    "address": "scripts/build_address_table.py",
+    "person": "scripts/build_person_table.py",
+}
+
+
+def _do_build(what: str = "company") -> None:
+    script = _BUILD_SCRIPTS[what]
+    cmd = ["python", script]
+    _run_subprocess(f"build_{what}", cmd, cwd=Path("/app"))
+
+
+@app.post("/build", dependencies=[Depends(_auth)])
+def trigger_build(bg: BackgroundTasks, what: str = "company") -> dict[str, Any]:
+    if what not in _BUILD_SCRIPTS:
+        raise HTTPException(400, "what must be company|address|person")
+    _require_idle(f"build_{what}")
+    bg.add_task(_do_build, what=what)
+    return {"ok": True, "queued": f"build_{what}"}
+
+
+def _do_match(what: str = "company", auto: bool = False) -> None:
+    gm = shutil.which("goldenmatch") or "goldenmatch"
+    table = PROCESSED_DIR / f"{what}_entities.parquet"
+    run_name = f"{what}_auto" if auto else what
+    cmd = [
+        gm,
+        "dedupe",
+        str(table),
+        "--output-dir",
+        str(REPORTS_DIR),
+        "--run-name",
+        run_name,
+        "--output-clusters",
+        "--format",
+        "csv",
+        "--no-tui",
+    ]
+    if auto:
+        cmd += ["--auto-fix", "--auto-block"]
+    else:
+        config = Path("/app/configs") / f"goldenmatch_{what}.yml"
+        cmd += ["--config", str(config)]
+    stage = f"match_{what}_auto" if auto else f"match_{what}"
+    _run_subprocess(stage, cmd, cwd=Path("/app"))
+
+
+@app.post("/match", dependencies=[Depends(_auth)])
+def trigger_match(bg: BackgroundTasks, what: str = "company", auto: bool = False) -> dict[str, Any]:
+    if what not in {"company", "address", "person"}:
+        raise HTTPException(400, "what must be company|address|person")
+    stage = f"match_{what}_auto" if auto else f"match_{what}"
+    _require_idle(stage)
+    bg.add_task(_do_match, what=what, auto=auto)
+    return {"ok": True, "queued": stage, "what": what, "auto": auto}
+
+
+def _do_match_against(target: Path, against: Path, run_name: str) -> None:
+    gm = shutil.which("goldenmatch") or "goldenmatch"
+    config = Path("/app/configs/goldenmatch_company.yml")
+    cmd = [
+        gm, "match", str(target),
+        "--against", str(against),
+        "--config", str(config),
+        "--output-dir", str(REPORTS_DIR),
+        "--run-name", run_name,
+        "--output-matched",
+        "--output-scores",
+        "--format", "csv",
+        "--quiet",
+    ]
+    _run_subprocess(f"match_against_{run_name}", cmd, cwd=Path("/app"))
+
+
+@app.post("/match-against", dependencies=[Depends(_auth)])
+def trigger_match_against(
+    bg: BackgroundTasks,
+    target: str = "processed/company_entities.parquet",
+    against: str = "interim/gleif_entities.parquet",
+    run_name: str = "icij_vs_gleif",
+) -> dict[str, Any]:
+    """Match a target file against a reference file. Paths are relative to /data."""
+    for p in (target, against):
+        if p.startswith("/") or ".." in Path(p).parts:
+            raise HTTPException(400, "paths must be relative inside /data")
+    full_t = DATA_DIR / target
+    full_a = DATA_DIR / against
+    if not full_t.exists():
+        raise HTTPException(400, f"target missing: {full_t}")
+    if not full_a.exists():
+        raise HTTPException(400, f"against missing: {full_a}")
+    stage = f"match_against_{run_name}"
+    _require_idle(stage)
+    bg.add_task(_do_match_against, full_t, full_a, run_name)
+    return {"ok": True, "queued": stage, "target": str(full_t), "against": str(full_a)}
+
+
+def _do_publish(what: str = "company") -> None:
+    from shellnet import publish
+
+    started = _now()
+    stage = f"publish_{what}"
+    _mark(stage, status="running", started_at=started, what=what)
+    try:
+        summary = publish.publish_run(
+            what=what,
+            reports_dir=REPORTS_DIR,
+            processed_dir=PROCESSED_DIR,
+        )
+        _mark(stage, status="completed", finished_at=_now(), summary=summary)
+    except Exception as exc:  # noqa: BLE001
+        log.exception("publish failed")
+        _mark(stage, status="failed", finished_at=_now(), error=repr(exc))
+
+
+@app.post("/publish", dependencies=[Depends(_auth)])
+def trigger_publish(bg: BackgroundTasks, what: str = "company") -> dict[str, Any]:
+    _require_idle(f"publish_{what}")
+    bg.add_task(_do_publish, what=what)
+    return {"ok": True, "queued": f"publish_{what}", "what": what}
+
+
+def _do_publish_list_match(run_name: str) -> None:
+    from shellnet import publish
+
+    stage = f"publish_list_{run_name}"
+    _mark(stage, status="running", started_at=_now(), run_name=run_name)
+    try:
+        summary = publish.publish_list_match(
+            run_name=run_name, reports_dir=REPORTS_DIR
+        )
+        _mark(stage, status="completed", finished_at=_now(), summary=summary)
+    except Exception as exc:  # noqa: BLE001
+        log.exception("publish_list_match failed")
+        _mark(stage, status="failed", finished_at=_now(), error=repr(exc))
+
+
+@app.post("/publish-list-match", dependencies=[Depends(_auth)])
+def trigger_publish_list_match(
+    bg: BackgroundTasks, run_name: str = "icij_os_vs_gleif"
+) -> dict[str, Any]:
+    stage = f"publish_list_{run_name}"
+    _require_idle(stage)
+    bg.add_task(_do_publish_list_match, run_name)
+    return {"ok": True, "queued": stage, "run_name": run_name}
+
+
+@app.post("/reset", dependencies=[Depends(_auth)])
+def reset_state() -> dict[str, Any]:
+    _save_state({"stages": {s: {"status": "pending"} for s in STAGES}})
+    return {"ok": True}
+
+
+@app.delete("/data/raw", dependencies=[Depends(_auth)])
+def wipe_raw() -> dict[str, Any]:
+    """Nuke /data/raw — useful before re-uploading."""
+    if (DATA_DIR / "raw").exists():
+        shutil.rmtree(DATA_DIR / "raw")
+    (DATA_DIR / "raw").mkdir(parents=True, exist_ok=True)
+    return {"ok": True}
+
+
+# Fallback root so a browser hit doesn't 404.
+@app.get("/")
+def root() -> JSONResponse:
+    return JSONResponse(
+        {
+            "service": "shellnet-job",
+            "endpoints": [
+                "GET /healthz",
+                "GET /status (auth)",
+                "GET /files (auth)",
+                "GET /logs/{stage} (auth)",
+                "POST /upload-zip (auth, multipart)",
+                "POST /unzip (auth)",
+                "POST /ingest (auth)",
+                "POST /build (auth)",
+                "POST /match?what=company (auth)",
+                "POST /publish?what=company (auth)",
+                "POST /reset (auth)",
+                "DELETE /data/raw (auth)",
+            ],
+        }
+    )

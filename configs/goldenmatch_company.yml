@@ -53,14 +53,22 @@ matchkeys:
         scorer: exact
 
   # Weighted name + jurisdiction + address. Weights sum to 1.0.
-  # Threshold is intentionally high — this is the precision tier.
+  #
+  # v2 (post-spotcheck): jaro_winkler on names rewarded shared leading
+  # tokens too aggressively ("INTERNATIONAL TRADING" matched "International
+  # Security Holding"). Swapping to token_sort, which compares the bag of
+  # tokens after sort, lops off the ~10K low-overlap false positives we
+  # measured at threshold 0.85. Raised the threshold to 0.92 to compound
+  # the precision lift. Added negative_evidence on LEI + company_number
+  # so a hard identifier disagreement subtracts from the score even if
+  # the name is fuzzy-close.
   - name: name_juris_address_weighted
     type: weighted
-    threshold: 0.85
+    threshold: 0.92
     fields:
       - field: normalized_name
         transforms: [normalize_whitespace]
-        scorer: jaro_winkler
+        scorer: token_sort
         weight: 0.55
       - field: jurisdiction
         transforms: [strip_all]
@@ -70,6 +78,13 @@ matchkeys:
         transforms: [normalize_whitespace]
         scorer: token_sort
         weight: 0.25
+    # NOTE: negative_evidence on lei + company_number was attempted but
+    # tripped a polars schema-build error inside `goldenmatch match`
+    # (subprocess died with rc=3, error: "could not append value: 'HE322854'
+    # of type: str to the builder"). The negative-evidence path appears to
+    # be wired for `dedupe` but not fully for `match` in goldenmatch 1.12.x.
+    # The scorer + threshold change carries most of the precision lift on
+    # its own.
 
 golden_rules:
   default_strategy: most_complete

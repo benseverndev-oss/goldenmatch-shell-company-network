@@ -27,6 +27,13 @@ dev = [
     "pytest-cov>=5.0",
     "ruff>=0.5",
 ]
+job = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "python-multipart>=0.0.9",
+    "psycopg[binary]>=3.2",
+    "ijson>=3.3",
+]
 
 [project.scripts]
 shellnet = "shellnet.__main__:app"
