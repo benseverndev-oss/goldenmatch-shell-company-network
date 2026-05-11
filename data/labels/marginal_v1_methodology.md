@@ -1,9 +1,8 @@
 # marginal_v1.csv — labelling methodology
 
 This file documents how the `label` and `rationale` columns were filled
-in for the `v1_dropped` bucket of `marginal_v1.csv` (100 pairs, IDs
-P0001–P0100). The other three buckets (`v2_marginal`, `perfect_sanity`,
-`v2_borderline_class`) are still unlabelled at the time of writing.
+in for `marginal_v1.csv` (300 pairs across four buckets, IDs P0001–P0300).
+All 300 are now labelled.
 
 ## Who labelled
 
@@ -70,18 +69,65 @@ jurisdictions and applied the following rules:
 
 ## Result snapshot
 
-For the 100 v1_dropped pairs:
+| bucket | match | no_match | unsure | total |
+| --- | ---: | ---: | ---: | ---: |
+| `v1_dropped` | 6 | 81 | 13 | 100 |
+| `v2_marginal` | 41 | 43 | 16 | 100 |
+| `perfect_sanity` | 50 | 0 | 0 | 50 |
+| `v2_borderline_class` | 11 | 24 | 15 | 50 |
+| **Total** | **108** | **148** | **44** | **300** |
 
-| label | count |
-| --- | ---: |
-| no_match | 81 |
-| match | 6 |
-| unsure | 13 |
+### Reading the four buckets
 
-Read: v2's threshold raise was correct on at least 81% of these pairs,
-and possibly cost recall on at most 19% (the 6 `match` plus the 13
-`unsure` if all `unsure` are treated as `match`). The 6 confirmed
-`match` cases share a single pattern — identical name + same
-jurisdiction with diverging address rows — which suggests a future
-iteration should weight name-equality more strongly when the address
-columns conflict, rather than averaging them.
+* **v1_dropped** — v2's threshold raise (0.85 → 0.92) removed these.
+  81% confirmed `no_match` means v2 was right to drop the bulk. 6%
+  confirmed `match` (all identical-name + same-jurisdiction pairs whose
+  scores were depressed by diverging address rows from two leak
+  captures) is the recall cost. Net: a precision win, with one
+  addressable failure mode.
+
+* **v2_marginal** — v2 *kept* these in the 0.92–0.97 band. 41% match,
+  43% no_match, 16% unsure. v2's residual precision in the still-marginal
+  band is **41% strict / 57% generous**. The dominant FP pattern is
+  *sequential sub-vehicles*: PA Grand Opportunity I/II/III, Atlas Senior
+  Loan Fund III/IV, Mapeley Beta Acquisition Co (1)/(4)/(5)/(6), Golub
+  Capital Partners CLO N, Windsor Properties (N), CVP Cascade CLO N.
+  These share heavy token overlap and the same jurisdiction even after
+  the token_sort + 0.92 fix.
+
+* **perfect_sanity** — 50/50 match. The perfect band (score ≥ 0.99)
+  has ~100% precision on this sample. No surprises.
+
+* **v2_borderline_class** — heuristic-marginal v2 keeps (jur_close +
+  jur_loose). 11 match, 24 no_match, 15 unsure. v2's precision in this
+  heuristic-flagged sub-tier is **22% strict / 52% generous**. The
+  heuristic class signal is doing real work; an additional filter that
+  drops these would meaningfully improve precision.
+
+### Failure modes worth flagging for the next config iteration
+
+1. **Sequential sub-vehicles in the same jurisdiction.** `PA Grand
+   Opportunity II Limited` vs `PA Grand Opportunity Limited`,
+   `Mapeley Beta Acquisition Co (4) Limited` vs `(1)`, etc. The
+   `(N)` and roman-numeral suffixes are highly informative and a
+   token-sort name scorer doesn't penalize their absence. A scorer
+   that treats numeric / parenthetical suffixes as required-equal
+   (or strongly weighted) would catch this class.
+
+2. **CLO Trust vs Ltd recording artifact.** Multiple ICIJ entries
+   record one CLO as both `Foo CLO Ltd` and `Foo CLO Ltd. Trust`.
+   These could be the same legal entity recorded twice or distinct
+   trust + fund vehicles — the labelling marked these `unsure` in
+   the absence of registry confirmation. Worth a normalization rule
+   that strips trailing `Trust` and treats those rows as duplicates
+   of the corresponding `Ltd` row.
+
+3. **Refinanced CLO `(M)-R` suffix.** `Golub Capital Partners CLO
+   21(M)` vs `21(M)-R`. Same underlying CLO, refinanced. Probably
+   the same legal entity post-refi but possibly distinct vehicles.
+
+4. **Address divergence on identical names.** The 6 confirmed
+   `match` cases in `v1_dropped` all had identical names +
+   jurisdiction but the address-component score pulled the total
+   below 0.92. A weighted matchkey that doesn't penalize for
+   address divergence when name is exact would recover these.
