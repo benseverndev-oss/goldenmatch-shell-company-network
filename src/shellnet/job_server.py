@@ -351,6 +351,9 @@ _ALLOWED_SCRIPTS = {
         "/data/processed/company_entities.parquet",
         "/data/processed/gleif_unified.parquet",
     ],
+    "rank_clusters": ["scripts/rank_clusters.py"],
+    "inspect_edges": ["scripts/_inspect_edges.py"],
+    "provenance_503264": ["scripts/provenance_report.py", "503264"],
 }
 
 
