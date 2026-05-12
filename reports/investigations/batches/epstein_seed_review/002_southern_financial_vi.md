@@ -1,6 +1,6 @@
 # Investigation seed: `Southern Financial LLC` / vi
 
-Generated `2026-05-12T05:04:04+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:49:18+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** NYDFS Consent Order ¶24: Southern Financial LLC described as wholly owned subsidiary of Southern Trust Company Inc. and one of the Deutsche Bank brokerage-account entities; Senate Finance 2025 list also names it.
 
@@ -9,7 +9,7 @@ Generated `2026-05-12T05:04:04+00:00` as part of batch `epstein_seed_review`. Se
 ## Summary
 
 - No same-jurisdiction candidates above the score threshold.
-- 8 possible outside-jurisdiction match(es) — see separate section.
+- 9 possible outside-jurisdiction match(es) — see separate section.
 - Cluster membership: [19975, 22452, 167075, 192991, 619333, 678252, 701522, 742246] (from dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`).
 - ICIJ 1-hop neighbourhood: 2 address(es), 12 officer-edge(s), 6 intermediary-edge(s).
 
@@ -28,9 +28,10 @@ _These score well but their jurisdiction does not match the seed. Treat as lower
 | 3 | 88.2 | `icij:10168547` | icij | `SOUTHERN FINANCE INC.` | ? |  |
 | 4 | 88.2 | `icij:240020680` | icij | `SHERON FINANCIAL CORP.` | vg |  |
 | 5 | 86.5 | `icij:200102748` | icij | `SOUTHWEST FINANCIAL CORPORATION` | ? |  |
-| 6 | 85.7 | `icij:10020268` | icij | `WESTERN FINANCIAL LTD.` | ? |  |
-| 7 | 85.7 | `icij:10022781` | icij | `SORTENY FINANCIAL LTD.` | ? |  |
-| 8 | 85.7 | `icij:55041638` | icij | `WESTERN FINANCIAL LIMITED` | mt |  |
+| 6 | 86.5 | `opensanctions:us-fed-180e28827e18501cc8f975db2365a74659ddcb74` | opensanctions | `Southport Financial Corporation` | us |  |
+| 7 | 85.7 | `icij:10020268` | icij | `WESTERN FINANCIAL LTD.` | ? |  |
+| 8 | 85.7 | `icij:10022781` | icij | `SORTENY FINANCIAL LTD.` | ? |  |
+| 9 | 85.7 | `icij:55041638` | icij | `WESTERN FINANCIAL LIMITED` | mt |  |
 
 ## Published GoldenMatch context
 
@@ -42,11 +43,11 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 | --- | ---: |
 | `icij:10020268` | 19975 |
 | `icij:10022781` | 22452 |
-| `icij:10194636` | 192991 |
-| `icij:200102748` | 619333 |
-| `icij:240020680` | 701522 |
-| `icij:55041638` | 742246 |
 | `icij:10168547` | 167075 |
+| `icij:240020680` | 701522 |
+| `icij:200102748` | 619333 |
+| `icij:55041638` | 742246 |
+| `icij:10194636` | 192991 |
 | `icij:200515085` | 678252 |
 
 ## 1-hop ICIJ neighbourhood
@@ -150,7 +151,7 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 
 - Seed: `Southern Financial LLC` / `vi`
 - Seed normalized: `southern financial` / `vi`
-- Sources present in candidate pool: icij
+- Sources present in candidate pool: icij, opensanctions
 - company_table: `D:\show_case\goldenmatch-shell-company-network\data\processed\company_entities.parquet`
 - icij_edges: `D:\show_case\goldenmatch-shell-company-network\data\interim\icij_edges.parquet`
 - top_n: `25`

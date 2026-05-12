@@ -1,8 +1,8 @@
 # Person investigation: `Jeffrey Epstein` / (unspecified)
 
-Generated `2026-05-12T04:43:20+00:00`. Person-side seed-query workflow over the unified person table.
+Generated `2026-05-12T13:48:27+00:00`. Person-side seed-query workflow over the unified person table.
 
-**Seed source:** USVI/JPMorgan/Senate Finance public reporting — see seeds/epstein_entities.csv for entity-level provenance
+**Seed source:** USVI/JPMorgan/Senate Finance public reporting — re-run after OpenSanctions ingest
 
 > **Hypothesis, not proof.** Personal names collide aggressively in the offshore-leaks corpus. A name match is a lead to verify, not a claim that the named officer is the same individual as the seed. Confirm with DOB, address, or independent filings before relying on any row below.
 
@@ -16,9 +16,11 @@ Generated `2026-05-12T04:43:20+00:00`. Person-side seed-query workflow over the 
 | # | score | exact | entity_uid | source | kind | name | country | topics |
 | ---: | ---: | :-: | --- | --- | --- | --- | --- | --- |
 | 1 | 93.8 |  | `icij:80063035` | icij | officer | `Epstein - Jeffrey E` | ? |  |
-| 2 | 82.4 |  | `icij:110112161` | icij | officer | `BLEUSTEIN JEFFREY L.` | ? |  |
-| 3 | 81.2 |  | `icij:110116466` | icij | officer | `GOLDSTEIN JEFFREY` | ? |  |
-| 4 | 80.0 |  | `icij:80071982` | icij | officer | `Greenstein - Jeffrey H` | us |  |
+| 2 | 82.4 |  | `opensanctions:us-medca-191699b66d5b4eb84e9a65cd54026573aadae857` | opensanctions | person | `Jeffrey P. Feinstein` | us | debarment |
+| 3 | 82.4 |  | `icij:110112161` | icij | officer | `BLEUSTEIN JEFFREY L.` | ? |  |
+| 4 | 81.2 |  | `icij:110116466` | icij | officer | `GOLDSTEIN JEFFREY` | ? |  |
+| 5 | 80.0 |  | `opensanctions:us-media-a570607b0441d0466f93d434d7a245ee4d7d3229` | opensanctions | person | `Jeffrey Eastman` | us | debarment |
+| 6 | 80.0 |  | `icij:80071982` | icij | officer | `Greenstein - Jeffrey H` | us |  |
 
 ## Companies attached to matched persons
 
@@ -53,6 +55,7 @@ Generated `2026-05-12T04:43:20+00:00`. Person-side seed-query workflow over the 
 ## Review notes
 
 - No exact normalized-name match in the seed country. Treat all rows as fuzzy hypotheses.
+- 2 candidate(s) carry OpenSanctions topics (PEP / sanction / other). Review those first.
 
 ## Provenance
 

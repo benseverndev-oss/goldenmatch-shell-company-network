@@ -1,6 +1,6 @@
 # Investigation seed: `Poplar, Inc.` / vi
 
-Generated `2026-05-12T05:04:24+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:49:53+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** USVI Second Amended Complaint ST-20-CV-14 ¶¶30–32: VI corporation; Epstein listed as president/director; filings tied it to Great St. Jim, LLC/Great St. James.
 
@@ -37,11 +37,11 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 
 | entity_uid | cluster_id |
 | --- | ---: |
-| `icij:200108446` | 624864 |
 | `icij:10182128` | 180553 |
 | `icij:55058380` | 758210 |
-| `icij:10034018` | 33609 |
+| `icij:200108446` | 624864 |
 | `icij:200112405` | 628716 |
+| `icij:10034018` | 33609 |
 
 ## 1-hop ICIJ neighbourhood
 

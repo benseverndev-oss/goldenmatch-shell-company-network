@@ -1,6 +1,6 @@
 # Investigation seed: `Maple, Inc.` / vi
 
-Generated `2026-05-12T05:04:35+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:50:10+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** USVI Second Amended Complaint ST-20-CV-14 ¶39: VI corporation; Epstein listed as President/Director; owns 9 East 71st Street according to complaint.
 
@@ -9,8 +9,8 @@ Generated `2026-05-12T05:04:35+00:00` as part of batch `epstein_seed_review`. Se
 ## Summary
 
 - No same-jurisdiction candidates above the score threshold.
-- 6 possible outside-jurisdiction match(es) — see separate section.
-- Cluster membership: [248318, 357175, 395586, 511449, 618044, 649782] (from dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`).
+- 7 possible outside-jurisdiction match(es) — see separate section.
+- Cluster membership: [248318, 357175, 395586, 511449, 618044, 649782, 800287] (from dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`).
 - ICIJ 1-hop neighbourhood: 1 address(es), 12 officer-edge(s), 5 intermediary-edge(s).
 
 ## Candidate records (same jurisdiction)
@@ -27,8 +27,9 @@ _These score well but their jurisdiction does not match the seed. Treat as lower
 | 2 | 100.0 | `icij:20083745` | icij | `MAPLE LTD` | ? |  |
 | 3 | 100.0 | `icij:82017408` | icij | `MAPLE TRUST` | ky |  |
 | 4 | 100.0 | `icij:200101425` | icij | `MAPLE CORP.` | ? |  |
-| 5 | 90.9 | `icij:200133884` | icij | `MARPLE LIMITED` | ? |  |
-| 6 | 88.9 | `icij:20036379` | icij | `MALE, LTD` | ? |  |
+| 5 | 90.9 | `opensanctions:NK-PZcqcnmUk5tm5eFKtzPBZ3` | opensanctions | `Maples SA` | lu |  |
+| 6 | 90.9 | `icij:200133884` | icij | `MARPLE LIMITED` | ? |  |
+| 7 | 88.9 | `icij:20036379` | icij | `MALE, LTD` | ? |  |
 
 ## Published GoldenMatch context
 
@@ -38,12 +39,13 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 
 | entity_uid | cluster_id |
 | --- | ---: |
-| `icij:82017408` | 511449 |
 | `icij:20036379` | 357175 |
-| `icij:20083745` | 395586 |
-| `icij:200133884` | 649782 |
-| `icij:169840` | 248318 |
+| `icij:82017408` | 511449 |
 | `icij:200101425` | 618044 |
+| `icij:200133884` | 649782 |
+| `opensanctions:NK-PZcqcnmUk5tm5eFKtzPBZ3` | 800287 |
+| `icij:169840` | 248318 |
+| `icij:20083745` | 395586 |
 
 ## 1-hop ICIJ neighbourhood
 
@@ -120,7 +122,7 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 
 - Seed: `Maple, Inc.` / `vi`
 - Seed normalized: `maple` / `vi`
-- Sources present in candidate pool: icij
+- Sources present in candidate pool: icij, opensanctions
 - company_table: `D:\show_case\goldenmatch-shell-company-network\data\processed\company_entities.parquet`
 - icij_edges: `D:\show_case\goldenmatch-shell-company-network\data\interim\icij_edges.parquet`
 - top_n: `25`

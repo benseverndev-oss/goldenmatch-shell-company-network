@@ -1,6 +1,6 @@
 # Investigation seed: `Jeepers Inc.` / us
 
-Generated `2026-05-12T05:04:48+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:50:35+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** USVI/JPMorgan litigation cash-flow table lists Jeepers Inc. as an account holder associated with Epstein-related accounts. Include as broader seed pending review.
 

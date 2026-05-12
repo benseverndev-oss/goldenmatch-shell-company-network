@@ -25,6 +25,14 @@ def main(
     input: Path = typer.Option(None, "--input", "-i", help="Local export file."),
     download: bool = typer.Option(False, "--download", help="Fetch from OPENSANCTIONS_DATASET_URL first."),
     out_dir: Path = typer.Option(INTERIM_DIR, help="Where to write interim parquet."),
+    schemas: str | None = typer.Option(
+        None,
+        "--schemas",
+        help="Comma-separated FtM schema filter (e.g. 'Person,Company,Organization,LegalEntity'). "
+        "Default: keep everything. Useful on the 2.7 GB consolidated 'default' collection "
+        "where you don't need vehicles, addresses-as-entities, etc.",
+    ),
+    batch_size: int = typer.Option(50_000, "--batch-size"),
     verbose: bool = typer.Option(False, "--verbose", "-v"),
 ) -> None:
     logging.basicConfig(
@@ -35,7 +43,13 @@ def main(
     target = input
     if download:
         target = opensanctions.download()
-    out = opensanctions.ingest(input_path=target, out_dir=out_dir)
+    schema_tuple = tuple(s.strip() for s in schemas.split(",")) if schemas else None
+    out = opensanctions.ingest(
+        input_path=target,
+        out_dir=out_dir,
+        schemas=schema_tuple,
+        batch_size=batch_size,
+    )
     if out is None:
         raise typer.Exit(code=1)
     typer.echo(f"Wrote: {out}")

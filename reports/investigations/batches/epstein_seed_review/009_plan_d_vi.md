@@ -1,6 +1,6 @@
 # Investigation seed: `Plan D, LLC` / vi
 
-Generated `2026-05-12T05:04:25+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:49:54+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** USVI Second Amended Complaint ST-20-CV-14 ¶¶33–34: VI LLC; 2019 annual report allegedly revealed Epstein as principal; alleged aircraft ownership/use.
 

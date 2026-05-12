@@ -1,6 +1,6 @@
 # Investigation seed: `Hyperion Air, Inc.` / vi
 
-Generated `2026-05-12T05:04:26+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:49:57+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** Name variant appearing in litigation/search materials; included to catch records using Inc. rather than LLC.
 

@@ -1,6 +1,6 @@
 # Investigation seed: `Financial Trust Company, Inc.` / vi
 
-Generated `2026-05-12T05:04:09+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:49:29+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** USVI/JPMorgan litigation materials and Senate/DOJ-related lists identify Financial Trust Company, Inc. as an Epstein-related entity/account holder. Use as a seed, not as a conclusion.
 
@@ -40,8 +40,8 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 | --- | ---: |
 | `icij:10021311` | 21001 |
 | `icij:10023453` | 23114 |
-| `icij:202777` | 270346 |
 | `icij:194282` | 262819 |
+| `icij:202777` | 270346 |
 | `icij:226181` | 289035 |
 | `icij:232902` | 303552 |
 

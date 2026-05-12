@@ -1,6 +1,6 @@
 # Investigation seed: `Haze Trust` / vi
 
-Generated `2026-05-12T05:05:01+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:50:55+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** Senate Finance 2025 list names Haze Trust; USVI/JPMorgan litigation cash-flow materials list Haze Trust MMA as an account holder. Trust seed, not a company.
 
@@ -36,9 +36,9 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 
 | entity_uid | cluster_id |
 | --- | ---: |
-| `icij:20088415` | 396908 |
 | `icij:200801548` | 682897 |
 | `icij:20032925` | 339495 |
+| `icij:20088415` | 396908 |
 | `icij:20116500` | 415019 |
 
 ## 1-hop ICIJ neighbourhood

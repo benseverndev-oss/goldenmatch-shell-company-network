@@ -1,6 +1,6 @@
 # Investigation seed: `Elysium Trust` / vi
 
-Generated `2026-05-12T05:05:05+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:51:02+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** Senate Finance 2025 list names Elysium Trust. Trust seed, not a company.
 
@@ -36,10 +36,10 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 
 | entity_uid | cluster_id |
 | --- | ---: |
-| `icij:20115960` | 414486 |
-| `icij:55058733` | 758552 |
-| `icij:144305` | 233636 |
 | `icij:100322143` | 587446 |
+| `icij:144305` | 233636 |
+| `icij:55058733` | 758552 |
+| `icij:20115960` | 414486 |
 
 ## 1-hop ICIJ neighbourhood
 
