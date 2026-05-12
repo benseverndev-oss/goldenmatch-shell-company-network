@@ -1,6 +1,6 @@
 # Investigation seed: `Laurel, Inc.` / vi
 
-Generated `2026-05-12T02:19:12+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets.
+Generated `2026-05-12T05:04:39+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** USVI Second Amended Complaint ST-20-CV-14 ¶40: VI corporation; Epstein listed as President/Director; owns Palm Beach property according to complaint.
 
@@ -10,6 +10,7 @@ Generated `2026-05-12T02:19:12+00:00` as part of batch `epstein_seed_review`. Se
 
 - No same-jurisdiction candidates above the score threshold.
 - 12 possible outside-jurisdiction match(es) — see separate section.
+- Cluster membership: [37254, 76255, 77126, 171142, 278532, 287561, 338539, 475204, 501335, 570693, 724420, 788901] (from dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`).
 - ICIJ 1-hop neighbourhood: 4 address(es), 10 officer-edge(s), 9 intermediary-edge(s).
 
 ## Candidate records (same jurisdiction)
@@ -37,7 +38,25 @@ _These score well but their jurisdiction does not match the seed. Treat as lower
 
 ## Published GoldenMatch context
 
-_Skipped — no `DATABASE_URL` set. Set the env var to enrich with published list-match anchors, cluster memberships, and same-as pairs._
+### Cluster membership
+
+From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
+
+| entity_uid | cluster_id |
+| --- | ---: |
+| `icij:10037714` | 37254 |
+| `icij:10076717` | 77126 |
+| `icij:10172637` | 171142 |
+| `icij:196490` | 278532 |
+| `icij:240550149` | 788901 |
+| `icij:10075885` | 76255 |
+| `icij:20131038` | 475204 |
+| `icij:82008944` | 501335 |
+| `icij:224400` | 287561 |
+| `icij:20023643` | 338539 |
+| `icij:30016924` | 570693 |
+| `icij:55022720` | 724420 |
+
 ## 1-hop ICIJ neighbourhood
 
 ### `icij:10037714` — 1 edges
@@ -215,3 +234,5 @@ _Skipped — no `DATABASE_URL` set. Set the env var to enrich with published lis
 - min_score: `85.0`
 - global_fallback: `True`
 - seeds_csv: `seeds\epstein_entities.csv`
+- GoldenMatch dedupe run: `ba237a6c-8a29-43a5-8d07-f0eb81473bce`
+- GoldenMatch list-match run: `a01cce05-896b-4d19-911c-b3efe7b5f56f`

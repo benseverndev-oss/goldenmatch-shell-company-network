@@ -1,6 +1,6 @@
 # Investigation seed: `Poplar, Inc.` / vi
 
-Generated `2026-05-12T02:18:58+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets.
+Generated `2026-05-12T05:04:24+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** USVI Second Amended Complaint ST-20-CV-14 ¶¶30–32: VI corporation; Epstein listed as president/director; filings tied it to Great St. Jim, LLC/Great St. James.
 
@@ -10,6 +10,7 @@ Generated `2026-05-12T02:18:58+00:00` as part of batch `epstein_seed_review`. Se
 
 - No same-jurisdiction candidates above the score threshold.
 - 5 possible outside-jurisdiction match(es) — see separate section.
+- Cluster membership: [33609, 180553, 624864, 628716, 758210] (from dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`).
 - ICIJ 1-hop neighbourhood: 1 address(es), 0 officer-edge(s), 4 intermediary-edge(s).
 
 ## Candidate records (same jurisdiction)
@@ -30,7 +31,18 @@ _These score well but their jurisdiction does not match the seed. Treat as lower
 
 ## Published GoldenMatch context
 
-_Skipped — no `DATABASE_URL` set. Set the env var to enrich with published list-match anchors, cluster memberships, and same-as pairs._
+### Cluster membership
+
+From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
+
+| entity_uid | cluster_id |
+| --- | ---: |
+| `icij:200108446` | 624864 |
+| `icij:10182128` | 180553 |
+| `icij:55058380` | 758210 |
+| `icij:10034018` | 33609 |
+| `icij:200112405` | 628716 |
+
 ## 1-hop ICIJ neighbourhood
 
 ### `icij:10034018` — 1 edges
@@ -88,3 +100,5 @@ _Skipped — no `DATABASE_URL` set. Set the env var to enrich with published lis
 - min_score: `85.0`
 - global_fallback: `True`
 - seeds_csv: `seeds\epstein_entities.csv`
+- GoldenMatch dedupe run: `ba237a6c-8a29-43a5-8d07-f0eb81473bce`
+- GoldenMatch list-match run: `a01cce05-896b-4d19-911c-b3efe7b5f56f`

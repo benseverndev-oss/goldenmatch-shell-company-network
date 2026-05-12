@@ -1,6 +1,6 @@
 # Investigation seed: `Liquid Funding Ltd.` / bm
 
-Generated `2026-05-12T02:19:47+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets.
+Generated `2026-05-12T05:05:18+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** Reported in public Epstein corporate-network summaries as a Bermuda investment/offshore entity linked through Paradise Papers/ICIJ context. Broader watchlist seed pending verification.
 
@@ -9,6 +9,7 @@ Generated `2026-05-12T02:19:47+00:00` as part of batch `epstein_seed_review`. Se
 ## Summary
 
 - Best local candidate: `icij:82004676` (`Liquid Funding, Ltd.`, bm, score 100.0)
+- Cluster membership: [499145] (from dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`).
 - ICIJ 1-hop neighbourhood: 3 address(es), 15 officer-edge(s), 0 intermediary-edge(s).
 
 ## Candidate records (same jurisdiction)
@@ -19,7 +20,14 @@ Generated `2026-05-12T02:19:47+00:00` as part of batch `epstein_seed_review`. Se
 
 ## Published GoldenMatch context
 
-_Skipped — no `DATABASE_URL` set. Set the env var to enrich with published list-match anchors, cluster memberships, and same-as pairs._
+### Cluster membership
+
+From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
+
+| entity_uid | cluster_id |
+| --- | ---: |
+| `icij:82004676` | 499145 |
+
 ## 1-hop ICIJ neighbourhood
 
 ### `icij:82004676` — 26 edges
@@ -67,3 +75,5 @@ _Skipped — no `DATABASE_URL` set. Set the env var to enrich with published lis
 - min_score: `85.0`
 - global_fallback: `True`
 - seeds_csv: `seeds\epstein_entities.csv`
+- GoldenMatch dedupe run: `ba237a6c-8a29-43a5-8d07-f0eb81473bce`
+- GoldenMatch list-match run: `a01cce05-896b-4d19-911c-b3efe7b5f56f`

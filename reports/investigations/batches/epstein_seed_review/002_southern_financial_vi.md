@@ -1,6 +1,6 @@
 # Investigation seed: `Southern Financial LLC` / vi
 
-Generated `2026-05-12T02:18:40+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets.
+Generated `2026-05-12T05:04:04+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** NYDFS Consent Order ¶24: Southern Financial LLC described as wholly owned subsidiary of Southern Trust Company Inc. and one of the Deutsche Bank brokerage-account entities; Senate Finance 2025 list also names it.
 
@@ -10,6 +10,7 @@ Generated `2026-05-12T02:18:40+00:00` as part of batch `epstein_seed_review`. Se
 
 - No same-jurisdiction candidates above the score threshold.
 - 8 possible outside-jurisdiction match(es) — see separate section.
+- Cluster membership: [19975, 22452, 167075, 192991, 619333, 678252, 701522, 742246] (from dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`).
 - ICIJ 1-hop neighbourhood: 2 address(es), 12 officer-edge(s), 6 intermediary-edge(s).
 
 ## Candidate records (same jurisdiction)
@@ -33,7 +34,21 @@ _These score well but their jurisdiction does not match the seed. Treat as lower
 
 ## Published GoldenMatch context
 
-_Skipped — no `DATABASE_URL` set. Set the env var to enrich with published list-match anchors, cluster memberships, and same-as pairs._
+### Cluster membership
+
+From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
+
+| entity_uid | cluster_id |
+| --- | ---: |
+| `icij:10020268` | 19975 |
+| `icij:10022781` | 22452 |
+| `icij:10194636` | 192991 |
+| `icij:200102748` | 619333 |
+| `icij:240020680` | 701522 |
+| `icij:55041638` | 742246 |
+| `icij:10168547` | 167075 |
+| `icij:200515085` | 678252 |
+
 ## 1-hop ICIJ neighbourhood
 
 ### `icij:10194636` — 1 edges
@@ -142,3 +157,5 @@ _Skipped — no `DATABASE_URL` set. Set the env var to enrich with published lis
 - min_score: `85.0`
 - global_fallback: `True`
 - seeds_csv: `seeds\epstein_entities.csv`
+- GoldenMatch dedupe run: `ba237a6c-8a29-43a5-8d07-f0eb81473bce`
+- GoldenMatch list-match run: `a01cce05-896b-4d19-911c-b3efe7b5f56f`

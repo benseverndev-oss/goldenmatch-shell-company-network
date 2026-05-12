@@ -1,6 +1,6 @@
 # Investigation seed: `Elysium Trust` / vi
 
-Generated `2026-05-12T02:19:36+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets.
+Generated `2026-05-12T05:05:05+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** Senate Finance 2025 list names Elysium Trust. Trust seed, not a company.
 
@@ -10,6 +10,7 @@ Generated `2026-05-12T02:19:36+00:00` as part of batch `epstein_seed_review`. Se
 
 - No same-jurisdiction candidates above the score threshold.
 - 4 possible outside-jurisdiction match(es) — see separate section.
+- Cluster membership: [233636, 414486, 587446, 758552] (from dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`).
 - ICIJ 1-hop neighbourhood: 3 address(es), 10 officer-edge(s), 2 intermediary-edge(s).
 
 ## Candidate records (same jurisdiction)
@@ -29,7 +30,17 @@ _These score well but their jurisdiction does not match the seed. Treat as lower
 
 ## Published GoldenMatch context
 
-_Skipped — no `DATABASE_URL` set. Set the env var to enrich with published list-match anchors, cluster memberships, and same-as pairs._
+### Cluster membership
+
+From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
+
+| entity_uid | cluster_id |
+| --- | ---: |
+| `icij:20115960` | 414486 |
+| `icij:55058733` | 758552 |
+| `icij:144305` | 233636 |
+| `icij:100322143` | 587446 |
+
 ## 1-hop ICIJ neighbourhood
 
 ### `icij:144305` — 3 edges
@@ -110,3 +121,5 @@ _Skipped — no `DATABASE_URL` set. Set the env var to enrich with published lis
 - min_score: `85.0`
 - global_fallback: `True`
 - seeds_csv: `seeds\epstein_entities.csv`
+- GoldenMatch dedupe run: `ba237a6c-8a29-43a5-8d07-f0eb81473bce`
+- GoldenMatch list-match run: `a01cce05-896b-4d19-911c-b3efe7b5f56f`

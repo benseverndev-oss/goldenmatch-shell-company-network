@@ -1,6 +1,6 @@
 # Investigation seed: `Nautilus, Inc.` / vi
 
-Generated `2026-05-12T02:18:53+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets.
+Generated `2026-05-12T05:04:18+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** USVI Second Amended Complaint ST-20-CV-14 ¶¶22–24: VI corporation owning Little St. James; Epstein listed as president/director.
 
@@ -10,6 +10,7 @@ Generated `2026-05-12T02:18:53+00:00` as part of batch `epstein_seed_review`. Se
 
 - No same-jurisdiction candidates above the score threshold.
 - 6 possible outside-jurisdiction match(es) — see separate section.
+- Cluster membership: [6296, 243896, 258184, 418306, 616680, 763797] (from dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`).
 - ICIJ 1-hop neighbourhood: 2 address(es), 26 officer-edge(s), 5 intermediary-edge(s).
 
 ## Candidate records (same jurisdiction)
@@ -31,7 +32,19 @@ _These score well but their jurisdiction does not match the seed. Treat as lower
 
 ## Published GoldenMatch context
 
-_Skipped — no `DATABASE_URL` set. Set the env var to enrich with published list-match anchors, cluster memberships, and same-as pairs._
+### Cluster membership
+
+From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
+
+| entity_uid | cluster_id |
+| --- | ---: |
+| `icij:10006363` | 6296 |
+| `icij:20145122` | 418306 |
+| `icij:55064234` | 763797 |
+| `icij:168254` | 258184 |
+| `icij:200100029` | 616680 |
+| `icij:169509` | 243896 |
+
 ## 1-hop ICIJ neighbourhood
 
 ### `icij:169509` — 1 edges
@@ -139,3 +152,5 @@ _Skipped — no `DATABASE_URL` set. Set the env var to enrich with published lis
 - min_score: `85.0`
 - global_fallback: `True`
 - seeds_csv: `seeds\epstein_entities.csv`
+- GoldenMatch dedupe run: `ba237a6c-8a29-43a5-8d07-f0eb81473bce`
+- GoldenMatch list-match run: `a01cce05-896b-4d19-911c-b3efe7b5f56f`
