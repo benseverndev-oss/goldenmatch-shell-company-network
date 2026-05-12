@@ -61,7 +61,7 @@ def _fetch(cur, where_sql: str, params: tuple, limit: int) -> list[dict]:
         params + (limit,),
     )
     cols = [d.name for d in cur.description]
-    return [dict(zip(cols, row)) for row in cur.fetchall()]
+    return [dict(zip(cols, row, strict=True)) for row in cur.fetchall()]
 
 
 def _token_set(name: str | None) -> set[str]:

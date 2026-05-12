@@ -17,7 +17,7 @@ import shutil
 import subprocess
 import time
 import zipfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -55,7 +55,7 @@ STAGES = ("upload", "unzip", "ingest", "build", "match", "publish")
 
 
 def _now() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def _load_state() -> dict[str, Any]:

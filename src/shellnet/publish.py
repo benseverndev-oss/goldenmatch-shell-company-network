@@ -16,7 +16,7 @@ from __future__ import annotations
 import logging
 import os
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -207,7 +207,7 @@ def publish_run(
         "multi_member_clusters": multi,
         "same_as_pairs": len(pairs),
         "deleted_prior_runs": deleted,
-        "published_at": datetime.now(timezone.utc).isoformat(),
+        "published_at": datetime.now(UTC).isoformat(),
     }
 
 
@@ -336,5 +336,5 @@ def publish_list_match(
         "unique_targets": len(target_uids),
         "unique_refs": len(ref_uids),
         "score_bands": band_counts,
-        "published_at": datetime.now(timezone.utc).isoformat(),
+        "published_at": datetime.now(UTC).isoformat(),
     }

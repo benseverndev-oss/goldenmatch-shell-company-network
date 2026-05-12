@@ -36,8 +36,9 @@ from __future__ import annotations
 
 import json
 import logging
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any
 
 import ijson
 import polars as pl
@@ -58,9 +59,8 @@ _BATCH_SIZE = 100_000
 
 def _leaf(node: Any) -> Any:
     """GLEIF CDF wraps leaves in ``{"$": "value"}``; unwrap one level."""
-    if isinstance(node, dict):
-        if "$" in node:
-            return node["$"]
+    if isinstance(node, dict) and "$" in node:
+        return node["$"]
     return node
 
 
