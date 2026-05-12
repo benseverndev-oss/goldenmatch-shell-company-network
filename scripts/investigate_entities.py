@@ -211,8 +211,12 @@ def main(
                     batch_id=bid,
                 )
                 # Put per-seed reports inside the batch dir so the index can
-                # link to them by filename.
-                target = batch_dir / default_report_path(out_dir, seed).name
+                # link to them by filename. Prefix with the (1-based) CSV row
+                # number so two seeds with the same normalized name + juris
+                # cannot collide silently.
+                idx_width = max(3, len(str(len(seed_rows))))
+                prefix = f"{i:0{idx_width}d}"
+                target = batch_dir / f"{prefix}_{default_report_path(out_dir, seed).name}"
                 target.write_text(md, encoding="utf-8")
                 results.append(
                     BatchRow(
