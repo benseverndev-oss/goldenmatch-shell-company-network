@@ -366,8 +366,15 @@ def render_report(
     sources_seen: list[str],
     inputs_meta: dict[str, Any],
     generated_at: datetime | None = None,
+    source_note: str | None = None,
+    batch_id: str | None = None,
 ) -> str:
-    """Build the markdown report. Pure string-in, string-out."""
+    """Build the markdown report. Pure string-in, string-out.
+
+    ``source_note`` is rendered verbatim near the top — used by batch mode
+    to thread per-seed provenance (URL, citation, who suggested the seed)
+    from the input CSV into the generated report.
+    """
     generated_at = generated_at or datetime.now(UTC)
     lines: list[str] = []
 
@@ -377,14 +384,20 @@ def render_report(
     )
     lines.append("")
     lines.append(
-        f"Generated `{generated_at.isoformat(timespec='seconds')}`. "
-        "Seed-query workflow over local processed parquets"
+        f"Generated `{generated_at.isoformat(timespec='seconds')}`"
+        + (f" as part of batch `{batch_id}`" if batch_id else "")
+        + ". Seed-query workflow over local processed parquets"
         + (" + published GoldenMatch context." if gm_context else ".")
     )
     lines.append("")
+    if source_note:
+        lines.append(f"**Seed source:** {_md_escape(source_note)}")
+        lines.append("")
     lines.append(
-        "> Each row below is a *hypothesis* the matcher produced from public "
-        "data. Do not derive identity-linked claims without human review."
+        "> **Hypothesis, not proof.** Every candidate below is a guess the "
+        "matcher produced from public data. Names collide. Public data is "
+        "incomplete. Treat each row as a lead to review, not a finding to "
+        "publish. Do not derive identity-linked claims without human review."
     )
     lines.append("")
 
@@ -708,3 +721,120 @@ def default_report_path(reports_root: Path, seed: Seed) -> Path:
     juris_part = (seed.normalized_jurisdiction or "global").lower()
     slug = _slugify(seed.normalized_name or seed.name)
     return reports_root / "investigations" / f"{slug}_{juris_part}.md"
+
+
+@dataclass
+class BatchRow:
+    """One row's worth of state from a batch run, used for the index file."""
+
+    seed: Seed
+    source_note: str | None
+    report_path: Path
+    top_in_juris: Candidate | None
+    n_in_juris: int
+    n_outside_juris: int
+    error: str | None = None
+
+
+def render_batch_index(
+    rows: list[BatchRow],
+    *,
+    batch_id: str,
+    seeds_path: Path,
+    generated_at: datetime | None = None,
+) -> str:
+    """Top-level summary across a batch run."""
+    generated_at = generated_at or datetime.now(UTC)
+    lines: list[str] = []
+    lines.append(f"# Investigation batch: `{batch_id}`")
+    lines.append("")
+    lines.append(
+        f"Generated `{generated_at.isoformat(timespec='seconds')}` from "
+        f"`{seeds_path}` ({len(rows)} seed(s))."
+    )
+    lines.append("")
+    lines.append(
+        "> **Hypothesis, not proof.** Every linked report contains *candidate* "
+        "matches the matcher produced from public data. Treat each row as a "
+        "lead requiring human review, not a finding."
+    )
+    lines.append("")
+
+    n_ok = sum(1 for r in rows if r.error is None)
+    n_err = len(rows) - n_ok
+    n_top = sum(1 for r in rows if r.top_in_juris is not None)
+    n_exact = sum(
+        1
+        for r in rows
+        if r.top_in_juris is not None and r.top_in_juris.exact_normalized
+    )
+    lines.append("## Summary")
+    lines.append("")
+    lines.append(f"- {n_ok} seed(s) processed successfully, {n_err} error(s).")
+    lines.append(
+        f"- {n_top} seed(s) found at least one same-jurisdiction candidate."
+    )
+    lines.append(
+        f"- {n_exact} of those had an exact normalized-name match in the seed jurisdiction."
+    )
+    lines.append("")
+
+    lines.append("## Results")
+    lines.append("")
+    lines.append(
+        "| # | seed | jur | top match | score | exact | in-juris | outside | source note | report |"
+    )
+    lines.append("| ---: | --- | --- | --- | ---: | :-: | ---: | ---: | --- | --- |")
+    for i, r in enumerate(rows, start=1):
+        if r.error:
+            lines.append(
+                f"| {i} | `{_md_escape(r.seed.name)}` | {r.seed.normalized_jurisdiction or '?'} "
+                f"| _error_ |  |  |  |  | {_md_escape(r.source_note)} | _{_md_escape(r.error)}_ |"
+            )
+            continue
+        top = r.top_in_juris
+        rel = r.report_path.name  # link by filename — index lives in same dir
+        top_name = _md_escape(top.name)[:50] if top else ""
+        top_score = f"{top.score:.1f}" if top else ""
+        top_exact = "✓" if (top and top.exact_normalized) else ""
+        lines.append(
+            "| {i} | `{seed}` | {jur} | `{tn}` | {ts} | {ex} | {ni} | {no} | {sn} | [{rel}]({rel}) |".format(
+                i=i,
+                seed=_md_escape(r.seed.name),
+                jur=r.seed.normalized_jurisdiction or "?",
+                tn=top_name,
+                ts=top_score,
+                ex=top_exact,
+                ni=r.n_in_juris,
+                no=r.n_outside_juris,
+                sn=_md_escape(r.source_note),
+                rel=rel,
+            )
+        )
+    lines.append("")
+
+    if n_err:
+        lines.append("## Errors")
+        lines.append("")
+        for r in rows:
+            if r.error:
+                lines.append(
+                    f"- `{_md_escape(r.seed.name)}` ({r.seed.jurisdiction or '?'}): {r.error}"
+                )
+        lines.append("")
+
+    lines.append("## Source CSV format")
+    lines.append("")
+    lines.append("Expected columns:")
+    lines.append("")
+    lines.append("- `name` — seed company name (required).")
+    lines.append(
+        "- `jurisdiction` — ISO-2, ISO-3, or recognised alias (e.g. `bvi`, "
+        "`cayman islands`). Optional but strongly recommended."
+    )
+    lines.append(
+        "- `source_note` — free-text provenance for this seed (URL, citation, "
+        "who suggested it). Echoed verbatim into each generated report."
+    )
+    lines.append("")
+    return "\n".join(lines)
