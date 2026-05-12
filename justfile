@@ -73,6 +73,10 @@ coverage:
 investigate name jurisdiction="":
     uv run python scripts/investigate_entity.py --name "{{name}}" --jurisdiction "{{jurisdiction}}"
 
+# Batch seed-query. Example: just investigate-batch seeds/example_entities.csv
+investigate-batch seeds:
+    uv run python scripts/investigate_entities.py {{seeds}}
+
 # --- QA --------------------------------------------------------------------
 
 test:

@@ -82,6 +82,7 @@ ingest ─┬─► icij_entities/addresses/officers/intermediaries/edges.parque
 | `report_shared_addresses.py` | Top-N shared addresses → Markdown + parquet |
 | `coverage_report.py` | Per-column fill-rate report across all parquets |
 | `investigate_entity.py` | Seed-query workflow: rank candidates for one `(name, jurisdiction)` pair, attach 1-hop ICIJ neighbourhood, optionally enrich from Postgres |
+| `investigate_entities.py` | Batch version: read a `name,jurisdiction,source_note` CSV, write one report per seed + a top-level index. Loads parquets once, opens at most one Postgres connection |
 
 All available as `just`/`make` recipes.
 
