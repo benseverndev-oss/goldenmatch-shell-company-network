@@ -77,6 +77,18 @@ investigate name jurisdiction="":
 investigate-batch seeds:
     uv run python scripts/investigate_entities.py {{seeds}}
 
+# Person seed-query. Example: just investigate-person "Jeffrey Epstein" us
+investigate-person name country="":
+    uv run python scripts/investigate_person.py --name "{{name}}" --country "{{country}}"
+
+# Address seed-query. Example: just investigate-address "Ugland House Grand Cayman" ky
+investigate-address text country="":
+    uv run python scripts/investigate_address.py --text "{{text}}" --country "{{country}}"
+
+# 2-hop officer-overlap walk from a company entity_uid.
+expand-2hop entity_uid label:
+    uv run python scripts/expand_2hop.py --entity-uid "{{entity_uid}}" --label "{{label}}"
+
 # --- QA --------------------------------------------------------------------
 
 test:

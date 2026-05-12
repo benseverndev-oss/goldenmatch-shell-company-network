@@ -83,6 +83,9 @@ ingest ─┬─► icij_entities/addresses/officers/intermediaries/edges.parque
 | `coverage_report.py` | Per-column fill-rate report across all parquets |
 | `investigate_entity.py` | Seed-query workflow: rank candidates for one `(name, jurisdiction)` pair, attach 1-hop ICIJ neighbourhood, optionally enrich from Postgres |
 | `investigate_entities.py` | Batch version: read a `name,jurisdiction,source_note` CSV, write one report per seed + a top-level index. Loads parquets once, opens at most one Postgres connection |
+| `investigate_person.py` | Person-side seed-query: name+country → matched person rows → all companies attached via officer / intermediary / shareholder edges |
+| `investigate_address.py` | Address-side seed-query: free-text+country → matched address rows → all entities registered there |
+| `expand_2hop.py` | One-shot 2-hop walk from a company `entity_uid` — surfaces every other company sharing an officer / intermediary with the seed |
 
 All available as `just`/`make` recipes.
 
