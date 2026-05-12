@@ -1,6 +1,6 @@
 # Investigation seed: `Nautilus, Inc.` / vi
 
-Generated `2026-05-12T05:04:18+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:49:44+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** USVI Second Amended Complaint ST-20-CV-14 ¶¶22–24: VI corporation owning Little St. James; Epstein listed as president/director.
 
@@ -39,11 +39,11 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 | entity_uid | cluster_id |
 | --- | ---: |
 | `icij:10006363` | 6296 |
-| `icij:20145122` | 418306 |
-| `icij:55064234` | 763797 |
-| `icij:168254` | 258184 |
-| `icij:200100029` | 616680 |
 | `icij:169509` | 243896 |
+| `icij:168254` | 258184 |
+| `icij:20145122` | 418306 |
+| `icij:200100029` | 616680 |
+| `icij:55064234` | 763797 |
 
 ## 1-hop ICIJ neighbourhood
 

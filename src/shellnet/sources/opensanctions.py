@@ -15,11 +15,13 @@ from __future__ import annotations
 import json
 import logging
 import os
+from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
 
 import httpx
 import polars as pl
+import pyarrow.parquet as pq
 
 from shellnet.normalize import (
     normalize_address_text,
@@ -103,57 +105,71 @@ def parse_entity(record: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def _iter_entities(path: Path) -> list[dict[str, Any]]:
-    """Read entities from a JSON, NDJSON, or wrapped-JSON file.
+def _iter_entities(path: Path) -> Iterator[dict[str, Any]]:
+    """Yield entities from a JSON, NDJSON, or wrapped-JSON file.
 
-    For NDJSON (one JSON object per line) we stream line-by-line so
-    multi-GB OpenSanctions exports don't OOM the read step.
+    True generator — multi-GB NDJSON exports (e.g. the consolidated
+    OpenSanctions 'default' collection at ~2.7 GB) stream line-by-line
+    so the caller can batch-write parquet without holding the whole
+    corpus in memory.
     """
-    # NDJSON detection: peek the first non-empty line.
     with path.open("r", encoding="utf-8") as fh:
         first = ""
         while not first:
             line = fh.readline()
             if not line:
-                return []
+                return
             first = line.strip()
         if first.startswith("{"):
-            # Stream NDJSON. Reopen so we restart at line 1.
-            out: list[dict[str, Any]] = []
             try:
-                out.append(json.loads(first))
+                obj = json.loads(first)
             except json.JSONDecodeError:
                 pass
             else:
+                yield obj
                 for ln in fh:
                     s = ln.strip()
                     if not s:
                         continue
                     try:
-                        out.append(json.loads(s))
+                        yield json.loads(s)
                     except json.JSONDecodeError:
                         continue
-                return out
+                return
     # Fall back to whole-file load for small JSON / wrapped-JSON.
     text = path.read_text("utf-8").strip()
+    if not text:
+        return
     blob = json.loads(text)
     if isinstance(blob, list):
-        return blob
+        yield from blob
+        return
     if isinstance(blob, dict):
         if "entities" in blob and isinstance(blob["entities"], list):
-            return blob["entities"]
+            yield from blob["entities"]
+            return
         if "results" in blob and isinstance(blob["results"], list):
-            return blob["results"]
-        return [blob]
-    return []
+            yield from blob["results"]
+            return
+        yield blob
 
 
 def ingest(
     input_path: Path | None = None,
     *,
     out_dir: Path = INTERIM_DIR,
+    schemas: tuple[str, ...] | None = None,
+    batch_size: int = 50_000,
 ) -> Path | None:
-    """Parse a local OpenSanctions export and write a parquet."""
+    """Parse a local OpenSanctions export and write a parquet.
+
+    Streams the input NDJSON line-by-line and writes the output parquet
+    in batches via PyArrow, so multi-GB exports (the consolidated
+    'default' collection is ~2.7 GB / ~11M entities) don't OOM.
+
+    ``schemas`` optionally restricts to a subset of FtM entity schemas
+    (e.g. ``("Person", "Company", "Organization", "LegalEntity")``).
+    """
     out_dir.mkdir(parents=True, exist_ok=True)
 
     if input_path is None:
@@ -169,17 +185,54 @@ def ingest(
         log.error("OpenSanctions input %s does not exist.", input_path)
         return None
 
-    records = _iter_entities(input_path)
-    rows = [parse_entity(r) for r in records if isinstance(r, dict)]
-    if not rows:
-        log.warning("No OpenSanctions records parsed from %s", input_path)
-        df = pl.DataFrame(schema=_PARQUET_SCHEMA)
-    else:
-        df = pl.DataFrame(rows, schema=_PARQUET_SCHEMA)
-
     out = out_dir / "opensanctions_entities.parquet"
-    df.write_parquet(out)
-    log.info("Wrote %d OpenSanctions rows to %s", df.height, out)
+    schema_filter = set(schemas) if schemas else None
+
+    writer: pq.ParquetWriter | None = None
+    batch: list[dict[str, Any]] = []
+    total = 0
+    skipped = 0
+    try:
+        for record in _iter_entities(input_path):
+            if not isinstance(record, dict):
+                continue
+            if schema_filter is not None and record.get("schema") not in schema_filter:
+                skipped += 1
+                continue
+            batch.append(parse_entity(record))
+            if len(batch) >= batch_size:
+                df = pl.DataFrame(batch, schema=_PARQUET_SCHEMA)
+                table = df.to_arrow()
+                if writer is None:
+                    writer = pq.ParquetWriter(out, table.schema, compression="snappy")
+                writer.write_table(table)
+                total += len(batch)
+                batch.clear()
+                if total % 500_000 == 0:
+                    log.info("opensanctions: wrote %d rows", total)
+        if batch:
+            df = pl.DataFrame(batch, schema=_PARQUET_SCHEMA)
+            table = df.to_arrow()
+            if writer is None:
+                writer = pq.ParquetWriter(out, table.schema, compression="snappy")
+            writer.write_table(table)
+            total += len(batch)
+            batch.clear()
+    finally:
+        if writer is not None:
+            writer.close()
+
+    if total == 0:
+        log.warning("No OpenSanctions records parsed from %s", input_path)
+        empty = pl.DataFrame(schema=_PARQUET_SCHEMA)
+        empty.write_parquet(out)
+    else:
+        log.info(
+            "Wrote %d OpenSanctions rows to %s (skipped %d by schema filter)",
+            total,
+            out,
+            skipped,
+        )
     return out
 
 

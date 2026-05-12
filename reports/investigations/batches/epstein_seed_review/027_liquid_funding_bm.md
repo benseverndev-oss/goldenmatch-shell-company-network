@@ -1,6 +1,6 @@
 # Investigation seed: `Liquid Funding Ltd.` / bm
 
-Generated `2026-05-12T05:05:18+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:51:23+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** Reported in public Epstein corporate-network summaries as a Bermuda investment/offshore entity linked through Paradise Papers/ICIJ context. Broader watchlist seed pending verification.
 
@@ -8,7 +8,7 @@ Generated `2026-05-12T05:05:18+00:00` as part of batch `epstein_seed_review`. Se
 
 ## Summary
 
-- Best local candidate: `icij:82004676` (`Liquid Funding, Ltd.`, bm, score 100.0)
+- Best local candidate: `opensanctions:icijol-82004676` (`Liquid Funding, Ltd.`, bm, score 100.0)
 - Cluster membership: [499145] (from dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`).
 - ICIJ 1-hop neighbourhood: 3 address(es), 15 officer-edge(s), 0 intermediary-edge(s).
 
@@ -16,7 +16,8 @@ Generated `2026-05-12T05:05:18+00:00` as part of batch `epstein_seed_review`. Se
 
 | # | score | exact | entity_uid | source | name | jurisdiction | lei | company_number |
 | ---: | ---: | :-: | --- | --- | --- | --- | --- | --- |
-| 1 | 100.0 | ✓ | `icij:82004676` | icij | `Liquid Funding, Ltd.` | bm |  |  |
+| 1 | 100.0 | ✓ | `opensanctions:icijol-82004676` | opensanctions | `Liquid Funding, Ltd.` | bm |  | EC29378 |
+| 2 | 100.0 | ✓ | `icij:82004676` | icij | `Liquid Funding, Ltd.` | bm |  |  |
 
 ## Published GoldenMatch context
 
@@ -68,7 +69,7 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 
 - Seed: `Liquid Funding Ltd.` / `bm`
 - Seed normalized: `liquid funding` / `bm`
-- Sources present in candidate pool: icij
+- Sources present in candidate pool: icij, opensanctions
 - company_table: `D:\show_case\goldenmatch-shell-company-network\data\processed\company_entities.parquet`
 - icij_edges: `D:\show_case\goldenmatch-shell-company-network\data\interim\icij_edges.parquet`
 - top_n: `25`

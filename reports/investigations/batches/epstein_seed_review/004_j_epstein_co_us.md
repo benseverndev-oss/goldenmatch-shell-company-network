@@ -1,6 +1,6 @@
 # Investigation seed: `J. Epstein & Co.` / us
 
-Generated `2026-05-12T05:04:09+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:49:31+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** Historical Epstein money-management entity reported as predecessor/alias context for Financial Trust Company. Include for name-variant search only.
 

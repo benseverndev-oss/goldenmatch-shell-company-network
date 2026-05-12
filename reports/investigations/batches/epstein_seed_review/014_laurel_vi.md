@@ -1,6 +1,6 @@
 # Investigation seed: `Laurel, Inc.` / vi
 
-Generated `2026-05-12T05:04:39+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:50:16+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** USVI Second Amended Complaint ST-20-CV-14 ¶40: VI corporation; Epstein listed as President/Director; owns Palm Beach property according to complaint.
 
@@ -9,7 +9,7 @@ Generated `2026-05-12T05:04:39+00:00` as part of batch `epstein_seed_review`. Se
 ## Summary
 
 - No same-jurisdiction candidates above the score threshold.
-- 12 possible outside-jurisdiction match(es) — see separate section.
+- 13 possible outside-jurisdiction match(es) — see separate section.
 - Cluster membership: [37254, 76255, 77126, 171142, 278532, 287561, 338539, 475204, 501335, 570693, 724420, 788901] (from dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`).
 - ICIJ 1-hop neighbourhood: 4 address(es), 10 officer-edge(s), 9 intermediary-edge(s).
 
@@ -27,14 +27,15 @@ _These score well but their jurisdiction does not match the seed. Treat as lower
 | 2 | 100.0 | `icij:82008944` | icij | `Laurel Trust` | bm |  |
 | 3 | 100.0 | `icij:30016924` | icij | `LAUREL LIMITED` | ? |  |
 | 4 | 100.0 | `icij:55022720` | icij | `LAUREL LIMITED` | mt |  |
-| 5 | 92.3 | `icij:196490` | icij | `LAURIEL LIMITED` | ? |  |
-| 6 | 90.9 | `icij:10075885` | icij | `AUREL LIMITED` | vg |  |
-| 7 | 85.7 | `icij:10076717` | icij | `LAURIMEL LIMITED` | vg |  |
-| 8 | 85.7 | `icij:10172637` | icij | `LAURIMEL LIMITED` | ? |  |
-| 9 | 85.7 | `icij:224400` | icij | `Laureola Corporation` | ? |  |
-| 10 | 85.7 | `icij:20023643` | icij | `LAURIMEL LIMITED` | ? |  |
-| 11 | 85.7 | `icij:20131038` | icij | `ANLAUREL LTD.` | ? |  |
-| 12 | 85.7 | `icij:240550149` | icij | `LAURIMEL Inc` | pa |  |
+| 5 | 100.0 | `opensanctions:icijol-82008944` | opensanctions | `Laurel Trust` | bm |  |
+| 6 | 92.3 | `icij:196490` | icij | `LAURIEL LIMITED` | ? |  |
+| 7 | 90.9 | `icij:10075885` | icij | `AUREL LIMITED` | vg |  |
+| 8 | 85.7 | `icij:10076717` | icij | `LAURIMEL LIMITED` | vg |  |
+| 9 | 85.7 | `icij:10172637` | icij | `LAURIMEL LIMITED` | ? |  |
+| 10 | 85.7 | `icij:224400` | icij | `Laureola Corporation` | ? |  |
+| 11 | 85.7 | `icij:20023643` | icij | `LAURIMEL LIMITED` | ? |  |
+| 12 | 85.7 | `icij:20131038` | icij | `ANLAUREL LTD.` | ? |  |
+| 13 | 85.7 | `icij:240550149` | icij | `LAURIMEL Inc` | pa |  |
 
 ## Published GoldenMatch context
 
@@ -45,17 +46,17 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 | entity_uid | cluster_id |
 | --- | ---: |
 | `icij:10037714` | 37254 |
+| `icij:10075885` | 76255 |
+| `icij:20023643` | 338539 |
+| `icij:82008944` | 501335 |
+| `icij:55022720` | 724420 |
+| `icij:240550149` | 788901 |
 | `icij:10076717` | 77126 |
+| `icij:224400` | 287561 |
+| `icij:30016924` | 570693 |
 | `icij:10172637` | 171142 |
 | `icij:196490` | 278532 |
-| `icij:240550149` | 788901 |
-| `icij:10075885` | 76255 |
 | `icij:20131038` | 475204 |
-| `icij:82008944` | 501335 |
-| `icij:224400` | 287561 |
-| `icij:20023643` | 338539 |
-| `icij:30016924` | 570693 |
-| `icij:55022720` | 724420 |
 
 ## 1-hop ICIJ neighbourhood
 
@@ -227,7 +228,7 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 
 - Seed: `Laurel, Inc.` / `vi`
 - Seed normalized: `laurel` / `vi`
-- Sources present in candidate pool: icij
+- Sources present in candidate pool: icij, opensanctions
 - company_table: `D:\show_case\goldenmatch-shell-company-network\data\processed\company_entities.parquet`
 - icij_edges: `D:\show_case\goldenmatch-shell-company-network\data\interim\icij_edges.parquet`
 - top_n: `25`

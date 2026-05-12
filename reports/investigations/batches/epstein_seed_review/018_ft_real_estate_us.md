@@ -1,6 +1,6 @@
 # Investigation seed: `FT Real Estate, Inc.` / us
 
-Generated `2026-05-12T05:04:46+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:50:32+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** DOJ/JPMorgan litigation attachment defining Epstein-related entities includes FT Real Estate, Inc.; include as a broader seed pending review.
 
@@ -9,7 +9,7 @@ Generated `2026-05-12T05:04:46+00:00` as part of batch `epstein_seed_review`. Se
 ## Summary
 
 - No same-jurisdiction candidates above the score threshold.
-- 24 possible outside-jurisdiction match(es) — see separate section.
+- 25 possible outside-jurisdiction match(es) — see separate section.
 - Cluster membership: [56602, 154628, 156332, 168627, 272271, 301472, 478580, 481118, 490912, 515094, 521729, 525562, 532067, 534899, 537877, 541124, 551550, 583077, 638241, 700885, 712079, 721306, 767519, 776837] (from dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`).
 - ICIJ 1-hop neighbourhood: 18 address(es), 54 officer-edge(s), 10 intermediary-edge(s).
 
@@ -47,6 +47,7 @@ _These score well but their jurisdiction does not match the seed. Treat as lower
 | 22 | 85.7 | `icij:100312448` | icij | `JK REAL ESTATE INC.` | ? |  |
 | 23 | 85.7 | `icij:240029135` | icij | `LA REAL ESTATE LIMITED` | vg |  |
 | 24 | 85.7 | `icij:55079455` | icij | `K.B. (REAL ESTATE) LIMITED` | mt |  |
+| 25 | 85.7 | `opensanctions:sentry-76ce9705-e519-15c4-8867-c26d234da3e9` | opensanctions | `JV Real Estate Ltd` | ss |  |
 
 ## Published GoldenMatch context
 
@@ -56,29 +57,29 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 
 | entity_uid | cluster_id |
 | --- | ---: |
-| `icij:10170115` | 168627 |
-| `icij:202609` | 272271 |
-| `icij:20152481` | 478580 |
-| `icij:20174326` | 481118 |
-| `icij:85009110` | 490912 |
-| `icij:85020389` | 532067 |
-| `icij:85026895` | 537877 |
-| `icij:100312448` | 583077 |
+| `icij:10057121` | 56602 |
 | `icij:10156483` | 156332 |
 | `icij:225431` | 301472 |
-| `icij:82014072` | 515094 |
-| `icij:85013443` | 525562 |
-| `icij:85023529` | 534899 |
+| `icij:20152481` | 478580 |
+| `icij:20174326` | 481118 |
+| `icij:85020389` | 532067 |
+| `icij:85026895` | 537877 |
 | `icij:200122173` | 638241 |
 | `icij:240029135` | 700885 |
 | `icij:55019436` | 721306 |
-| `icij:55079455` | 776837 |
-| `icij:10057121` | 56602 |
 | `icij:10154680` | 154628 |
-| `icij:85006762` | 521729 |
-| `icij:85030571` | 541124 |
+| `icij:10170115` | 168627 |
+| `icij:85009110` | 490912 |
+| `icij:82014072` | 515094 |
+| `icij:85013443` | 525562 |
+| `icij:85023529` | 534899 |
 | `icij:85042612` | 551550 |
 | `icij:55009675` | 712079 |
+| `icij:55079455` | 776837 |
+| `icij:202609` | 272271 |
+| `icij:85006762` | 521729 |
+| `icij:85030571` | 541124 |
+| `icij:100312448` | 583077 |
 | `icij:55068154` | 767519 |
 
 ## 1-hop ICIJ neighbourhood
@@ -470,7 +471,7 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 
 - Seed: `FT Real Estate, Inc.` / `us`
 - Seed normalized: `ft real estate` / `us`
-- Sources present in candidate pool: icij
+- Sources present in candidate pool: icij, opensanctions
 - company_table: `D:\show_case\goldenmatch-shell-company-network\data\processed\company_entities.parquet`
 - icij_edges: `D:\show_case\goldenmatch-shell-company-network\data\interim\icij_edges.parquet`
 - top_n: `25`

@@ -108,37 +108,75 @@ a permissive name-prefix scan. The lone Epstein record is genuinely
 the only one ICIJ carries; the absence of more entities isn't a
 name-normalization artefact.
 
-## OpenSanctions ingest — partially done
+## OpenSanctions ingest — done
 
 Downloaded the consolidated OpenSanctions default collection
 (`https://data.opensanctions.org/datasets/latest/default/entities.ftm.json`,
-~2.7 GB) to `data/raw/opensanctions/default.ftm.json`. Larger than
-expected — the "default" collection is the everything-from-everywhere
-union (sanctions + PEPs + regulators + debarments + corporate records
-from dozens of sources), not just sanctions.
+~2.7 GB) to `data/raw/opensanctions/default.ftm.json`. The "default"
+collection is the everything-from-everywhere union (sanctions + PEPs +
+regulators + debarments + corporate records from dozens of sources),
+not just sanctions.
 
-The existing `shellnet.sources.opensanctions._iter_entities` read the
-whole file as a single string, which OOMed on the 2.7 GB input. Patched
-it to stream NDJSON line-by-line (commit accompanying this doc). The
-read step now works, but the *write* step still buffers the full list
-of dicts in memory before polars converts it to a parquet — and on
-this corpus that's tens of millions of rows, which also OOMs.
+Two adapter changes landed to make this corpus ingestible:
 
-**Status:** download is on disk; the adapter handles big NDJSON reads
-now; the *chunked write* to parquet is the remaining work.
-Deliberately deferring rather than rushing a half-baked fix.
+1. `_iter_entities` is now a true generator that streams NDJSON
+   line-by-line (was reading the whole file as a single string, which
+   OOMed at 2.7 GB).
+2. `ingest()` writes parquet in 50k-row batches via `pyarrow.ParquetWriter`
+   instead of buffering all parsed dicts in memory before a single
+   `df.write_parquet`. Adds a `--schemas` filter (e.g.
+   `Person,Company,Organization,LegalEntity`) so callers can drop the
+   ~2.7M FtM rows that aren't relevant to entity / person matching
+   (vehicles, address-as-entity, etc.).
 
-Once the chunked-write fix lands:
+**Final numbers after re-running the pipeline with OpenSanctions
+included:**
 
-- The entity-side Epstein batch should be re-run to pick up any OFAC /
-  PEP / regulatory-action hit on the named seeds. Prior expectation
-  (low confidence): nothing on the USVI-registry entities; possible
-  hit on Bear Stearns-era US LLCs if any debarment / SEC action
-  records survive.
-- A `Jeffrey Epstein` person query against the OpenSanctions Persons
-  schema will land if any of the post-conviction sanctions /
-  political-exposure trackers carry him — at minimum the conviction
-  record itself.
+| Table | Before OS | After OS | Delta |
+| --- | ---: | ---: | ---: |
+| `company_entities.parquet` | 814,344 | 1,240,555 | +426,211 |
+| `person_entities.parquet` | 796,944 | 1,950,531 | +1,153,587 |
+| `address_entities.parquet` | 701,569 | 1,180,555 | +478,986 |
+
+### What OpenSanctions added — and didn't
+
+**Did not add a Jeffrey Epstein record.** Surprising for someone with
+his criminal history, but the OS default collection skews toward
+*active* sanctions, PEPs, and regulator-issued debarments — not
+historical convicted-criminal records. A name-prefix scan returns 18
+"Epstein" persons in OS (mostly debarments and PEPs), none of them
+Jeffrey:
+
+- Several US federal exclusions (HHS OIG-style debarments).
+- Several PEPs (politicians named Epstein in various jurisdictions).
+- A handful of Russia/Iran/NK counter-sanction listings of unrelated
+  Epsteins.
+
+The implication for this case study: OpenSanctions does **not** widen
+the Jeffrey Epstein person-side surface. The single ICIJ
+`Epstein - Jeffrey E` record (`icij:80063035`, Liquid Funding,
+chairman/director 2001-2007) remains the only verified anchor in our
+combined corpus.
+
+**Did add new entity-side coverage,** but not where this case study
+needed it most:
+
+- **Liquid Funding, Ltd. now has 2 in-jurisdiction matches** (was 1).
+  The new one is `opensanctions:icijol-82004676` — OS re-exports the
+  ICIJ Offshore Leaks node with a populated Bermuda registry company
+  number (`EC29378`). Same entity, different anchor — useful
+  identifier we didn't have.
+- All 28 seeds otherwise behave the same as the ICIJ-only run. The
+  USVI-registered entities (Nautilus, Cypress, Maple, Laurel, etc.)
+  remain at 0 in-jurisdiction hits. OS doesn't carry the USVI
+  registry either; it carries sanctions/PEP/debarment data plus
+  re-exports of ICIJ leaks. The structural USVI gap is *not* closed
+  by OpenSanctions.
+
+The only data source that would close that gap is the USVI
+Lieutenant Governor's Corporations and Trademarks Division registry
+(or an OpenCorporates ingest with a USVI seed query, which depends on
+an OpenCorporates API key).
 
 ## Updated case-study notebook
 

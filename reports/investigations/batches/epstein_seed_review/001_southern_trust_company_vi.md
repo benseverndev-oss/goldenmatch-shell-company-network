@@ -1,6 +1,6 @@
 # Investigation seed: `Southern Trust Company, Inc.` / vi
 
-Generated `2026-05-12T05:03:59+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:49:09+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** USVI Second Amended Complaint ST-20-CV-14 ¶37: VI company originally incorporated as Financial Informatics, Inc.; Epstein described as President/Director and sole owner. Also NYDFS Consent Order ¶24 references brokerage account.
 
@@ -9,7 +9,7 @@ Generated `2026-05-12T05:03:59+00:00` as part of batch `epstein_seed_review`. Se
 ## Summary
 
 - No same-jurisdiction candidates above the score threshold.
-- 4 possible outside-jurisdiction match(es) — see separate section.
+- 5 possible outside-jurisdiction match(es) — see separate section.
 - Cluster membership: [334464, 512543, 652390, 740558] (from dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`).
 - ICIJ 1-hop neighbourhood: 3 address(es), 6 officer-edge(s), 2 intermediary-edge(s).
 
@@ -24,9 +24,10 @@ _These score well but their jurisdiction does not match the seed. Treat as lower
 | # | score | entity_uid | source | name | jurisdiction | lei |
 | ---: | ---: | --- | --- | --- | --- | --- |
 | 1 | 88.4 | `icij:20014355` | icij | `SOUTHERN STAR COMPANY LIMITED` | ? |  |
-| 2 | 86.4 | `icij:55039844` | icij | `SOUTHERN STYLE COMPANY LIMITED` | mt |  |
-| 3 | 86.3 | `icij:82126802` | icij | `Southern Global Trust Company Ltd` | mu |  |
-| 4 | 85.7 | `icij:200136528` | icij | `Fisher Trust Company Inc.` | ? |  |
+| 2 | 87.2 | `opensanctions:bic-TRCUAU21` | opensanctions | `THE TRUST COMPANY LIMITED` | au |  |
+| 3 | 86.4 | `icij:55039844` | icij | `SOUTHERN STYLE COMPANY LIMITED` | mt |  |
+| 4 | 86.3 | `icij:82126802` | icij | `Southern Global Trust Company Ltd` | mu |  |
+| 5 | 85.7 | `icij:200136528` | icij | `Fisher Trust Company Inc.` | ? |  |
 
 ## Published GoldenMatch context
 
@@ -36,10 +37,10 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 
 | entity_uid | cluster_id |
 | --- | ---: |
+| `icij:200136528` | 652390 |
+| `icij:20014355` | 334464 |
 | `icij:82126802` | 512543 |
 | `icij:55039844` | 740558 |
-| `icij:20014355` | 334464 |
-| `icij:200136528` | 652390 |
 
 ## 1-hop ICIJ neighbourhood
 
@@ -95,7 +96,7 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 
 - Seed: `Southern Trust Company, Inc.` / `vi`
 - Seed normalized: `southern trust company` / `vi`
-- Sources present in candidate pool: icij
+- Sources present in candidate pool: icij, opensanctions
 - company_table: `D:\show_case\goldenmatch-shell-company-network\data\processed\company_entities.parquet`
 - icij_edges: `D:\show_case\goldenmatch-shell-company-network\data\interim\icij_edges.parquet`
 - top_n: `25`

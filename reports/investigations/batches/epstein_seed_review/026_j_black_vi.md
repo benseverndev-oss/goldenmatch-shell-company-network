@@ -1,6 +1,6 @@
 # Investigation seed: `J Black Trust` / vi
 
-Generated `2026-05-12T05:05:14+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:51:16+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** Senate Finance 2025 list names J Black Trust. Trust seed, not a company.
 

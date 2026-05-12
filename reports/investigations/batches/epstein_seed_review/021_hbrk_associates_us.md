@@ -1,6 +1,6 @@
 # Investigation seed: `HBRK Associates, Inc.` / us
 
-Generated `2026-05-12T05:04:52+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:50:42+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** USVI/JPMorgan litigation cash-flow table lists HBRK Associates, Inc. as an account holder associated with Epstein-related accounts. Include as broader seed pending review.
 
@@ -8,14 +8,16 @@ Generated `2026-05-12T05:04:52+00:00` as part of batch `epstein_seed_review`. Se
 
 ## Summary
 
-- No same-jurisdiction candidates above the score threshold.
+- Best local candidate: `opensanctions:bic-ASOTUS61` (`KA ASSOCIATES, INC`, us, score 85.7)
 - 25 possible outside-jurisdiction match(es) — see separate section.
 - Cluster membership: [2338, 22040, 43920, 56063, 59457, 66030, 100356, 106166, 116347, 119661, 121653, 124106, 150656, 208358, 211587, 231437, 370797, 383366, 385353, 576629, 579218, 641657, 655366, 676681, 692945] (from dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`).
 - ICIJ 1-hop neighbourhood: 6 address(es), 15 officer-edge(s), 22 intermediary-edge(s).
 
 ## Candidate records (same jurisdiction)
 
-_No candidates passed the score threshold._
+| # | score | exact | entity_uid | source | name | jurisdiction | lei | company_number |
+| ---: | ---: | :-: | --- | --- | --- | --- | --- | --- |
+| 1 | 85.7 |  | `opensanctions:bic-ASOTUS61` | opensanctions | `KA ASSOCIATES, INC` | us |  | ASOTUS61 |
 
 ## Possible outside-jurisdiction matches
 
@@ -59,27 +61,27 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 | --- | ---: |
 | `icij:10002359` | 2338 |
 | `icij:10022362` | 22040 |
+| `icij:10044455` | 43920 |
+| `icij:10059914` | 59457 |
+| `icij:10099374` | 100356 |
+| `icij:10213513` | 211587 |
+| `icij:145750` | 231437 |
+| `icij:20053239` | 370797 |
+| `icij:100303662` | 579218 |
+| `icij:200139535` | 655366 |
 | `icij:10058532` | 56063 |
+| `icij:10105151` | 106166 |
+| `icij:10115343` | 116347 |
+| `icij:20068259` | 383366 |
+| `icij:200513491` | 676681 |
 | `icij:10066084` | 66030 |
 | `icij:10118710` | 119661 |
 | `icij:10120767` | 121653 |
-| `icij:10150576` | 150656 |
-| `icij:145750` | 231437 |
-| `icij:20053239` | 370797 |
-| `icij:10059914` | 59457 |
-| `icij:10099374` | 100356 |
-| `icij:10210254` | 208358 |
-| `icij:20068259` | 383366 |
-| `icij:200139535` | 655366 |
-| `icij:200513491` | 676681 |
-| `icij:10044455` | 43920 |
-| `icij:10105151` | 106166 |
-| `icij:10115343` | 116347 |
 | `icij:10123282` | 124106 |
-| `icij:10213513` | 211587 |
+| `icij:10150576` | 150656 |
+| `icij:10210254` | 208358 |
 | `icij:20073411` | 385353 |
 | `icij:100300396` | 576629 |
-| `icij:100303662` | 579218 |
 | `icij:200125653` | 641657 |
 | `icij:240022221` | 692945 |
 
@@ -381,13 +383,13 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 
 ## Review notes
 
-- All hits are outside the seed jurisdiction. Consider whether the seed jurisdiction code itself is right.
+- No exact normalized-name match; treat all candidates as fuzzy hypotheses pending review.
 
 ## Provenance
 
 - Seed: `HBRK Associates, Inc.` / `us`
 - Seed normalized: `hbrk associates` / `us`
-- Sources present in candidate pool: icij
+- Sources present in candidate pool: icij, opensanctions
 - company_table: `D:\show_case\goldenmatch-shell-company-network\data\processed\company_entities.parquet`
 - icij_edges: `D:\show_case\goldenmatch-shell-company-network\data\interim\icij_edges.parquet`
 - top_n: `25`

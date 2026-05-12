@@ -1,6 +1,6 @@
 # Investigation seed: `Southern Country International Ltd.` / vi
 
-Generated `2026-05-12T05:04:14+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:49:38+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** USVI/estate litigation materials describe Epstein-owned Southern Country International, Ltd. and questioned estate transfers involving the entity.
 
@@ -38,10 +38,10 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 
 | entity_uid | cluster_id |
 | --- | ---: |
-| `icij:201178` | 281519 |
-| `icij:20057704` | 373490 |
 | `icij:20105039` | 413806 |
+| `icij:20057704` | 373490 |
 | `icij:200102547` | 619138 |
+| `icij:201178` | 281519 |
 | `icij:20104013` | 412806 |
 | `icij:20123926` | 436643 |
 

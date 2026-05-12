@@ -1,6 +1,6 @@
 # Investigation seed: `Gratitude America Ltd.` / vi
 
-Generated `2026-05-12T05:04:42+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:50:22+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** Senate Finance 2025 list names Gratitude America Ltd.; ProPublica Nonprofit Explorer lists Gratitude America Ltd. in St. Thomas, VI, tax-exempt since Sept. 2012.
 

@@ -1,6 +1,6 @@
 # Investigation seed: `Cypress, Inc.` / vi
 
-Generated `2026-05-12T05:04:31+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:50:04+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** USVI Second Amended Complaint ST-20-CV-14 ¶38: VI corporation; Epstein listed as President/Director; owns New Mexico ranch property according to complaint.
 
@@ -36,8 +36,8 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 | entity_uid | cluster_id |
 | --- | ---: |
 | `icij:20007175` | 326855 |
-| `icij:200110594` | 626947 |
 | `icij:20040806` | 355359 |
+| `icij:200110594` | 626947 |
 
 ## 1-hop ICIJ neighbourhood
 

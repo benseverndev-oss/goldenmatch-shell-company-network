@@ -1,6 +1,6 @@
 # Investigation seed: `Elysium Management, LLC` / us
 
-Generated `2026-05-12T05:05:09+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
+Generated `2026-05-12T13:51:09+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** Senate Finance 2025 list names Elysium Management, LLC. Broader seed pending review.
 
@@ -40,13 +40,13 @@ From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
 
 | entity_uid | cluster_id |
 | --- | ---: |
+| `icij:10025363` | 25013 |
 | `icij:10110753` | 111783 |
 | `icij:10213301` | 211377 |
 | `icij:20043405` | 352827 |
+| `icij:20174886` | 431565 |
 | `icij:20129433` | 465780 |
 | `icij:20151599` | 477715 |
-| `icij:10025363` | 25013 |
-| `icij:20174886` | 431565 |
 | `icij:55071555` | 770738 |
 
 ## 1-hop ICIJ neighbourhood
