@@ -81,6 +81,7 @@ ingest ─┬─► icij_entities/addresses/officers/intermediaries/edges.parque
 | `case_study_phoenix_spree.py` | Cluster provenance writeup with side-by-side member table |
 | `report_shared_addresses.py` | Top-N shared addresses → Markdown + parquet |
 | `coverage_report.py` | Per-column fill-rate report across all parquets |
+| `investigate_entity.py` | Seed-query workflow: rank candidates for one `(name, jurisdiction)` pair, attach 1-hop ICIJ neighbourhood, optionally enrich from Postgres |
 
 All available as `just`/`make` recipes.
 

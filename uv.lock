@@ -2906,6 +2906,7 @@ dependencies = [
     { name = "pydantic" },
     { name = "python-dotenv" },
     { name = "pyyaml" },
+    { name = "rapidfuzz" },
     { name = "rich" },
     { name = "typer" },
 ]
@@ -2950,6 +2951,7 @@ requires-dist = [
     { name = "python-dotenv", specifier = ">=1.0" },
     { name = "python-multipart", marker = "extra == 'job'", specifier = ">=0.0.9" },
     { name = "pyyaml", specifier = ">=6.0" },
+    { name = "rapidfuzz", specifier = ">=3.0" },
     { name = "rich", specifier = ">=13.7" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.5" },
     { name = "typer", specifier = ">=0.12" },
