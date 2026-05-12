@@ -1,0 +1,29 @@
+name,jurisdiction,source_note,seed_group
+"Southern Trust Company, Inc.",vi,"USVI Second Amended Complaint ST-20-CV-14 ¶37: VI company originally incorporated as Financial Informatics, Inc.; Epstein described as President/Director and sole owner. Also NYDFS Consent Order ¶24 references brokerage account.",core_usvi_complaint
+Southern Financial LLC,vi,NYDFS Consent Order ¶24: Southern Financial LLC described as wholly owned subsidiary of Southern Trust Company Inc. and one of the Deutsche Bank brokerage-account entities; Senate Finance 2025 list also names it.,core_financial
+"Financial Trust Company, Inc.",vi,"USVI/JPMorgan litigation materials and Senate/DOJ-related lists identify Financial Trust Company, Inc. as an Epstein-related entity/account holder. Use as a seed, not as a conclusion.",core_financial
+J. Epstein & Co.,us,Historical Epstein money-management entity reported as predecessor/alias context for Financial Trust Company. Include for name-variant search only.,historical_financial
+Southern Country International Ltd.,vi,"USVI/estate litigation materials describe Epstein-owned Southern Country International, Ltd. and questioned estate transfers involving the entity.",core_financial
+"Nautilus, Inc.",vi,USVI Second Amended Complaint ST-20-CV-14 ¶¶22–24: VI corporation owning Little St. James; Epstein listed as president/director.,core_usvi_complaint
+"Great St. Jim, LLC",vi,USVI Second Amended Complaint ST-20-CV-14 ¶¶28–29: VI LLC associated with Great St. James; Epstein listed as manager/member.,core_usvi_complaint
+"Poplar, Inc.",vi,"USVI Second Amended Complaint ST-20-CV-14 ¶¶30–32: VI corporation; Epstein listed as president/director; filings tied it to Great St. Jim, LLC/Great St. James.",core_usvi_complaint
+"Plan D, LLC",vi,USVI Second Amended Complaint ST-20-CV-14 ¶¶33–34: VI LLC; 2019 annual report allegedly revealed Epstein as principal; alleged aircraft ownership/use.,core_usvi_complaint
+"Hyperion Air, LLC",vi,USVI Second Amended Complaint ST-20-CV-14 ¶¶35–36: VI LLC; Epstein listed as manager/member; registered owner of helicopters.,core_usvi_complaint
+"Hyperion Air, Inc.",vi,Name variant appearing in litigation/search materials; included to catch records using Inc. rather than LLC.,name_variant
+"Cypress, Inc.",vi,USVI Second Amended Complaint ST-20-CV-14 ¶38: VI corporation; Epstein listed as President/Director; owns New Mexico ranch property according to complaint.,core_usvi_complaint
+"Maple, Inc.",vi,USVI Second Amended Complaint ST-20-CV-14 ¶39: VI corporation; Epstein listed as President/Director; owns 9 East 71st Street according to complaint.,core_usvi_complaint
+"Laurel, Inc.",vi,USVI Second Amended Complaint ST-20-CV-14 ¶40: VI corporation; Epstein listed as President/Director; owns Palm Beach property according to complaint.,core_usvi_complaint
+"L.S.J., LLC",us,"USVI Second Amended Complaint ST-20-CV-14 ¶25: Delaware entity that transferred Little St. James to Nautilus, Inc.; deed lists Jeffrey Epstein as sole member.",historical_property
+J Epstein Virgin Islands Foundation Inc.,vi,Senate Finance 2025 list names J Epstein Virgin Islands Foundation Inc.; foundation also known in public records as Epstein's VI philanthropic entity.,foundation
+Gratitude America Ltd.,vi,"Senate Finance 2025 list names Gratitude America Ltd.; ProPublica Nonprofit Explorer lists Gratitude America Ltd. in St. Thomas, VI, tax-exempt since Sept. 2012.",foundation
+"FT Real Estate, Inc.",us,"DOJ/JPMorgan litigation attachment defining Epstein-related entities includes FT Real Estate, Inc.; include as a broader seed pending review.",broader_entity
+JEGE Inc.,us,USVI/JPMorgan litigation cash-flow table lists JEGE Inc. as an account holder associated with Epstein-related accounts. Include as broader seed pending review.,broader_entity
+Jeepers Inc.,us,USVI/JPMorgan litigation cash-flow table lists Jeepers Inc. as an account holder associated with Epstein-related accounts. Include as broader seed pending review.,broader_entity
+"HBRK Associates, Inc.",us,"USVI/JPMorgan litigation cash-flow table lists HBRK Associates, Inc. as an account holder associated with Epstein-related accounts. Include as broader seed pending review.",broader_entity
+Butterfly Trust,vi,"NYDFS Consent Order ¶¶28–31 describes Butterfly Trust accounts in the Epstein relationship; Senate Finance 2025 list also names Butterfly Trust. Trust seed, not a company.",trust
+Haze Trust,vi,"Senate Finance 2025 list names Haze Trust; USVI/JPMorgan litigation cash-flow materials list Haze Trust MMA as an account holder. Trust seed, not a company.",trust
+Elysium Trust,vi,"Senate Finance 2025 list names Elysium Trust. Trust seed, not a company.",trust
+"Elysium Management, LLC",us,"Senate Finance 2025 list names Elysium Management, LLC. Broader seed pending review.",broader_entity
+J Black Trust,vi,"Senate Finance 2025 list names J Black Trust. Trust seed, not a company.",trust
+Liquid Funding Ltd.,bm,Reported in public Epstein corporate-network summaries as a Bermuda investment/offshore entity linked through Paradise Papers/ICIJ context. Broader watchlist seed pending verification.,offshore_watchlist
+"BV70, LLC",us,"Senate Finance 2025 list names BV70, LLC among entities for requested Treasury records. Counterparty/broader network seed, not necessarily Epstein-owned.",broader_counterparty
