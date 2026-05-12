@@ -1,6 +1,6 @@
 # Investigation seed: `Elysium Management, LLC` / us
 
-Generated `2026-05-12T02:19:40+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets.
+Generated `2026-05-12T05:05:09+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** Senate Finance 2025 list names Elysium Management, LLC. Broader seed pending review.
 
@@ -10,6 +10,7 @@ Generated `2026-05-12T02:19:40+00:00` as part of batch `epstein_seed_review`. Se
 
 - No same-jurisdiction candidates above the score threshold.
 - 8 possible outside-jurisdiction match(es) — see separate section.
+- Cluster membership: [25013, 111783, 211377, 352827, 431565, 465780, 477715, 770738] (from dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`).
 - ICIJ 1-hop neighbourhood: 1 address(es), 13 officer-edge(s), 7 intermediary-edge(s).
 
 ## Candidate records (same jurisdiction)
@@ -33,7 +34,21 @@ _These score well but their jurisdiction does not match the seed. Treat as lower
 
 ## Published GoldenMatch context
 
-_Skipped — no `DATABASE_URL` set. Set the env var to enrich with published list-match anchors, cluster memberships, and same-as pairs._
+### Cluster membership
+
+From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
+
+| entity_uid | cluster_id |
+| --- | ---: |
+| `icij:10110753` | 111783 |
+| `icij:10213301` | 211377 |
+| `icij:20043405` | 352827 |
+| `icij:20129433` | 465780 |
+| `icij:20151599` | 477715 |
+| `icij:10025363` | 25013 |
+| `icij:20174886` | 431565 |
+| `icij:55071555` | 770738 |
+
 ## 1-hop ICIJ neighbourhood
 
 ### `icij:20151599` — 3 edges
@@ -160,3 +175,5 @@ _Skipped — no `DATABASE_URL` set. Set the env var to enrich with published lis
 - min_score: `85.0`
 - global_fallback: `True`
 - seeds_csv: `seeds\epstein_entities.csv`
+- GoldenMatch dedupe run: `ba237a6c-8a29-43a5-8d07-f0eb81473bce`
+- GoldenMatch list-match run: `a01cce05-896b-4d19-911c-b3efe7b5f56f`

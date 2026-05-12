@@ -1,6 +1,6 @@
 # Investigation seed: `Southern Country International Ltd.` / vi
 
-Generated `2026-05-12T02:18:49+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets.
+Generated `2026-05-12T05:04:14+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** USVI/estate litigation materials describe Epstein-owned Southern Country International, Ltd. and questioned estate transfers involving the entity.
 
@@ -10,6 +10,7 @@ Generated `2026-05-12T02:18:49+00:00` as part of batch `epstein_seed_review`. Se
 
 - No same-jurisdiction candidates above the score threshold.
 - 6 possible outside-jurisdiction match(es) — see separate section.
+- Cluster membership: [281519, 373490, 412806, 413806, 436643, 619138] (from dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`).
 - ICIJ 1-hop neighbourhood: 1 address(es), 1 officer-edge(s), 6 intermediary-edge(s).
 
 ## Candidate records (same jurisdiction)
@@ -31,7 +32,19 @@ _These score well but their jurisdiction does not match the seed. Treat as lower
 
 ## Published GoldenMatch context
 
-_Skipped — no `DATABASE_URL` set. Set the env var to enrich with published list-match anchors, cluster memberships, and same-as pairs._
+### Cluster membership
+
+From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
+
+| entity_uid | cluster_id |
+| --- | ---: |
+| `icij:201178` | 281519 |
+| `icij:20057704` | 373490 |
+| `icij:20105039` | 413806 |
+| `icij:200102547` | 619138 |
+| `icij:20104013` | 412806 |
+| `icij:20123926` | 436643 |
+
 ## 1-hop ICIJ neighbourhood
 
 ### `icij:201178` — 3 edges
@@ -109,3 +122,5 @@ _Skipped — no `DATABASE_URL` set. Set the env var to enrich with published lis
 - min_score: `85.0`
 - global_fallback: `True`
 - seeds_csv: `seeds\epstein_entities.csv`
+- GoldenMatch dedupe run: `ba237a6c-8a29-43a5-8d07-f0eb81473bce`
+- GoldenMatch list-match run: `a01cce05-896b-4d19-911c-b3efe7b5f56f`

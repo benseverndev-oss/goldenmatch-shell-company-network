@@ -1,6 +1,6 @@
 # Investigation seed: `JEGE Inc.` / us
 
-Generated `2026-05-12T02:19:19+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets.
+Generated `2026-05-12T05:04:47+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** USVI/JPMorgan litigation cash-flow table lists JEGE Inc. as an account holder associated with Epstein-related accounts. Include as broader seed pending review.
 
@@ -16,7 +16,7 @@ _No candidates passed the score threshold._
 
 ## Published GoldenMatch context
 
-_Skipped — no `DATABASE_URL` set. Set the env var to enrich with published list-match anchors, cluster memberships, and same-as pairs._
+_No published context for these candidates._
 ## 1-hop ICIJ neighbourhood
 
 _No ICIJ-sided candidates, or no edges incident to those candidates._
@@ -35,3 +35,5 @@ _No ICIJ-sided candidates, or no edges incident to those candidates._
 - min_score: `85.0`
 - global_fallback: `True`
 - seeds_csv: `seeds\epstein_entities.csv`
+- GoldenMatch dedupe run: `(none)`
+- GoldenMatch list-match run: `(none)`

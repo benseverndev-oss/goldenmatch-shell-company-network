@@ -1,6 +1,6 @@
 # Investigation seed: `FT Real Estate, Inc.` / us
 
-Generated `2026-05-12T02:19:19+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets.
+Generated `2026-05-12T05:04:46+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** DOJ/JPMorgan litigation attachment defining Epstein-related entities includes FT Real Estate, Inc.; include as a broader seed pending review.
 
@@ -10,6 +10,7 @@ Generated `2026-05-12T02:19:19+00:00` as part of batch `epstein_seed_review`. Se
 
 - No same-jurisdiction candidates above the score threshold.
 - 24 possible outside-jurisdiction match(es) — see separate section.
+- Cluster membership: [56602, 154628, 156332, 168627, 272271, 301472, 478580, 481118, 490912, 515094, 521729, 525562, 532067, 534899, 537877, 541124, 551550, 583077, 638241, 700885, 712079, 721306, 767519, 776837] (from dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`).
 - ICIJ 1-hop neighbourhood: 18 address(es), 54 officer-edge(s), 10 intermediary-edge(s).
 
 ## Candidate records (same jurisdiction)
@@ -49,7 +50,37 @@ _These score well but their jurisdiction does not match the seed. Treat as lower
 
 ## Published GoldenMatch context
 
-_Skipped — no `DATABASE_URL` set. Set the env var to enrich with published list-match anchors, cluster memberships, and same-as pairs._
+### Cluster membership
+
+From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
+
+| entity_uid | cluster_id |
+| --- | ---: |
+| `icij:10170115` | 168627 |
+| `icij:202609` | 272271 |
+| `icij:20152481` | 478580 |
+| `icij:20174326` | 481118 |
+| `icij:85009110` | 490912 |
+| `icij:85020389` | 532067 |
+| `icij:85026895` | 537877 |
+| `icij:100312448` | 583077 |
+| `icij:10156483` | 156332 |
+| `icij:225431` | 301472 |
+| `icij:82014072` | 515094 |
+| `icij:85013443` | 525562 |
+| `icij:85023529` | 534899 |
+| `icij:200122173` | 638241 |
+| `icij:240029135` | 700885 |
+| `icij:55019436` | 721306 |
+| `icij:55079455` | 776837 |
+| `icij:10057121` | 56602 |
+| `icij:10154680` | 154628 |
+| `icij:85006762` | 521729 |
+| `icij:85030571` | 541124 |
+| `icij:85042612` | 551550 |
+| `icij:55009675` | 712079 |
+| `icij:55068154` | 767519 |
+
 ## 1-hop ICIJ neighbourhood
 
 ### `icij:10154680` — 10 edges
@@ -446,3 +477,5 @@ _Skipped — no `DATABASE_URL` set. Set the env var to enrich with published lis
 - min_score: `85.0`
 - global_fallback: `True`
 - seeds_csv: `seeds\epstein_entities.csv`
+- GoldenMatch dedupe run: `ba237a6c-8a29-43a5-8d07-f0eb81473bce`
+- GoldenMatch list-match run: `a01cce05-896b-4d19-911c-b3efe7b5f56f`

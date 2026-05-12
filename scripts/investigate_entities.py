@@ -27,6 +27,7 @@ from pathlib import Path
 
 import polars as pl
 import typer
+from dotenv import load_dotenv
 
 from shellnet.investigations.seed_query import (
     BatchRow,
@@ -39,6 +40,8 @@ from shellnet.investigations.seed_query import (
     render_report,
 )
 from shellnet.paths import INTERIM_DIR, PROCESSED_DIR, PROJECT_ROOT
+
+load_dotenv()
 
 app = typer.Typer(add_completion=False, no_args_is_help=True)
 log = logging.getLogger(__name__)

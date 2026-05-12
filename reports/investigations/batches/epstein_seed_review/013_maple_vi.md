@@ -1,6 +1,6 @@
 # Investigation seed: `Maple, Inc.` / vi
 
-Generated `2026-05-12T02:19:08+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets.
+Generated `2026-05-12T05:04:35+00:00` as part of batch `epstein_seed_review`. Seed-query workflow over local processed parquets + published GoldenMatch context.
 
 **Seed source:** USVI Second Amended Complaint ST-20-CV-14 ¶39: VI corporation; Epstein listed as President/Director; owns 9 East 71st Street according to complaint.
 
@@ -10,6 +10,7 @@ Generated `2026-05-12T02:19:08+00:00` as part of batch `epstein_seed_review`. Se
 
 - No same-jurisdiction candidates above the score threshold.
 - 6 possible outside-jurisdiction match(es) — see separate section.
+- Cluster membership: [248318, 357175, 395586, 511449, 618044, 649782] (from dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`).
 - ICIJ 1-hop neighbourhood: 1 address(es), 12 officer-edge(s), 5 intermediary-edge(s).
 
 ## Candidate records (same jurisdiction)
@@ -31,7 +32,19 @@ _These score well but their jurisdiction does not match the seed. Treat as lower
 
 ## Published GoldenMatch context
 
-_Skipped — no `DATABASE_URL` set. Set the env var to enrich with published list-match anchors, cluster memberships, and same-as pairs._
+### Cluster membership
+
+From dedupe run `ba237a6c-8a29-43a5-8d07-f0eb81473bce`.
+
+| entity_uid | cluster_id |
+| --- | ---: |
+| `icij:82017408` | 511449 |
+| `icij:20036379` | 357175 |
+| `icij:20083745` | 395586 |
+| `icij:200133884` | 649782 |
+| `icij:169840` | 248318 |
+| `icij:200101425` | 618044 |
+
 ## 1-hop ICIJ neighbourhood
 
 ### `icij:169840` — 13 edges
@@ -114,3 +127,5 @@ _Skipped — no `DATABASE_URL` set. Set the env var to enrich with published lis
 - min_score: `85.0`
 - global_fallback: `True`
 - seeds_csv: `seeds\epstein_entities.csv`
+- GoldenMatch dedupe run: `ba237a6c-8a29-43a5-8d07-f0eb81473bce`
+- GoldenMatch list-match run: `a01cce05-896b-4d19-911c-b3efe7b5f56f`

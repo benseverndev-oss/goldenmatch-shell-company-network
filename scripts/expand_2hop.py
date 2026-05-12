@@ -20,6 +20,7 @@ Emits a markdown report at
 from __future__ import annotations
 
 import logging
+import re
 from collections import defaultdict
 from datetime import UTC, datetime
 from pathlib import Path
@@ -32,6 +33,38 @@ from shellnet.paths import INTERIM_DIR, PROCESSED_DIR, PROJECT_ROOT
 
 app = typer.Typer(add_completion=False, no_args_is_help=True)
 log = logging.getLogger(__name__)
+
+# Officer names that are themselves entities, not natural persons. The
+# patterns are intentionally conservative — we'd rather keep an ambiguous
+# row than silently drop a lead.
+_COMPANY_SHAPED_SUFFIXES = re.compile(
+    r"\b(ltd|limited|inc|incorporated|llc|llp|lp|plc|corp|corporation|"
+    r"company|gmbh|ag|sa|bv|nv|trust|foundation|holdings|holding|"
+    r"services|llc\.|ltd\.|inc\.|sarl|s\.a\.|associates)\b",
+    re.IGNORECASE,
+)
+_PROVIDER_HINTS = re.compile(
+    r"\b(appleby|mossfon|mossack|trident|maples|alemán|aleman|ocra|"
+    r"pricewaterhousecoopers|pwc|deloitte|kpmg|ernst\s*&?\s*young|"
+    r"bdo|grant\s*thornton)\b",
+    re.IGNORECASE,
+)
+
+
+def _is_named_individual(person_name: str | None, kind: str | None) -> bool:
+    """Heuristic: keep officers whose name doesn't look like a corporate entity.
+
+    We drop rows where the person's name has a legal suffix (Ltd, LLC, …)
+    or matches a known provider firm. Conservative — anything we can't
+    classify confidently is kept.
+    """
+    if (kind or "").lower() == "intermediary":
+        return False
+    if not person_name:
+        return True  # Can't classify; keep.
+    if _COMPANY_SHAPED_SUFFIXES.search(person_name):
+        return False
+    return not _PROVIDER_HINTS.search(person_name)
 
 
 @app.command()
@@ -46,6 +79,13 @@ def main(
     ),
     person_limit: int = typer.Option(50, "--person-limit"),
     company_limit_per_person: int = typer.Option(25, "--company-limit-per-person"),
+    named_individuals_only: bool = typer.Option(
+        False,
+        "--named-individuals-only",
+        help="Drop officers that look like corporate providers (Appleby, "
+        "PwC, etc.) or carry corporate legal suffixes (Ltd, LLC). Big "
+        "noise reducer when the seed is anchored at an offshore provider.",
+    ),
     verbose: bool = typer.Option(False, "--verbose", "-v"),
 ) -> None:
     logging.basicConfig(
@@ -86,6 +126,19 @@ def main(
         r["entity_uid"]: r
         for r in persons.filter(pl.col("entity_uid").is_in(person_uids)).to_dicts()
     }
+    if named_individuals_only:
+        before = len(person_uids)
+        person_uids = [
+            uid
+            for uid in person_uids
+            if _is_named_individual(
+                (person_by_uid.get(uid) or {}).get("name"),
+                (person_by_uid.get(uid) or {}).get("kind"),
+            )
+        ]
+        log.info(
+            "named-individuals-only: kept %d / %d officers", len(person_uids), before
+        )
     company_by_uid: dict[str, dict] = {}
 
     # Hop 2: persons → other companies (excluding the seed itself).
