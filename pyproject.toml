@@ -19,6 +19,7 @@ dependencies = [
     "rich>=13.7",
     "typer>=0.12",
     "pyarrow>=15.0",
+    "rapidfuzz>=3.0",
 ]
 
 [project.optional-dependencies]

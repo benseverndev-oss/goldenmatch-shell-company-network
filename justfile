@@ -69,6 +69,10 @@ shared-addresses:
 coverage:
     uv run python scripts/coverage_report.py
 
+# Seed-query investigation. Example: just investigate "ACME HOLDINGS" bvi
+investigate name jurisdiction="":
+    uv run python scripts/investigate_entity.py --name "{{name}}" --jurisdiction "{{jurisdiction}}"
+
 # --- QA --------------------------------------------------------------------
 
 test:
