@@ -104,16 +104,38 @@ def parse_entity(record: dict[str, Any]) -> dict[str, Any]:
 
 
 def _iter_entities(path: Path) -> list[dict[str, Any]]:
-    """Read entities from a JSON, NDJSON, or wrapped-JSON file."""
+    """Read entities from a JSON, NDJSON, or wrapped-JSON file.
+
+    For NDJSON (one JSON object per line) we stream line-by-line so
+    multi-GB OpenSanctions exports don't OOM the read step.
+    """
+    # NDJSON detection: peek the first non-empty line.
+    with path.open("r", encoding="utf-8") as fh:
+        first = ""
+        while not first:
+            line = fh.readline()
+            if not line:
+                return []
+            first = line.strip()
+        if first.startswith("{"):
+            # Stream NDJSON. Reopen so we restart at line 1.
+            out: list[dict[str, Any]] = []
+            try:
+                out.append(json.loads(first))
+            except json.JSONDecodeError:
+                pass
+            else:
+                for ln in fh:
+                    s = ln.strip()
+                    if not s:
+                        continue
+                    try:
+                        out.append(json.loads(s))
+                    except json.JSONDecodeError:
+                        continue
+                return out
+    # Fall back to whole-file load for small JSON / wrapped-JSON.
     text = path.read_text("utf-8").strip()
-    if not text:
-        return []
-    # NDJSON detection: multiple lines, each a JSON object.
-    if "\n" in text and text.lstrip().startswith("{"):
-        try:
-            return [json.loads(line) for line in text.splitlines() if line.strip()]
-        except json.JSONDecodeError:
-            pass
     blob = json.loads(text)
     if isinstance(blob, list):
         return blob
