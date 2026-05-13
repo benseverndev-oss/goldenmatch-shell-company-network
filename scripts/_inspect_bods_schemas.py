@@ -1,6 +1,7 @@
 """Peek at column schemas of the BODS parquets inside the UK ZIP.
 
-One-off diagnostic to plan the join layout.
+Parquet footers live at the END of the file, not the start, so we
+extract each file fully. Sub-tables are small enough to be cheap.
 """
 
 from __future__ import annotations
@@ -26,19 +27,28 @@ wanted = {
 work = Path("/tmp/bods_peek")
 work.mkdir(exist_ok=True, parents=True)
 with zipfile.ZipFile(zip_path) as zf:
-    members = [m for m in zf.namelist() if m in wanted]
-    for m in members:
-        target = work / m.replace("/", "_")
-        # Extract only the file footer to read schema.
-        # Easier: extract first 4 MB which is enough for parquet metadata.
+    info_by_name = {m: zf.getinfo(m) for m in zf.namelist() if m in wanted}
+    for m in sorted(info_by_name):
+        info = info_by_name[m]
+        target = work / m
+        size = info.file_size
         with zf.open(m) as src, target.open("wb") as fh:
-            fh.write(src.read(4 * 1024 * 1024))
+            while True:
+                chunk = src.read(8 * 1024 * 1024)
+                if not chunk:
+                    break
+                fh.write(chunk)
         try:
-            schema = pq.read_schema(target)
-            print(f"=== {m} ===")
-            for field in schema:
+            pf = pq.ParquetFile(target)
+            print(f"=== {m}  ({size:,} bytes, rows={pf.metadata.num_rows:,}) ===")
+            for field in pf.schema_arrow:
                 print(f"  {field.name}: {field.type}")
             print()
         except Exception as exc:
-            print(f"=== {m} — could not read partial: {exc} ===")
+            print(f"=== {m} — could not read: {exc} ===")
             print()
+        finally:
+            try:
+                target.unlink()
+            except FileNotFoundError:
+                pass
