@@ -1,0 +1,116 @@
+"""List-match OpenSanctions sanctioned/crime-tagged Persons against ICIJ
+officers + intermediaries.
+
+The full-corpus person dedupe (1.86M rows) is infrastructure-bound at the
+configured blocking — pathological for Russian-patronymic / sanctions data.
+This script narrows the cross-source question to the one that's actually
+investigatively interesting: *do any ICIJ officers match a sanctioned or
+crime-tagged OpenSanctions Person?*
+
+Outputs:
+- ``data/processed/os_sanctioned_persons.parquet`` (reference set)
+- ``data/processed/icij_persons.parquet`` (target set)
+- ``reports/generated/list_match_os_sanctions_vs_icij/...`` via
+  ``goldenmatch match``.
+
+Run locally first; Railway-side run is a follow-up if needed.
+"""
+
+from __future__ import annotations
+
+import logging
+import subprocess
+import sys
+from pathlib import Path
+
+import polars as pl
+import typer
+
+from shellnet.paths import CONFIGS_DIR, PROCESSED_DIR, REPORTS_DIR
+
+app = typer.Typer(add_completion=False, no_args_is_help=False)
+log = logging.getLogger(__name__)
+
+
+@app.command()
+def main(
+    person_table: Path = typer.Option(
+        PROCESSED_DIR / "person_entities.parquet", "--person-table"
+    ),
+    out_dir: Path = typer.Option(PROCESSED_DIR, "--out-dir"),
+    reports_dir: Path = typer.Option(REPORTS_DIR, "--reports-dir"),
+    run_name: str = typer.Option(
+        "list_match_os_sanctions_vs_icij", "--run-name"
+    ),
+    config: Path = typer.Option(
+        CONFIGS_DIR / "goldenmatch_person.yml", "--config"
+    ),
+    skip_match: bool = typer.Option(
+        False,
+        "--skip-match",
+        help="Only build the two parquet subsets; don't shell out to goldenmatch.",
+    ),
+    verbose: bool = typer.Option(False, "--verbose", "-v"),
+) -> None:
+    logging.basicConfig(
+        level=logging.DEBUG if verbose else logging.INFO,
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+    )
+    out_dir.mkdir(parents=True, exist_ok=True)
+    reports_dir.mkdir(parents=True, exist_ok=True)
+
+    df = pl.read_parquet(person_table)
+    log.info("loaded %d person rows", df.height)
+
+    # Reference: OS Persons tagged with 'sanction' or 'crime'.
+    # Project to the columns goldenmatch actually reads from the config —
+    # the topics / datasets list columns trip goldenmatch's strict_cast.
+    keep_cols = ["entity_uid", "source", "name", "normalized_name", "country"]
+    topics = pl.col("topics").list.join(",")
+    os_ref = df.filter(
+        (pl.col("kind") == "person")
+        & (topics.str.contains("sanction") | topics.str.contains("crime"))
+    ).select(keep_cols)
+    ref_path = out_dir / "os_sanctioned_persons.parquet"
+    os_ref.write_parquet(ref_path)
+    log.info("wrote %d OS sanctioned/crime persons -> %s", os_ref.height, ref_path)
+
+    # Target: every ICIJ officer + intermediary.
+    icij = df.filter(pl.col("source") == "icij").select(keep_cols)
+    tgt_path = out_dir / "icij_persons.parquet"
+    icij.write_parquet(tgt_path)
+    log.info("wrote %d ICIJ persons -> %s", icij.height, tgt_path)
+
+    if skip_match:
+        log.info("--skip-match set; stopping here")
+        return
+
+    gm = "goldenmatch"
+    cmd = [
+        gm,
+        "match",
+        str(tgt_path),
+        "--against",
+        str(ref_path),
+        "--config",
+        str(config),
+        "--output-dir",
+        str(reports_dir),
+        "--run-name",
+        run_name,
+        "--output-matched",
+        "--output-scores",
+        "--format",
+        "csv",
+        "--quiet",
+    ]
+    log.info("$ %s", " ".join(cmd))
+    rc = subprocess.run(cmd).returncode
+    if rc != 0:
+        log.error("goldenmatch match exited with code %d", rc)
+        sys.exit(rc)
+    log.info("done -> %s/%s_*", reports_dir, run_name)
+
+
+if __name__ == "__main__":
+    app()
