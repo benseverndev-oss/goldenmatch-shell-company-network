@@ -1,30 +1,27 @@
 """OpenOwnership BODS (Beneficial Ownership Data Standard) adapter.
 
-OpenOwnership publishes UK PSC + Register of Overseas Entities data in
-BODS v0.4 parquet format. The bulk ZIP contains multiple parquet shards
-covering 'person-statement', 'entity-statement', and
-'relationship-statement' tables, all cross-linked by statementId.
+The OpenOwnership UK BODS bundle is distributed as a ZIP of separate
+parquet files in a normalized layout. The relevant tables are:
 
-For this case study we ingest two slices:
+  person_statement.parquet               (spine; statementId, _link)
+  person_recorddetails_names.parquet     (FK _link_person_statement)
+  person_recorddetails_nationalities     (FK _link_person_statement)
+  person_recorddetails_addresses         (FK _link_person_statement)
+  entity_statement.parquet               (spine; statementId, _link)
+  entity_recorddetails_identifiers       (FK _link_entity_statement)
+  entity_recorddetails_addresses         (FK _link_entity_statement)
+  relationship_statement.parquet         (subject + interestedParty)
+  relationship_recorddetails_interests   (share %, type, dates)
 
-  * **persons** — beneficial owners + control declarations. Become rows
-    in the unified ``person_entities.parquet`` (kind='person',
-    source='uk_psc').
-  * **entities** — declared subject companies. Become rows in the unified
-    ``company_entities.parquet`` (source='uk_psc').
-
-Relationship statements (PSC type, share %, etc.) are kept on disk as
-``uk_psc_relationships.parquet`` for the graph layer to consume later.
-The BODS schema is a "statement" model — each row is one disclosure
-moment, not one entity — so we deduplicate to the most recent statement
-per (subject, party) pair before emitting.
-
-Bulk parquet URL (snapshot, monthly refresh):
-    https://oo-bodsdata.s3.amazonaws.com/data/uk_version_0_4/parquet.zip
+This adapter joins the person / entity spines with their first-name +
+first-nationality + first-address sub-rows and emits two parquets in
+the unified persons / companies shape. Relationship statements are
+kept on disk as a separate parquet for the graph layer.
 """
 
 from __future__ import annotations
 
+import contextlib
 import logging
 import zipfile
 from pathlib import Path
@@ -42,78 +39,28 @@ from shellnet.paths import INTERIM_DIR
 log = logging.getLogger(__name__)
 
 
-def _shards_for(zip_path: Path, kind: str) -> list[str]:
-    """Return parquet member names within the ZIP for a given record kind.
-
-    Handles layouts BODS distributions have used over time:
-      1. Sharded directory: ``person_statement.parquet/000.parquet``
-      2. Single top-level file: ``person_statement.parquet``
-      3. Plural variant: ``person_statements.parquet``
-      4. Dashed variant: ``person-statement.parquet``
-    """
-    with zipfile.ZipFile(zip_path) as zf:
-        names = zf.namelist()
-    stems = {
-        kind,
-        kind + "s",
-        kind.replace("_", "-"),
-        kind.replace("_", "-") + "s",
-    }
-    matched: list[str] = []
-    for n in names:
-        if not n.endswith(".parquet"):
-            continue
-        for stem in stems:
-            if (
-                n.startswith(f"{stem}.parquet/")
-                or n.endswith(f"/{stem}.parquet")
-                or n == f"{stem}.parquet"
-            ):
-                matched.append(n)
-                break
-    if matched:
-        return matched
-    # Fallback: any parquet whose name contains the kind string.
-    return [n for n in names if n.endswith(".parquet") and kind in n.lower()]
-
-
-def _extract_shard(zip_path: Path, member: str, dest_dir: Path) -> Path:
-    """Extract a single parquet member into dest_dir, preserving filename."""
-    dest_dir.mkdir(parents=True, exist_ok=True)
-    out = dest_dir / Path(member).name
-    with zipfile.ZipFile(zip_path) as zf, zf.open(member) as src, out.open("wb") as fh:
+def _extract(zip_path: Path, member: str, dest: Path) -> Path:
+    """Extract a ZIP member to dest. Returns the on-disk path."""
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(zip_path) as zf, zf.open(member) as src, dest.open("wb") as fh:
         while True:
-            chunk = src.read(1 << 20)
+            chunk = src.read(8 * 1024 * 1024)
             if not chunk:
                 break
             fh.write(chunk)
-    return out
+    return dest
 
 
-def _stream_kind(zip_path: Path, kind: str, work_dir: Path) -> pl.DataFrame:
-    """Stream all shards of a BODS record kind into a single polars DataFrame.
-
-    Caller is responsible for filtering / projecting down to the columns
-    the matcher actually needs. We do not slurp everything into memory if
-    the on-disk size is large — extract one shard, lazy-scan, concat.
+def _first_per_link(df: pl.DataFrame, link_col: str, keep: list[str]) -> pl.DataFrame:
+    """Keep the first sub-row per parent link. The BODS normalized tables
+    have N rows per parent (one per name / nationality / address); we
+    only need one to seed the unified-table row.
     """
-    members = _shards_for(zip_path, kind)
-    if not members:
-        log.warning("no %s shards in %s", kind, zip_path)
-        return pl.DataFrame()
-    frames: list[pl.DataFrame] = []
-    work_dir.mkdir(parents=True, exist_ok=True)
-    for m in members:
-        shard = _extract_shard(zip_path, m, work_dir)
-        try:
-            frames.append(pl.read_parquet(shard))
-        finally:
-            # Keep extracted shards on disk for re-use across runs;
-            # caller can wipe work_dir if needed.
-            pass
-    if not frames:
-        return pl.DataFrame()
-    return pl.concat(frames, how="vertical_relaxed")
+    if df.height == 0:
+        return df
+    # Sort so the "primary" entry (often type='legal' or first listed)
+    # bubbles to the top; ties broken by source order.
+    return df.group_by(link_col).agg(*[pl.col(c).first().alias(c) for c in keep])
 
 
 _PERSON_COLUMNS: tuple[str, ...] = (
@@ -126,71 +73,6 @@ _PERSON_COLUMNS: tuple[str, ...] = (
     "topics",
     "datasets",
 )
-
-
-def _normalise_person_rows(df: pl.DataFrame) -> pl.DataFrame:
-    """Map BODS person-statement rows to the unified persons schema."""
-    if df.height == 0:
-        return pl.DataFrame(
-            schema={
-                "source": pl.Utf8,
-                "source_id": pl.Utf8,
-                "kind": pl.Utf8,
-                "name": pl.Utf8,
-                "normalized_name": pl.Utf8,
-                "country": pl.Utf8,
-                "topics": pl.List(pl.Utf8),
-                "datasets": pl.List(pl.Utf8),
-            }
-        )
-
-    # Pick the best available name column. BODS person-statement rows
-    # carry recordDetails_names_0_fullName + nationalities + addresses.
-    name_col = next(
-        (
-            c
-            for c in (
-                "recordDetails_names_0_fullName",
-                "recordDetails_names_fullName",
-                "name",
-            )
-            if c in df.columns
-        ),
-        None,
-    )
-    nat_col = next(
-        (
-            c
-            for c in (
-                "recordDetails_nationalities_0_code",
-                "recordDetails_nationalities_code",
-                "country",
-            )
-            if c in df.columns
-        ),
-        None,
-    )
-    sid_col = "statementId" if "statementId" in df.columns else df.columns[0]
-
-    pick = df.select(
-        pl.col(sid_col).alias("source_id"),
-        (pl.col(name_col) if name_col else pl.lit(None, dtype=pl.Utf8)).alias("name"),
-        (pl.col(nat_col) if nat_col else pl.lit(None, dtype=pl.Utf8)).alias("country"),
-    )
-    pick = pick.with_columns(
-        pl.lit("uk_psc", dtype=pl.Utf8).alias("source"),
-        pl.lit("person", dtype=pl.Utf8).alias("kind"),
-        pl.col("name")
-        .map_elements(normalize_company_name, return_dtype=pl.Utf8)
-        .alias("normalized_name"),
-        pl.col("country")
-        .map_elements(normalize_jurisdiction, return_dtype=pl.Utf8)
-        .alias("country"),
-        pl.lit([], dtype=pl.List(pl.Utf8)).alias("topics"),
-        pl.lit([], dtype=pl.List(pl.Utf8)).alias("datasets"),
-    )
-    return pick.select(list(_PERSON_COLUMNS))
-
 
 _COMPANY_COLUMNS: tuple[str, ...] = (
     "source",
@@ -207,86 +89,116 @@ _COMPANY_COLUMNS: tuple[str, ...] = (
 )
 
 
-def _normalise_entity_rows(df: pl.DataFrame) -> pl.DataFrame:
-    """Map BODS entity-statement rows to the unified companies schema."""
-    if df.height == 0:
-        return pl.DataFrame(schema={c: pl.Utf8 for c in _COMPANY_COLUMNS})
+def _build_persons(work_dir: Path) -> pl.DataFrame:
+    spine = pl.read_parquet(work_dir / "person_statement.parquet").select(
+        ["_link", "statementId"]
+    )
+    log.info("BODS persons: spine = %d rows", spine.height)
 
-    name_col = next(
-        (
-            c
-            for c in ("recordDetails_name", "name", "recordDetails_alternateNames_0")
-            if c in df.columns
-        ),
-        None,
+    names = pl.read_parquet(work_dir / "person_recorddetails_names.parquet").select(
+        ["_link_person_statement", "fullName", "familyName", "givenName"]
     )
-    juris_col = next(
-        (
-            c
-            for c in (
-                "recordDetails_incorporatedInJurisdiction_code",
-                "recordDetails_jurisdiction_code",
-            )
-            if c in df.columns
-        ),
-        None,
+    names = _first_per_link(
+        names, "_link_person_statement", ["fullName", "familyName", "givenName"]
     )
-    cn_col = next(
-        (
-            c
-            for c in (
-                "recordDetails_identifiers_0_id",
-                "recordDetails_identifiers_id",
-            )
-            if c in df.columns
-        ),
-        None,
-    )
-    addr_col = next(
-        (
-            c
-            for c in (
-                "recordDetails_addresses_0_address",
-                "recordDetails_addresses_address",
-            )
-            if c in df.columns
-        ),
-        None,
-    )
-    sid_col = "statementId" if "statementId" in df.columns else df.columns[0]
 
-    pick = df.select(
-        pl.col(sid_col).alias("source_id"),
-        (pl.col(name_col) if name_col else pl.lit(None, dtype=pl.Utf8)).alias("name"),
-        (pl.col(juris_col) if juris_col else pl.lit(None, dtype=pl.Utf8)).alias(
-            "jurisdiction"
-        ),
-        (pl.col(cn_col) if cn_col else pl.lit(None, dtype=pl.Utf8)).alias(
-            "company_number"
-        ),
-        (pl.col(addr_col) if addr_col else pl.lit(None, dtype=pl.Utf8)).alias(
-            "address_raw"
-        ),
+    nat = pl.read_parquet(
+        work_dir / "person_recorddetails_nationalities.parquet"
+    ).select(["_link_person_statement", "code"])
+    nat = _first_per_link(nat, "_link_person_statement", ["code"])
+
+    df = (
+        spine.join(
+            names, left_on="_link", right_on="_link_person_statement", how="left"
+        ).join(nat, left_on="_link", right_on="_link_person_statement", how="left")
     )
-    pick = pick.with_columns(
+    # Prefer fullName, fall back to "given family".
+    df = df.with_columns(
+        pl.when(pl.col("fullName").is_not_null() & (pl.col("fullName") != ""))
+        .then(pl.col("fullName"))
+        .otherwise(
+            pl.coalesce(
+                [
+                    pl.col("givenName").fill_null("")
+                    + pl.lit(" ")
+                    + pl.col("familyName").fill_null(""),
+                    pl.col("familyName"),
+                    pl.col("givenName"),
+                ]
+            )
+        )
+        .str.strip_chars()
+        .alias("name")
+    )
+    df = df.with_columns(
         pl.lit("uk_psc", dtype=pl.Utf8).alias("source"),
+        pl.col("statementId").alias("source_id"),
+        pl.lit("person", dtype=pl.Utf8).alias("kind"),
         pl.col("name")
         .map_elements(normalize_company_name, return_dtype=pl.Utf8)
         .alias("normalized_name"),
-        pl.col("jurisdiction")
+        pl.col("code")
+        .map_elements(normalize_jurisdiction, return_dtype=pl.Utf8)
+        .alias("country"),
+        pl.lit([], dtype=pl.List(pl.Utf8)).alias("topics"),
+        pl.lit([], dtype=pl.List(pl.Utf8)).alias("datasets"),
+    )
+    df = df.filter(pl.col("name").is_not_null() & (pl.col("name") != ""))
+    return df.select(list(_PERSON_COLUMNS))
+
+
+def _build_entities(work_dir: Path) -> pl.DataFrame:
+    spine = pl.read_parquet(work_dir / "entity_statement.parquet").select(
+        [
+            "_link",
+            "statementId",
+            "recordDetails_name",
+            "recordDetails_jurisdiction_code",
+            "recordDetails_entityType_type",
+        ]
+    )
+    log.info("BODS entities: spine = %d rows", spine.height)
+
+    ids = pl.read_parquet(
+        work_dir / "entity_recorddetails_identifiers.parquet"
+    ).select(["_link_entity_statement", "id", "scheme"])
+    ids = _first_per_link(ids, "_link_entity_statement", ["id", "scheme"])
+
+    addrs = pl.read_parquet(
+        work_dir / "entity_recorddetails_addresses.parquet"
+    ).select(["_link_entity_statement", "address", "country_code"])
+    addrs = _first_per_link(addrs, "_link_entity_statement", ["address", "country_code"])
+
+    df = (
+        spine.join(
+            ids, left_on="_link", right_on="_link_entity_statement", how="left"
+        ).join(addrs, left_on="_link", right_on="_link_entity_statement", how="left")
+    )
+    df = df.with_columns(
+        pl.lit("uk_psc", dtype=pl.Utf8).alias("source"),
+        pl.col("statementId").alias("source_id"),
+        pl.col("recordDetails_name").alias("name"),
+        pl.col("recordDetails_name")
+        .map_elements(normalize_company_name, return_dtype=pl.Utf8)
+        .alias("normalized_name"),
+        pl.coalesce(
+            [pl.col("recordDetails_jurisdiction_code"), pl.col("country_code")]
+        )
         .map_elements(normalize_jurisdiction, return_dtype=pl.Utf8)
         .alias("jurisdiction"),
-        pl.col("company_number")
+        pl.col("id")
         .map_elements(normalize_identifier, return_dtype=pl.Utf8)
         .alias("company_number"),
-        pl.col("address_raw")
+        pl.col("address")
         .map_elements(normalize_address_text, return_dtype=pl.Utf8)
         .alias("normalized_address"),
+        pl.col("address").alias("address_raw"),
         pl.lit(None, dtype=pl.Utf8).alias("lei"),
         pl.lit(None, dtype=pl.Utf8).alias("status"),
-        pl.lit(None, dtype=pl.Utf8).alias("legal_form"),
+        pl.col("recordDetails_entityType_type").alias("legal_form"),
     )
-    return pick.select(list(_COMPANY_COLUMNS))
+    df = df.filter(pl.col("name").is_not_null() & (pl.col("name") != ""))
+    return df.select(list(_COMPANY_COLUMNS))
 
 
 def ingest(
@@ -294,36 +206,57 @@ def ingest(
     *,
     out_dir: Path = INTERIM_DIR,
     work_dir: Path | None = None,
+    keep_extracted: bool = False,
 ) -> dict[str, Path]:
     """Parse a BODS UK parquet bundle and write interim parquets.
 
     Writes:
-      - ``uk_psc_persons.parquet`` (rows shaped like unified persons)
-      - ``uk_psc_entities.parquet`` (rows shaped like unified companies)
+      - ``uk_psc_persons.parquet`` (~12M rows after filtering empties)
+      - ``uk_psc_entities.parquet`` (~5.8M rows)
 
-    Returns a dict mapping the kind to the written path.
+    Caller can keep the extracted sub-table parquets around for the
+    relationship-graph layer by passing ``keep_extracted=True``.
     """
     out_dir.mkdir(parents=True, exist_ok=True)
     work_dir = work_dir or out_dir / "_bods_work"
+    work_dir.mkdir(parents=True, exist_ok=True)
     zip_path = Path(zip_path)
     if not zip_path.exists():
         log.error("BODS zip not found: %s", zip_path)
         return {}
 
-    log.info("BODS: extracting person statements from %s", zip_path)
-    persons_raw = _stream_kind(zip_path, "person_statement", work_dir)
-    log.info("BODS: raw person statements = %d", persons_raw.height)
-    persons = _normalise_person_rows(persons_raw)
+    members_to_extract = (
+        "person_statement.parquet",
+        "person_recorddetails_names.parquet",
+        "person_recorddetails_nationalities.parquet",
+        "entity_statement.parquet",
+        "entity_recorddetails_identifiers.parquet",
+        "entity_recorddetails_addresses.parquet",
+    )
+    for m in members_to_extract:
+        target = work_dir / m
+        if target.exists():
+            log.info("BODS: %s already extracted (%.0f MB)", m, target.stat().st_size / 1e6)
+            continue
+        log.info("BODS: extracting %s", m)
+        _extract(zip_path, m, target)
+
+    log.info("BODS: building persons")
+    persons = _build_persons(work_dir)
     persons_out = out_dir / "uk_psc_persons.parquet"
     persons.write_parquet(persons_out)
     log.info("BODS: wrote %d UK PSC persons -> %s", persons.height, persons_out)
 
-    log.info("BODS: extracting entity statements")
-    entities_raw = _stream_kind(zip_path, "entity_statement", work_dir)
-    log.info("BODS: raw entity statements = %d", entities_raw.height)
-    entities = _normalise_entity_rows(entities_raw)
+    log.info("BODS: building entities")
+    entities = _build_entities(work_dir)
     entities_out = out_dir / "uk_psc_entities.parquet"
     entities.write_parquet(entities_out)
     log.info("BODS: wrote %d UK PSC entities -> %s", entities.height, entities_out)
+
+    if not keep_extracted:
+        for m in members_to_extract:
+            (work_dir / m).unlink(missing_ok=True)
+        with contextlib.suppress(OSError):
+            work_dir.rmdir()
 
     return {"persons": persons_out, "entities": entities_out}
