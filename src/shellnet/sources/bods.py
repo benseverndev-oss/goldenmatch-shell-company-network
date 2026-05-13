@@ -230,39 +230,37 @@ def _build_gleif_relationships(work_dir: Path) -> pl.DataFrame:
             "recordDetails_interestedParty",
         ]
     )
-    interests = pl.read_parquet(
-        work_dir / "relationship_recorddetails_interests.parquet"
-    ).select(
-        [
-            "_link_relationship_statement",
-            "directOrIndirect",
-            "type",
-            "share_minimum",
-            "share_maximum",
-            "startDate",
-            "endDate",
-        ]
-    )
-    # Keep the strongest interest per relationship (highest share_max).
-    interests = (
-        interests.sort("share_maximum", descending=True, nulls_last=True)
-        .group_by("_link_relationship_statement")
-        .first()
+    # GLEIF BODS interests schema is leaner than UK BODS — no share_*
+    # columns. Read what's there, fill the rest with nulls.
+    interests_path = work_dir / "relationship_recorddetails_interests.parquet"
+    interests_full = pl.read_parquet(interests_path)
+    available = set(interests_full.columns)
+    cols = ["_link_relationship_statement", "type"]
+    if "directOrIndirect" in available:
+        cols.append("directOrIndirect")
+    if "startDate" in available:
+        cols.append("startDate")
+    interests = interests_full.select(cols).unique(
+        subset=["_link_relationship_statement"], keep="first"
     )
     edges = rel.join(
         interests,
         left_on="_link",
         right_on="_link_relationship_statement",
         how="left",
-    ).with_columns(
+    )
+    has_start = "startDate" in edges.columns
+    edges = edges.with_columns(
         pl.lit("gleif_l2", dtype=pl.Utf8).alias("source"),
         pl.col("recordDetails_subject").alias("src_lei"),
         pl.col("recordDetails_interestedParty").alias("dst_lei"),
         pl.col("type").fill_null("ownership").alias("kind"),
-        pl.col("share_minimum").alias("share_min"),
-        pl.col("share_maximum").alias("share_max"),
-        pl.col("startDate").alias("start_date"),
-        pl.col("endDate").alias("end_date"),
+        pl.lit(None, dtype=pl.Float64).alias("share_min"),
+        pl.lit(None, dtype=pl.Float64).alias("share_max"),
+        (pl.col("startDate") if has_start else pl.lit(None, dtype=pl.Utf8)).alias(
+            "start_date"
+        ),
+        pl.lit(None, dtype=pl.Utf8).alias("end_date"),
     ).select(list(_OWNERSHIP_EDGE_COLUMNS))
     edges = edges.filter(
         pl.col("src_lei").is_not_null() & pl.col("dst_lei").is_not_null()
