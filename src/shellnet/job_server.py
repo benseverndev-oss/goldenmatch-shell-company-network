@@ -372,7 +372,7 @@ _ALLOWED_SCRIPTS = {
         "--reports-dir", "/data/reports/generated",
     ],
     "ingest_opensanctions_default_filtered": [
-        "python", "scripts/ingest_opensanctions.py",
+        "/app/.venv/bin/python", "scripts/ingest_opensanctions.py",
         "--input", "/data/raw/opensanctions/default.ftm.json",
         "--schemas", "Person,Company,Organization,LegalEntity",
         "--out-dir", "/data/interim",
