@@ -128,6 +128,12 @@ def build_unified_table(
         if df is not None and df.height > 0:
             parts.append(df)
             log.info("Loaded %d rows from %s", df.height, loader.__name__)
+    bods_path = interim_dir / "uk_psc_entities.parquet"
+    if bods_path.exists():
+        bods_df = pl.read_parquet(bods_path)
+        if bods_df.height:
+            parts.append(bods_df.select(list(UNIFIED_COLUMNS)))
+            log.info("Loaded %d rows from uk_psc_entities (BODS)", bods_df.height)
 
     if not parts:
         log.warning("No source tables found in %s. Running adapters first?", interim_dir)

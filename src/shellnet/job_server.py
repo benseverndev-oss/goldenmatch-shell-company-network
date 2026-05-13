@@ -377,6 +377,11 @@ _ALLOWED_SCRIPTS = {
         "--schemas", "Person,Company,Organization,LegalEntity",
         "--out-dir", "/data/interim",
     ],
+    "ingest_uk_bods": [
+        "scripts/ingest_uk_bods.py",
+        "--input", "/data/raw/openownership/uk_bods.zip",
+        "--out-dir", "/data/interim",
+    ],
 }
 
 

@@ -153,6 +153,13 @@ def build_person_table(
     if os_df is not None:
         parts.append(os_df)
         log.info("Loaded %d Person rows from OpenSanctions", os_df.height)
+    # UK PSC / Overseas-Entities beneficial owners from OpenOwnership BODS.
+    bods_path = interim_dir / "uk_psc_persons.parquet"
+    if bods_path.exists():
+        bods_df = pl.read_parquet(bods_path)
+        if bods_df.height:
+            parts.append(bods_df.select(list(UNIFIED_COLUMNS)))
+            log.info("Loaded %d UK PSC person rows from BODS", bods_df.height)
 
     if not parts:
         log.warning("No person-shaped tables found under %s", interim_dir)
