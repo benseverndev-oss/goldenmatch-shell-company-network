@@ -386,6 +386,10 @@ _ALLOWED_SCRIPTS = {
         "scripts/_inspect_zip.py",
         "/data/raw/openownership/uk_bods.zip",
     ],
+    "inspect_uk_bods_schemas": [
+        "scripts/_inspect_bods_schemas.py",
+        "/data/raw/openownership/uk_bods.zip",
+    ],
 }
 
 
