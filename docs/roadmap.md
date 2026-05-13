@@ -114,17 +114,31 @@ is reusable for later phases.
       (`shellnet.graph.build.add_same_as_edges`). Ran on the full
       ingest: 2.03M nodes, 4,272 `same_as` edges layered on top of the
       ICIJ source relationships. Summary in `graph_smoke_summary.json`.
-- [ ] Compute centrality + community detection; write per-cluster summaries.
-- [ ] Pick 1–3 clusters as case-study writeups with full provenance.
+- [x] Compute centrality + community detection; Louvain over the 50,998-node
+      cluster sub-graph, top-N degree centrality in
+      `reports/centrality_top.md`.
+- [x] Pick 1–3 clusters as case-study writeups with full provenance.
+      Shipped two: Phoenix Spree Deutschland (cluster 503264, 9 members,
+      100% GLEIF anchored) and the Epstein corporate-network seed review
+      (28 sourced seeds → 29 investigative-grade survivors after DOB +
+      coverage filter → one corroborated lead: *Liquid Funding, Ltd.*,
+      Bermuda, Paradise Papers — Appleby).
 
 ## Phase 6 — Polish & publication
 
-- [ ] Add a `notebooks/01_case_study.ipynb` with a worked example.
-- [ ] Generate static HTML / PDF of the writeup under `reports/`.
-- [ ] Final README pass with the actual case study, not just scaffolding
+- [x] Add `notebooks/01_case_study.ipynb` (Phoenix Spree) and
+      `notebooks/02_epstein_case_study.ipynb` with worked examples.
+- [x] Generate static HTML of each writeup under `notebooks/*.html`.
+- [x] Final README pass with the actual case studies, not just scaffolding
       instructions.
 - [x] Heuristic precision review of a list-match run
       (`scripts/review_matches.py` → `*_review.md`). Classifies each pair
       as identical / normalized_eq / jur_close / jur_loose / low_overlap /
       jur_mismatch and crosstabs against score band. Used to validate the
       v2 config landed a real precision lift (high-trust share 33% → 99.5%).
+- [x] DOB triangulation + news-coverage scoring post-processors
+      (`scripts/enrich_match_with_dob.py`, `scripts/score_prior_coverage.py`,
+      `scripts/filter_match_survivors.py`). Whittles the
+      `list_match_os_sanctions_vs_icij` matched-CSV down to a survivor
+      list that has both a DOB anchor and prior public coverage —
+      29 investigative-grade rows from ~5.6k matched pairs.

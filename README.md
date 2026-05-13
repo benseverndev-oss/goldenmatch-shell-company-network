@@ -18,8 +18,9 @@ Current corpus (after ICIJ + OpenSanctions ingest):
 | Table | Rows |
 | --- | ---: |
 | `company_entities.parquet` | **1,240,555** (ICIJ 814k + OS 426k) |
-| `person_entities.parquet` | **1,950,531** (ICIJ 797k + OS 1.15M) |
+| `person_entities.parquet` | **1,864,666** (ICIJ 711k + OS 1.15M) |
 | `address_entities.parquet` | **1,180,555** (ICIJ 702k + OS 479k) |
+| `uk_psc_dob.parquet` | **12,151,833** (UK Companies House PSC, DOB-only) |
 
 Two investigations have been run end-to-end:
 
@@ -263,12 +264,16 @@ and a first real-data ingest pass are all in place. What works today:
 
 What's still ahead (`docs/roadmap.md`):
 
-- Hand-labelled evaluation subset (~200–500 pairs from the marginal band).
 - Address + person GoldenMatch dedupe needs the same mega-block filter
   + tighter blocking before it'll fit in memory.
 - OpenCorporates seed ingest (needs an API key and a curated seed list).
-- Centrality + community detection on the merged graph.
-- Investigation writeup with full provenance.
+- `normalize_person_name` (honorifics, `"Doe, John"` ↔ `"John Doe"`,
+  transliteration) — person table currently borrows the company
+  normalizer.
+- Probabilistic matchkey + negative evidence on the unified company
+  table, now that the 300-pair hand-labelled set exists.
+- Additional case-study writeups beyond Phoenix Spree + Epstein
+  (centrality top-N + Louvain output should surface candidates).
 
 ## Legal & ethical
 
