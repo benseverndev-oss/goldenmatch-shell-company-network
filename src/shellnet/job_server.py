@@ -371,6 +371,12 @@ _ALLOWED_SCRIPTS = {
         "--out-dir", "/data/processed",
         "--reports-dir", "/data/reports/generated",
     ],
+    "ingest_opensanctions_default_filtered": [
+        "python", "scripts/ingest_opensanctions.py",
+        "--input", "/data/raw/opensanctions/default.ftm.json",
+        "--schemas", "Person,Company,Organization,LegalEntity",
+        "--out-dir", "/data/interim",
+    ],
 }
 
 
