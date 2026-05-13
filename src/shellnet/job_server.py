@@ -404,6 +404,11 @@ _ALLOWED_SCRIPTS = {
         "/data/reports/generated/matched_dob.csv",
         "--out", "/data/reports/generated/matched_dob_scored.csv",
     ],
+    "filter_match_survivors": [
+        "scripts/filter_match_survivors.py",
+        "/data/reports/generated/matched_dob_scored.csv",
+        "--out", "/data/reports/generated/investigative_grade_survivors.csv",
+    ],
     "inspect_uk_bods_zip": [
         "scripts/_inspect_zip.py",
         "/data/raw/openownership/uk_bods.zip",
