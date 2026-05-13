@@ -208,6 +208,105 @@ This sequence trades coverage for compounding pipeline yield: after A
 + D land, the *next* list-match pass against OpenSanctions has a
 materially larger candidate surface. C + E are additive but smaller.
 
+## Status update — what actually landed
+
+**A — UK BODS: completed.** Adapter at
+`src/shellnet/sources/bods.py`; ingest script at
+`scripts/ingest_uk_bods.py`. On Railway: 12.15 M UK PSC persons +
+5.79 M UK entities. Unified person table grew to 14.02 M rows.
+Re-running the OS-sanctions list-match with UK PSC scoped to
+ru/ua/by/cy/kz surfaced **43 novel exact-name matches**, including
+Wikidata-anchored hits like Zyuzin (Mechel), Filatov (Sibanthracite),
+Marchenko (Medvedchuk's wife), and direct UK Companies House PSC
+declarations from Mordashov-son, Giner (CSKA), Isaykin (Volga-Dnepr),
+Viktorov, and others. See
+`reports/investigations/list_match_uk_psc_findings.md` and
+`posts/sanctioned-russians-on-the-uk-psc-register-...`.
+
+**B — UK Overseas Entities: completed.** Subsumed by A. The BODS
+feed includes both registers.
+
+**C — FinCEN Files: queued, blocked on data shape.** ICIJ publishes
+the data only through an interactive web explorer
+(`projects.icij.org/investigations/fincen-files/explore-the-data/`).
+There's no clean bulk CSV / JSON download — the data is loaded
+client-side by the interactive frontend. Two paths to land it:
+
+1. Build a scraper for the explore frontend's JSON endpoints
+   (~2-3 hr; brittle but tractable).
+2. Email ICIJ data team and request the raw transaction dataset
+   (response time unknown; they're generally responsive to
+   research requests).
+
+Neither fits an autonomous run.
+
+**D — GLEIF L2: queued, low payoff for current pipeline shape.**
+Two practical sources:
+
+1. The GLEIF Golden Copy RR (Relationship Record) JSON file —
+   parallel to the LEI2 file we already ingest. The current
+   `src/shellnet/sources/gleif_golden_copy.py` only consumes LEI2.
+   Adding RR ingest is a ~1-2 hr extension.
+2. OpenOwnership BODS GLEIF Level 2 parquet (~1.1 GB) — same
+   adapter pattern as A.
+
+The actual blocker for novelty payoff isn't the data — it's that the
+*current list-match workflow is person-anchored*. Corporate
+parent-child edges only pay off if we also add a company-anchored
+matching pass: cluster a sanctioned individual's known business
+interests against GLEIF's ownership tree to surface subsidiary
+chains. That's separate, ~3-4 hr of pipeline work on top of the
+data ingest.
+
+**E — OCCRP Laundromat: deferred.** Multi-session work per the
+original estimate. Aleph API client + per-project schema work is
+the gating cost.
+
+## Lessons learned (carry to future ingests)
+
+- **The goldenmatch person config has a known blocking pathology on
+  common-name + honorific clusters** ("Anthony" at 168k records,
+  "Mr Muh..." at 31k, "alexandr" patronymic at 19k). Wider
+  scopes OOM the matcher even on the Railway box. Fix is either a
+  tighter blocking config (substring:0:10 + country + first-letter
+  of surname) or per-source pre-filtering to high-signal
+  jurisdictions, as we did for UK PSC (ru/ua/by/cy/kz only).
+- **List-match scales much better than dedupe** for cross-source
+  identity questions — the asymmetric shape lets blocking pressure
+  be carried by the smaller reference set.
+- **Adding a corpus that journalists haven't exhaustively mined
+  is the single biggest novelty lever.** UK PSC was that lever for
+  this case study.
+
+## Disk budget
+
+Railway `/data` volume is at **26.1 GB** post-A (raw inputs +
+interim + processed + reports). The 30 GB budget I flagged in the
+original roadmap is largely correct — adding GLEIF L2 BODS (~1.1 GB
+raw) is fine, FinCEN raw is negligible, but the OCCRP Laundromat
+raw + transaction-level processed parquets could push us over.
+Future sessions should consider cleaning up the OpenSanctions
+default raw (~2.7 GB) post-ingest since the interim parquet is the
+operational artifact.
+
+## Honest call on continuing
+
+The substantive novelty win from this initiative — *which corpus
+adds the most discovery surface per hour of work* — landed on
+**Tier A (UK BODS)**. Going from "the matcher rediscovers what
+journalism already published" to "the matcher surfaces 43
+sanctioned individuals with specific UK Companies House PSC
+declarations" was a step-change.
+
+Tiers C/D/E remain valuable but their payoff per hour is materially
+lower than A was. They're best run as targeted follow-ups when a
+specific investigative question warrants the matching-pipeline work
+(e.g. "is there a sanctioned-individual ↔ GLEIF-LEI-ownership-chain
+pattern?" → spin up D as a focused session).
+
+This roadmap is now the source of truth for future ingest work,
+including the lessons above.
+
 ## Constraints + caveats
 
 - Railway disk volume is shared (`/data` mount). Total free-disk
