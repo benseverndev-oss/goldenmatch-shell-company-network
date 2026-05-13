@@ -45,14 +45,36 @@ log = logging.getLogger(__name__)
 def _shards_for(zip_path: Path, kind: str) -> list[str]:
     """Return parquet member names within the ZIP for a given record kind.
 
-    BODS bulk parquet files are sharded; member names look like
-    ``person_statement.parquet/000.parquet``. We list all members that
-    start with the kind directory.
+    Handles layouts BODS distributions have used over time:
+      1. Sharded directory: ``person_statement.parquet/000.parquet``
+      2. Single top-level file: ``person_statement.parquet``
+      3. Plural variant: ``person_statements.parquet``
+      4. Dashed variant: ``person-statement.parquet``
     """
     with zipfile.ZipFile(zip_path) as zf:
         names = zf.namelist()
-    prefix = f"{kind}.parquet/"
-    return [n for n in names if n.startswith(prefix) and n.endswith(".parquet")]
+    stems = {
+        kind,
+        kind + "s",
+        kind.replace("_", "-"),
+        kind.replace("_", "-") + "s",
+    }
+    matched: list[str] = []
+    for n in names:
+        if not n.endswith(".parquet"):
+            continue
+        for stem in stems:
+            if (
+                n.startswith(f"{stem}.parquet/")
+                or n.endswith(f"/{stem}.parquet")
+                or n == f"{stem}.parquet"
+            ):
+                matched.append(n)
+                break
+    if matched:
+        return matched
+    # Fallback: any parquet whose name contains the kind string.
+    return [n for n in names if n.endswith(".parquet") and kind in n.lower()]
 
 
 def _extract_shard(zip_path: Path, member: str, dest_dir: Path) -> Path:
