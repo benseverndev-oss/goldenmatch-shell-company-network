@@ -30,7 +30,7 @@ from fastapi import (
     UploadFile,
     status,
 )
-from fastapi.responses import JSONResponse, PlainTextResponse
+from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse
 
 from shellnet.paths import (
     DATA_DIR,
@@ -153,6 +153,17 @@ def get_status() -> dict[str, Any]:
 @app.get("/files", dependencies=[Depends(_auth)])
 def list_files() -> dict[str, Any]:
     return {"data_dir": str(DATA_DIR), "tree": _file_summary(deep=True)}
+
+
+@app.get("/download", dependencies=[Depends(_auth)])
+def download_file(path: str) -> FileResponse:
+    """Stream a file from the data volume. path is relative to DATA_DIR."""
+    candidate = (DATA_DIR / path).resolve()
+    if not str(candidate).startswith(str(DATA_DIR.resolve())):
+        raise HTTPException(400, "path must be inside data_dir")
+    if not candidate.exists() or not candidate.is_file():
+        raise HTTPException(404, f"not found: {path}")
+    return FileResponse(candidate, media_type="application/octet-stream", filename=candidate.name)
 
 
 def _file_summary(deep: bool = False) -> dict[str, Any]:
