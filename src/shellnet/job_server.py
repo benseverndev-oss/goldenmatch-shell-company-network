@@ -387,6 +387,11 @@ _ALLOWED_SCRIPTS = {
         "--input", "/data/raw/openownership/gleif_bods.zip",
         "--out-dir", "/data/interim",
     ],
+    "extract_uk_psc_dob": [
+        "scripts/extract_uk_psc_dob.py",
+        "--input", "/data/raw/openownership/uk_bods.zip",
+        "--out", "/data/processed/uk_psc_dob.parquet",
+    ],
     "inspect_uk_bods_zip": [
         "scripts/_inspect_zip.py",
         "/data/raw/openownership/uk_bods.zip",
