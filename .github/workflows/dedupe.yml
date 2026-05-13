@@ -1,0 +1,130 @@
+name: dedupe (Railway-side)
+
+# Runs heavy goldenmatch dedupe / publish steps on the Railway
+# shellnet-job container instead of a GitHub-hosted runner or a laptop.
+# Person dedupe on the 1.86M-row corpus is too heavy for the 7 GB
+# ubuntu-latest runner; this workflow is just a thin orchestrator that
+# hits the existing /build -> /match -> /publish endpoints.
+#
+# Triggered manually from the Actions UI (workflow_dispatch). Pick the
+# table to dedupe (company | address | person) and whether to publish
+# the result to Postgres after.
+
+on:
+  workflow_dispatch:
+    inputs:
+      what:
+        description: "Table to dedupe"
+        required: true
+        default: "person"
+        type: choice
+        options: [company, address, person]
+      rebuild:
+        description: "Rebuild the unified table before dedupe?"
+        required: true
+        default: true
+        type: boolean
+      publish:
+        description: "Publish results to shellnet.* Postgres tables?"
+        required: true
+        default: true
+        type: boolean
+
+concurrency:
+  group: dedupe-${{ inputs.what }}
+  cancel-in-progress: false
+
+jobs:
+  dedupe:
+    name: ${{ inputs.what }} dedupe on Railway
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      SHELLNET_JOB_URL: ${{ vars.SHELLNET_JOB_URL }}
+      SHELLNET_JOB_TOKEN: ${{ secrets.SHELLNET_JOB_TOKEN }}
+      WHAT: ${{ inputs.what }}
+      REBUILD: ${{ inputs.rebuild }}
+      PUBLISH: ${{ inputs.publish }}
+    steps:
+      - name: Confirm server reachable
+        run: |
+          set -euo pipefail
+          curl -fsS "$SHELLNET_JOB_URL/healthz"
+          echo
+
+      - name: Optionally rebuild the unified table
+        if: ${{ inputs.rebuild }}
+        run: |
+          set -euo pipefail
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+            "$SHELLNET_JOB_URL/build?what=$WHAT"
+          echo
+          # Poll until idle.
+          stage="build_$WHAT"
+          for _ in $(seq 1 240); do
+            sleep 5
+            s=$(curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" "$SHELLNET_JOB_URL/status" \
+                | python -c "import sys,json; d=json.load(sys.stdin); print(d['stages'].get('$stage',{}).get('status','?'))")
+            echo "  $stage: $s"
+            case "$s" in
+              completed) break ;;
+              failed) echo "::error::$stage failed"; exit 1 ;;
+            esac
+          done
+
+      - name: Trigger dedupe
+        run: |
+          set -euo pipefail
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+            "$SHELLNET_JOB_URL/match?what=$WHAT"
+          echo
+
+      - name: Poll dedupe until finished
+        run: |
+          set -euo pipefail
+          stage="match_$WHAT"
+          for _ in $(seq 1 720); do
+            sleep 10
+            s=$(curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" "$SHELLNET_JOB_URL/status" \
+                | python -c "import sys,json; d=json.load(sys.stdin); print(d['stages'].get('$stage',{}).get('status','?'))")
+            echo "  $stage: $s"
+            case "$s" in
+              completed) break ;;
+              failed) echo "::error::$stage failed"; exit 1 ;;
+            esac
+          done
+
+      - name: Tail dedupe log
+        if: ${{ always() }}
+        run: |
+          curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+            "$SHELLNET_JOB_URL/logs/match_$WHAT?tail=120" || true
+
+      - name: Publish to Postgres
+        if: ${{ inputs.publish }}
+        run: |
+          set -euo pipefail
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+            "$SHELLNET_JOB_URL/publish?what=$WHAT"
+          echo
+          stage="publish_$WHAT"
+          for _ in $(seq 1 120); do
+            sleep 5
+            s=$(curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" "$SHELLNET_JOB_URL/status" \
+                | python -c "import sys,json; d=json.load(sys.stdin); print(d['stages'].get('$stage',{}).get('status','?'))")
+            echo "  $stage: $s"
+            case "$s" in
+              completed) break ;;
+              failed) echo "::error::$stage failed"; exit 1 ;;
+            esac
+          done
+
+      - name: Final status summary
+        if: ${{ always() }}
+        run: |
+          curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+            "$SHELLNET_JOB_URL/status" \
+            | python -m json.tool | head -80
