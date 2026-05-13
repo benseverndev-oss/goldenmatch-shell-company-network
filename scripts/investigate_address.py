@@ -24,7 +24,7 @@ from shellnet.investigations.address_query import (
     rank_addresses,
     render_address_report,
 )
-from shellnet.paths import INTERIM_DIR, PROCESSED_DIR, PROJECT_ROOT
+from shellnet.paths import INTERIM_DIR, PROCESSED_DIR, PROJECT_ROOT, relpath_for_report
 
 app = typer.Typer(add_completion=False, no_args_is_help=True)
 log = logging.getLogger(__name__)
@@ -93,9 +93,9 @@ def main(
     )
 
     inputs_meta = {
-        "address_table": str(addr_path),
-        "icij_edges": str(edges_path),
-        "company_table": str(company_path),
+        "address_table": relpath_for_report(addr_path),
+        "icij_edges": relpath_for_report(edges_path),
+        "company_table": relpath_for_report(company_path),
         "top_n": top_n,
         "min_score": min_score,
         "global_fallback": global_fallback,
