@@ -23,7 +23,8 @@ log = logging.getLogger(__name__)
 def main(
     zip_path: Path = typer.Option(
         DATA_DIR / "raw" / "openownership" / "gleif_bods.zip",
-        "--input", "-i",
+        "--input",
+        "-i",
     ),
     out_dir: Path = typer.Option(INTERIM_DIR, "--out-dir"),
     verbose: bool = typer.Option(False, "--verbose", "-v"),

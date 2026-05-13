@@ -41,9 +41,7 @@ def test_make_person_seed_normalizes() -> None:
     assert "jeffrey" in seed.normalized_name and "epstein" in seed.normalized_name
 
 
-def test_rank_person_finds_fixture_officer(
-    tmp_path: Path, fixtures_dir: Path
-) -> None:
+def test_rank_person_finds_fixture_officer(tmp_path: Path, fixtures_dir: Path) -> None:
     _, processed, _ = _stage(tmp_path, fixtures_dir)
     df = pl.read_parquet(processed / "person_entities.parquet")
     # Fixture has 'John Q. Public' as an officer.
@@ -53,24 +51,18 @@ def test_rank_person_finds_fixture_officer(
     assert any("john" in c.normalized_name and "public" in c.normalized_name for c in in_country)
 
 
-def test_collect_company_edges_walks_officer_of(
-    tmp_path: Path, fixtures_dir: Path
-) -> None:
+def test_collect_company_edges_walks_officer_of(tmp_path: Path, fixtures_dir: Path) -> None:
     interim, processed, edges_path = _stage(tmp_path, fixtures_dir)
     company_df = pl.read_parquet(processed / "company_entities.parquet")
     edges_df = pl.read_parquet(edges_path)
     # icij:30000001 is John Q. Public per the fixture — director of icij:10000001 + 10000002.
-    edges = collect_company_edges(
-        ["icij:30000001"], edges_df=edges_df, company_df=company_df
-    )
+    edges = collect_company_edges(["icij:30000001"], edges_df=edges_df, company_df=company_df)
     assert "icij:30000001" in edges
     company_uids = {e.company_uid for e in edges["icij:30000001"]}
     assert {"icij:10000001", "icij:10000002"} <= company_uids
 
 
-def test_render_person_report_includes_sections(
-    tmp_path: Path, fixtures_dir: Path
-) -> None:
+def test_render_person_report_includes_sections(tmp_path: Path, fixtures_dir: Path) -> None:
     interim, processed, edges_path = _stage(tmp_path, fixtures_dir)
     df = pl.read_parquet(processed / "person_entities.parquet")
     company_df = pl.read_parquet(processed / "company_entities.parquet")

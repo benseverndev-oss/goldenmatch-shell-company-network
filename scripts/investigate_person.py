@@ -46,9 +46,7 @@ def main(
         "--min-score",
         help="Person matching defaults higher than company matching (names collide harder).",
     ),
-    global_fallback: bool = typer.Option(
-        True, "--global-fallback/--no-global-fallback"
-    ),
+    global_fallback: bool = typer.Option(True, "--global-fallback/--no-global-fallback"),
     processed_dir: Path = typer.Option(PROCESSED_DIR, "--processed-dir"),
     interim_dir: Path = typer.Option(INTERIM_DIR, "--interim-dir"),
     out_dir: Path = typer.Option(PROJECT_ROOT / "reports", "--out-dir"),
@@ -92,11 +90,7 @@ def main(
         len(outside_country),
     )
 
-    icij_person_uids = [
-        c.entity_uid
-        for c in (in_country + outside_country)
-        if c.source == "icij"
-    ]
+    icij_person_uids = [c.entity_uid for c in (in_country + outside_country) if c.source == "icij"]
     edges_path = interim_dir / "icij_edges.parquet"
     edges_df = pl.read_parquet(edges_path) if edges_path.exists() else None
     company_path = processed_dir / "company_entities.parquet"

@@ -47,9 +47,7 @@ def _extract_lei(identifiers: list[str] | None) -> str | None:
 
 @app.command()
 def main(
-    os_parquet: Path = typer.Option(
-        INTERIM_DIR / "opensanctions_entities.parquet", "--os-parquet"
-    ),
+    os_parquet: Path = typer.Option(INTERIM_DIR / "opensanctions_entities.parquet", "--os-parquet"),
     edges_parquet: Path = typer.Option(
         INTERIM_DIR / "gleif_l2_relationships.parquet", "--edges-parquet"
     ),
@@ -90,9 +88,7 @@ def main(
     log.info("loading OS entities from %s", os_parquet)
     os_e = pl.read_parquet(os_parquet)
     log.info("OS rows: %d", os_e.height)
-    rows = os_e.filter(
-        pl.col("entity_schema").is_in(["Company", "Organization", "LegalEntity"])
-    )
+    rows = os_e.filter(pl.col("entity_schema").is_in(["Company", "Organization", "LegalEntity"]))
 
     keep_datasets = [d.strip() for d in sanctions_datasets.split(",") if d.strip()]
 
@@ -105,9 +101,7 @@ def main(
         name_by_lei.setdefault(lei, r["name"])
         topics = list(r["topics"] or [])
         datasets = list(r["datasets"] or [])
-        if "sanction" in topics and any(
-            any(kd in ds for kd in keep_datasets) for ds in datasets
-        ):
+        if "sanction" in topics and any(any(kd in ds for kd in keep_datasets) for ds in datasets):
             sanctioned[lei] = {"name": r["name"], "datasets": datasets}
     log.info(
         "%d directly-sanctioned LEIs (topic=sanction AND on %s)",
@@ -123,9 +117,7 @@ def main(
     log.info("edges: %d", e.height)
 
     lei_set = list(sanctioned)
-    both = e.filter(
-        pl.col("src_lei").is_in(lei_set) & pl.col("dst_lei").is_in(lei_set)
-    )
+    both = e.filter(pl.col("src_lei").is_in(lei_set) & pl.col("dst_lei").is_in(lei_set))
     one_side = e.filter(
         (pl.col("src_lei").is_in(lei_set) & ~pl.col("dst_lei").is_in(lei_set))
         | (~pl.col("src_lei").is_in(lei_set) & pl.col("dst_lei").is_in(lei_set))
@@ -156,18 +148,26 @@ def main(
         f"datasets containing any of {keep_datasets}."
     )
     lines.append("")
-    lines.append("> **Hypothesis, not proof.** Each chain is a registry-disclosed corporate ownership link via GLEIF Level 2. The fact that one end is OFAC/EU/UK asset-frozen and the other isn't is a *lead* that warrants human review (and possibly secondary-sanctions designation), not a finding. Names may be common; LEI plus jurisdiction is the discriminator.")
+    lines.append(
+        "> **Hypothesis, not proof.** Each chain is a registry-disclosed corporate ownership link via GLEIF Level 2. The fact that one end is OFAC/EU/UK asset-frozen and the other isn't is a *lead* that warrants human review (and possibly secondary-sanctions designation), not a finding. Names may be common; LEI plus jurisdiction is the discriminator."
+    )
     lines.append("")
     lines.append("## Summary")
     lines.append("")
-    lines.append(f"- Directly-sanctioned LEIs (topic == `sanction`, on OFAC/EU/UK lists): **{len(sanctioned)}**")
+    lines.append(
+        f"- Directly-sanctioned LEIs (topic == `sanction`, on OFAC/EU/UK lists): **{len(sanctioned)}**"
+    )
     lines.append(f"- Edges with both ends sanctioned: **{both.height}**")
-    lines.append(f"- Edges with exactly one end sanctioned (not-yet-sanctioned neighbour): **{one_side.height}**")
+    lines.append(
+        f"- Edges with exactly one end sanctioned (not-yet-sanctioned neighbour): **{one_side.height}**"
+    )
     lines.append("")
 
     lines.append("## Both-ends-sanctioned chains")
     lines.append("")
-    lines.append("Pre-existing intra-sanctioned-network corporate-ownership links. Both endpoints are already on the asset-freeze lists.")
+    lines.append(
+        "Pre-existing intra-sanctioned-network corporate-ownership links. Both endpoints are already on the asset-freeze lists."
+    )
     lines.append("")
     lines.append("| controlled (src) | controller (dst) |")
     lines.append("| --- | --- |")
@@ -176,37 +176,45 @@ def main(
         d = sanctioned.get(r["dst_lei"], {}).get("name", r["dst_lei"])[:60]
         lines.append(f"| `{r['src_lei'][:20]}` {s} | `{r['dst_lei'][:20]}` {d} |")
     if both.height > 40:
-        lines.append(f"| _… {both.height-40} more rows_ | |")
+        lines.append(f"| _… {both.height - 40} more rows_ | |")
     lines.append("")
 
     lines.append("## Sanctioned parent → not-yet-sanctioned subsidiaries")
     lines.append("")
-    lines.append("Each row is one *children-of* group: a sanctioned entity at the top, followed by GLEIF L2 subsidiaries that are not (yet) on the asset-freeze lists. These are the candidate secondary-sanctions targets.")
+    lines.append(
+        "Each row is one *children-of* group: a sanctioned entity at the top, followed by GLEIF L2 subsidiaries that are not (yet) on the asset-freeze lists. These are the candidate secondary-sanctions targets."
+    )
     lines.append("")
     for sanc_lei, kids in sorted(by_child.items(), key=lambda kv: -len(kv[1]))[:30]:
         s_name = sanctioned[sanc_lei]["name"][:70]
         lines.append(f"### `{sanc_lei}` {s_name}")
         lines.append("")
         for k in kids[:15]:
-            kn = name_by_lei.get(k, "(name not in OS — pull GLEIF entity record for full name)")[:80]
+            kn = name_by_lei.get(k, "(name not in OS — pull GLEIF entity record for full name)")[
+                :80
+            ]
             lines.append(f"- `{k}` {kn}")
         if len(kids) > 15:
-            lines.append(f"- _… {len(kids)-15} more_")
+            lines.append(f"- _… {len(kids) - 15} more_")
         lines.append("")
 
     lines.append("## Sanctioned subsidiary ← not-yet-sanctioned parent")
     lines.append("")
-    lines.append("The reverse direction: a sanctioned entity that is controlled by an entity not on the asset-freeze lists. Less common (sanctions tend to flow downward through ownership) but each row is worth flagging.")
+    lines.append(
+        "The reverse direction: a sanctioned entity that is controlled by an entity not on the asset-freeze lists. Less common (sanctions tend to flow downward through ownership) but each row is worth flagging."
+    )
     lines.append("")
     for sanc_lei, parents in sorted(by_parent.items(), key=lambda kv: -len(kv[1]))[:20]:
         s_name = sanctioned[sanc_lei]["name"][:70]
         lines.append(f"### `{sanc_lei}` {s_name}")
         lines.append("")
         for p in parents[:10]:
-            pn = name_by_lei.get(p, "(name not in OS — pull GLEIF entity record for full name)")[:80]
+            pn = name_by_lei.get(p, "(name not in OS — pull GLEIF entity record for full name)")[
+                :80
+            ]
             lines.append(f"- `{p}` {pn}")
         if len(parents) > 10:
-            lines.append(f"- _… {len(parents)-10} more_")
+            lines.append(f"- _… {len(parents) - 10} more_")
         lines.append("")
 
     out_path.write_text("\n".join(lines), encoding="utf-8")

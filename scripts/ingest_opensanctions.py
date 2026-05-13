@@ -23,7 +23,9 @@ app = typer.Typer(add_completion=False, no_args_is_help=False)
 @app.command()
 def main(
     input: Path = typer.Option(None, "--input", "-i", help="Local export file."),
-    download: bool = typer.Option(False, "--download", help="Fetch from OPENSANCTIONS_DATASET_URL first."),
+    download: bool = typer.Option(
+        False, "--download", help="Fetch from OPENSANCTIONS_DATASET_URL first."
+    ),
     out_dir: Path = typer.Option(INTERIM_DIR, help="Where to write interim parquet."),
     schemas: str | None = typer.Option(
         None,

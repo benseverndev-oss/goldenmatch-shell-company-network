@@ -58,7 +58,7 @@ def test_is_placeholder_name_catches_bearer_share_patterns() -> None:
         "jeffrey epstein",
         "epstein jeffrey e",
         "lipman jeffrey m",
-        "bearer kim",          # surname Bearer is rare but exists; with extra token, keep.
+        "bearer kim",  # surname Bearer is rare but exists; with extra token, keep.
         "marcus klug",
     ]:
         assert not _is_placeholder_name(real), f"should keep: {real!r}"

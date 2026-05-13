@@ -22,9 +22,7 @@ def load_company_table(processed_dir: Path = PROCESSED_DIR) -> pl.DataFrame:
     """Load ``company_entities.parquet`` or raise a clear error."""
     path = processed_dir / "company_entities.parquet"
     if not path.exists():
-        raise FileNotFoundError(
-            f"{path} not found. Run scripts/build_candidate_tables.py first."
-        )
+        raise FileNotFoundError(f"{path} not found. Run scripts/build_candidate_tables.py first.")
     return pl.read_parquet(path)
 
 
@@ -62,5 +60,7 @@ def run_match(
         "matchkey_count": len(cfg.get_matchkeys()),
         "matchkeys": [mk.name for mk in cfg.get_matchkeys()],
     }
-    log.info("Loaded GoldenMatch config %s with %d matchkeys", config_path, summary["matchkey_count"])
+    log.info(
+        "Loaded GoldenMatch config %s with %d matchkeys", config_path, summary["matchkey_count"]
+    )
     return summary

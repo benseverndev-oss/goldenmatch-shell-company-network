@@ -10,10 +10,12 @@ from shellnet.reporting.coverage import (
 
 
 def test_coverage_for_basic(tmp_path: Path) -> None:
-    df = pl.DataFrame({
-        "name": ["a", "", None, "b"],
-        "n": [1, 2, 3, 4],
-    })
+    df = pl.DataFrame(
+        {
+            "name": ["a", "", None, "b"],
+            "n": [1, 2, 3, 4],
+        }
+    )
     stats = coverage_for(df)
     name = next(s for s in stats if s.column == "name")
     # 2 non-empty out of 4

@@ -25,7 +25,8 @@ def main(
     interim_dir: Path = typer.Option(INTERIM_DIR),
     out_path: Path = typer.Option(None, help="Override the summary output path."),
     overlay_same_as: bool = typer.Option(
-        True, "--overlay-same-as/--no-overlay-same-as",
+        True,
+        "--overlay-same-as/--no-overlay-same-as",
         help="Layer GoldenMatch same_as edges from reports/generated/ if present.",
     ),
     run_name: str = typer.Option("company", "--run-name"),

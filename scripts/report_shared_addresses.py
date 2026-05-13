@@ -37,9 +37,7 @@ def _markdown(df: pl.DataFrame, top_n: int) -> str:
         country = row.get("country") or "?"
         sources = ", ".join(sorted(row.get("contributing_sources") or []))
         sample = (row.get("sample_raw_text") or "").replace("|", "\\|")
-        lines.append(
-            f"| {i} | {country} | {row['hosted_count']} | {sources} | {sample[:120]} |"
-        )
+        lines.append(f"| {i} | {country} | {row['hosted_count']} | {sources} | {sample[:120]} |")
     return "\n".join(lines) + "\n"
 
 
@@ -59,8 +57,7 @@ def main(
     ensure_dirs()
     if not address_path.exists():
         typer.echo(
-            f"Address table {address_path} not found. "
-            "Run scripts/build_address_table.py first."
+            f"Address table {address_path} not found. Run scripts/build_address_table.py first."
         )
         raise typer.Exit(code=1)
     df = shared_address_report(address_path, top_n=top_n, min_count=min_count)

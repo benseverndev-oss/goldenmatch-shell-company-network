@@ -37,7 +37,7 @@ log = logging.getLogger(__name__)
 
 _PARQUET_SCHEMA: dict[str, type[pl.DataType]] = {
     "source": pl.Utf8,
-    "source_id": pl.Utf8,            # the LEI itself
+    "source_id": pl.Utf8,  # the LEI itself
     "lei": pl.Utf8,
     "name": pl.Utf8,
     "normalized_name": pl.Utf8,
@@ -87,7 +87,11 @@ def parse_record(record: dict[str, Any]) -> dict[str, Any]:
     registration = attrs.get("registration") or {}
 
     lei = attrs.get("lei") or record.get("id") or ""
-    legal_name = (entity.get("legalName") or {}).get("name") if isinstance(entity.get("legalName"), dict) else entity.get("legalName")
+    legal_name = (
+        (entity.get("legalName") or {}).get("name")
+        if isinstance(entity.get("legalName"), dict)
+        else entity.get("legalName")
+    )
     legal_name = legal_name or ""
     juris_raw = entity.get("jurisdiction")
     legal_addr = _format_address(entity.get("legalAddress"))
@@ -109,7 +113,9 @@ def parse_record(record: dict[str, Any]) -> dict[str, Any]:
         "jurisdiction": normalize_jurisdiction(juris_raw),
         "jurisdiction_raw": juris_raw,
         "registration_status": registration.get("status"),
-        "legal_form": (entity.get("legalForm") or {}).get("id") if isinstance(entity.get("legalForm"), dict) else entity.get("legalForm"),
+        "legal_form": (entity.get("legalForm") or {}).get("id")
+        if isinstance(entity.get("legalForm"), dict)
+        else entity.get("legalForm"),
         "legal_address_raw": legal_addr,
         "normalized_legal_address": normalize_address_text(legal_addr),
         "headquarters_address_raw": hq_addr,
@@ -193,4 +199,6 @@ def discover_local_files(raw_dir: Path = GLEIF_RAW) -> list[Path]:
     """List candidate GLEIF inputs in the standard raw dir."""
     if not raw_dir.exists():
         return []
-    return sorted(p for p in raw_dir.iterdir() if p.is_file() and p.suffix.lower() in {".json", ".jsonl"})
+    return sorted(
+        p for p in raw_dir.iterdir() if p.is_file() and p.suffix.lower() in {".json", ".jsonl"}
+    )

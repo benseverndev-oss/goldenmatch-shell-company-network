@@ -34,7 +34,7 @@ LABEL_COLUMNS: tuple[str, ...] = (
     "left_uid",
     "right_uid",
     "label",
-    "source",     # "human:<name>" or "derived:<rule_id>"
+    "source",  # "human:<name>" or "derived:<rule_id>"
     "reason",
 )
 
@@ -150,7 +150,9 @@ def derive_seed_labels(company_table: Path) -> pl.DataFrame:
     return _canonicalise(pl.DataFrame(seeds))
 
 
-def _pairs_sharing(df: pl.DataFrame, *, key: str, reason: str, label: Label) -> list[dict[str, str]]:
+def _pairs_sharing(
+    df: pl.DataFrame, *, key: str, reason: str, label: Label
+) -> list[dict[str, str]]:
     """Emit pairs from rows that share a non-empty ``key`` value."""
     if key not in df.columns:
         return []
@@ -184,8 +186,10 @@ def _pairs_diverging_lei(df: pl.DataFrame) -> list[dict[str, str]]:
     if "lei" not in df.columns or "normalized_name" not in df.columns:
         return []
     work = df.filter(
-        pl.col("lei").is_not_null() & (pl.col("lei") != "")
-        & pl.col("normalized_name").is_not_null() & (pl.col("normalized_name") != "")
+        pl.col("lei").is_not_null()
+        & (pl.col("lei") != "")
+        & pl.col("normalized_name").is_not_null()
+        & (pl.col("normalized_name") != "")
     )
     if work.height < 2:
         return []

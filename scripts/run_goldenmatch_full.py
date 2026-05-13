@@ -66,8 +66,9 @@ def _resolve(what: str) -> _Target:
 def main(
     what: str = typer.Option("company", "--what", "-w"),
     output_dir: Path = typer.Option(REPORTS_DIR, "--output-dir"),
-    dry_run: bool = typer.Option(False, "--dry-run",
-                                 help="Print the command we would invoke and exit."),
+    dry_run: bool = typer.Option(
+        False, "--dry-run", help="Print the command we would invoke and exit."
+    ),
     verbose: bool = typer.Option(False, "--verbose", "-v"),
 ) -> None:
     logging.basicConfig(
@@ -89,12 +90,18 @@ def main(
 
     gm = shutil.which("goldenmatch") or "goldenmatch"
     cmd = [
-        gm, "dedupe", str(target.table),
-        "--config", str(target.config),
-        "--output-dir", str(output_dir),
-        "--run-name", target.run_name,
+        gm,
+        "dedupe",
+        str(target.table),
+        "--config",
+        str(target.config),
+        "--output-dir",
+        str(output_dir),
+        "--run-name",
+        target.run_name,
         "--output-clusters",
-        "--format", "csv",
+        "--format",
+        "csv",
         "--no-tui",
     ]
     typer.echo("$ " + " ".join(cmd))

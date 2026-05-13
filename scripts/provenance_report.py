@@ -43,9 +43,7 @@ def main(
     cluster_id: int = typer.Argument(..., help="cluster_id from shellnet.clusters"),
     processed_dir: Path = typer.Option(Path("/data/processed"), "--processed-dir"),
     interim_dir: Path = typer.Option(Path("/data/interim"), "--interim-dir"),
-    out_dir: Path = typer.Option(
-        Path("/data/reports/generated/case_studies"), "--out-dir"
-    ),
+    out_dir: Path = typer.Option(Path("/data/reports/generated/case_studies"), "--out-dir"),
     verbose: bool = typer.Option(False, "--verbose", "-v"),
 ) -> None:
     logging.basicConfig(
@@ -65,8 +63,7 @@ def main(
         dedupe_run_id, dedupe_created = row[0], row[1]
 
         cur.execute(
-            "SELECT entity_uid FROM shellnet.clusters "
-            "WHERE run_id=%s AND cluster_id=%s",
+            "SELECT entity_uid FROM shellnet.clusters WHERE run_id=%s AND cluster_id=%s",
             (str(dedupe_run_id), cluster_id),
         )
         member_uids = [r[0] for r in cur.fetchall()]
@@ -132,9 +129,7 @@ def main(
             ["src_node", "dst_node", "kind_raw", "role", "start_date", "end_date", "source_label"]
         )
         for uid in icij_member_uids:
-            sub = edges.filter(
-                (pl.col("src_node") == uid) | (pl.col("dst_node") == uid)
-            )
+            sub = edges.filter((pl.col("src_node") == uid) | (pl.col("dst_node") == uid))
             if sub.height:
                 rels_summary.append(
                     {
@@ -145,9 +140,7 @@ def main(
                 )
 
     # Pick a slug from the longest common normalized_name prefix.
-    norm_names = [
-        (attr_by_uid.get(u, {}).get("normalized_name") or "") for u in member_uids
-    ]
+    norm_names = [(attr_by_uid.get(u, {}).get("normalized_name") or "") for u in member_uids]
     name_for_slug = ""
     if norm_names:
         # Longest common prefix across normalized names.
@@ -168,8 +161,7 @@ def main(
     lines.append(f"# Cluster {cluster_id} — {name_for_slug or '(unnamed)'}")
     lines.append("")
     lines.append(
-        "Provenance report for a multi-member cluster produced by the v2 "
-        "GoldenMatch dedupe pass."
+        "Provenance report for a multi-member cluster produced by the v2 GoldenMatch dedupe pass."
     )
     lines.append("")
     lines.append(f"- **Dedupe run**: `{dedupe_run_id}` (created `{dedupe_created}`)")
@@ -197,9 +189,7 @@ def main(
 
     lines.append("## Members (side-by-side)")
     lines.append("")
-    lines.append(
-        "| # | entity_uid | source | name | jurisdiction | source_id |"
-    )
+    lines.append("| # | entity_uid | source | name | jurisdiction | source_id |")
     lines.append("| ---: | --- | --- | --- | --- | --- |")
     for i, uid in enumerate(sorted(member_uids), start=1):
         a = attr_by_uid.get(uid, {})
@@ -244,7 +234,7 @@ def main(
         for left, right, cid in same_as[:40]:
             lines.append(f"| `{left}` | `{right}` | {cid} |")
         if len(same_as) > 40:
-            lines.append(f"| _… {len(same_as)-40} more pairs_ | | |")
+            lines.append(f"| _… {len(same_as) - 40} more pairs_ | | |")
     else:
         lines.append("_No explicit same-as pairs recorded for this cluster._")
     lines.append("")

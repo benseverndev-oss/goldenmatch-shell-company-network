@@ -44,8 +44,7 @@ def _conn():
 def _load_run_pairs(cur, run_id: str) -> set[tuple[str, str]]:
     """Return {(target_uid, ref_uid)} for a list_match run."""
     cur.execute(
-        "SELECT target_entity_uid, ref_entity_uid FROM shellnet.list_matches "
-        "WHERE run_id = %s",
+        "SELECT target_entity_uid, ref_entity_uid FROM shellnet.list_matches WHERE run_id = %s",
         (run_id,),
     )
     return {(t, r) for t, r in cur.fetchall()}
@@ -75,7 +74,9 @@ def _pr(tp: int, fp: int, fn: int) -> dict[str, float | int]:
     r = tp / (tp + fn) if (tp + fn) else 0.0
     f = (2 * p * r / (p + r)) if (p + r) else 0.0
     return {
-        "tp": tp, "fp": fp, "fn": fn,
+        "tp": tp,
+        "fp": fp,
+        "fn": fn,
         "precision": round(p, 4),
         "recall": round(r, 4),
         "f1": round(f, 4),
@@ -117,7 +118,10 @@ def main(
 
     log.info(
         "v1: %d pairs (bands %s); v2: %d pairs (bands %s)",
-        len(v1_pairs), v1_bands, len(v2_pairs), v2_bands,
+        len(v1_pairs),
+        v1_bands,
+        len(v2_pairs),
+        v2_bands,
     )
 
     # Per-bucket TP/FP/FN against each run.
@@ -171,9 +175,14 @@ def main(
             metrics = _pr(d.get("tp", 0), d.get("fp", 0), d.get("fn", 0))
             lines.append(
                 "| {b} | {r} | {tp} | {fp} | {fn} | {p:.3f} | {rc:.3f} | {f1:.3f} | {u} |".format(
-                    b=bucket, r=run, tp=metrics["tp"], fp=metrics["fp"],
-                    fn=metrics["fn"], p=metrics["precision"],
-                    rc=metrics["recall"], f1=metrics["f1"],
+                    b=bucket,
+                    r=run,
+                    tp=metrics["tp"],
+                    fp=metrics["fp"],
+                    fn=metrics["fn"],
+                    p=metrics["precision"],
+                    rc=metrics["recall"],
+                    f1=metrics["f1"],
                     u=d.get("unsure_in_run", 0),
                 )
             )
@@ -192,8 +201,13 @@ def main(
             metrics = _pr(tp, fp, fn)
             lines.append(
                 "| {b} | {r} | {tp} | {fp} | {fn} | {p:.3f} | {rc:.3f} | {f1:.3f} |".format(
-                    b=bucket, r=run, tp=tp, fp=fp, fn=fn,
-                    p=metrics["precision"], rc=metrics["recall"],
+                    b=bucket,
+                    r=run,
+                    tp=tp,
+                    fp=fp,
+                    fn=fn,
+                    p=metrics["precision"],
+                    rc=metrics["recall"],
                     f1=metrics["f1"],
                 )
             )
@@ -213,16 +227,16 @@ def main(
         band = _band(score)
         if (r["target_entity_uid"], r["ref_entity_uid"]) in v2_pairs:
             band_labels[band][r["label"]] += 1
-    lines.append("| v2 band | label-match | label-no_match | label-unsure | strict-precision | generous-precision |")
+    lines.append(
+        "| v2 band | label-match | label-no_match | label-unsure | strict-precision | generous-precision |"
+    )
     lines.append("| --- | ---: | ---: | ---: | ---: | ---: |")
     for band in ("perfect", "high", "borderline"):
         c = band_labels[band]
         m, n, u = c.get("match", 0), c.get("no_match", 0), c.get("unsure", 0)
         strict = m / (m + n) if (m + n) else 0.0
         generous = (m + u) / (m + n + u) if (m + n + u) else 0.0
-        lines.append(
-            f"| {band} | {m} | {n} | {u} | {strict:.3f} | {generous:.3f} |"
-        )
+        lines.append(f"| {band} | {m} | {n} | {u} | {strict:.3f} | {generous:.3f} |")
     lines.append("")
 
     # Build the same band->labels map for v1 (using v1_pairs membership).
@@ -243,7 +257,9 @@ def main(
     lines.append("")
     v1_est_strict = 0.0
     v1_est_generous = 0.0
-    lines.append("| band | size | sample-precision-strict | sample-precision-generous | est_tp_strict | est_tp_generous |")
+    lines.append(
+        "| band | size | sample-precision-strict | sample-precision-generous | est_tp_strict | est_tp_generous |"
+    )
     lines.append("| --- | ---: | ---: | ---: | ---: | ---: |")
     for band in ("perfect", "high", "borderline"):
         size = v1_bands.get(band, 0)
@@ -285,7 +301,9 @@ def main(
     total_v2 = sum(band_size.values())
     estimated_tp_strict = 0.0
     estimated_tp_generous = 0.0
-    lines.append("| band | size | sample-precision-strict | sample-precision-generous | est_tp_strict | est_tp_generous |")
+    lines.append(
+        "| band | size | sample-precision-strict | sample-precision-generous | est_tp_strict | est_tp_generous |"
+    )
     lines.append("| --- | ---: | ---: | ---: | ---: | ---: |")
     for band in ("perfect", "high", "borderline"):
         size = band_size.get(band, 0)
@@ -317,19 +335,19 @@ def main(
     lines.append("| --- | ---: | ---: | ---: |")
     lines.append(
         f"| matched pairs | {len(v1_pairs):,} | {len(v2_pairs):,} | "
-        f"{len(v2_pairs)-len(v1_pairs):+,} |"
+        f"{len(v2_pairs) - len(v1_pairs):+,} |"
     )
     lines.append(
         f"| est. precision (strict) | {v1_overall_strict:.1%} | "
-        f"{overall_strict:.1%} | {(overall_strict-v1_overall_strict)*100:+.1f}pp |"
+        f"{overall_strict:.1%} | {(overall_strict - v1_overall_strict) * 100:+.1f}pp |"
     )
     lines.append(
         f"| est. precision (generous) | {v1_overall_generous:.1%} | "
-        f"{overall_generous:.1%} | {(overall_generous-v1_overall_generous)*100:+.1f}pp |"
+        f"{overall_generous:.1%} | {(overall_generous - v1_overall_generous) * 100:+.1f}pp |"
     )
     lines.append(
         f"| est. true positives (strict) | {v1_est_strict:.0f} | "
-        f"{estimated_tp_strict:.0f} | {estimated_tp_strict-v1_est_strict:+.0f} |"
+        f"{estimated_tp_strict:.0f} | {estimated_tp_strict - v1_est_strict:+.0f} |"
     )
     lines.append("")
     lines.append(
@@ -352,22 +370,30 @@ def main(
     lines.append("")
     # Where do v1 false positives sit?
     v1_only_pairs = sum(
-        1 for r in rows
+        1
+        for r in rows
         if (r["target_entity_uid"], r["ref_entity_uid"]) in v1_pairs
         and (r["target_entity_uid"], r["ref_entity_uid"]) not in v2_pairs
     )
     lines.append("## v1 → v2 transition: what changed")
     lines.append("")
-    v1_dropped_in_v1 = sum(1 for r in rows if r["bucket"] == "v1_dropped"
-                           and (r["target_entity_uid"], r["ref_entity_uid"]) in v1_pairs)
-    v1_dropped_in_v2 = sum(1 for r in rows if r["bucket"] == "v1_dropped"
-                           and (r["target_entity_uid"], r["ref_entity_uid"]) in v2_pairs)
-    v1_dropped_match = sum(1 for r in rows if r["bucket"] == "v1_dropped"
-                           and r["label"] == "match")
-    v1_dropped_no_match = sum(1 for r in rows if r["bucket"] == "v1_dropped"
-                              and r["label"] == "no_match")
-    v1_dropped_unsure = sum(1 for r in rows if r["bucket"] == "v1_dropped"
-                            and r["label"] == "unsure")
+    v1_dropped_in_v1 = sum(
+        1
+        for r in rows
+        if r["bucket"] == "v1_dropped" and (r["target_entity_uid"], r["ref_entity_uid"]) in v1_pairs
+    )
+    v1_dropped_in_v2 = sum(
+        1
+        for r in rows
+        if r["bucket"] == "v1_dropped" and (r["target_entity_uid"], r["ref_entity_uid"]) in v2_pairs
+    )
+    v1_dropped_match = sum(1 for r in rows if r["bucket"] == "v1_dropped" and r["label"] == "match")
+    v1_dropped_no_match = sum(
+        1 for r in rows if r["bucket"] == "v1_dropped" and r["label"] == "no_match"
+    )
+    v1_dropped_unsure = sum(
+        1 for r in rows if r["bucket"] == "v1_dropped" and r["label"] == "unsure"
+    )
     lines.append(
         f"- 100 v1_dropped pairs sampled. In v1: {v1_dropped_in_v1}. In v2: "
         f"{v1_dropped_in_v2} (expected 0 — v2's threshold raise removed these)."
@@ -401,8 +427,7 @@ def main(
                 "v1_band_counts": v1_bands,
                 "v2_band_counts": v2_bands,
                 "by_bucket": {
-                    b: {r: dict(d) for r, d in runs.items()}
-                    for b, runs in by_bucket.items()
+                    b: {r: dict(d) for r, d in runs.items()} for b, runs in by_bucket.items()
                 },
                 "estimated_v2_overall_precision_strict": round(overall_strict, 4),
                 "estimated_v2_overall_precision_generous": round(overall_generous, 4),

@@ -1,5 +1,7 @@
 """One-off: compare schemas of two parquet files."""
+
 import sys
+
 import polars as pl
 
 for path in sys.argv[1:]:

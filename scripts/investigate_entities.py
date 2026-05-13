@@ -78,9 +78,7 @@ def main(
     seeds: Path = typer.Argument(..., help="CSV file with name,jurisdiction,source_note columns."),
     top_n: int = typer.Option(25, "--top-n"),
     min_score: float = typer.Option(85.0, "--min-score"),
-    global_fallback: bool = typer.Option(
-        True, "--global-fallback/--no-global-fallback"
-    ),
+    global_fallback: bool = typer.Option(True, "--global-fallback/--no-global-fallback"),
     processed_dir: Path = typer.Option(PROCESSED_DIR, "--processed-dir"),
     interim_dir: Path = typer.Option(INTERIM_DIR, "--interim-dir"),
     out_dir: Path = typer.Option(
@@ -121,9 +119,7 @@ def main(
     edges_df = _read_optional_parquet(interim_dir / "icij_edges.parquet")
     addresses_df = _read_optional_parquet(interim_dir / "icij_addresses.parquet")
     officers_df = _read_optional_parquet(interim_dir / "icij_officers.parquet")
-    intermediaries_df = _read_optional_parquet(
-        interim_dir / "icij_intermediaries.parquet"
-    )
+    intermediaries_df = _read_optional_parquet(interim_dir / "icij_intermediaries.parquet")
     log.info("loaded %d unified company rows", company_df.height)
 
     bid = batch_id or re.sub(r"[^A-Za-z0-9._-]+", "_", seeds.stem)
@@ -138,9 +134,7 @@ def main(
             conn = psycopg.connect(os.environ["DATABASE_URL"])
             log.info("opened postgres connection for batch enrichment")
         except ImportError:
-            log.warning(
-                "DATABASE_URL set but psycopg not installed; skipping GoldenMatch context"
-            )
+            log.warning("DATABASE_URL set but psycopg not installed; skipping GoldenMatch context")
         except Exception as exc:  # noqa: BLE001
             log.warning("postgres connection failed: %s — continuing without it", exc)
 
@@ -169,11 +163,7 @@ def main(
                     min_score=min_score,
                     include_outside_jurisdiction=global_fallback,
                 )
-                icij_uids = [
-                    c.entity_uid
-                    for c in (in_juris + outside_juris)
-                    if c.source == "icij"
-                ]
+                icij_uids = [c.entity_uid for c in (in_juris + outside_juris) if c.source == "icij"]
                 neighbourhoods = collect_icij_neighbourhood(
                     icij_uids,
                     edges_df=edges_df,

@@ -22,7 +22,9 @@ app = typer.Typer(add_completion=False, no_args_is_help=False)
 
 @app.command()
 def main(
-    input: Path = typer.Option(..., "--input", "-i", exists=False, help="Path to a GLEIF JSON/JSONL file."),
+    input: Path = typer.Option(
+        ..., "--input", "-i", exists=False, help="Path to a GLEIF JSON/JSONL file."
+    ),
     sample: int = typer.Option(0, "--sample", "-n", help="Truncate to N records (0 = all)."),
     out_dir: Path = typer.Option(INTERIM_DIR, help="Where to write interim parquet."),
     verbose: bool = typer.Option(False, "--verbose", "-v"),

@@ -40,34 +40,11 @@ jobs:
       - name: Install dependencies
         run: uv sync --extra dev
 
-      - name: Lint (ruff)
-        # Scope to the modules + scripts we actively maintain. The
-        # underscore-prefixed one-off scripts have pre-existing lint
-        # nits that aren't worth fixing in CI.
-        run: |
-          uv run ruff check \
-            src/shellnet \
-            tests \
-            scripts/build_*.py \
-            scripts/ingest_*.py \
-            scripts/investigate_*.py \
-            scripts/expand_2hop.py \
-            scripts/derive_seed_labels.py \
-            scripts/eval_against_labels.py \
-            scripts/coverage_report.py \
-            scripts/run_goldenmatch_*.py \
-            scripts/report_shared_addresses.py \
-            scripts/generate_candidate_pairs.py \
-            scripts/normalize_entities.py \
-            scripts/rank_clusters.py \
-            scripts/provenance_report.py \
-            scripts/compute_centrality.py \
-            scripts/eval_v1_vs_v2.py \
-            scripts/filter_company_table.py \
-            scripts/review_matches.py \
-            scripts/upload_icij.py \
-            scripts/fetch_icij.py \
-            scripts/build_label_set.py
+      - name: Lint (ruff check)
+        run: uv run ruff check src scripts tests
+
+      - name: Format (ruff format --check)
+        run: uv run ruff format --check src scripts tests
 
       - name: Test (pytest)
         run: uv run pytest -q

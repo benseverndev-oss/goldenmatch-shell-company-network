@@ -11,11 +11,13 @@ def _stage_run(tmp_path: Path) -> Path:
     """Create a fake GoldenMatch run output directory with two clusters."""
     out = tmp_path / "run"
     out.mkdir()
-    pl.DataFrame({
-        "entity_uid": ["icij:1", "gleif:2", "opencorporates:3", "opencorporates:99"],
-        "cluster_id": [1, 1, 1, 2],
-        "name": ["Acme Ltd", "Acme Limited", "ACME", "Solo Co"],
-    }).write_csv(out / "company_clusters.csv")
+    pl.DataFrame(
+        {
+            "entity_uid": ["icij:1", "gleif:2", "opencorporates:3", "opencorporates:99"],
+            "cluster_id": [1, 1, 1, 2],
+            "name": ["Acme Ltd", "Acme Limited", "ACME", "Solo Co"],
+        }
+    ).write_csv(out / "company_clusters.csv")
     (out / "company_lineage.json").write_text(
         '{"pairs": [{"left": "icij:1", "right": "gleif:2", "score": 0.95, "cluster_id": 1}]}'
     )
@@ -50,9 +52,7 @@ def test_add_same_as_edges_to_graph(tmp_path: Path) -> None:
     g.add_node("gleif:2", kind="company", source="gleif")
     added = add_same_as_edges(g, output_dir=out, run_name="company")
     assert added == 6  # 3 undirected pairs × 2 directions
-    same_as = [
-        (u, v) for u, v, a in g.edges(data=True) if a.get("kind") == "same_as"
-    ]
+    same_as = [(u, v) for u, v, a in g.edges(data=True) if a.get("kind") == "same_as"]
     assert len(same_as) == 6
     # The previously-missing node was added with kind=unknown.
     assert g.nodes["opencorporates:3"]["kind"] == "unknown"

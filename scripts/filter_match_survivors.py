@@ -30,9 +30,7 @@ log = logging.getLogger(__name__)
 @app.command()
 def main(
     scored_csv: Path = typer.Argument(...),
-    out_csv: Path = typer.Option(
-        REPORTS_DIR / "investigative_grade_survivors.csv", "--out"
-    ),
+    out_csv: Path = typer.Option(REPORTS_DIR / "investigative_grade_survivors.csv", "--out"),
 ) -> None:
     logging.basicConfig(
         level=logging.INFO,
@@ -43,14 +41,14 @@ def main(
     filt = df.filter(
         (pl.col("target_normalized_name") == pl.col("ref_normalized_name"))
         & (pl.col("target_country") != "cn")
-        & pl.col("dob_match").is_in(
-            ["both_present_year_match", "ref_only", "target_only"]
-        )
+        & pl.col("dob_match").is_in(["both_present_year_match", "ref_only", "target_only"])
     )
     log.info("after exact+non-cn+dob filters: %d", filt.height)
-    novel = filt.filter(pl.col("prior_coverage_mainstream") == 0).unique(
-        subset=["target_normalized_name", "target_country"]
-    ).sort(["dob_match", "prior_coverage_n"], nulls_last=True)
+    novel = (
+        filt.filter(pl.col("prior_coverage_mainstream") == 0)
+        .unique(subset=["target_normalized_name", "target_country"])
+        .sort(["dob_match", "prior_coverage_n"], nulls_last=True)
+    )
     log.info("zero-mainstream-coverage unique survivors: %d", novel.height)
     out_csv.parent.mkdir(parents=True, exist_ok=True)
     novel.write_csv(out_csv)

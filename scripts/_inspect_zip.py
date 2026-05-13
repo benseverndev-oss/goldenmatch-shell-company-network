@@ -14,4 +14,4 @@ for name in members[:80]:
     info = zf.getinfo(name) if False else None
     print(f"  {name}")
 if len(members) > 80:
-    print(f"  ... {len(members)-80} more")
+    print(f"  ... {len(members) - 80} more")

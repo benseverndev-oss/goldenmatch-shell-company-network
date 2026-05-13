@@ -144,15 +144,15 @@ def build_unified_table(
 
     df = pl.concat(parts, how="vertical_relaxed")
     df = df.with_columns(
-        pl.col("name").map_elements(normalize_company_name, return_dtype=pl.Utf8).alias(
-            "normalized_name"
-        ),
-        pl.col("jurisdiction").map_elements(normalize_jurisdiction, return_dtype=pl.Utf8).alias(
-            "jurisdiction"
-        ),
-        pl.col("address_raw").map_elements(normalize_address_text, return_dtype=pl.Utf8).alias(
-            "normalized_address"
-        ),
+        pl.col("name")
+        .map_elements(normalize_company_name, return_dtype=pl.Utf8)
+        .alias("normalized_name"),
+        pl.col("jurisdiction")
+        .map_elements(normalize_jurisdiction, return_dtype=pl.Utf8)
+        .alias("jurisdiction"),
+        pl.col("address_raw")
+        .map_elements(normalize_address_text, return_dtype=pl.Utf8)
+        .alias("normalized_address"),
     )
     # Stable cross-source row id so GoldenMatch has a primary key it trusts.
     df = df.with_columns(

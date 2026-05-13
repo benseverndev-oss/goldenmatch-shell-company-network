@@ -53,12 +53,9 @@ def main(
     out_parquet: Path = typer.Option(
         Path("/data/processed/cluster_centrality.parquet"), "--out-parquet"
     ),
-    out_md: Path = typer.Option(
-        Path("/data/reports/generated/centrality_top.md"), "--out-md"
-    ),
+    out_md: Path = typer.Option(Path("/data/reports/generated/centrality_top.md"), "--out-md"),
     betweenness_k: int = typer.Option(
-        500, "--betweenness-k",
-        help="k for k-sampled betweenness; 0 = full (slow on big graphs)."
+        500, "--betweenness-k", help="k for k-sampled betweenness; 0 = full (slow on big graphs)."
     ),
     top_n: int = typer.Option(30, "--top-n"),
     verbose: bool = typer.Option(False, "--verbose", "-v"),
@@ -71,8 +68,7 @@ def main(
     log.info("loading multi-member cluster members from Postgres")
     with _conn() as conn, conn.cursor() as cur:
         cur.execute(
-            "SELECT run_id FROM shellnet.runs "
-            "WHERE what='company' ORDER BY created_at DESC LIMIT 1"
+            "SELECT run_id FROM shellnet.runs WHERE what='company' ORDER BY created_at DESC LIMIT 1"
         )
         row = cur.fetchone()
         if not row:
@@ -107,8 +103,7 @@ def main(
     cluster_uid_set = set(cluster_by_uid.keys())
     log.info("filtering to ego sub-graph (edges incident to cluster members)")
     ego_edges = edges.filter(
-        pl.col("src_node").is_in(cluster_uid_set)
-        | pl.col("dst_node").is_in(cluster_uid_set)
+        pl.col("src_node").is_in(cluster_uid_set) | pl.col("dst_node").is_in(cluster_uid_set)
     )
     log.info("ego sub-graph has %d edges", ego_edges.height)
 
@@ -117,7 +112,9 @@ def main(
     for r in ego_edges.iter_rows(named=True):
         s, d = r["src_node"], r["dst_node"]
         g_directed.add_edge(s, d, kind=r.get("kind_raw") or "")
-    log.info("graph: %d nodes, %d edges", g_directed.number_of_nodes(), g_directed.number_of_edges())
+    log.info(
+        "graph: %d nodes, %d edges", g_directed.number_of_nodes(), g_directed.number_of_edges()
+    )
 
     log.info("loading company_entities for source/jurisdiction labels")
     company_df = pl.read_parquet(processed_dir / "company_entities.parquet").select(
@@ -125,9 +122,9 @@ def main(
     )
     attr_lookup = {
         r["entity_uid"]: (r["source"], r["name"], r["jurisdiction"])
-        for r in company_df.filter(
-            pl.col("entity_uid").is_in(list(g_directed.nodes()))
-        ).iter_rows(named=True)
+        for r in company_df.filter(pl.col("entity_uid").is_in(list(g_directed.nodes()))).iter_rows(
+            named=True
+        )
     }
 
     log.info("computing degree (cheap)")
@@ -149,9 +146,7 @@ def main(
     if betweenness_k > 0 and g_und.number_of_nodes() > betweenness_k:
         log.info("computing k-sampled betweenness (k=%d)", betweenness_k)
         t0 = time.time()
-        bc = nx.betweenness_centrality(
-            g_und, k=betweenness_k, normalized=True, seed=42
-        )
+        bc = nx.betweenness_centrality(g_und, k=betweenness_k, normalized=True, seed=42)
         log.info("betweenness done in %.1fs", time.time() - t0)
     else:
         log.info("computing full betweenness")
@@ -203,9 +198,7 @@ def main(
         f"Sub-graph: {g_directed.number_of_nodes()} nodes / "
         f"{g_directed.number_of_edges()} edges (cluster members + direct neighbours)"
     )
-    lines.append(
-        f"Communities: {len(communities)} (Louvain, undirected projection)"
-    )
+    lines.append(f"Communities: {len(communities)} (Louvain, undirected projection)")
     lines.append("")
     lines.append(
         "Centrality metrics computed on the *cluster sub-graph*, not the "
@@ -222,10 +215,14 @@ def main(
     for r in top_deg.iter_rows(named=True):
         lines.append(
             "| `{u}` | {s} | `{n}` | {j} | {cl} | {co} | {i} | {o} | {t} |".format(
-                u=r["entity_uid"][:50], s=r["source"] or "?",
-                n=(r["name"] or "")[:40].replace("|","/"),
-                j=r["jurisdiction"] or "", cl=r["cluster_id"] or "",
-                co=r["community_id"] or "", i=r["in_degree"], o=r["out_degree"],
+                u=r["entity_uid"][:50],
+                s=r["source"] or "?",
+                n=(r["name"] or "")[:40].replace("|", "/"),
+                j=r["jurisdiction"] or "",
+                cl=r["cluster_id"] or "",
+                co=r["community_id"] or "",
+                i=r["in_degree"],
+                o=r["out_degree"],
                 t=r["total_degree"],
             )
         )
@@ -239,10 +236,13 @@ def main(
     for r in top_eig.iter_rows(named=True):
         lines.append(
             "| `{u}` | {s} | `{n}` | {j} | {cl} | {co} | {e:.4f} |".format(
-                u=r["entity_uid"][:50], s=r["source"] or "?",
-                n=(r["name"] or "")[:40].replace("|","/"),
-                j=r["jurisdiction"] or "", cl=r["cluster_id"] or "",
-                co=r["community_id"] or "", e=r["eigenvector"],
+                u=r["entity_uid"][:50],
+                s=r["source"] or "?",
+                n=(r["name"] or "")[:40].replace("|", "/"),
+                j=r["jurisdiction"] or "",
+                cl=r["cluster_id"] or "",
+                co=r["community_id"] or "",
+                e=r["eigenvector"],
             )
         )
     lines.append("")
@@ -255,10 +255,13 @@ def main(
     for r in top_bc.iter_rows(named=True):
         lines.append(
             "| `{u}` | {s} | `{n}` | {j} | {cl} | {co} | {b:.4f} |".format(
-                u=r["entity_uid"][:50], s=r["source"] or "?",
-                n=(r["name"] or "")[:40].replace("|","/"),
-                j=r["jurisdiction"] or "", cl=r["cluster_id"] or "",
-                co=r["community_id"] or "", b=r["betweenness"],
+                u=r["entity_uid"][:50],
+                s=r["source"] or "?",
+                n=(r["name"] or "")[:40].replace("|", "/"),
+                j=r["jurisdiction"] or "",
+                cl=r["cluster_id"] or "",
+                co=r["community_id"] or "",
+                b=r["betweenness"],
             )
         )
     lines.append("")

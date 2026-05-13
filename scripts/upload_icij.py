@@ -25,7 +25,9 @@ app = typer.Typer(add_completion=False, no_args_is_help=True)
 def main(
     zip_path: Path = typer.Argument(..., exists=True, dir_okay=False, readable=True),
     url: str = typer.Option(None, "--url", help="Base URL. Falls back to $SHELLNET_JOB_URL."),
-    token: str = typer.Option(None, "--token", help="Bearer token. Falls back to $SHELLNET_JOB_TOKEN."),
+    token: str = typer.Option(
+        None, "--token", help="Bearer token. Falls back to $SHELLNET_JOB_TOKEN."
+    ),
     timeout: float = typer.Option(1800.0, "--timeout", help="Request timeout in seconds."),
 ) -> None:
     base = (url or os.environ.get("SHELLNET_JOB_URL", "")).rstrip("/")

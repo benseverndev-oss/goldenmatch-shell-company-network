@@ -35,12 +35,31 @@ app = typer.Typer(add_completion=False, no_args_is_help=False)
 log = logging.getLogger(__name__)
 
 MAINSTREAM_HOSTS = (
-    "icij.org", "occrp.org", "reuters.com", "ft.com", "bloomberg.com",
-    "nytimes.com", "washingtonpost.com", "theguardian.com", "wsj.com",
-    "lemonde.fr", "spiegel.de", "elpais.com", "corriere.it", "tass.com",
-    "interfax.com", "kommersant.ru", "vedomosti.ru", "rbc.ru",
-    "rferl.org", "bbc.com", "bbc.co.uk", "novaya.ru", "novayagazeta.eu",
-    "balkaninsight.com", "kyivindependent.com",
+    "icij.org",
+    "occrp.org",
+    "reuters.com",
+    "ft.com",
+    "bloomberg.com",
+    "nytimes.com",
+    "washingtonpost.com",
+    "theguardian.com",
+    "wsj.com",
+    "lemonde.fr",
+    "spiegel.de",
+    "elpais.com",
+    "corriere.it",
+    "tass.com",
+    "interfax.com",
+    "kommersant.ru",
+    "vedomosti.ru",
+    "rbc.ru",
+    "rferl.org",
+    "bbc.com",
+    "bbc.co.uk",
+    "novaya.ru",
+    "novayagazeta.eu",
+    "balkaninsight.com",
+    "kyivindependent.com",
 )
 
 
@@ -111,21 +130,17 @@ def main(
 
     df_filt = df
     if exact_only:
-        df_filt = df_filt.filter(
-            pl.col("target_normalized_name") == pl.col("ref_normalized_name")
-        )
+        df_filt = df_filt.filter(pl.col("target_normalized_name") == pl.col("ref_normalized_name"))
     if dob_ok_only and "dob_match" in df.columns:
         df_filt = df_filt.filter(
-            pl.col("dob_match").is_in(
-                ["both_present_year_match", "ref_only", "target_only"]
-            )
+            pl.col("dob_match").is_in(["both_present_year_match", "ref_only", "target_only"])
         )
     log.info("after filters: %d candidate rows", df_filt.height)
 
     # Dedupe to (name, country) tuples to minimise Firecrawl credits.
-    uniq = df_filt.unique(
-        subset=["target_normalized_name", "target_country"]
-    ).select(["target_name", "target_country"])
+    uniq = df_filt.unique(subset=["target_normalized_name", "target_country"]).select(
+        ["target_name", "target_country"]
+    )
     log.info("unique candidates to score: %d", uniq.height)
 
     coverage: dict[tuple[str, str | None], tuple[int, int]] = {}

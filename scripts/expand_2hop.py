@@ -110,9 +110,7 @@ def main(
     log.info("hop 1: %d edge(s) from seed to person-shaped nodes", hop1.height)
 
     seed_row = companies.filter(pl.col("entity_uid") == entity_uid)
-    seed_name = (
-        seed_row.to_dicts()[0].get("name") if seed_row.height else entity_uid
-    )
+    seed_name = seed_row.to_dicts()[0].get("name") if seed_row.height else entity_uid
 
     person_uids: list[str] = []
     for e in hop1.to_dicts():
@@ -136,9 +134,7 @@ def main(
                 (person_by_uid.get(uid) or {}).get("kind"),
             )
         ]
-        log.info(
-            "named-individuals-only: kept %d / %d officers", len(person_uids), before
-        )
+        log.info("named-individuals-only: kept %d / %d officers", len(person_uids), before)
     company_by_uid: dict[str, dict] = {}
 
     # Hop 2: persons → other companies (excluding the seed itself).
@@ -188,9 +184,7 @@ def main(
     lines: list[str] = []
     lines.append(f"# 2-hop expansion: `{label}`")
     lines.append("")
-    lines.append(
-        f"Seed entity: `{entity_uid}` (`{_md_escape(seed_name)}`)"
-    )
+    lines.append(f"Seed entity: `{entity_uid}` (`{_md_escape(seed_name)}`)")
     lines.append("")
     lines.append(
         "Walks: seed → persons (officer / intermediary / shareholder / "
@@ -210,9 +204,7 @@ def main(
     lines.append("## Summary")
     lines.append("")
     lines.append(f"- {len(person_uids)} person(s) attached to seed.")
-    lines.append(
-        f"- {len(co_shared)} *other* company(ies) share at least one of those persons."
-    )
+    lines.append(f"- {len(co_shared)} *other* company(ies) share at least one of those persons.")
     distinct_persons_used = len({s["person_uid"] for v in co_shared.values() for s in v})
     lines.append(f"- {distinct_persons_used} of seed's persons appear elsewhere in ICIJ.")
     lines.append("")
@@ -241,22 +233,16 @@ def main(
     if not ranked:
         lines.append("_No other ICIJ companies share an officer with the seed._")
     else:
-        lines.append(
-            "Ranked by number of distinct shared persons (desc). Showing all rows."
-        )
+        lines.append("Ranked by number of distinct shared persons (desc). Showing all rows.")
         lines.append("")
-        lines.append(
-            "| other_company_uid | name | jur | shared_persons | shared_with |"
-        )
+        lines.append("| other_company_uid | name | jur | shared_persons | shared_with |")
         lines.append("| --- | --- | --- | ---: | --- |")
         for other_uid, shares in ranked:
             co = company_by_uid.get(other_uid) or {}
-            persons_set = sorted(
-                {(s["person_uid"], s["person_name"]) for s in shares}
+            persons_set = sorted({(s["person_uid"], s["person_name"]) for s in shares})
+            persons_label = ", ".join(f"`{u}`" for u, _ in persons_set[:4]) + (
+                "…" if len(persons_set) > 4 else ""
             )
-            persons_label = ", ".join(
-                f"`{u}`" for u, _ in persons_set[:4]
-            ) + ("…" if len(persons_set) > 4 else "")
             lines.append(
                 "| `{u}` | `{n}` | {j} | {k} | {p} |".format(
                     u=other_uid,
@@ -272,9 +258,7 @@ def main(
     lines.append("")
     lines.append(f"- Seed entity_uid: `{entity_uid}`")
     lines.append(f"- Edges read from: `{edges_path}`")
-    lines.append(
-        f"- Generated: `{datetime.now(UTC).isoformat(timespec='seconds')}`"
-    )
+    lines.append(f"- Generated: `{datetime.now(UTC).isoformat(timespec='seconds')}`")
     lines.append("")
 
     out_dir.mkdir(parents=True, exist_ok=True)

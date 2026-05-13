@@ -29,12 +29,12 @@ log = logging.getLogger(__name__)
 UNIFIED_COLUMNS: tuple[str, ...] = (
     "source",
     "source_id",
-    "kind",          # "officer", "intermediary", "person"
+    "kind",  # "officer", "intermediary", "person"
     "name",
     "normalized_name",
     "country",
-    "topics",        # opensanctions: ["pep", "sanction", ...]
-    "datasets",      # opensanctions: source datasets
+    "topics",  # opensanctions: ["pep", "sanction", ...]
+    "datasets",  # opensanctions: source datasets
 )
 
 
@@ -78,8 +78,14 @@ def _load_opensanctions(interim: Path) -> pl.DataFrame | None:
         pl.lit("person", dtype=pl.Utf8).alias("kind"),
         pl.col("jurisdictions").list.first().alias("country"),
     ).select(
-        "source", "source_id", "kind", "name", "normalized_name",
-        "country", "topics", "datasets",
+        "source",
+        "source_id",
+        "kind",
+        "name",
+        "normalized_name",
+        "country",
+        "topics",
+        "datasets",
     )
 
 
@@ -100,7 +106,7 @@ _PLACEHOLDER_NORMALIZED_NAMES: frozenset[str] = frozenset(
         "no name",
         "no data",
         "anonymous",
-        "el portador",          # "the bearer" in Spanish (common in PA/LATAM leaks)
+        "el portador",  # "the bearer" in Spanish (common in PA/LATAM leaks)
         "portador el",
         "portador",
         "to the bearer",
@@ -169,12 +175,12 @@ def build_person_table(
 
     df = pl.concat(parts, how="vertical_relaxed")
     df = df.with_columns(
-        pl.col("name").map_elements(normalize_company_name, return_dtype=pl.Utf8).alias(
-            "normalized_name"
-        ),
-        pl.col("country").map_elements(normalize_jurisdiction, return_dtype=pl.Utf8).alias(
-            "country"
-        ),
+        pl.col("name")
+        .map_elements(normalize_company_name, return_dtype=pl.Utf8)
+        .alias("normalized_name"),
+        pl.col("country")
+        .map_elements(normalize_jurisdiction, return_dtype=pl.Utf8)
+        .alias("country"),
     )
     df = df.with_columns(
         (pl.col("source") + pl.lit(":") + pl.col("source_id")).alias("entity_uid")
@@ -182,9 +188,7 @@ def build_person_table(
 
     before = df.height
     df = df.filter(
-        ~pl.col("normalized_name").map_elements(
-            _is_placeholder_name, return_dtype=pl.Boolean
-        )
+        ~pl.col("normalized_name").map_elements(_is_placeholder_name, return_dtype=pl.Boolean)
     )
     dropped = before - df.height
     if dropped:

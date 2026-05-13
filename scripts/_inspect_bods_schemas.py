@@ -6,6 +6,7 @@ extract each file fully. Sub-tables are small enough to be cheap.
 
 from __future__ import annotations
 
+import contextlib
 import sys
 import zipfile
 from pathlib import Path
@@ -48,7 +49,5 @@ with zipfile.ZipFile(zip_path) as zf:
             print(f"=== {m} — could not read: {exc} ===")
             print()
         finally:
-            try:
+            with contextlib.suppress(FileNotFoundError):
                 target.unlink()
-            except FileNotFoundError:
-                pass

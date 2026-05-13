@@ -25,12 +25,11 @@ def main(
     zip_path: Path = typer.Option(
         DATA_DIR / "raw" / "openownership" / "uk_bods.zip", "--input", "-i"
     ),
-    out_path: Path = typer.Option(
-        PROCESSED_DIR / "uk_psc_dob.parquet", "--out"
-    ),
+    out_path: Path = typer.Option(PROCESSED_DIR / "uk_psc_dob.parquet", "--out"),
 ) -> None:
-    logging.basicConfig(level=logging.INFO,
-                        format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+    logging.basicConfig(
+        level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s"
+    )
     ensure_dirs()
     member = "person_statement.parquet"
     tmp = out_path.parent / "_uk_bods_spine_tmp.parquet"
@@ -43,9 +42,12 @@ def main(
                 break
             fh.write(chunk)
     log.info("reading + projecting")
-    df = pl.read_parquet(tmp).select(["statementId", "recordDetails_birthDate"]).rename(
-        {"recordDetails_birthDate": "dob"}
-    ).filter(pl.col("dob").is_not_null() & (pl.col("dob") != ""))
+    df = (
+        pl.read_parquet(tmp)
+        .select(["statementId", "recordDetails_birthDate"])
+        .rename({"recordDetails_birthDate": "dob"})
+        .filter(pl.col("dob").is_not_null() & (pl.col("dob") != ""))
+    )
     df.write_parquet(out_path)
     log.info("wrote %d UK PSC DOB rows -> %s", df.height, out_path)
     tmp.unlink(missing_ok=True)
