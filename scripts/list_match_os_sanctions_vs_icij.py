@@ -75,11 +75,17 @@ def main(
     os_ref.write_parquet(ref_path)
     log.info("wrote %d OS sanctioned/crime persons -> %s", os_ref.height, ref_path)
 
-    # Target: every ICIJ officer + intermediary.
-    icij = df.filter(pl.col("source") == "icij").select(keep_cols)
+    # Target: every non-OS person (ICIJ officers + intermediaries +
+    # any UK PSC beneficial-owner rows from OpenOwnership BODS).
+    target = df.filter(pl.col("source") != "opensanctions").select(keep_cols)
     tgt_path = out_dir / "icij_persons.parquet"
-    icij.write_parquet(tgt_path)
-    log.info("wrote %d ICIJ persons -> %s", icij.height, tgt_path)
+    target.write_parquet(tgt_path)
+    log.info(
+        "wrote %d target persons (%s) -> %s",
+        target.height,
+        ", ".join(sorted(set(target["source"].to_list()))),
+        tgt_path,
+    )
 
     if skip_match:
         log.info("--skip-match set; stopping here")
