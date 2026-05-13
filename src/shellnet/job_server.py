@@ -355,6 +355,9 @@ _ALLOWED_SCRIPTS = {
     "inspect_edges": ["scripts/_inspect_edges.py"],
     "provenance_503264": ["scripts/provenance_report.py", "503264"],
     "centrality": ["scripts/compute_centrality.py"],
+    "list_match_os_sanctions_vs_icij": [
+        "scripts/list_match_os_sanctions_vs_icij.py"
+    ],
 }
 
 
