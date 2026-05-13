@@ -5,11 +5,39 @@ A reproducible **case study** in using
 and offshore-entity records across public datasets, then reconstruct fragmented
 corporate-identity graphs from them.
 
-This repo is **scaffolding plus ingestion**. It does not (yet) contain a
-finished investigation. The point of the first pass is to make it cheap and
-honest to *run* the analysis: drop public bulk files into `data/raw/`, run a
-handful of scripts, and you'll get an interim parquet per source, a unified
-company table, a GoldenMatch run, and a NetworkX graph summary.
+The repo is **scaffolding, ingestion, and two worked investigations**.
+Drop public bulk files into `data/raw/`, run a handful of scripts, and
+you'll get unified tables across sources, a GoldenMatch dedupe +
+list-match run, a NetworkX graph summary, and per-seed markdown
+investigation reports. Two case studies live alongside the code.
+
+## Corpus & case studies
+
+Current corpus (after ICIJ + OpenSanctions ingest):
+
+| Table | Rows |
+| --- | ---: |
+| `company_entities.parquet` | **1,240,555** (ICIJ 814k + OS 426k) |
+| `person_entities.parquet` | **1,950,531** (ICIJ 797k + OS 1.15M) |
+| `address_entities.parquet` | **1,180,555** (ICIJ 702k + OS 479k) |
+
+Two investigations have been run end-to-end:
+
+- **Phoenix Spree Deutschland** — 9-member ICIJ cluster, 100% GLEIF
+  anchored. Walkthrough:
+  [`notebooks/01_case_study.ipynb`](notebooks/01_case_study.ipynb)
+  · writeup:
+  [`reports/case_studies/503264_phoenix_spree_deutschland.md`](reports/case_studies/503264_phoenix_spree_deutschland.md).
+- **Epstein corporate-network seed review** — 28 sourced seeds (USVI
+  SAC, NYDFS, Senate Finance, JPMorgan litigation). Headline: *Liquid
+  Funding, Ltd.* (Bermuda, ICIJ Paradise Papers — Appleby) is the
+  single corroborated lead — Jeffrey E Epstein listed as director +
+  chairman, 2001-11-09 to 2007-03-30, alongside Bear Stearns SVP
+  Jeffrey M Lipman (FINRA CRD# 717915, Bear Stearns 1980–2008).
+  Notebook:
+  [`notebooks/02_epstein_case_study.ipynb`](notebooks/02_epstein_case_study.ipynb)
+  · findings:
+  [`reports/investigations/epstein_followup_2_findings.md`](reports/investigations/epstein_followup_2_findings.md).
 
 ## What this is — and isn't
 

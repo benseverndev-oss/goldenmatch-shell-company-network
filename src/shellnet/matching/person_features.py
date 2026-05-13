@@ -83,11 +83,62 @@ def _load_opensanctions(interim: Path) -> pl.DataFrame | None:
     )
 
 
+# Placeholder "names" used by registries / leaks to indicate bearer
+# shares, unknown owners, or other non-person ownership patterns.
+# Matched against the *normalized* (lowercased, suffix-stripped) name
+# AND against a token-sorted form, so "The Bearer" / "Bearer the" /
+# "Bearer 1" / "Bearer N." all get caught.
+_PLACEHOLDER_NORMALIZED_NAMES: frozenset[str] = frozenset(
+    {
+        "bearer",
+        "the bearer",
+        "bearer the",
+        "unknown",
+        "n a",
+        "na",
+        "not available",
+        "no name",
+        "no data",
+        "anonymous",
+        "el portador",          # "the bearer" in Spanish (common in PA/LATAM leaks)
+        "portador el",
+        "portador",
+        "to the bearer",
+        "bearer to",
+    }
+)
+
+
+def _is_placeholder_name(name: str | None) -> bool:
+    """True if the normalized name looks like a bearer-share placeholder.
+
+    Catches exact placeholder strings + the same strings with a trailing
+    digit (\"bearer 1\", \"bearer 42\") which dominate the ICIJ bearer-share
+    pattern.
+    """
+    if not name:
+        return True
+    if name in _PLACEHOLDER_NORMALIZED_NAMES:
+        return True
+    # "bearer <digits>" / "bearer N" / "bearer #"
+    parts = name.split()
+    if parts and parts[0] in {"bearer", "portador"}:
+        rest = " ".join(parts[1:])
+        if not rest or rest.replace(" ", "").isdigit() or rest in {"the", "n", "no"}:
+            return True
+    return False
+
+
 def build_person_table(
     interim_dir: Path = INTERIM_DIR,
     out_dir: Path = PROCESSED_DIR,
 ) -> Path:
-    """Concatenate all available person-shaped rows into one parquet."""
+    """Concatenate all available person-shaped rows into one parquet.
+
+    Filters out registry placeholders (\"Bearer\", \"The Bearer\", \"Unknown\",
+    etc.) so dedupe doesn't waste a 72k-row block on anonymous-owner
+    placeholder strings.
+    """
     out_dir.mkdir(parents=True, exist_ok=True)
     parts: list[pl.DataFrame] = []
     for filename, kind in (
@@ -121,6 +172,16 @@ def build_person_table(
     df = df.with_columns(
         (pl.col("source") + pl.lit(":") + pl.col("source_id")).alias("entity_uid")
     ).select(["entity_uid", *UNIFIED_COLUMNS])
+
+    before = df.height
+    df = df.filter(
+        ~pl.col("normalized_name").map_elements(
+            _is_placeholder_name, return_dtype=pl.Boolean
+        )
+    )
+    dropped = before - df.height
+    if dropped:
+        log.info("Dropped %d placeholder-name rows (e.g. 'Bearer', 'The Bearer')", dropped)
 
     out = out_dir / "person_entities.parquet"
     df.write_parquet(out)
