@@ -356,7 +356,9 @@ _ALLOWED_SCRIPTS = {
     "provenance_503264": ["scripts/provenance_report.py", "503264"],
     "centrality": ["scripts/compute_centrality.py"],
     "list_match_os_sanctions_vs_icij": [
-        "scripts/list_match_os_sanctions_vs_icij.py"
+        "scripts/list_match_os_sanctions_vs_icij.py",
+        "--out-dir", "/data/processed",
+        "--reports-dir", "/data/reports/generated",
     ],
 }
 
