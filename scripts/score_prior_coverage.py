@@ -22,12 +22,12 @@ Requires the `firecrawl` CLI on PATH and an authenticated session.
 
 from __future__ import annotations
 
-import json
 import logging
-import subprocess
+import os
 import time
 from pathlib import Path
 
+import httpx
 import polars as pl
 import typer
 
@@ -44,33 +44,36 @@ MAINSTREAM_HOSTS = (
 )
 
 
+_FIRECRAWL_BASE = "https://api.firecrawl.dev"
+
+
 def _firecrawl_search(query: str, limit: int = 8) -> list[dict]:
-    """Run `firecrawl search` and parse the JSON output."""
-    out = Path(".firecrawl/coverage") / (
-        "".join(c if c.isalnum() else "_" for c in query)[:80] + ".json"
-    )
-    out.parent.mkdir(parents=True, exist_ok=True)
-    cmd = [
-        "firecrawl", "search", query,
-        "--limit", str(limit),
-        "-o", str(out),
-        "--json",
-    ]
-    try:
-        subprocess.run(cmd, check=True, capture_output=True, timeout=60)
-    except subprocess.CalledProcessError as exc:
-        log.warning("firecrawl failed for %r: %s", query, exc.stderr[:200] if exc.stderr else exc)
-        return []
-    except subprocess.TimeoutExpired:
-        log.warning("firecrawl timeout for %r", query)
-        return []
-    if not out.exists():
+    """Call Firecrawl's HTTP search endpoint directly.
+
+    The CLI wraps this same API; calling the HTTP endpoint avoids
+    needing the Node CLI on the Railway container.
+    """
+    api_key = os.environ.get("FIRECRAWL_API_KEY")
+    if not api_key:
+        log.error("FIRECRAWL_API_KEY not set")
         return []
     try:
-        data = json.loads(out.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
+        r = httpx.post(
+            f"{_FIRECRAWL_BASE}/v1/search",
+            json={"query": query, "limit": limit},
+            headers={"Authorization": f"Bearer {api_key}"},
+            timeout=60.0,
+        )
+        r.raise_for_status()
+        data = r.json()
+    except httpx.HTTPError as exc:
+        log.warning("firecrawl HTTP error for %r: %s", query, exc)
         return []
-    return (data.get("data") or {}).get("web") or []
+    # The v1 API returns either {"data": [...]} or {"data": {"web": [...]}}.
+    body = data.get("data") or {}
+    if isinstance(body, list):
+        return body
+    return body.get("web") or []
 
 
 def _score(results: list[dict]) -> tuple[int, int]:

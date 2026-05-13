@@ -392,6 +392,18 @@ _ALLOWED_SCRIPTS = {
         "--input", "/data/raw/openownership/uk_bods.zip",
         "--out", "/data/processed/uk_psc_dob.parquet",
     ],
+    "enrich_match_with_dob": [
+        "scripts/enrich_match_with_dob.py",
+        "/data/reports/generated/list_match_os_sanctions_vs_icij_matched.csv",
+        "--os-parquet", "/data/interim/opensanctions_entities.parquet",
+        "--uk-dob", "/data/processed/uk_psc_dob.parquet",
+        "--out", "/data/reports/generated/matched_dob.csv",
+    ],
+    "score_prior_coverage": [
+        "scripts/score_prior_coverage.py",
+        "/data/reports/generated/matched_dob.csv",
+        "--out", "/data/reports/generated/matched_dob_scored.csv",
+    ],
     "inspect_uk_bods_zip": [
         "scripts/_inspect_zip.py",
         "/data/raw/openownership/uk_bods.zip",

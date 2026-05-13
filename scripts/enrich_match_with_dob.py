@@ -55,19 +55,38 @@ def main(
     matched = pl.read_csv(matched_csv)
     log.info("matched rows: %d", matched.height)
 
-    log.info("building UK PSC DOB lookup")
-    uk_dob = pl.read_parquet(uk_dob_parquet) if uk_dob_parquet.exists() else None
+    log.info("building UK PSC DOB lookup (pre-filtered to matched target_uids)")
+    needed_uk = {
+        u.split(":", 1)[1]
+        for u in matched["target_entity_uid"].to_list()
+        if u.startswith("uk_psc:")
+    }
+    log.info("UK PSC statementIds needed: %d", len(needed_uk))
     uk_dob_map: dict[str, str] = {}
-    if uk_dob is not None and uk_dob.height:
-        uk_dob_map = {r["statementId"]: r["dob"] for r in uk_dob.to_dicts()}
-    log.info("UK PSC DOB rows: %d", len(uk_dob_map))
+    if uk_dob_parquet.exists() and needed_uk:
+        uk_dob_df = (
+            pl.scan_parquet(uk_dob_parquet)
+            .filter(pl.col("statementId").is_in(list(needed_uk)))
+            .collect()
+        )
+        log.info("UK PSC DOB rows matching: %d", uk_dob_df.height)
+        uk_dob_map = {r["statementId"]: r["dob"] for r in uk_dob_df.to_dicts()}
 
-    # OS side: extract DOB from raw_json. The matched CSV has
-    # ref_entity_uid like `opensanctions:<id>`. We need to look up the
-    # corresponding OS row's raw_json.
-    log.info("loading OS persons (for raw_json -> dob lookup)")
-    os_e = pl.read_parquet(os_parquet).filter(pl.col("entity_schema") == "Person")
+    # OS side: extract DOB from raw_json. Pre-filter to just the OS
+    # source_ids that appear in matched.csv to avoid OOMing on 1.15M
+    # OS person rows.
+    needed_os_uids = set(matched["ref_entity_uid"].to_list())
+    needed_os_source_ids = {
+        u.split(":", 1)[1] for u in needed_os_uids if u.startswith("opensanctions:")
+    }
+    log.info("OS persons we need DOBs for: %d", len(needed_os_source_ids))
     os_dob: dict[str, str] = {}
+    os_e_lazy = pl.scan_parquet(os_parquet).filter(
+        (pl.col("entity_schema") == "Person")
+        & pl.col("source_id").is_in(list(needed_os_source_ids))
+    )
+    os_e = os_e_lazy.collect()
+    log.info("OS person rows matching: %d", os_e.height)
     for r in os_e.iter_rows(named=True):
         try:
             rj = json.loads(r["raw_json"]) if r["raw_json"] else {}
@@ -75,7 +94,6 @@ def main(
             continue
         bd = (rj.get("properties") or {}).get("birthDate")
         if bd:
-            # birthDate is a list in FtM
             dob = bd[0] if isinstance(bd, list) else bd
             os_dob[f"opensanctions:{r['source_id']}"] = dob
     log.info("OS DOB rows: %d", len(os_dob))
