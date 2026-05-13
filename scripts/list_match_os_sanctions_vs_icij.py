@@ -93,10 +93,12 @@ def main(
     # / China captured for completeness against current OS lists.
     # Excluding generic Western-EU first-name blocks (alexander/michael/
     # anthony) that swamp the matcher with no investigative payoff.
-    high_signal = {
-        "ru", "ua", "by", "kz", "cy", "mt", "pk", "in", "cn", "kg",
-        "uz", "az", "am", "ge", "md", "ir", "sy", "ve", "tm", "tj",
-    }
+    # Tight focus: the sanctioned-Russian-via-UK-Ltd / Cypriot-enabler
+    # pattern. Wider sets (Pakistani PSCs etc.) hit goldenmatch's
+    # blocking pathology on common honorific-prefixed names ("Mr Muh..."
+    # at 31k records) and OOM the match step. Investigative payoff per
+    # row is highest in this narrow set anyway.
+    high_signal = {"ru", "ua", "by", "cy", "kz"}
     uk_psc = df.filter(
         (pl.col("source") == "uk_psc")
         & pl.col("country").is_in(list(high_signal))
