@@ -201,6 +201,129 @@ def _build_entities(work_dir: Path) -> pl.DataFrame:
     return df.select(list(_COMPANY_COLUMNS))
 
 
+_OWNERSHIP_EDGE_COLUMNS: tuple[str, ...] = (
+    "source",          # 'gleif_l2' or 'uk_psc'
+    "src_lei",         # subject company LEI (or BODS statement id)
+    "dst_lei",         # interested party LEI (parent / controller)
+    "kind",            # 'parent_of' / 'control'
+    "share_min",       # percentage minimum if available
+    "share_max",       # percentage maximum if available
+    "start_date",
+    "end_date",
+)
+
+
+def _build_gleif_relationships(work_dir: Path) -> pl.DataFrame:
+    """Extract corporate parent/child relationships from GLEIF L2 BODS.
+
+    GLEIF L2's BODS relationship_statement has:
+      - declarationSubject  -> the child entity (LEI prefixed XI-LEI-...)
+      - recordDetails_subject / recordDetails_interestedParty
+        -> child + parent
+    Plus an associated interests sub-table with share %, type, etc.
+    """
+    rel = pl.read_parquet(work_dir / "relationship_statement.parquet").select(
+        [
+            "_link",
+            "statementId",
+            "recordDetails_subject",
+            "recordDetails_interestedParty",
+        ]
+    )
+    interests = pl.read_parquet(
+        work_dir / "relationship_recorddetails_interests.parquet"
+    ).select(
+        [
+            "_link_relationship_statement",
+            "directOrIndirect",
+            "type",
+            "share_minimum",
+            "share_maximum",
+            "startDate",
+            "endDate",
+        ]
+    )
+    # Keep the strongest interest per relationship (highest share_max).
+    interests = (
+        interests.sort("share_maximum", descending=True, nulls_last=True)
+        .group_by("_link_relationship_statement")
+        .first()
+    )
+    edges = rel.join(
+        interests,
+        left_on="_link",
+        right_on="_link_relationship_statement",
+        how="left",
+    ).with_columns(
+        pl.lit("gleif_l2", dtype=pl.Utf8).alias("source"),
+        pl.col("recordDetails_subject").alias("src_lei"),
+        pl.col("recordDetails_interestedParty").alias("dst_lei"),
+        pl.col("type").fill_null("ownership").alias("kind"),
+        pl.col("share_minimum").alias("share_min"),
+        pl.col("share_maximum").alias("share_max"),
+        pl.col("startDate").alias("start_date"),
+        pl.col("endDate").alias("end_date"),
+    ).select(list(_OWNERSHIP_EDGE_COLUMNS))
+    edges = edges.filter(
+        pl.col("src_lei").is_not_null() & pl.col("dst_lei").is_not_null()
+    )
+    return edges
+
+
+def ingest_gleif_l2(
+    zip_path: Path,
+    *,
+    out_dir: Path = INTERIM_DIR,
+    work_dir: Path | None = None,
+    keep_extracted: bool = False,
+) -> dict[str, Path]:
+    """Ingest the OpenOwnership GLEIF L2 BODS parquet.
+
+    Emits:
+      - ``gleif_l2_relationships.parquet`` — corporate parent/child edges
+        with share %, type, dates. Consumed by the graph layer for
+        company-anchored ownership-chain walks.
+
+    Optionally also writes an entity-shaped parquet so GLEIF L2's own
+    entity rows can land in the unified company table (the existing
+    Golden Copy ingest already covers most of this, so by default we
+    skip it — the relationship layer is the marginal value-add).
+    """
+    out_dir.mkdir(parents=True, exist_ok=True)
+    work_dir = work_dir or out_dir / "_gleif_l2_work"
+    work_dir.mkdir(parents=True, exist_ok=True)
+    zip_path = Path(zip_path)
+    if not zip_path.exists():
+        log.error("GLEIF L2 BODS zip not found: %s", zip_path)
+        return {}
+
+    members = (
+        "relationship_statement.parquet",
+        "relationship_recorddetails_interests.parquet",
+    )
+    for m in members:
+        target = work_dir / m
+        if target.exists():
+            log.info("GLEIF L2: %s already extracted (%.0f MB)", m, target.stat().st_size / 1e6)
+            continue
+        log.info("GLEIF L2: extracting %s", m)
+        _extract(zip_path, m, target)
+
+    log.info("GLEIF L2: building relationships")
+    rel = _build_gleif_relationships(work_dir)
+    rel_out = out_dir / "gleif_l2_relationships.parquet"
+    rel.write_parquet(rel_out)
+    log.info("GLEIF L2: wrote %d ownership edges -> %s", rel.height, rel_out)
+
+    if not keep_extracted:
+        for m in members:
+            (work_dir / m).unlink(missing_ok=True)
+        with contextlib.suppress(OSError):
+            work_dir.rmdir()
+
+    return {"relationships": rel_out}
+
+
 def ingest(
     zip_path: Path,
     *,

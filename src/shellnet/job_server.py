@@ -382,6 +382,11 @@ _ALLOWED_SCRIPTS = {
         "--input", "/data/raw/openownership/uk_bods.zip",
         "--out-dir", "/data/interim",
     ],
+    "ingest_gleif_l2": [
+        "scripts/ingest_gleif_l2.py",
+        "--input", "/data/raw/openownership/gleif_bods.zip",
+        "--out-dir", "/data/interim",
+    ],
     "inspect_uk_bods_zip": [
         "scripts/_inspect_zip.py",
         "/data/raw/openownership/uk_bods.zip",
