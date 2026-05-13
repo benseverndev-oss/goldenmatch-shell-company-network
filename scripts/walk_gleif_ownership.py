@@ -58,7 +58,24 @@ def main(
         "--out",
     ),
     sanctions_datasets: str = typer.Option(
-        "us_ofac,eu_fsf,gb_hmt",
+        # Original filter was us_ofac,eu_fsf,gb_hmt — too narrow. OS
+        # actually calls the relevant datasets us_ofac_sdn,
+        # us_sam_exclusions, gb_fcdo_sanctions, ch_seco_sanctions, etc.
+        # The first run misclassified real OFAC-sanctioned entities
+        # (the Sovcomflot Cyprus shipping shells under
+        # us_sam_exclusions) as "not yet sanctioned" because they
+        # weren't on the literal us_ofac dataset substring.
+        #
+        # Wider net: trust OS's own classification — if it assigned
+        # the `sanction` topic AND placed the entity on any
+        # internationally-recognised sanctions / freeze list, treat as
+        # directly sanctioned.
+        "us_ofac,us_sam_exclusions,us_trade_csl,eu_fsf,eu_travel_bans,"
+        "eu_journal_sanctions,gb_fcdo_sanctions,ch_seco_sanctions,"
+        "ua_nsdc_sanctions,ua_war_sanctions,ca_dfatd_sema_sanctions,"
+        "au_dfat_sanctions,jp_mof_sanctions,fr_tresor_gels_avoir,"
+        "be_fod_sanctions,mc_fund_freezes,nz_russia_sanctions,"
+        "tw_shtc,iq_aml_list,kg_fiu_national",
         "--sanctions-datasets",
         help="Comma-separated substrings of OS dataset names to count as "
         "real asset-freeze sanctions (vs reg.action / sanction.linked).",

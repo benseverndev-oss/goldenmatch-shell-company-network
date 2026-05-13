@@ -1,14 +1,14 @@
 # GLEIF L2 ownership chains — asset-frozen entities + adjacent
 
-Generated from OS entities filtered by topic == `sanction` AND datasets containing any of ['us_ofac', 'eu_fsf', 'gb_hmt'].
+Generated from OS entities filtered by topic == `sanction` AND datasets containing any of ['us_ofac', 'us_sam_exclusions', 'us_trade_csl', 'eu_fsf', 'eu_travel_bans', 'eu_journal_sanctions', 'gb_fcdo_sanctions', 'ch_seco_sanctions', 'ua_nsdc_sanctions', 'ua_war_sanctions', 'ca_dfatd_sema_sanctions', 'au_dfat_sanctions', 'jp_mof_sanctions', 'fr_tresor_gels_avoir', 'be_fod_sanctions', 'mc_fund_freezes', 'nz_russia_sanctions', 'tw_shtc', 'iq_aml_list', 'kg_fiu_national'].
 
 > **Hypothesis, not proof.** Each chain is a registry-disclosed corporate ownership link via GLEIF Level 2. The fact that one end is OFAC/EU/UK asset-frozen and the other isn't is a *lead* that warrants human review (and possibly secondary-sanctions designation), not a finding. Names may be common; LEI plus jurisdiction is the discriminator.
 
 ## Summary
 
-- Directly-sanctioned LEIs (topic == `sanction`, on OFAC/EU/UK lists): **533**
-- Edges with both ends sanctioned: **127**
-- Edges with exactly one end sanctioned (not-yet-sanctioned neighbour): **390**
+- Directly-sanctioned LEIs (topic == `sanction`, on OFAC/EU/UK lists): **702**
+- Edges with both ends sanctioned: **202**
+- Edges with exactly one end sanctioned (not-yet-sanctioned neighbour): **470**
 
 ## Both-ends-sanctioned chains
 
@@ -18,10 +18,14 @@ Pre-existing intra-sanctioned-network corporate-ownership links. Both endpoints 
 | --- | --- |
 | `25340038P8SYW80B9W34` Belvnesheconombank OJSC | `25340076UP17XECUF417` ГОСУДАРСТВЕННАЯ КОРПОРАЦИЯ "БАНК РАЗВИТИЯ И ВНЕШНЕ ЭКОНОМИЧЕ |
 | `25340038P8SYW80B9W34` Belvnesheconombank OJSC | `25340076UP17XECUF417` ГОСУДАРСТВЕННАЯ КОРПОРАЦИЯ "БАНК РАЗВИТИЯ И ВНЕШНЕ ЭКОНОМИЧЕ |
+| `253400CHFC0XZ6QMP406` Закрытае акцыянернае таварыства «Альфа-Банк» | `549300502MVL52NR6221` ABH HOLDINGS S.A. |
+| `253400CHFC0XZ6QMP406` Закрытае акцыянернае таварыства «Альфа-Банк» | `549300502MVL52NR6221` ABH HOLDINGS S.A. |
 | `253400T0B3YA0V01TL29` Товариство з обмеженою відповідальністю інвестиційна компані | `253400XSJ4C01YMCXG44` PUBLICHNOE AKTSIONERNOE OBSCHESTVO MAGNITOGORSKIY METALLURGI |
 | `253400T0B3YA0V01TL29` Товариство з обмеженою відповідальністю інвестиційна компані | `253400XSJ4C01YMCXG44` PUBLICHNOE AKTSIONERNOE OBSCHESTVO MAGNITOGORSKIY METALLURGI |
 | `213800DHNUILNIQRED05` Общество с ограниченной ответственностью "Полюс Сервис" | `549300FUXVT7TF6ZKV71` Polyus - Nyilvánosan Működő Részvénytársaság |
 | `213800DHNUILNIQRED05` Общество с ограниченной ответственностью "Полюс Сервис" | `549300FUXVT7TF6ZKV71` Polyus - Nyilvánosan Működő Részvénytársaság |
+| `259400K9K1EPHLZ2NJ95` СІА "Сєверсталь Дистриб'юшн" | `213800OKDPTV6K4ONO53` Severstal' PAO |
+| `259400K9K1EPHLZ2NJ95` СІА "Сєверсталь Дистриб'юшн" | `213800OKDPTV6K4ONO53` Severstal' PAO |
 | `254900F23AOTVJF93825` BANCO VTB AFRICA SA | `253400V1H6ART1UQ0N98` Банк ВТБ (ПАО) |
 | `254900F23AOTVJF93825` BANCO VTB AFRICA SA | `253400V1H6ART1UQ0N98` Банк ВТБ (ПАО) |
 | `254900JHWE3G4G31ZK94` BANK VTB KAZAKHSTAN JSC | `253400V1H6ART1UQ0N98` Банк ВТБ (ПАО) |
@@ -29,6 +33,8 @@ Pre-existing intra-sanctioned-network corporate-ownership links. Both endpoints 
 | `549300186QXM3QH30R53` Otkritie Capital Ltd | `253400D1T9WFNN3BTT91` Bank "Otkritie Financial Corporation" PJSC |
 | `549300186QXM3QH30R53` Otkritie Capital Ltd | `253400EB56NKL2M3WT18` The Central Bank Of The Russian Federation |
 | `635400I6H6CSZ39WIN49` Gtlk Europe Capital DAC | `635400FDT7BRRHTMEC11` GTLK Europe DAC |
+| `253400T2X9M9A6G9AG23` открытое акционерное общество "Авиакомпания "Россия" | `253400MSLG0NS4C3NB96` AEROFLOT PJSC |
+| `253400T2X9M9A6G9AG23` открытое акционерное общество "Авиакомпания "Россия" | `253400MSLG0NS4C3NB96` AEROFLOT PJSC |
 | `213800FYT591NMMOL156` Volzhskiy Trubnyi Zavod JSC | `213800TF7S5EDO6V3K66` ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО " ТРУБНАЯ МЕТАЛЛУРГИЧЕСКАЯ КОМ |
 | `25340038P8SYW80B9W34` Belvnesheconombank OJSC | `25340076UP17XECUF417` ГОСУДАРСТВЕННАЯ КОРПОРАЦИЯ "БАНК РАЗВИТИЯ И ВНЕШНЕ ЭКОНОМИЧЕ |
 | `25340038P8SYW80B9W34` Belvnesheconombank OJSC | `25340076UP17XECUF417` ГОСУДАРСТВЕННАЯ КОРПОРАЦИЯ "БАНК РАЗВИТИЯ И ВНЕШНЕ ЭКОНОМИЧЕ |
@@ -39,6 +45,10 @@ Pre-existing intra-sanctioned-network corporate-ownership links. Both endpoints 
 | `25490097TSPULKFOF602` Mighty Divine Global Fund SPC | `254900IYH8RHI6KT4P60` MIGHTY DIVINE INVESTMENT MANAGEMENT LIMITED |
 | `52990002BY85ORK97W78` GPB (SWITZERLAND) LTD | `253400WSS48YWMBUA688` акционерное общество «Газпром Банк» |
 | `52990002BY85ORK97W78` GPB (SWITZERLAND) LTD | `253400WSS48YWMBUA688` акционерное общество «Газпром Банк» |
+| `213800PLONZRLEIL5O33` Новатек Гез енд Павер Азія Прайвет Лтд. | `2138008R6GCRVBDFA581` ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО "ФИНАНСОВО-ИНВЕСТИЦИОННАЯ КОМП |
+| `213800PLONZRLEIL5O33` Новатек Гез енд Павер Азія Прайвет Лтд. | `2138008R6GCRVBDFA581` ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО "ФИНАНСОВО-ИНВЕСТИЦИОННАЯ КОМП |
+| `2534008FX8EXH1FMJA74` MTS | `213800JSZ2UUK4QQK694` PJSC ‘Motovilikhinskiye Zavody' |
+| `2534008FX8EXH1FMJA74` MTS | `213800JSZ2UUK4QQK694` PJSC ‘Motovilikhinskiye Zavody' |
 | `253400CW8F4L53HWU734` Общество с ограниченной ответственностью "Бланк банк" | `2534000R9X3PNNE57C55` Credit Bank of Moscow |
 | `253400GU1G2W8L6L3885` VOSTOCHNY CAPITAL MANAGEMENT COMPANY LLC | `253400BBBP7990NS0M56` SOVCOMBANK OPEN JOINT STOCK COMPANY |
 | `253400T0B3YA0V01TL29` Товариство з обмеженою відповідальністю інвестиційна компані | `253400XSJ4C01YMCXG44` PUBLICHNOE AKTSIONERNOE OBSCHESTVO MAGNITOGORSKIY METALLURGI |
@@ -46,17 +56,7 @@ Pre-existing intra-sanctioned-network corporate-ownership links. Both endpoints 
 | `253400WMV1LDNKA3P870` Публичное акционерное общество МОСКОВСКИЙ ОБЛАСТНОЙ БАНК | `VX43JDHPWL0M8GQ0QU45` Публичное акционерное общество "Банк ПСБ" |
 | `253400WMV1LDNKA3P870` Публичное акционерное общество МОСКОВСКИЙ ОБЛАСТНОЙ БАНК | `VX43JDHPWL0M8GQ0QU45` Публичное акционерное общество "Банк ПСБ" |
 | `213800NCOJLY8JW3YI89` Bank Sepah International PLC | `5493008Z30ZS378SB107` バンク・セパ |
-| `213800NCOJLY8JW3YI89` Bank Sepah International PLC | `5493008Z30ZS378SB107` バンク・セパ |
-| `25490097TSPULKFOF602` Mighty Divine Global Fund SPC | `254900IYH8RHI6KT4P60` MIGHTY DIVINE INVESTMENT MANAGEMENT LIMITED |
-| `254900CSJGVBZ6CA9D24` Xing Ao Energy Pte Ltd | `655600I0RTPZ3DFASH49` 河北鑫海化工集团有限公司 |
-| `254900CSJGVBZ6CA9D24` Xing Ao Energy Pte Ltd | `655600I0RTPZ3DFASH49` 河北鑫海化工集团有限公司 |
-| `549300FD9UH07N44ZX88` Azoria Shipping Company Limited | `253400DYLWR5A6YAWJ69` Sovcomflot |
-| `549300BV4X39ITLG4R60` Gazprombank Latin America Ventures BV | `549300E5KHMX548FFZ34` GPB GLOBAL RESOURCES B.V. |
-| `549300BV4X39ITLG4R60` Gazprombank Latin America Ventures BV | `549300E5KHMX548FFZ34` GPB GLOBAL RESOURCES B.V. |
-| `74780080B3J1A5AOWK36` Nis Ad Novi Sad | `253400KXA9P2AN72P004` Московський філіал Відкритого акціонерного товариства "Газпр |
-| `74780080B3J1A5AOWK36` Nis Ad Novi Sad | `213800FD9J2IHTA7YX78` ПУБЛИЧНОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО"ГАЗПРОМ" |
-| `2534002GCABZ5KDN2B87` OBSHCHESTVO S OGRANICHENNOI OTVETSTVENNOSTYU EVRAZKHOLDING F | `5493005B7DAN39RXLK23` EVRAZ |
-| _… 87 more rows_ | |
+| _… 162 more rows_ | |
 
 ## Sanctioned parent → not-yet-sanctioned subsidiaries
 
@@ -79,7 +79,7 @@ Each row is one *children-of* group: a sanctioned entity at the top, followed by
 - `2534008CRS9Q4TCJ0Q32` Общество с ограниченной ответственностью "ЛУКОЙЛ-Резервнефтепродукт-Трейдинг"
 - `2534008CRS9Q4TCJ0Q32` Общество с ограниченной ответственностью "ЛУКОЙЛ-Резервнефтепродукт-Трейдинг"
 - `5299007PQV6X4DPL9Y20` Lukoil International Gmbh
-- _… 24 more_
+- _… 23 more_
 
 ### `549300XIVJCBIGMRUD48` CNOOC Limited (a subsidiary of China National Offshore Oil Corporation
 
@@ -100,24 +100,24 @@ Each row is one *children-of* group: a sanctioned entity at the top, followed by
 - `549300KSB04UT8CS3T40` CNOOC Finance (2003) Limited
 - _… 6 more_
 
-### `213800JSZ2UUK4QQK694` PJSC ‘Motovilikhinskiye Zavody'
+### `549300502MVL52NR6221` ABH HOLDINGS S.A.
 
-- `253400801C3YP0QS5A62` (name not in OS — pull GLEIF entity record for full name)
-- `2534008FX8EXH1FMJA74` MTS
-- `2534008FX8EXH1FMJA74` MTS
-- `2534004JKXBEM0T4LW33` Акционерное общество "Система Финанс"
-- `2534004JKXBEM0T4LW33` Акционерное общество "Система Финанс"
-- `253400801C3YP0QS5A62` (name not in OS — pull GLEIF entity record for full name)
-- `2534008FX8EXH1FMJA74` MTS
-- `2534008FX8EXH1FMJA74` MTS
-- `253400M8F9ZXY9CN3U71` Общество с ограниченной ответственностью "Система Телеком Активы"
-- `253400M8F9ZXY9CN3U71` Общество с ограниченной ответственностью "Система Телеком Активы"
-- `253400QD4JHES5PGDR15` Dega Retail Holding Limited
-- `253400YCVQ7DZPFUWH47` Общество с ограниченной ответственностью "Бастион"
-- `2534004JKXBEM0T4LW33` Акционерное общество "Система Финанс"
-- `2534004JKXBEM0T4LW33` Акционерное общество "Система Финанс"
-- `254900YJTZ2JT3ZSZS32` SISTEMA ASIA FUND PTE. LTD.
-- _… 6 more_
+- `549300IZ8NLVXDFAIF74` ABH KAZAKHSTAN LIMITED
+- `549300IZ8NLVXDFAIF74` ABH KAZAKHSTAN LIMITED
+- `549300JEB2VH61XGWD42` Voda International Corp.
+- `549300SY4W3W7L5WZE53` SIFUM GROUP LIMITED
+- `549300BJKVXI3YIYYW60` ABHU FINANCE PLC
+- `549300QUS7ZQXD8GVG76` Countryisle Assets Limited
+- `549300RFJCRPC8219D49` RINGBELL LIMITED
+- `253400DU2KNVQR4TT027` Публичное Акционерное Общество "Балтийский Банк"
+- `213800JV1ZCAGAL5BK67` GREATFORD LIMITED
+- `549300BJKVXI3YIYYW60` ABHU FINANCE PLC
+- `213800JV1ZCAGAL5BK67` GREATFORD LIMITED
+- `549300IZ8NLVXDFAIF74` ABH KAZAKHSTAN LIMITED
+- `549300IZ8NLVXDFAIF74` ABH KAZAKHSTAN LIMITED
+- `549300XTCMOUXC51WZ58` ALFA CAPITAL HOLDINGS (CYPRUS) LIMITED
+- `549300BJKVXI3YIYYW60` ABHU FINANCE PLC
+- _… 3 more_
 
 ### `213800FD9J2IHTA7YX78` ПУБЛИЧНОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО"ГАЗПРОМ"
 
@@ -138,6 +138,24 @@ Each row is one *children-of* group: a sanctioned entity at the top, followed by
 - `213800UNP9N6BPNYMQ45` GAZ FINANCE PLC
 - _… 1 more_
 
+### `213800JSZ2UUK4QQK694` PJSC ‘Motovilikhinskiye Zavody'
+
+- `253400801C3YP0QS5A62` (name not in OS — pull GLEIF entity record for full name)
+- `2534004JKXBEM0T4LW33` Акционерное общество "Система Финанс"
+- `2534004JKXBEM0T4LW33` Акционерное общество "Система Финанс"
+- `253400801C3YP0QS5A62` (name not in OS — pull GLEIF entity record for full name)
+- `253400M8F9ZXY9CN3U71` Общество с ограниченной ответственностью "Система Телеком Активы"
+- `253400M8F9ZXY9CN3U71` Общество с ограниченной ответственностью "Система Телеком Активы"
+- `253400QD4JHES5PGDR15` Dega Retail Holding Limited
+- `253400YCVQ7DZPFUWH47` Общество с ограниченной ответственностью "Бастион"
+- `2534004JKXBEM0T4LW33` Акционерное общество "Система Финанс"
+- `2534004JKXBEM0T4LW33` Акционерное общество "Система Финанс"
+- `254900YJTZ2JT3ZSZS32` SISTEMA ASIA FUND PTE. LTD.
+- `253400QD4JHES5PGDR15` Dega Retail Holding Limited
+- `253400YCVQ7DZPFUWH47` Общество с ограниченной ответственностью "Бастион"
+- `254900YJTZ2JT3ZSZS32` SISTEMA ASIA FUND PTE. LTD.
+- `549300NGFIWUC9NJRJ44` STEPPE TRADING SA
+
 ### `5493009YJ817TFZ7IY48` Swiru Holding AG
 
 - `5493000HYVYGGJD6WD50` Watertight International Inc.
@@ -154,37 +172,6 @@ Each row is one *children-of* group: a sanctioned entity at the top, followed by
 - `549300X9D1GFNNYNLM74` Burlington Properties S.A.
 - `549300X9D1GFNNYNLM74` Burlington Properties S.A.
 
-### `HOXMZG026UQNRK6J0C60` Javno dioničko društvo Rosbank
-
-- `25340025EEVZ9ZWKJB62` Общество с ограниченной ответственностью "РБ Сервис"
-- `25340025EEVZ9ZWKJB62` Общество с ограниченной ответственностью "РБ Сервис"
-- `2534006R1P1QVPP0QY05` Общество с ограниченной ответственностью "РБ Факторинг"
-- `253400A72AVL4HETJJ04` Общество с ограниченной ответственностью Управляющая компания "Эра Инвестиций"
-- `253400A72AVL4HETJJ04` Общество с ограниченной ответственностью Управляющая компания "Эра Инвестиций"
-- `253400HT8W559RHRJD67` Общество с ограниченной ответственностью "РУСФИНАНС"
-- `253400HT8W559RHRJD67` Общество с ограниченной ответственностью "РУСФИНАНС"
-- `253400LXY16NWXD91X50` Общество с ограниченной ответственностью "РБ ЛИЗИНГ"
-- `253400LXY16NWXD91X50` Общество с ограниченной ответственностью "РБ ЛИЗИНГ"
-- `253400PKJ6ENZH6TNB51` Общество с ограниченной ответственностью РБ Трейдинг
-- `253400PKJ6ENZH6TNB51` Общество с ограниченной ответственностью РБ Трейдинг
-- `253400SFPE4HAPQ7E257` Общество с ограниченной ответственностью "Телсиком"
-- `253400SFPE4HAPQ7E257` Общество с ограниченной ответственностью "Телсиком"
-
-### `2138008R6GCRVBDFA581` ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО "ФИНАНСОВО-ИНВЕСТИЦИОННАЯ КОМПАНИЯ "НОВА
-
-- `213800PLONZRLEIL5O33` Новатек Гез енд Павер Азія Прайвет Лтд.
-- `213800PLONZRLEIL5O33` Новатек Гез енд Павер Азія Прайвет Лтд.
-- `9845009D478FC6FD9X22` NOVATEK ASIA DEVELOPMENT HOLDING PTE. LTD.
-- `9845009D478FC6FD9X22` NOVATEK ASIA DEVELOPMENT HOLDING PTE. LTD.
-- `2138002S2PUI8UJTCW32` Новатек Гез енд Павер ГмбХ
-- `2138002S2PUI8UJTCW32` Новатек Гез енд Павер ГмбХ
-- `259400ARXZZ95TN6NB50` Novatek Green Energy Sp. z o.o.
-- `259400ARXZZ95TN6NB50` Novatek Green Energy Sp. z o.o.
-- `2138002S2PUI8UJTCW32` Новатек Гез енд Павер ГмбХ
-- `2138002S2PUI8UJTCW32` Новатек Гез енд Павер ГмбХ
-- `54930061YME13P5ACZ80` (name not in OS — pull GLEIF entity record for full name)
-- `54930061YME13P5ACZ80` (name not in OS — pull GLEIF entity record for full name)
-
 ### `253400DYLWR5A6YAWJ69` Sovcomflot
 
 - `549300D5RCZXC01LFR21` PURPOSEFUL CORPORATION
@@ -199,6 +186,20 @@ Each row is one *children-of* group: a sanctioned entity at the top, followed by
 - `5493008SD1AMV0GACM32` SCALPAY SHIPPING LIMITED
 - `54930092VOQEBHRVRR40` ALBUS SHIPPING LIMITED
 
+### `HOXMZG026UQNRK6J0C60` Javno dioničko društvo Rosbank
+
+- `25340025EEVZ9ZWKJB62` Общество с ограниченной ответственностью "РБ Сервис"
+- `25340025EEVZ9ZWKJB62` Общество с ограниченной ответственностью "РБ Сервис"
+- `2534006R1P1QVPP0QY05` Общество с ограниченной ответственностью "РБ Факторинг"
+- `253400HT8W559RHRJD67` Общество с ограниченной ответственностью "РУСФИНАНС"
+- `253400HT8W559RHRJD67` Общество с ограниченной ответственностью "РУСФИНАНС"
+- `253400LXY16NWXD91X50` Общество с ограниченной ответственностью "РБ ЛИЗИНГ"
+- `253400LXY16NWXD91X50` Общество с ограниченной ответственностью "РБ ЛИЗИНГ"
+- `253400PKJ6ENZH6TNB51` Общество с ограниченной ответственностью РБ Трейдинг
+- `253400PKJ6ENZH6TNB51` Общество с ограниченной ответственностью РБ Трейдинг
+- `253400SFPE4HAPQ7E257` Общество с ограниченной ответственностью "Телсиком"
+- `253400SFPE4HAPQ7E257` Общество с ограниченной ответственностью "Телсиком"
+
 ### `213800ZZOU5P76L8XB92` a.k.a. Atlas Mining LLC
 
 - `213800CTKD5CPG2DR188` (name not in OS — pull GLEIF entity record for full name)
@@ -211,6 +212,19 @@ Each row is one *children-of* group: a sanctioned entity at the top, followed by
 - `213800RHF5YBDQJD4L03` CAYIRON LIMITED
 - `213800CTKD5CPG2DR188` (name not in OS — pull GLEIF entity record for full name)
 - `213800CTKD5CPG2DR188` (name not in OS — pull GLEIF entity record for full name)
+
+### `213800WNO9IQTTI4PG55` United Company RUSAL PJSC
+
+- `529900Q4ECOESHAIA507` SEA CHAIKA CORPORATION
+- `529900Q4ECOESHAIA507` SEA CHAIKA CORPORATION
+- `98450062DA43E94CC125` أيه إل بلس تريدينغ م.د.م.س
+- `98450062DA43E94CC125` أيه إل بلس تريدينغ م.د.م.س
+- `529900Q4ECOESHAIA507` SEA CHAIKA CORPORATION
+- `529900Q4ECOESHAIA507` SEA CHAIKA CORPORATION
+- `529900Q4ECOESHAIA507` SEA CHAIKA CORPORATION
+- `213800WP8KJ4Q1BKIJ87` RUSAL MARKETING GMBH
+- `984500155B9CFF91F252` أيه إل بلس غلوبال م.د.م.س
+- `984500155B9CFF91F252` أيه إل بلس غلوبال م.د.م.س
 
 ### `529900LWYPVP93SJ2U42` China Communications Construction Co. Ltd.
 
@@ -259,16 +273,6 @@ Each row is one *children-of* group: a sanctioned entity at the top, followed by
 - `31570010000000029583` Sberbank CZ V likvidaci as
 - `529900YLHSF7E5PF9A73` V-Dat Informatikai Szolgáltató és Kereskedelmi Korlátolt Felelősségü Társaság
 
-### `213800OKDPTV6K4ONO53` Severstal' PAO
-
-- `259400K9K1EPHLZ2NJ95` СІА "Сєверсталь Дистриб'юшн"
-- `259400K9K1EPHLZ2NJ95` СІА "Сєверсталь Дистриб'юшн"
-- `259400K9K1EPHLZ2NJ95` СІА "Сєверсталь Дистриб'юшн"
-- `259400K9K1EPHLZ2NJ95` СІА "Сєверсталь Дистриб'юшн"
-- `549300W88RLKPUPT5X89` MELSONDA HOLDINGS LIMITED
-- `5493005HEI4KQBOLWW87` Cambay Services Limited
-- `5493009Q8TVWEGQE5H68` ABIGROVE LIMITED
-
 ### `253400JT3MQWNDKMJE44` PUBLIC JOINT-STOCK COMPANY ROSNEFT OIL COMPANY
 
 - `25340076BE9D5XUK4H54` Общество с ограниченной ответственностью "РН-Капитал"
@@ -279,6 +283,60 @@ Each row is one *children-of* group: a sanctioned entity at the top, followed by
 - `253400EDWTVJSHMJ4D40` Общество с ограниченной ответственностью "ДИНК-ИНВЕСТ"
 - `25340076BE9D5XUK4H54` Общество с ограниченной ответственностью "РН-Капитал"
 
+### `253400JPTEEW143W3E47` ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО "НОРИЛЬСКАЯ ГОРНАЯ КОМПАНИЯ "
+
+- `529900ZMI3U3B4G5S920` METAL TRADE OVERSEAS SA
+- `529900ZMI3U3B4G5S920` METAL TRADE OVERSEAS SA
+- `74370061PO7C10E3PA54` Norilsk Nickel Harjavalta Oy
+- `529900ZMI3U3B4G5S920` METAL TRADE OVERSEAS SA
+- `529900ZMI3U3B4G5S920` METAL TRADE OVERSEAS SA
+- `74370061PO7C10E3PA54` Norilsk Nickel Harjavalta Oy
+
+### `213800913TPW32I84456` Публічне акціонерне товариство "Новолипецький металургійний комбінат"
+
+- `549300P2E1UARJLCMQ75` NLMK Indiana
+- `549300L4VBCT376YB411` NLMK PENNSYLVANIA LLC
+- `549300L4VBCT376YB411` NLMK PENNSYLVANIA LLC
+- `875500H35LL6DR7OGW79` Steel Invest & Finance (Luxembourg) S.A.
+- `875500H35LL6DR7OGW79` Steel Invest & Finance (Luxembourg) S.A.
+- `549300P2E1UARJLCMQ75` NLMK Indiana
+
+### `2534008FX8EXH1FMJA74` MTS
+
+- `253400801C3YP0QS5A62` (name not in OS — pull GLEIF entity record for full name)
+- `253400801C3YP0QS5A62` (name not in OS — pull GLEIF entity record for full name)
+- `253400QD4JHES5PGDR15` Dega Retail Holding Limited
+- `253400YCVQ7DZPFUWH47` Общество с ограниченной ответственностью "Бастион"
+- `253400QD4JHES5PGDR15` Dega Retail Holding Limited
+- `253400YCVQ7DZPFUWH47` Общество с ограниченной ответственностью "Бастион"
+
+### `2138008R6GCRVBDFA581` ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО "ФИНАНСОВО-ИНВЕСТИЦИОННАЯ КОМПАНИЯ "НОВА
+
+- `9845009D478FC6FD9X22` NOVATEK ASIA DEVELOPMENT HOLDING PTE. LTD.
+- `9845009D478FC6FD9X22` NOVATEK ASIA DEVELOPMENT HOLDING PTE. LTD.
+- `259400ARXZZ95TN6NB50` Novatek Green Energy Sp. z o.o.
+- `259400ARXZZ95TN6NB50` Novatek Green Energy Sp. z o.o.
+- `54930061YME13P5ACZ80` (name not in OS — pull GLEIF entity record for full name)
+- `54930061YME13P5ACZ80` (name not in OS — pull GLEIF entity record for full name)
+
+### `213800QS45WD7WY8E214` Радіус Системз Холдингс Лімітед
+
+- `9845008T6F13B68AF589` (name not in OS — pull GLEIF entity record for full name)
+- `9845008T6F13B68AF589` (name not in OS — pull GLEIF entity record for full name)
+- `9845008T6F13B68AF589` (name not in OS — pull GLEIF entity record for full name)
+- `9845008T6F13B68AF589` (name not in OS — pull GLEIF entity record for full name)
+- `213800U76UIO4J3PHF83` RADIUS SYSTEMS LIMITED
+- `213800U76UIO4J3PHF83` RADIUS SYSTEMS LIMITED
+
+### `5493003OM8RJL7QEVV66` КОМПАНИЯ "ЭЙБИЭЙЧ ЮКРЕЙН ЛИМИТЕД"
+
+- `549300SY4W3W7L5WZE53` SIFUM GROUP LIMITED
+- `549300BJKVXI3YIYYW60` ABHU FINANCE PLC
+- `213800JV1ZCAGAL5BK67` GREATFORD LIMITED
+- `549300BJKVXI3YIYYW60` ABHU FINANCE PLC
+- `213800JV1ZCAGAL5BK67` GREATFORD LIMITED
+- `549300BJKVXI3YIYYW60` ABHU FINANCE PLC
+
 ### `5493005B7DAN39RXLK23` EVRAZ
 
 - `549300LN6T6MYMUY9357` EAST METALS AG IN LIQUIDATION
@@ -286,6 +344,13 @@ Each row is one *children-of* group: a sanctioned entity at the top, followed by
 - `54930080DFVZ551GGT17` ЕВРАЗ ГРУП С.А.
 - `54930080DFVZ551GGT17` ЕВРАЗ ГРУП С.А.
 - `549300LN6T6MYMUY9357` EAST METALS AG IN LIQUIDATION
+
+### `253400CH24ZBBZMFSM69` ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО "СИБУР ХОЛДИНГ"
+
+- `635400EHVYJXNYBPWI41` Sibur Securities Designated Activity Company
+- `635400EHVYJXNYBPWI41` Sibur Securities Designated Activity Company
+- `635400EHVYJXNYBPWI41` Sibur Securities Designated Activity Company
+- `635400EHVYJXNYBPWI41` Sibur Securities Designated Activity Company
 
 ### `253400WD8ULWSUGGXP64` Акционерное общество Банк Синара
 
@@ -308,12 +373,12 @@ Each row is one *children-of* group: a sanctioned entity at the top, followed by
 - `529900L80WEGMSUN9X14` CENTREX ITALIA S.P.A.
 - `529900L80WEGMSUN9X14` CENTREX ITALIA S.P.A.
 
-### `VX43JDHPWL0M8GQ0QU45` Публичное акционерное общество "Банк ПСБ"
+### `25340053KRUNNYUWF472` ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО "ФОСАГРО"
 
-- `253400D7J0M5W58DHL79` Joint-Stock Company «St. Petersburg Currency Exchange»
-- `253400D7J0M5W58DHL79` Joint-Stock Company «St. Petersburg Currency Exchange»
-- `253400D7J0M5W58DHL79` Joint-Stock Company «St. Petersburg Currency Exchange»
-- `253400D7J0M5W58DHL79` Joint-Stock Company «St. Petersburg Currency Exchange»
+- `549300BFVM24PLOYKL26` PHOSINT LIMITED
+- `549300BFVM24PLOYKL26` PHOSINT LIMITED
+- `549300WX11SHDNHS1K08` (name not in OS — pull GLEIF entity record for full name)
+- `549300WX11SHDNHS1K08` (name not in OS — pull GLEIF entity record for full name)
 
 ### `253400GMWZ0DBU6G0E87` INSURANCE PUBLIC JOINT-STOCK COMPANY "INGOSSTRAKH"
 
@@ -336,75 +401,27 @@ Each row is one *children-of* group: a sanctioned entity at the top, followed by
 - `253400A0TJAPQ45B2A12` TAVRICHESKY BANK (JOINT-STOCK COMPANY)
 - `253400A0TJAPQ45B2A12` TAVRICHESKY BANK (JOINT-STOCK COMPANY)
 
-### `253400MF70R9W1E92E58` BALTIC DEVELOPMENT BANK CLOSED JOINT STOCK COMPANY
-
-- `253400DDXRL535CQ5T91` Общество с ограниченной ответственностью "ББР БРОКЕР"
-- `253400DDXRL535CQ5T91` Общество с ограниченной ответственностью "ББР БРОКЕР"
-- `253400DDXRL535CQ5T91` Общество с ограниченной ответственностью "ББР БРОКЕР"
-- `253400DDXRL535CQ5T91` Общество с ограниченной ответственностью "ББР БРОКЕР"
-
-### `253400D1T9WFNN3BTT91` Bank "Otkritie Financial Corporation" PJSC
-
-- `253400QJ9FJ1W4HEEX74` Общество с ограниченной ответственностью Страховая компания "Росгосстрах Жизнь"
-- `253400Y63ZZGPKB9GP20` (name not in OS — pull GLEIF entity record for full name)
-- `253400Y63ZZGPKB9GP20` (name not in OS — pull GLEIF entity record for full name)
-- `213800UAI89I5Z2BNA05` (name not in OS — pull GLEIF entity record for full name)
-
-### `253400L5RQK7PU6R7J04` Акционерное общество «Страховое общество газовой промышленности» АО «С
-
-- `253400YDU6F3939GZB77` Общество с ограниченной ответственностью "Страховая Компания СОГАЗ-ЖИЗНЬ"
-- `253400YDU6F3939GZB77` Общество с ограниченной ответственностью "Страховая Компания СОГАЗ-ЖИЗНЬ"
-- `253400YDU6F3939GZB77` Общество с ограниченной ответственностью "Страховая Компания СОГАЗ-ЖИЗНЬ"
-- `253400YDU6F3939GZB77` Общество с ограниченной ответственностью "Страховая Компания СОГАЗ-ЖИЗНЬ"
-
-### `335800EQ8YXHIA6YMS18` NAYARA ENERGY LIMITED
-
-- `2549002AK79F82L58C28` NAYARA ENERGY SINGAPORE PTE. LIMITED
-- `2549002AK79F82L58C28` NAYARA ENERGY SINGAPORE PTE. LIMITED
-- `2549002AK79F82L58C28` NAYARA ENERGY SINGAPORE PTE. LIMITED
-- `2549002AK79F82L58C28` NAYARA ENERGY SINGAPORE PTE. LIMITED
-
-### `300300RRBXAZRYJGIN14` China General Nuclear Power Corp
-
-- `213800LDQL9XCZZZ4814` CGN GLOBAL URANIUM LIMITED
-- `3003001ZNU8IEE7PF561` 华普资本有限公司
-- `3003005GSDIB3CZDHR07` 中广核华盛投资有限公司
-- `3003005GSDIB3CZDHR07` 中广核华盛投资有限公司
-
-### `253400D38E021531V531` PUBLIC JOINT-STOCK COMPANY BANK ALEXANDROVSKY
-
-- `2534006PW83DFZHA8W75` ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "БСПБ КАПИТАЛ"
-- `2534006PW83DFZHA8W75` ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "БСПБ КАПИТАЛ"
-- `2534006PW83DFZHA8W75` ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "БСПБ КАПИТАЛ"
-- `2534006PW83DFZHA8W75` ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "БСПБ КАПИТАЛ"
-
-### `213800HE6VDVJWT85874` Megafon PAO
-
-- `213800FEEFIWRLXDF608` MEGAFON INVESTMENTS (CYPRUS) LIMITED
-- `253400GW57HKS5TCYW22` Общество с ограниченной ответственностью "Рево Чардж Рус"
-- `253400GW57HKS5TCYW22` Общество с ограниченной ответственностью "Рево Чардж Рус"
-
 ## Sanctioned subsidiary ← not-yet-sanctioned parent
 
 The reverse direction: a sanctioned entity that is controlled by an entity not on the asset-freeze lists. Less common (sanctions tend to flow downward through ownership) but each row is worth flagging.
 
-### `253400QBQPWTFL8FAS39` Bank Dom.RF AO
+### `529900HYJEPSBNG1RL03` ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "ФОЛЬКСВАГЕН ГРУП РУС"
 
-- `253400HUG1NXSZVHP181` JOINT-STOCK COMPANY "DOM.RF"
-- `253400HUG1NXSZVHP181` JOINT-STOCK COMPANY "DOM.RF"
-- `253400HUG1NXSZVHP181` JOINT-STOCK COMPANY "DOM.RF"
-- `253400HUG1NXSZVHP181` JOINT-STOCK COMPANY "DOM.RF"
-- `253400HUG1NXSZVHP181` JOINT-STOCK COMPANY "DOM.RF"
-- `253400HUG1NXSZVHP181` JOINT-STOCK COMPANY "DOM.RF"
+- `529900NNUPAGGOMPXZ31` Volkswagen AG
+- `529900NNUPAGGOMPXZ31` Volkswagen AG
+- `529900NNUPAGGOMPXZ31` Volkswagen AG
+- `529900NNUPAGGOMPXZ31` Volkswagen AG
+- `529900NNUPAGGOMPXZ31` Volkswagen AG
+- `529900NNUPAGGOMPXZ31` Volkswagen AG
 
-### `253400W29T5225G8X631` Відкрите акціонерне товариство "Банк дабрабит"
+### `529900MHN9MPSBV5ST85` Priorbank JSC
 
-- `253400AAUDQ6NK0HNK41` NATIONAL BANK OF REPUBLIC BELARUS
-- `253400AAUDQ6NK0HNK41` NATIONAL BANK OF REPUBLIC BELARUS
-- `253400AAUDQ6NK0HNK41` NATIONAL BANK OF REPUBLIC BELARUS
-- `253400AAUDQ6NK0HNK41` NATIONAL BANK OF REPUBLIC BELARUS
-- `253400AAUDQ6NK0HNK41` NATIONAL BANK OF REPUBLIC BELARUS
-- `253400AAUDQ6NK0HNK41` NATIONAL BANK OF REPUBLIC BELARUS
+- `9ZHRYM6F437SQJ6OUG95` Raiffeisen Bank International AG
+- `9ZHRYM6F437SQJ6OUG95` Raiffeisen Bank International AG
+- `9ZHRYM6F437SQJ6OUG95` Raiffeisen Bank International AG
+- `9ZHRYM6F437SQJ6OUG95` Raiffeisen Bank International AG
+- `9ZHRYM6F437SQJ6OUG95` Raiffeisen Bank International AG
+- `9ZHRYM6F437SQJ6OUG95` Raiffeisen Bank International AG
 
 ### `2534000KL0PLD6KG7T76` Banka Tinkoff d.d.
 
@@ -434,6 +451,13 @@ The reverse direction: a sanctioned entity that is controlled by an entity not o
 - `894500MDFP0SADLG9B22` Sovco Capital Partners B.V
 - `894500MDFP0SADLG9B22` Sovco Capital Partners B.V
 
+### `253400GRCV94X91GAW80` Limited Liability Company "Company Brokercreditservice"
+
+- `21380052EDE2C3IEYR60` ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "СИБИРСКИЕ ИНВЕСТИЦИИ"
+- `21380052EDE2C3IEYR60` ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "СИБИРСКИЕ ИНВЕСТИЦИИ"
+- `21380052EDE2C3IEYR60` ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "СИБИРСКИЕ ИНВЕСТИЦИИ"
+- `21380052EDE2C3IEYR60` ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "СИБИРСКИЕ ИНВЕСТИЦИИ"
+
 ### `2549001I42I6G4P13T82` Castle Peak Power
 
 - `2549000BCUSHGY6SZW33` CLP Power Hong Kong
@@ -448,11 +472,17 @@ The reverse direction: a sanctioned entity that is controlled by an entity not o
 - `529900HXE4EQIHJY8518` DMG MORI AKTIENGESELLSCHAFT
 - `353800P4I3FIXTQV2E13` ＤＭＧ森精機株式会社
 
-### `253400QMD7MRJ6LTSS76` ОАО ВОСТОЧНО-ЕВРОПЕЙСКОЕ СТРАХОВОЕ АГЕНТСТВО
+### `25340043ENPTDPTK3186` Акционерное общество «Верхнекамская калийная компания»
 
-- `549300502MVL52NR6221` ABH HOLDINGS S.A.
-- `549300502MVL52NR6221` ABH HOLDINGS S.A.
-- `549300502MVL52NR6221` ABH HOLDINGS S.A.
+- `253400TJ7E7RXDNQGQ15` Акционерное общество "Акронит"
+- `253400TJ7E7RXDNQGQ15` Акционерное общество "Акронит"
+- `253400R9KWF00G0V2542` ACRON PAO
+
+### `2534006BRL22ER2L6895` Public Joint-Stock Company "Dorogobuzh"
+
+- `253400R9KWF00G0V2542` ACRON PAO
+- `253400R9KWF00G0V2542` ACRON PAO
+- `253400R9KWF00G0V2542` ACRON PAO
 
 ### `253400T1524HLVLPUC37` SDK GARANT
 
@@ -464,30 +494,25 @@ The reverse direction: a sanctioned entity that is controlled by an entity not o
 - `253400UBPA9S0ZZHV261` Общество с ограниченной ответственностью "Концерн "РОССИУМ"
 - `253400UBPA9S0ZZHV261` Общество с ограниченной ответственностью "Концерн "РОССИУМ"
 
+### `253400D7J0M5W58DHL79` Joint-Stock Company «St. Petersburg Currency Exchange»
+
+- `253400LFL18CY02PZ376` ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "ТРИНФИКО ПРОПЕТИ МЕНЕДЖМЕНТ"
+- `253400LFL18CY02PZ376` ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "ТРИНФИКО ПРОПЕТИ МЕНЕДЖМЕНТ"
+
 ### `2138008KTNTDICZU8L25` IRAN OVERSEAS INVESTMENT BANK LIMITED
 
 - `549300KBNGV4NYY3GE68` (name not in OS — pull GLEIF entity record for full name)
 - `549300KBNGV4NYY3GE68` (name not in OS — pull GLEIF entity record for full name)
-
-### `253400QWEQNERA6RJS29` AO "ALFA-BANK"
-
-- `549300502MVL52NR6221` ABH HOLDINGS S.A.
-- `549300502MVL52NR6221` ABH HOLDINGS S.A.
 
 ### `25340031R6A1E6TW7M44` JOINT-STOCK COMPANY NATIONAL STANDARD BANK
 
 - `213800SACPJZDWYLL793` (name not in OS — pull GLEIF entity record for full name)
 - `213800SACPJZDWYLL793` (name not in OS — pull GLEIF entity record for full name)
 
-### `2534005803A5MMD61T78` ПАО "МТС-Банк"
+### `253400G6BH0UHXA5C941` Товариство з обмеженою відповідальністю "ЮніКредит лізинг"
 
-- `2534008FX8EXH1FMJA74` MTS
-- `2534008FX8EXH1FMJA74` MTS
-
-### `253400NT4MB307747N58` PJSC Zenit Bank
-
-- `253400PAT768SVJMV121` ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО "ТАТНЕФТЬ" ИМЕНИ В. Д. ШАШИНА
-- `253400PAT768SVJMV121` ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО "ТАТНЕФТЬ" ИМЕНИ В. Д. ШАШИНА
+- `2534006G7F7F1TFC9T77` АО ЮниКредит Банк
+- `549300TRUWO2CD2G5692` UNICREDIT, SOCIETA' PER AZIONI
 
 ### `253400U667MFV5QQWX26` JOINT STOCK COMPANY IBS IT SERVICES
 
@@ -503,8 +528,3 @@ The reverse direction: a sanctioned entity that is controlled by an entity not o
 
 - `549300K26N6FSAOJFH50` TMK STEEL HOLDING LIMITED
 - `549300K26N6FSAOJFH50` TMK STEEL HOLDING LIMITED
-
-### `894500MDF6I8J93LO347` Bank Saderat Iran
-
-- `549300KBNGV4NYY3GE68` (name not in OS — pull GLEIF entity record for full name)
-- `549300KBNGV4NYY3GE68` (name not in OS — pull GLEIF entity record for full name)
