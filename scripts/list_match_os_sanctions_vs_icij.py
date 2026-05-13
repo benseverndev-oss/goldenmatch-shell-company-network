@@ -86,10 +86,20 @@ def main(
     # Cypriot / Maltese / etc. beneficial owners of UK companies —
     # exactly the "sanctioned principal -> UK Ltd" pattern we want.
     icij = df.filter(pl.col("source") == "icij")
+    # Narrow to the high-signal jurisdiction set for cross-sanctions
+    # surfacing. Russian/Ukrainian/Belarusian PSCs of UK Ltds = classic
+    # sanctioned-oligarch pattern; Cyprus/Malta = enabler jurisdictions;
+    # Kazakhstan = post-Soviet wealth + several PEP cases; Pakistan/India
+    # / China captured for completeness against current OS lists.
+    # Excluding generic Western-EU first-name blocks (alexander/michael/
+    # anthony) that swamp the matcher with no investigative payoff.
+    high_signal = {
+        "ru", "ua", "by", "kz", "cy", "mt", "pk", "in", "cn", "kg",
+        "uz", "az", "am", "ge", "md", "ir", "sy", "ve", "tm", "tj",
+    }
     uk_psc = df.filter(
         (pl.col("source") == "uk_psc")
-        & (pl.col("country").is_not_null())
-        & (pl.col("country") != "gb")
+        & pl.col("country").is_in(list(high_signal))
     )
     target = pl.concat([icij, uk_psc], how="vertical_relaxed").select(keep_cols)
     tgt_path = out_dir / "icij_persons.parquet"
