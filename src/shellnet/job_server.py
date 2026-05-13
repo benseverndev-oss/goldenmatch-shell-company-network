@@ -382,6 +382,10 @@ _ALLOWED_SCRIPTS = {
         "--input", "/data/raw/openownership/uk_bods.zip",
         "--out-dir", "/data/interim",
     ],
+    "inspect_uk_bods_zip": [
+        "scripts/_inspect_zip.py",
+        "/data/raw/openownership/uk_bods.zip",
+    ],
 }
 
 
