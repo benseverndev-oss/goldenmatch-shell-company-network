@@ -37,6 +37,21 @@ GLEIF_RAW: Path = RAW_DIR / "gleif"
 OPENSANCTIONS_RAW: Path = RAW_DIR / "opensanctions"
 
 
+def relpath_for_report(p: Path | str) -> str:
+    """Format a path for inclusion in a generated report.
+
+    Resolves to a project-root-relative POSIX string when possible, so reports
+    are reproducible across operators and OSes. Falls back to the basename if
+    the path lives outside the project (e.g. ``/data/...`` on Railway).
+    """
+    path = Path(p).resolve()
+    try:
+        rel = path.relative_to(PROJECT_ROOT)
+    except ValueError:
+        return path.name
+    return rel.as_posix()
+
+
 def ensure_dirs() -> None:
     """Create the standard directory layout if it isn't already there.
 

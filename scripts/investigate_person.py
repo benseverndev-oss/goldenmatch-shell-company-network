@@ -26,7 +26,7 @@ from shellnet.investigations.person_query import (
     rank_person_candidates,
     render_person_report,
 )
-from shellnet.paths import INTERIM_DIR, PROCESSED_DIR, PROJECT_ROOT
+from shellnet.paths import INTERIM_DIR, PROCESSED_DIR, PROJECT_ROOT, relpath_for_report
 
 load_dotenv()
 
@@ -112,9 +112,9 @@ def main(
     )
 
     inputs_meta = {
-        "person_table": str(person_path),
-        "icij_edges": str(edges_path),
-        "company_table": str(company_path),
+        "person_table": relpath_for_report(person_path),
+        "icij_edges": relpath_for_report(edges_path),
+        "company_table": relpath_for_report(company_path),
         "top_n": top_n,
         "min_score": min_score,
         "global_fallback": global_fallback,

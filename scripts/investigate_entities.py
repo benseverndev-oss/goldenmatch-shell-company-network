@@ -39,7 +39,7 @@ from shellnet.investigations.seed_query import (
     render_batch_index,
     render_report,
 )
-from shellnet.paths import INTERIM_DIR, PROCESSED_DIR, PROJECT_ROOT
+from shellnet.paths import INTERIM_DIR, PROCESSED_DIR, PROJECT_ROOT, relpath_for_report
 
 load_dotenv()
 
@@ -194,12 +194,12 @@ def main(
 
                 sources_seen = sorted({c.source for c in in_juris + outside_juris})
                 inputs_meta = {
-                    "company_table": str(company_path),
-                    "icij_edges": str(interim_dir / "icij_edges.parquet"),
+                    "company_table": relpath_for_report(company_path),
+                    "icij_edges": relpath_for_report(interim_dir / "icij_edges.parquet"),
                     "top_n": top_n,
                     "min_score": min_score,
                     "global_fallback": global_fallback,
-                    "seeds_csv": str(seeds),
+                    "seeds_csv": relpath_for_report(seeds),
                 }
                 md = render_report(
                     seed,
