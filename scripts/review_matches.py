@@ -47,6 +47,7 @@ def _token_sort_ratio(a: str, b: str) -> float:
     # Levenshtein ratio via difflib (no rapidfuzz import needed; this is
     # script-only and ~20k rows so speed is fine).
     import difflib
+
     return difflib.SequenceMatcher(None, sa, sb).ratio()
 
 
@@ -109,9 +110,12 @@ def main(
     for r in rows:
         score = float(r["__match_score__"])
         band = (
-            "perfect" if score >= 0.99
-            else "high" if score >= 0.95
-            else "borderline" if score >= 0.85
+            "perfect"
+            if score >= 0.99
+            else "high"
+            if score >= 0.95
+            else "borderline"
+            if score >= 0.85
             else "low"
         )
         cls = _classify(r)
@@ -183,9 +187,7 @@ def main(
             rj = r.get("ref_jurisdiction") or ""
             ts = r.get("target_source") or ""
             rs = r.get("ref_source") or ""
-            lines.append(
-                f"| {r['__match_score__']} | `{tn}` [{ts}|{tj}] | `{rn}` [{rs}|{rj}] |"
-            )
+            lines.append(f"| {r['__match_score__']} | `{tn}` [{ts}|{tj}] | `{rn}` [{rs}|{rj}] |")
         lines.append("")
 
     out_md.parent.mkdir(parents=True, exist_ok=True)
@@ -196,11 +198,15 @@ def main(
     print("\n=== HEURISTIC PRECISION SUMMARY ===")
     for cls in order:
         n = by_class.get(cls, 0)
-        print(f"  {cls:>15s}: {n:>6d}  ({100*n/total:.1f}%)")
+        print(f"  {cls:>15s}: {n:>6d}  ({100 * n / total:.1f}%)")
     high_trust = sum(by_class.get(c, 0) for c in ("identical", "normalized_eq", "jur_close"))
     suspect = sum(by_class.get(c, 0) for c in ("jur_mismatch", "low_overlap"))
-    print(f"\n  high_trust (identical+normalized_eq+jur_close): {high_trust}  ({100*high_trust/total:.1f}%)")
-    print(f"  suspect (jur_mismatch+low_overlap):              {suspect}  ({100*suspect/total:.1f}%)")
+    print(
+        f"\n  high_trust (identical+normalized_eq+jur_close): {high_trust}  ({100 * high_trust / total:.1f}%)"
+    )
+    print(
+        f"  suspect (jur_mismatch+low_overlap):              {suspect}  ({100 * suspect / total:.1f}%)"
+    )
 
 
 if __name__ == "__main__":

@@ -36,8 +36,9 @@ def main(
     out_path: Path = typer.Option(REPORTS_DIR / "candidate_pairs.csv"),
     prefix_len: int = typer.Option(8, "--prefix-len", help="Name-prefix length for blocking."),
     max_pairs: int = typer.Option(500, "--max-pairs", "-n"),
-    max_block_size: int = typer.Option(40, "--max-block-size",
-                                       help="Skip blocks bigger than this (cartesian explosion)."),
+    max_block_size: int = typer.Option(
+        40, "--max-block-size", help="Skip blocks bigger than this (cartesian explosion)."
+    ),
     verbose: bool = typer.Option(False, "--verbose", "-v"),
 ) -> None:
     logging.basicConfig(
@@ -80,17 +81,23 @@ def main(
                 ):
                     continue
                 left, right = sorted((a["entity_uid"], b["entity_uid"]))
-                rows.append({
-                    "left_uid": left,
-                    "right_uid": right,
-                    "label": "",
-                    "source": "",
-                    "reason": "",
-                    "left_name": a["name"] if left == a["entity_uid"] else b["name"],
-                    "right_name": b["name"] if left == a["entity_uid"] else a["name"],
-                    "left_jurisdiction": a["jurisdiction"] if left == a["entity_uid"] else b["jurisdiction"],
-                    "right_jurisdiction": b["jurisdiction"] if left == a["entity_uid"] else a["jurisdiction"],
-                })
+                rows.append(
+                    {
+                        "left_uid": left,
+                        "right_uid": right,
+                        "label": "",
+                        "source": "",
+                        "reason": "",
+                        "left_name": a["name"] if left == a["entity_uid"] else b["name"],
+                        "right_name": b["name"] if left == a["entity_uid"] else a["name"],
+                        "left_jurisdiction": a["jurisdiction"]
+                        if left == a["entity_uid"]
+                        else b["jurisdiction"],
+                        "right_jurisdiction": b["jurisdiction"]
+                        if left == a["entity_uid"]
+                        else a["jurisdiction"],
+                    }
+                )
                 if len(rows) >= max_pairs:
                     break
             if len(rows) >= max_pairs:
@@ -101,12 +108,19 @@ def main(
     if not rows:
         typer.echo("No candidate pairs emitted.")
         out_path.parent.mkdir(parents=True, exist_ok=True)
-        pl.DataFrame(schema={
-            "left_uid": pl.Utf8, "right_uid": pl.Utf8, "label": pl.Utf8,
-            "source": pl.Utf8, "reason": pl.Utf8, "left_name": pl.Utf8,
-            "right_name": pl.Utf8, "left_jurisdiction": pl.Utf8,
-            "right_jurisdiction": pl.Utf8,
-        }).write_csv(out_path)
+        pl.DataFrame(
+            schema={
+                "left_uid": pl.Utf8,
+                "right_uid": pl.Utf8,
+                "label": pl.Utf8,
+                "source": pl.Utf8,
+                "reason": pl.Utf8,
+                "left_name": pl.Utf8,
+                "right_name": pl.Utf8,
+                "left_jurisdiction": pl.Utf8,
+                "right_jurisdiction": pl.Utf8,
+            }
+        ).write_csv(out_path)
         return
 
     out_df = pl.DataFrame(rows)

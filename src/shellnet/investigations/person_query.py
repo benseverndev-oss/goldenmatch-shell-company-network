@@ -121,7 +121,7 @@ def rank_person_candidates(
                 not c.exact_normalized,
                 -c.score,
                 c.source != "opensanctions",  # OFAC/PEP-tagged people first
-                c.kind != "officer",          # officers before intermediaries
+                c.kind != "officer",  # officers before intermediaries
             )
         )
         return out[:top_n]
@@ -131,13 +131,10 @@ def rank_person_candidates(
 
     in_df = sdf.filter(pl.col("country") == seed.normalized_country)
     out_df = sdf.filter(
-        (pl.col("country") != seed.normalized_country)
-        | pl.col("country").is_null()
+        (pl.col("country") != seed.normalized_country) | pl.col("country").is_null()
     )
     in_results = _to_candidates(in_df, in_country=True)
-    out_results = (
-        _to_candidates(out_df, in_country=False) if include_outside_country else []
-    )
+    out_results = _to_candidates(out_df, in_country=False) if include_outside_country else []
     return in_results, out_results
 
 
@@ -171,9 +168,7 @@ def collect_company_edges(
     )
     out: dict[str, list[CompanyEdge]] = {}
     for uid in person_uids:
-        sub = relevant.filter(
-            (pl.col("src_node") == uid) | (pl.col("dst_node") == uid)
-        )
+        sub = relevant.filter((pl.col("src_node") == uid) | (pl.col("dst_node") == uid))
         if sub.height == 0:
             continue
         rows: list[CompanyEdge] = []
@@ -213,9 +208,7 @@ def render_person_report(
     generated_at = generated_at or datetime.now(UTC)
     lines: list[str] = []
     country_label = seed.normalized_country or "(unspecified)"
-    lines.append(
-        f"# Person investigation: `{_md_escape(seed.name)}` / {country_label}"
-    )
+    lines.append(f"# Person investigation: `{_md_escape(seed.name)}` / {country_label}")
     lines.append("")
     lines.append(
         f"Generated `{generated_at.isoformat(timespec='seconds')}`"
@@ -247,13 +240,10 @@ def render_person_report(
     else:
         lines.append("- No same-country candidates above the score threshold.")
     if outside_country:
-        lines.append(
-            f"- {len(outside_country)} candidate(s) in a different / unknown country."
-        )
+        lines.append(f"- {len(outside_country)} candidate(s) in a different / unknown country.")
     total_edges = sum(len(v) for v in edges_by_person.values())
     lines.append(
-        f"- {total_edges} person→company edge(s) across "
-        f"{len(edges_by_person)} matched person(s)."
+        f"- {total_edges} person→company edge(s) across {len(edges_by_person)} matched person(s)."
     )
     lines.append("")
 
@@ -264,9 +254,7 @@ def render_person_report(
             lines.append("_None._")
             lines.append("")
             return
-        lines.append(
-            "| # | score | exact | entity_uid | source | kind | name | country | topics |"
-        )
+        lines.append("| # | score | exact | entity_uid | source | kind | name | country | topics |")
         lines.append("| ---: | ---: | :-: | --- | --- | --- | --- | --- | --- |")
         for i, c in enumerate(rows, start=1):
             lines.append(

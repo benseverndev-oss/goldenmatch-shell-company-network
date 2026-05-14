@@ -24,7 +24,9 @@ app = typer.Typer(add_completion=False, no_args_is_help=False)
 @app.command()
 def main(
     query: str = typer.Option(..., "--query", "-q", help="Search string."),
-    jurisdiction: str = typer.Option("", "--jurisdiction", "-j", help="ISO country code, optional."),
+    jurisdiction: str = typer.Option(
+        "", "--jurisdiction", "-j", help="ISO country code, optional."
+    ),
     limit: int = typer.Option(100, "--limit", "-n", help="Max companies to fetch."),
     per_page: int = typer.Option(opencorporates.DEFAULT_PER_PAGE, "--per-page"),
     sleep_seconds: float = typer.Option(opencorporates.DEFAULT_SLEEP_SECONDS, "--sleep"),

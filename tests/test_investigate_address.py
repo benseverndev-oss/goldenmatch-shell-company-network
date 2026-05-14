@@ -40,14 +40,10 @@ def test_make_address_seed_normalizes() -> None:
     assert "ugland" in seed.normalized_text
 
 
-def test_rank_addresses_finds_ugland_house(
-    tmp_path: Path, fixtures_dir: Path
-) -> None:
+def test_rank_addresses_finds_ugland_house(tmp_path: Path, fixtures_dir: Path) -> None:
     _, processed, _ = _stage(tmp_path, fixtures_dir)
     addr_df = pl.read_parquet(processed / "address_entities.parquet")
-    seed = make_address_seed(
-        "Ugland House, South Church Street, George Town, Grand Cayman", "ky"
-    )
+    seed = make_address_seed("Ugland House, South Church Street, George Town, Grand Cayman", "ky")
     in_country, _ = rank_addresses(addr_df, seed, min_score=55.0, top_n=10)
     assert in_country, "expected at least one ugland-house match"
     assert any("ugland" in c.normalized_text for c in in_country)
@@ -71,9 +67,7 @@ def test_collect_entities_at_addresses_surfaces_registered_companies(
     assert "icij:10000002" in flat_uids
 
 
-def test_render_address_report_includes_sections(
-    tmp_path: Path, fixtures_dir: Path
-) -> None:
+def test_render_address_report_includes_sections(tmp_path: Path, fixtures_dir: Path) -> None:
     interim, processed, edges_path = _stage(tmp_path, fixtures_dir)
     addr_df = pl.read_parquet(processed / "address_entities.parquet")
     company_df = pl.read_parquet(processed / "company_entities.parquet")

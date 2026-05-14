@@ -48,6 +48,7 @@ def main(
     # Best-effort: if the cluster CSV uses GoldenMatch's opaque row ids we
     # need the source parquet alongside to recover entity_uid.
     from shellnet.paths import PROCESSED_DIR
+
     source_table = PROCESSED_DIR / f"{run_name}_entities.parquet"
     predicted = [
         (a, b)

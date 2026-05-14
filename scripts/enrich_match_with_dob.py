@@ -42,16 +42,13 @@ def _year(dob: str | None) -> int | None:
 @app.command()
 def main(
     matched_csv: Path = typer.Argument(...),
-    os_parquet: Path = typer.Option(
-        INTERIM_DIR / "opensanctions_entities.parquet", "--os-parquet"
-    ),
-    uk_dob_parquet: Path = typer.Option(
-        PROCESSED_DIR / "uk_psc_dob.parquet", "--uk-dob"
-    ),
+    os_parquet: Path = typer.Option(INTERIM_DIR / "opensanctions_entities.parquet", "--os-parquet"),
+    uk_dob_parquet: Path = typer.Option(PROCESSED_DIR / "uk_psc_dob.parquet", "--uk-dob"),
     out_csv: Path | None = typer.Option(None, "--out"),
 ) -> None:
-    logging.basicConfig(level=logging.INFO,
-                        format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+    logging.basicConfig(
+        level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s"
+    )
     matched = pl.read_csv(matched_csv)
     log.info("matched rows: %d", matched.height)
 
@@ -101,7 +98,7 @@ def main(
     # target_entity_uid is like uk_psc:<statementId>; strip the prefix.
     def lookup_target_dob(uid: str) -> str | None:
         if uid.startswith("uk_psc:"):
-            return uk_dob_map.get(uid[len("uk_psc:"):])
+            return uk_dob_map.get(uid[len("uk_psc:") :])
         return None
 
     enriched = matched.with_columns(
@@ -121,9 +118,7 @@ def main(
         .alias("dob_match")
     )
 
-    summary = enriched.group_by("dob_match").agg(pl.len().alias("n")).sort(
-        "n", descending=True
-    )
+    summary = enriched.group_by("dob_match").agg(pl.len().alias("n")).sort("n", descending=True)
     log.info("dob_match distribution:")
     for r in summary.iter_rows(named=True):
         log.info("  %s: %d", r["dob_match"], r["n"])

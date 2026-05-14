@@ -122,15 +122,11 @@ def main(
         len(outside_juris),
     )
 
-    icij_uids = [
-        c.entity_uid for c in (in_juris + outside_juris) if c.source == "icij"
-    ]
+    icij_uids = [c.entity_uid for c in (in_juris + outside_juris) if c.source == "icij"]
     edges_df = _read_optional_parquet(interim_dir / "icij_edges.parquet")
     addresses_df = _read_optional_parquet(interim_dir / "icij_addresses.parquet")
     officers_df = _read_optional_parquet(interim_dir / "icij_officers.parquet")
-    intermediaries_df = _read_optional_parquet(
-        interim_dir / "icij_intermediaries.parquet"
-    )
+    intermediaries_df = _read_optional_parquet(interim_dir / "icij_intermediaries.parquet")
     neighbourhoods = collect_icij_neighbourhood(
         icij_uids,
         edges_df=edges_df,
@@ -146,9 +142,7 @@ def main(
         try:
             import psycopg
         except ImportError:
-            log.warning(
-                "DATABASE_URL set but psycopg not installed; skipping GoldenMatch context"
-            )
+            log.warning("DATABASE_URL set but psycopg not installed; skipping GoldenMatch context")
         else:
             all_uids = [c.entity_uid for c in in_juris + outside_juris]
             try:

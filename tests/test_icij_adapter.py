@@ -39,8 +39,13 @@ def test_load_entities(tmp_path: Path, fixtures_dir: Path) -> None:
     df = icij.load_entities(files.entities)  # type: ignore[arg-type]
     assert df.height == 5
     expected_cols = {
-        "source", "source_id", "name", "normalized_name", "jurisdiction",
-        "address_raw", "normalized_address",
+        "source",
+        "source_id",
+        "name",
+        "normalized_name",
+        "jurisdiction",
+        "address_raw",
+        "normalized_address",
     }
     assert expected_cols.issubset(set(df.columns))
     # Jurisdiction is normalized to ISO alpha-2.

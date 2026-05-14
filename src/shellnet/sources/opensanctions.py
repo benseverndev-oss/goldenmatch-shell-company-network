@@ -39,7 +39,7 @@ USER_AGENT = "shellnet/0.1 (+https://github.com/) GoldenMatch case study"
 _PARQUET_SCHEMA: dict[str, type[pl.DataType]] = {
     "source": pl.Utf8,
     "source_id": pl.Utf8,
-    "entity_schema": pl.Utf8,           # OpenSanctions FtM schema name (Company, Person, ...)
+    "entity_schema": pl.Utf8,  # OpenSanctions FtM schema name (Company, Person, ...)
     "name": pl.Utf8,
     "normalized_name": pl.Utf8,
     "aliases": pl.List(pl.Utf8),
@@ -47,7 +47,7 @@ _PARQUET_SCHEMA: dict[str, type[pl.DataType]] = {
     "identifiers": pl.List(pl.Utf8),
     "addresses_raw": pl.List(pl.Utf8),
     "normalized_addresses": pl.List(pl.Utf8),
-    "topics": pl.List(pl.Utf8),         # sanctions, pep, crime, ...
+    "topics": pl.List(pl.Utf8),  # sanctions, pep, crime, ...
     "datasets": pl.List(pl.Utf8),
     "first_seen": pl.Utf8,
     "last_seen": pl.Utf8,
@@ -71,12 +71,18 @@ def parse_entity(record: dict[str, Any]) -> dict[str, Any]:
     primary_name = names[0] if names else (record.get("caption") or "")
     aliases = _as_list(props.get("alias")) + names[1:]
     jurisdictions_raw = _as_list(props.get("jurisdiction")) + _as_list(props.get("country"))
-    jurisdictions = sorted({
-        j for j in (normalize_jurisdiction(x) for x in jurisdictions_raw) if j
-    })
+    jurisdictions = sorted({j for j in (normalize_jurisdiction(x) for x in jurisdictions_raw) if j})
 
     identifiers = []
-    for key in ("registrationNumber", "leiCode", "ogrnCode", "innCode", "okpoCode", "swiftBic", "taxNumber"):
+    for key in (
+        "registrationNumber",
+        "leiCode",
+        "ogrnCode",
+        "innCode",
+        "okpoCode",
+        "swiftBic",
+        "taxNumber",
+    ):
         identifiers.extend(normalize_identifier(v) for v in _as_list(props.get(key)))
     identifiers = [i for i in identifiers if i]
 

@@ -25,7 +25,8 @@ log = logging.getLogger(__name__)
 def main(
     zip_path: Path = typer.Option(
         DATA_DIR / "raw" / "openownership" / "uk_bods.zip",
-        "--input", "-i",
+        "--input",
+        "-i",
         help="Local ZIP file (UK BODS parquet bundle).",
     ),
     out_dir: Path = typer.Option(INTERIM_DIR, "--out-dir"),

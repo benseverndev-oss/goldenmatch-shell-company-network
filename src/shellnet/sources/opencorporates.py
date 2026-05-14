@@ -244,11 +244,15 @@ def parse_local_file(path: Path) -> pl.DataFrame:
     network access on top of an already-populated cache directory.
     """
     blob = json.loads(Path(path).read_text("utf-8"))
-    results = (blob.get("results") or {})
+    results = blob.get("results") or {}
     raw_companies = results.get("companies") or []
     rows: list[dict[str, Any]] = []
     for wrapper in raw_companies:
-        record = wrapper.get("company") if isinstance(wrapper, dict) and "company" in wrapper else wrapper
+        record = (
+            wrapper.get("company")
+            if isinstance(wrapper, dict) and "company" in wrapper
+            else wrapper
+        )
         if isinstance(record, dict):
             rows.append(parse_company(record))
     # Single-company endpoint shape: {"results": {"company": {...}}}

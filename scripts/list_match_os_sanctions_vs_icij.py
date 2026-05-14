@@ -34,17 +34,11 @@ log = logging.getLogger(__name__)
 
 @app.command()
 def main(
-    person_table: Path = typer.Option(
-        PROCESSED_DIR / "person_entities.parquet", "--person-table"
-    ),
+    person_table: Path = typer.Option(PROCESSED_DIR / "person_entities.parquet", "--person-table"),
     out_dir: Path = typer.Option(PROCESSED_DIR, "--out-dir"),
     reports_dir: Path = typer.Option(REPORTS_DIR, "--reports-dir"),
-    run_name: str = typer.Option(
-        "list_match_os_sanctions_vs_icij", "--run-name"
-    ),
-    config: Path = typer.Option(
-        CONFIGS_DIR / "goldenmatch_person.yml", "--config"
-    ),
+    run_name: str = typer.Option("list_match_os_sanctions_vs_icij", "--run-name"),
+    config: Path = typer.Option(CONFIGS_DIR / "goldenmatch_person.yml", "--config"),
     skip_match: bool = typer.Option(
         False,
         "--skip-match",
@@ -99,10 +93,7 @@ def main(
     # at 31k records) and OOM the match step. Investigative payoff per
     # row is highest in this narrow set anyway.
     high_signal = {"ru", "ua", "by", "cy", "kz"}
-    uk_psc = df.filter(
-        (pl.col("source") == "uk_psc")
-        & pl.col("country").is_in(list(high_signal))
-    )
+    uk_psc = df.filter((pl.col("source") == "uk_psc") & pl.col("country").is_in(list(high_signal)))
     target = pl.concat([icij, uk_psc], how="vertical_relaxed").select(keep_cols)
     tgt_path = out_dir / "icij_persons.parquet"
     target.write_parquet(tgt_path)

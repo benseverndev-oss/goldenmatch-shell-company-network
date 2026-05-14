@@ -90,8 +90,7 @@ def _ensure_schema(cur: psycopg.Cursor) -> None:
     )
     cur.execute(
         sql.SQL(
-            "CREATE INDEX IF NOT EXISTS same_as_run_idx "
-            "ON {schema}.same_as_pairs (run_id)"
+            "CREATE INDEX IF NOT EXISTS same_as_run_idx ON {schema}.same_as_pairs (run_id)"
         ).format(schema=sql.Identifier(SCHEMA))
     )
     cur.execute(
@@ -117,8 +116,7 @@ def _ensure_schema(cur: psycopg.Cursor) -> None:
     )
     cur.execute(
         sql.SQL(
-            "CREATE INDEX IF NOT EXISTS list_matches_run_idx "
-            "ON {schema}.list_matches (run_id)"
+            "CREATE INDEX IF NOT EXISTS list_matches_run_idx ON {schema}.list_matches (run_id)"
         ).format(schema=sql.Identifier(SCHEMA))
     )
     cur.execute(
@@ -131,9 +129,7 @@ def _ensure_schema(cur: psycopg.Cursor) -> None:
 
 def _delete_prior_runs(cur: psycopg.Cursor, what: str) -> int:
     cur.execute(
-        sql.SQL("DELETE FROM {schema}.runs WHERE what = %s").format(
-            schema=sql.Identifier(SCHEMA)
-        ),
+        sql.SQL("DELETE FROM {schema}.runs WHERE what = %s").format(schema=sql.Identifier(SCHEMA)),
         (what,),
     )
     return cur.rowcount or 0
@@ -153,7 +149,9 @@ def publish_run(
     clusters_df = load_clusters(paths, source_table=source_table)
     pairs = cluster_pairs(paths, source_table=source_table)
     run_id = uuid.uuid4()
-    log.info("publishing run %s (%s): %d records, %d pairs", run_id, what, clusters_df.height, len(pairs))
+    log.info(
+        "publishing run %s (%s): %d records, %d pairs", run_id, what, clusters_df.height, len(pairs)
+    )
 
     records = clusters_df.height
     n_clusters = int(clusters_df["cluster_id"].n_unique())
@@ -271,7 +269,11 @@ def publish_list_match(
     what = what_tag or f"list_match:{run_name}"
     log.info(
         "publishing list-match %s (%s): %d rows, %d unique targets, %d unique refs",
-        run_id, run_name, len(rows), len(target_uids), len(ref_uids),
+        run_id,
+        run_name,
+        len(rows),
+        len(target_uids),
+        len(ref_uids),
     )
 
     with psycopg.connect(_conn_str(), autocommit=False) as conn:

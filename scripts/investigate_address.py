@@ -36,9 +36,7 @@ def main(
     country: str | None = typer.Option(None, "--country"),
     top_n: int = typer.Option(25, "--top-n"),
     min_score: float = typer.Option(85.0, "--min-score"),
-    global_fallback: bool = typer.Option(
-        True, "--global-fallback/--no-global-fallback"
-    ),
+    global_fallback: bool = typer.Option(True, "--global-fallback/--no-global-fallback"),
     processed_dir: Path = typer.Option(PROCESSED_DIR, "--processed-dir"),
     interim_dir: Path = typer.Option(INTERIM_DIR, "--interim-dir"),
     out_dir: Path = typer.Option(PROJECT_ROOT / "reports", "--out-dir"),
@@ -52,7 +50,13 @@ def main(
     )
 
     seed = make_address_seed(text, country)
-    log.info("seed: %r/%r → %r/%r", seed.text, seed.country, seed.normalized_text, seed.normalized_country)
+    log.info(
+        "seed: %r/%r → %r/%r",
+        seed.text,
+        seed.country,
+        seed.normalized_text,
+        seed.normalized_country,
+    )
 
     addr_path = processed_dir / "address_entities.parquet"
     if not addr_path.exists():

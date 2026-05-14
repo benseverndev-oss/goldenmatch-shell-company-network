@@ -7,8 +7,14 @@ def test_parse_local_file(fixtures_dir: Path) -> None:
     df = opencorporates.parse_local_file(fixtures_dir / "opencorporates_company_sample.json")
     assert df.height == 3
     assert set(df.columns) >= {
-        "source", "source_id", "name", "normalized_name", "jurisdiction",
-        "company_number", "address_raw", "normalized_address",
+        "source",
+        "source_id",
+        "name",
+        "normalized_name",
+        "jurisdiction",
+        "company_number",
+        "address_raw",
+        "normalized_address",
     }
     juris = set(df["jurisdiction"].to_list())
     assert juris == {"gb", "lu"}

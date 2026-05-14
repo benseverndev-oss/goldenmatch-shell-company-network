@@ -31,9 +31,7 @@ def _stage_full_fixtures(tmp_path: Path, fixtures_dir: Path) -> tuple[Path, Path
     interim = tmp_path / "interim"
     icij.ingest(raw_dir=raw_icij, out_dir=interim)
 
-    oc_df = opencorporates.parse_local_file(
-        fixtures_dir / "opencorporates_company_sample.json"
-    )
+    oc_df = opencorporates.parse_local_file(fixtures_dir / "opencorporates_company_sample.json")
     oc_df.write_parquet(interim / "opencorporates_companies.parquet")
 
     gleif.ingest(input_path=fixtures_dir / "gleif_lei_sample.json", out_dir=interim)
@@ -84,9 +82,7 @@ def test_rank_candidates_returns_in_and_outside_jurisdiction(
     assert top.entity_uid not in outside_uids
 
 
-def test_rank_candidates_global_when_no_jurisdiction(
-    tmp_path: Path, fixtures_dir: Path
-) -> None:
+def test_rank_candidates_global_when_no_jurisdiction(tmp_path: Path, fixtures_dir: Path) -> None:
     _, processed = _stage_full_fixtures(tmp_path, fixtures_dir)
     df = pl.read_parquet(processed / "company_entities.parquet")
 
@@ -127,9 +123,7 @@ def test_collect_icij_neighbourhood_pulls_addresses_and_officers(
     assert any((a.get("country") or "") == "vg" for a in n.addresses)
 
 
-def test_render_report_includes_key_sections(
-    tmp_path: Path, fixtures_dir: Path
-) -> None:
+def test_render_report_includes_key_sections(tmp_path: Path, fixtures_dir: Path) -> None:
     interim, processed = _stage_full_fixtures(tmp_path, fixtures_dir)
     df = pl.read_parquet(processed / "company_entities.parquet")
 

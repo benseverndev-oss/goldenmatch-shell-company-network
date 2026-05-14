@@ -98,9 +98,7 @@ def _classify(target_name, ref_name, target_jur, ref_jur) -> str:
 
 @app.command()
 def main(
-    out_csv: Path = typer.Option(
-        Path("data/labels/marginal_v1.csv"), "--out"
-    ),
+    out_csv: Path = typer.Option(Path("data/labels/marginal_v1.csv"), "--out"),
     seed: int = typer.Option(7, "--seed"),
     v1_dropped: int = typer.Option(100, "--v1-dropped"),
     v2_marginal: int = typer.Option(100, "--v2-marginal"),
@@ -169,8 +167,10 @@ def main(
     def annotate(rows, bucket: str, run_tag: str) -> list[dict]:
         for r in rows:
             r["heuristic_class"] = _classify(
-                r.get("target_name"), r.get("ref_name"),
-                r.get("target_jurisdiction"), r.get("ref_jurisdiction"),
+                r.get("target_name"),
+                r.get("ref_name"),
+                r.get("target_jurisdiction"),
+                r.get("ref_jurisdiction"),
             )
             r["bucket"] = bucket
             r["source_run"] = run_tag
@@ -181,26 +181,38 @@ def main(
     perfect_rows = annotate(perfect_rows, "perfect_sanity", "v1")
     v2_borderline_rows = annotate(v2_borderline_rows, "v2_borderline_class", "v2")
     v2_borderline_rows = [
-        r for r in v2_borderline_rows
-        if r["heuristic_class"] in {"jur_close", "jur_loose"}
+        r for r in v2_borderline_rows if r["heuristic_class"] in {"jur_close", "jur_loose"}
     ][:v2_borderline]
 
-    all_rows = (
-        v1_dropped_rows + v2_marginal_rows + perfect_rows + v2_borderline_rows
-    )
+    all_rows = v1_dropped_rows + v2_marginal_rows + perfect_rows + v2_borderline_rows
     log.info(
         "totals: v1_dropped=%d, v2_marginal=%d, perfect_sanity=%d, "
         "v2_borderline_class=%d -> %d rows",
-        len(v1_dropped_rows), len(v2_marginal_rows), len(perfect_rows),
-        len(v2_borderline_rows), len(all_rows),
+        len(v1_dropped_rows),
+        len(v2_marginal_rows),
+        len(perfect_rows),
+        len(v2_borderline_rows),
+        len(all_rows),
     )
 
     fieldnames = [
-        "pair_id", "bucket", "source_run",
-        "target_entity_uid", "target_source", "target_name", "target_jurisdiction",
-        "ref_entity_uid", "ref_source", "ref_name", "ref_jurisdiction", "ref_lei",
-        "score", "score_band", "heuristic_class",
-        "label", "rationale",
+        "pair_id",
+        "bucket",
+        "source_run",
+        "target_entity_uid",
+        "target_source",
+        "target_name",
+        "target_jurisdiction",
+        "ref_entity_uid",
+        "ref_source",
+        "ref_name",
+        "ref_jurisdiction",
+        "ref_lei",
+        "score",
+        "score_band",
+        "heuristic_class",
+        "label",
+        "rationale",
     ]
     with out_csv.open("w", encoding="utf-8", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=fieldnames)

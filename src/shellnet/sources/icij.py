@@ -168,9 +168,8 @@ def load_entities(path: Path) -> pl.DataFrame:
     df = _read_csv_subset(path, _ENTITY_COLS)
 
     norm_name = pl.col("name").map_elements(normalize_company_name, return_dtype=pl.Utf8)
-    norm_juris = (
-        pl.coalesce([pl.col("jurisdiction"), pl.col("country_codes")])
-        .map_elements(normalize_jurisdiction, return_dtype=pl.Utf8)
+    norm_juris = pl.coalesce([pl.col("jurisdiction"), pl.col("country_codes")]).map_elements(
+        normalize_jurisdiction, return_dtype=pl.Utf8
     )
     norm_addr = pl.col("address").map_elements(normalize_address_text, return_dtype=pl.Utf8)
     dissolution = pl.coalesce([pl.col("struck_off_date"), pl.col("inactivation_date")])
@@ -210,9 +209,8 @@ def load_entities(path: Path) -> pl.DataFrame:
 def load_addresses(path: Path) -> pl.DataFrame:
     df = _read_csv_subset(path, _ADDRESS_COLS)
     norm_addr = pl.col("address").map_elements(normalize_address_text, return_dtype=pl.Utf8)
-    norm_country = (
-        pl.coalesce([pl.col("country_codes"), pl.col("countries")])
-        .map_elements(normalize_jurisdiction, return_dtype=pl.Utf8)
+    norm_country = pl.coalesce([pl.col("country_codes"), pl.col("countries")]).map_elements(
+        normalize_jurisdiction, return_dtype=pl.Utf8
     )
     return df.with_columns(
         pl.lit("icij").alias("source"),
@@ -233,9 +231,8 @@ def _load_person_like(path: Path, columns: dict[str, str]) -> pl.DataFrame:
     """
     df = _read_csv_subset(path, columns)
     norm_name = pl.col("name").map_elements(normalize_company_name, return_dtype=pl.Utf8)
-    norm_country = (
-        pl.coalesce([pl.col("country_codes"), pl.col("countries")])
-        .map_elements(normalize_jurisdiction, return_dtype=pl.Utf8)
+    norm_country = pl.coalesce([pl.col("country_codes"), pl.col("countries")]).map_elements(
+        normalize_jurisdiction, return_dtype=pl.Utf8
     )
     out = df.with_columns(
         pl.lit("icij").alias("source"),

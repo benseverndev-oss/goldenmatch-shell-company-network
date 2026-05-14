@@ -287,28 +287,42 @@ def trigger_ingest(bg: BackgroundTasks, source: str = "icij") -> dict[str, Any]:
         bg.add_task(_do_ingest_icij)
     elif source == "gleif":
         gleif_dir = DATA_DIR / "raw" / "gleif"
-        inputs = sorted(p for p in gleif_dir.glob("*") if p.is_file()
-                        and p.suffix.lower() in {".json", ".jsonl", ".ndjson"})
+        inputs = sorted(
+            p
+            for p in gleif_dir.glob("*")
+            if p.is_file() and p.suffix.lower() in {".json", ".jsonl", ".ndjson"}
+        )
         if not inputs:
             raise HTTPException(400, f"no gleif inputs under {gleif_dir}")
         target = inputs[0]
         # Files > 200 MB or that match the Golden Copy filename pattern go
         # through the streaming CDF adapter; everything else hits the original
         # v1-API adapter via the script entry point.
-        is_golden_copy = "goldencopy" in target.name.lower() or target.stat().st_size > 200 * 1024 * 1024
+        is_golden_copy = (
+            "goldencopy" in target.name.lower() or target.stat().st_size > 200 * 1024 * 1024
+        )
         if is_golden_copy:
             bg.add_task(_do_ingest_gleif_streaming, target)
         else:
-            bg.add_task(_do_ingest_script, stage,
-                        ["python", "scripts/ingest_gleif.py", "--input", str(target)])
+            bg.add_task(
+                _do_ingest_script,
+                stage,
+                ["python", "scripts/ingest_gleif.py", "--input", str(target)],
+            )
     elif source == "opensanctions":
         os_dir = DATA_DIR / "raw" / "opensanctions"
-        inputs = sorted(p for p in os_dir.glob("*") if p.is_file()
-                        and p.suffix.lower() in {".json", ".jsonl", ".ndjson", ".ftm"})
+        inputs = sorted(
+            p
+            for p in os_dir.glob("*")
+            if p.is_file() and p.suffix.lower() in {".json", ".jsonl", ".ndjson", ".ftm"}
+        )
         if not inputs:
             raise HTTPException(400, f"no opensanctions inputs under {os_dir}")
-        bg.add_task(_do_ingest_script, stage,
-                    ["python", "scripts/ingest_opensanctions.py", "--input", str(inputs[0])])
+        bg.add_task(
+            _do_ingest_script,
+            stage,
+            ["python", "scripts/ingest_opensanctions.py", "--input", str(inputs[0])],
+        )
     else:
         raise HTTPException(400, "source must be icij|gleif|opensanctions")
     return {"ok": True, "queued": stage, "source": source}
@@ -316,6 +330,7 @@ def trigger_ingest(bg: BackgroundTasks, source: str = "icij") -> dict[str, Any]:
 
 def _do_fetch_url(stage: str, url: str, dest: Path) -> None:
     import httpx
+
     started = _now()
     _mark(stage, status="running", started_at=started, url=url, dest=str(dest))
     try:
@@ -341,21 +356,23 @@ _ALLOWED_SCRIPTS = {
     "eval_labels": ["scripts/eval_against_labels.py"],
     "graph_smoke": ["scripts/build_graph_smoke.py"],
     "filter_company": ["scripts/filter_company_table.py"],
-    "filter_company_no_gleif": [
-        "scripts/filter_company_table.py", "--drop-sources", "gleif"
-    ],
+    "filter_company_no_gleif": ["scripts/filter_company_table.py", "--drop-sources", "gleif"],
     "extract_gleif_unified": [
         "scripts/filter_company_table.py",
-        "--keep-only-sources", "gleif",
-        "--out", "/data/processed/gleif_unified.parquet",
+        "--keep-only-sources",
+        "gleif",
+        "--out",
+        "/data/processed/gleif_unified.parquet",
         "--no-keep-unfiltered",
     ],
     "summarize_match": ["scripts/_summarize_match.py"],
     "review_matches": ["scripts/review_matches.py"],
     "review_matches_v2": [
         "scripts/review_matches.py",
-        "--matched-csv", "/data/reports/generated/icij_os_vs_gleif_v2_matched.csv",
-        "--out-md", "/data/reports/generated/icij_os_vs_gleif_v2_review.md",
+        "--matched-csv",
+        "/data/reports/generated/icij_os_vs_gleif_v2_matched.csv",
+        "--out-md",
+        "/data/reports/generated/icij_os_vs_gleif_v2_review.md",
     ],
     "check_schemas": [
         "scripts/_check_schemas.py",
@@ -368,46 +385,62 @@ _ALLOWED_SCRIPTS = {
     "centrality": ["scripts/compute_centrality.py"],
     "list_match_os_sanctions_vs_icij": [
         "scripts/list_match_os_sanctions_vs_icij.py",
-        "--out-dir", "/data/processed",
-        "--reports-dir", "/data/reports/generated",
+        "--out-dir",
+        "/data/processed",
+        "--reports-dir",
+        "/data/reports/generated",
     ],
     "ingest_opensanctions_default_filtered": [
         "scripts/ingest_opensanctions.py",
-        "--input", "/data/raw/opensanctions/default.ftm.json",
-        "--schemas", "Person,Company,Organization,LegalEntity",
-        "--out-dir", "/data/interim",
+        "--input",
+        "/data/raw/opensanctions/default.ftm.json",
+        "--schemas",
+        "Person,Company,Organization,LegalEntity",
+        "--out-dir",
+        "/data/interim",
     ],
     "ingest_uk_bods": [
         "scripts/ingest_uk_bods.py",
-        "--input", "/data/raw/openownership/uk_bods.zip",
-        "--out-dir", "/data/interim",
+        "--input",
+        "/data/raw/openownership/uk_bods.zip",
+        "--out-dir",
+        "/data/interim",
     ],
     "ingest_gleif_l2": [
         "scripts/ingest_gleif_l2.py",
-        "--input", "/data/raw/openownership/gleif_bods.zip",
-        "--out-dir", "/data/interim",
+        "--input",
+        "/data/raw/openownership/gleif_bods.zip",
+        "--out-dir",
+        "/data/interim",
     ],
     "extract_uk_psc_dob": [
         "scripts/extract_uk_psc_dob.py",
-        "--input", "/data/raw/openownership/uk_bods.zip",
-        "--out", "/data/processed/uk_psc_dob.parquet",
+        "--input",
+        "/data/raw/openownership/uk_bods.zip",
+        "--out",
+        "/data/processed/uk_psc_dob.parquet",
     ],
     "enrich_match_with_dob": [
         "scripts/enrich_match_with_dob.py",
         "/data/reports/generated/list_match_os_sanctions_vs_icij_matched.csv",
-        "--os-parquet", "/data/interim/opensanctions_entities.parquet",
-        "--uk-dob", "/data/processed/uk_psc_dob.parquet",
-        "--out", "/data/reports/generated/matched_dob.csv",
+        "--os-parquet",
+        "/data/interim/opensanctions_entities.parquet",
+        "--uk-dob",
+        "/data/processed/uk_psc_dob.parquet",
+        "--out",
+        "/data/reports/generated/matched_dob.csv",
     ],
     "score_prior_coverage": [
         "scripts/score_prior_coverage.py",
         "/data/reports/generated/matched_dob.csv",
-        "--out", "/data/reports/generated/matched_dob_scored.csv",
+        "--out",
+        "/data/reports/generated/matched_dob_scored.csv",
     ],
     "filter_match_survivors": [
         "scripts/filter_match_survivors.py",
         "/data/reports/generated/matched_dob_scored.csv",
-        "--out", "/data/reports/generated/investigative_grade_survivors.csv",
+        "--out",
+        "/data/reports/generated/investigative_grade_survivors.csv",
     ],
     "inspect_uk_bods_zip": [
         "scripts/_inspect_zip.py",
@@ -535,14 +568,21 @@ def _do_match_against(target: Path, against: Path, run_name: str) -> None:
     gm = shutil.which("goldenmatch") or "goldenmatch"
     config = Path("/app/configs/goldenmatch_company.yml")
     cmd = [
-        gm, "match", str(target),
-        "--against", str(against),
-        "--config", str(config),
-        "--output-dir", str(REPORTS_DIR),
-        "--run-name", run_name,
+        gm,
+        "match",
+        str(target),
+        "--against",
+        str(against),
+        "--config",
+        str(config),
+        "--output-dir",
+        str(REPORTS_DIR),
+        "--run-name",
+        run_name,
         "--output-matched",
         "--output-scores",
-        "--format", "csv",
+        "--format",
+        "csv",
         "--quiet",
     ]
     _run_subprocess(f"match_against_{run_name}", cmd, cwd=Path("/app"))
@@ -602,9 +642,7 @@ def _do_publish_list_match(run_name: str) -> None:
     stage = f"publish_list_{run_name}"
     _mark(stage, status="running", started_at=_now(), run_name=run_name)
     try:
-        summary = publish.publish_list_match(
-            run_name=run_name, reports_dir=REPORTS_DIR
-        )
+        summary = publish.publish_list_match(run_name=run_name, reports_dir=REPORTS_DIR)
         _mark(stage, status="completed", finished_at=_now(), summary=summary)
     except Exception as exc:  # noqa: BLE001
         log.exception("publish_list_match failed")

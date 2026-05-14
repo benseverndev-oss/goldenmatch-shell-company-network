@@ -90,9 +90,7 @@ _COMPANY_COLUMNS: tuple[str, ...] = (
 
 
 def _build_persons(work_dir: Path) -> pl.DataFrame:
-    spine = pl.read_parquet(work_dir / "person_statement.parquet").select(
-        ["_link", "statementId"]
-    )
+    spine = pl.read_parquet(work_dir / "person_statement.parquet").select(["_link", "statementId"])
     log.info("BODS persons: spine = %d rows", spine.height)
 
     names = pl.read_parquet(work_dir / "person_recorddetails_names.parquet").select(
@@ -102,15 +100,13 @@ def _build_persons(work_dir: Path) -> pl.DataFrame:
         names, "_link_person_statement", ["fullName", "familyName", "givenName"]
     )
 
-    nat = pl.read_parquet(
-        work_dir / "person_recorddetails_nationalities.parquet"
-    ).select(["_link_person_statement", "code"])
+    nat = pl.read_parquet(work_dir / "person_recorddetails_nationalities.parquet").select(
+        ["_link_person_statement", "code"]
+    )
     nat = _first_per_link(nat, "_link_person_statement", ["code"])
 
-    df = (
-        spine.join(
-            names, left_on="_link", right_on="_link_person_statement", how="left"
-        ).join(nat, left_on="_link", right_on="_link_person_statement", how="left")
+    df = spine.join(names, left_on="_link", right_on="_link_person_statement", how="left").join(
+        nat, left_on="_link", right_on="_link_person_statement", how="left"
     )
     # Prefer fullName, fall back to "given family".
     df = df.with_columns(
@@ -137,9 +133,7 @@ def _build_persons(work_dir: Path) -> pl.DataFrame:
         pl.col("name")
         .map_elements(normalize_company_name, return_dtype=pl.Utf8)
         .alias("normalized_name"),
-        pl.col("code")
-        .map_elements(normalize_jurisdiction, return_dtype=pl.Utf8)
-        .alias("country"),
+        pl.col("code").map_elements(normalize_jurisdiction, return_dtype=pl.Utf8).alias("country"),
         pl.lit([], dtype=pl.List(pl.Utf8)).alias("topics"),
         pl.lit([], dtype=pl.List(pl.Utf8)).alias("datasets"),
     )
@@ -159,20 +153,18 @@ def _build_entities(work_dir: Path) -> pl.DataFrame:
     )
     log.info("BODS entities: spine = %d rows", spine.height)
 
-    ids = pl.read_parquet(
-        work_dir / "entity_recorddetails_identifiers.parquet"
-    ).select(["_link_entity_statement", "id", "scheme"])
+    ids = pl.read_parquet(work_dir / "entity_recorddetails_identifiers.parquet").select(
+        ["_link_entity_statement", "id", "scheme"]
+    )
     ids = _first_per_link(ids, "_link_entity_statement", ["id", "scheme"])
 
-    addrs = pl.read_parquet(
-        work_dir / "entity_recorddetails_addresses.parquet"
-    ).select(["_link_entity_statement", "address", "country_code"])
+    addrs = pl.read_parquet(work_dir / "entity_recorddetails_addresses.parquet").select(
+        ["_link_entity_statement", "address", "country_code"]
+    )
     addrs = _first_per_link(addrs, "_link_entity_statement", ["address", "country_code"])
 
-    df = (
-        spine.join(
-            ids, left_on="_link", right_on="_link_entity_statement", how="left"
-        ).join(addrs, left_on="_link", right_on="_link_entity_statement", how="left")
+    df = spine.join(ids, left_on="_link", right_on="_link_entity_statement", how="left").join(
+        addrs, left_on="_link", right_on="_link_entity_statement", how="left"
     )
     df = df.with_columns(
         pl.lit("uk_psc", dtype=pl.Utf8).alias("source"),
@@ -181,9 +173,7 @@ def _build_entities(work_dir: Path) -> pl.DataFrame:
         pl.col("recordDetails_name")
         .map_elements(normalize_company_name, return_dtype=pl.Utf8)
         .alias("normalized_name"),
-        pl.coalesce(
-            [pl.col("recordDetails_jurisdiction_code"), pl.col("country_code")]
-        )
+        pl.coalesce([pl.col("recordDetails_jurisdiction_code"), pl.col("country_code")])
         .map_elements(normalize_jurisdiction, return_dtype=pl.Utf8)
         .alias("jurisdiction"),
         pl.col("id")
@@ -202,12 +192,12 @@ def _build_entities(work_dir: Path) -> pl.DataFrame:
 
 
 _OWNERSHIP_EDGE_COLUMNS: tuple[str, ...] = (
-    "source",          # 'gleif_l2' or 'uk_psc'
-    "src_lei",         # subject company LEI (or BODS statement id)
-    "dst_lei",         # interested party LEI (parent / controller)
-    "kind",            # 'parent_of' / 'control'
-    "share_min",       # percentage minimum if available
-    "share_max",       # percentage maximum if available
+    "source",  # 'gleif_l2' or 'uk_psc'
+    "src_lei",  # subject company LEI (or BODS statement id)
+    "dst_lei",  # interested party LEI (parent / controller)
+    "kind",  # 'parent_of' / 'control'
+    "share_min",  # percentage minimum if available
+    "share_max",  # percentage maximum if available
     "start_date",
     "end_date",
 )
@@ -257,14 +247,10 @@ def _build_gleif_relationships(work_dir: Path) -> pl.DataFrame:
         pl.col("type").fill_null("ownership").alias("kind"),
         pl.lit(None, dtype=pl.Float64).alias("share_min"),
         pl.lit(None, dtype=pl.Float64).alias("share_max"),
-        (pl.col("startDate") if has_start else pl.lit(None, dtype=pl.Utf8)).alias(
-            "start_date"
-        ),
+        (pl.col("startDate") if has_start else pl.lit(None, dtype=pl.Utf8)).alias("start_date"),
         pl.lit(None, dtype=pl.Utf8).alias("end_date"),
     ).select(list(_OWNERSHIP_EDGE_COLUMNS))
-    edges = edges.filter(
-        pl.col("src_lei").is_not_null() & pl.col("dst_lei").is_not_null()
-    )
+    edges = edges.filter(pl.col("src_lei").is_not_null() & pl.col("dst_lei").is_not_null())
     return edges
 
 

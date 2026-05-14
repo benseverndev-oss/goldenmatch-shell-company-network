@@ -146,13 +146,10 @@ def rank_candidates(
 
     in_df = sdf.filter(pl.col("jurisdiction") == seed.normalized_jurisdiction)
     out_df = sdf.filter(
-        (pl.col("jurisdiction") != seed.normalized_jurisdiction)
-        | pl.col("jurisdiction").is_null()
+        (pl.col("jurisdiction") != seed.normalized_jurisdiction) | pl.col("jurisdiction").is_null()
     )
     in_results = _to_candidates(in_df, in_juris=True)
-    out_results = (
-        _to_candidates(out_df, in_juris=False) if include_outside_jurisdiction else []
-    )
+    out_results = _to_candidates(out_df, in_juris=False) if include_outside_jurisdiction else []
     return in_results, out_results
 
 
@@ -195,9 +192,7 @@ def collect_icij_neighbourhood(
 
     out: list[Neighbourhood] = []
     for uid in icij_uids:
-        sub = edges_df.filter(
-            (pl.col("src_node") == uid) | (pl.col("dst_node") == uid)
-        )
+        sub = edges_df.filter((pl.col("src_node") == uid) | (pl.col("dst_node") == uid))
         if sub.height == 0:
             continue
         nbh = Neighbourhood(entity_uid=uid, n_edges=sub.height)
@@ -271,9 +266,7 @@ def collect_icij_neighbourhood(
     return out
 
 
-def fetch_goldenmatch_context(
-    entity_uids: list[str], *, conn: Any
-) -> GoldenmatchContext:
+def fetch_goldenmatch_context(entity_uids: list[str], *, conn: Any) -> GoldenmatchContext:
     """Query the Postgres tables ``provenance_report.py`` already uses.
 
     ``conn`` is a live ``psycopg`` connection. Caller decides whether to
@@ -285,8 +278,7 @@ def fetch_goldenmatch_context(
 
     with conn.cursor() as cur:
         cur.execute(
-            "SELECT run_id FROM shellnet.runs "
-            "WHERE what='company' ORDER BY created_at DESC LIMIT 1"
+            "SELECT run_id FROM shellnet.runs WHERE what='company' ORDER BY created_at DESC LIMIT 1"
         )
         row = cur.fetchone()
         if row:
@@ -379,9 +371,7 @@ def render_report(
     lines: list[str] = []
 
     juris_label = seed.normalized_jurisdiction or "(unspecified)"
-    lines.append(
-        f"# Investigation seed: `{_md_escape(seed.name)}` / {juris_label}"
-    )
+    lines.append(f"# Investigation seed: `{_md_escape(seed.name)}` / {juris_label}")
     lines.append("")
     lines.append(
         f"Generated `{generated_at.isoformat(timespec='seconds')}`"
@@ -426,8 +416,7 @@ def render_report(
     if gm_context and gm_context.cluster_memberships:
         clusters = sorted({m["cluster_id"] for m in gm_context.cluster_memberships})
         lines.append(
-            f"- Cluster membership: {clusters} "
-            f"(from dedupe run `{gm_context.dedupe_run_id}`)."
+            f"- Cluster membership: {clusters} (from dedupe run `{gm_context.dedupe_run_id}`)."
         )
     if neighbourhoods:
         n_addr = sum(len(n.addresses) for n in neighbourhoods)
@@ -473,9 +462,7 @@ def render_report(
             "be missing, abbreviated differently, or genuinely distinct._"
         )
         lines.append("")
-        lines.append(
-            "| # | score | entity_uid | source | name | jurisdiction | lei |"
-        )
+        lines.append("| # | score | entity_uid | source | name | jurisdiction | lei |")
         lines.append("| ---: | ---: | --- | --- | --- | --- | --- |")
         for i, c in enumerate(outside_juris, start=1):
             lines.append(
@@ -500,22 +487,16 @@ def render_report(
             "same-as pairs._"
         )
     elif not (
-        gm_context.list_match_anchors
-        or gm_context.cluster_memberships
-        or gm_context.same_as_pairs
+        gm_context.list_match_anchors or gm_context.cluster_memberships or gm_context.same_as_pairs
     ):
         lines.append("_No published context for these candidates._")
     else:
         if gm_context.list_match_anchors:
             lines.append("### GLEIF list-match anchors")
             lines.append("")
-            lines.append(
-                f"From list-match run `{gm_context.list_match_run_id}`."
-            )
+            lines.append(f"From list-match run `{gm_context.list_match_run_id}`.")
             lines.append("")
-            lines.append(
-                "| target_uid | gleif_lei | gleif_name | jur | score | band |"
-            )
+            lines.append("| target_uid | gleif_lei | gleif_name | jur | score | band |")
             lines.append("| --- | --- | --- | --- | ---: | --- |")
             for a in gm_context.list_match_anchors:
                 lines.append(
@@ -545,21 +526,15 @@ def render_report(
             lines.append("| left | right | cluster |")
             lines.append("| --- | --- | ---: |")
             for p in gm_context.same_as_pairs[:40]:
-                lines.append(
-                    f"| `{p['left']}` | `{p['right']}` | {p['cluster_id']} |"
-                )
+                lines.append(f"| `{p['left']}` | `{p['right']}` | {p['cluster_id']} |")
             if len(gm_context.same_as_pairs) > 40:
-                lines.append(
-                    f"| _… {len(gm_context.same_as_pairs)-40} more_ | | |"
-                )
+                lines.append(f"| _… {len(gm_context.same_as_pairs) - 40} more_ | | |")
             lines.append("")
 
     lines.append("## 1-hop ICIJ neighbourhood")
     lines.append("")
     if not neighbourhoods:
-        lines.append(
-            "_No ICIJ-sided candidates, or no edges incident to those candidates._"
-        )
+        lines.append("_No ICIJ-sided candidates, or no edges incident to those candidates._")
     else:
         for n in neighbourhoods:
             lines.append(f"### `{n.entity_uid}` — {n.n_edges} edges")
@@ -649,21 +624,15 @@ def render_report(
             lines.append("")
             lines.append("| address | shared by |")
             lines.append("| --- | --- |")
-            for addr, uids in sorted(
-                shared_addrs.items(), key=lambda kv: -len(set(kv[1]))
-            ):
-                lines.append(
-                    f"| {addr[:80]} | {', '.join(sorted(set(uids)))} |"
-                )
+            for addr, uids in sorted(shared_addrs.items(), key=lambda kv: -len(set(kv[1]))):
+                lines.append(f"| {addr[:80]} | {', '.join(sorted(set(uids)))} |")
             lines.append("")
         if shared_offs:
             lines.append("**Officers shared across candidates**")
             lines.append("")
             lines.append("| name | shared by |")
             lines.append("| --- | --- |")
-            for name, uids in sorted(
-                shared_offs.items(), key=lambda kv: -len(set(kv[1]))
-            ):
+            for name, uids in sorted(shared_offs.items(), key=lambda kv: -len(set(kv[1]))):
                 lines.append(f"| {name[:60]} | {', '.join(sorted(set(uids)))} |")
             lines.append("")
 
@@ -699,19 +668,14 @@ def render_report(
     lines.append("")
     lines.append(f"- Seed: `{_md_escape(seed.name)}` / `{seed.jurisdiction or '?'}`")
     lines.append(
-        f"- Seed normalized: `{seed.normalized_name}` / "
-        f"`{seed.normalized_jurisdiction or '?'}`"
+        f"- Seed normalized: `{seed.normalized_name}` / `{seed.normalized_jurisdiction or '?'}`"
     )
     lines.append(f"- Sources present in candidate pool: {', '.join(sources_seen) or '(none)'}")
     for k, v in inputs_meta.items():
         lines.append(f"- {k}: `{v}`")
     if gm_context is not None:
-        lines.append(
-            f"- GoldenMatch dedupe run: `{gm_context.dedupe_run_id or '(none)'}`"
-        )
-        lines.append(
-            f"- GoldenMatch list-match run: `{gm_context.list_match_run_id or '(none)'}`"
-        )
+        lines.append(f"- GoldenMatch dedupe run: `{gm_context.dedupe_run_id or '(none)'}`")
+        lines.append(f"- GoldenMatch list-match run: `{gm_context.list_match_run_id or '(none)'}`")
     lines.append("")
 
     return "\n".join(lines)
@@ -763,17 +727,11 @@ def render_batch_index(
     n_ok = sum(1 for r in rows if r.error is None)
     n_err = len(rows) - n_ok
     n_top = sum(1 for r in rows if r.top_in_juris is not None)
-    n_exact = sum(
-        1
-        for r in rows
-        if r.top_in_juris is not None and r.top_in_juris.exact_normalized
-    )
+    n_exact = sum(1 for r in rows if r.top_in_juris is not None and r.top_in_juris.exact_normalized)
     lines.append("## Summary")
     lines.append("")
     lines.append(f"- {n_ok} seed(s) processed successfully, {n_err} error(s).")
-    lines.append(
-        f"- {n_top} seed(s) found at least one same-jurisdiction candidate."
-    )
+    lines.append(f"- {n_top} seed(s) found at least one same-jurisdiction candidate.")
     lines.append(
         f"- {n_exact} of those had an exact normalized-name match in the seed jurisdiction."
     )

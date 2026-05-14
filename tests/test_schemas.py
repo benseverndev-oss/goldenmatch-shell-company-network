@@ -32,12 +32,8 @@ def test_company_entity_with_nested() -> None:
         normalized_name="foo",
         jurisdiction="gb",
         incorporation_date=date(2003, 4, 10),
-        addresses=[
-            AddressRecord(source="opencorporates", raw_text="10 Downing", country="gb")
-        ],
-        identifiers=[
-            IdentifierRecord(scheme="company_number", value="1234567", jurisdiction="gb")
-        ],
+        addresses=[AddressRecord(source="opencorporates", raw_text="10 Downing", country="gb")],
+        identifiers=[IdentifierRecord(scheme="company_number", value="1234567", jurisdiction="gb")],
     )
     assert c.identifiers[0].scheme == "company_number"
     assert c.addresses[0].country == "gb"

@@ -59,7 +59,7 @@ def add_address_blocking(df: pl.DataFrame) -> pl.DataFrame:
 
 ADDRESS_COLUMNS: tuple[str, ...] = (
     "source",
-    "source_id",       # the *entity* that owns the address (so we can join back)
+    "source_id",  # the *entity* that owns the address (so we can join back)
     "raw_text",
     "normalized_text",
     "country",
@@ -200,8 +200,12 @@ def build_address_table(
 
     df = pl.concat(parts, how="vertical_relaxed")
     df = df.with_columns(
-        pl.col("country").map_elements(normalize_jurisdiction, return_dtype=pl.Utf8).alias("country"),
-        pl.col("raw_text").map_elements(normalize_address_text, return_dtype=pl.Utf8).alias("normalized_text"),
+        pl.col("country")
+        .map_elements(normalize_jurisdiction, return_dtype=pl.Utf8)
+        .alias("country"),
+        pl.col("raw_text")
+        .map_elements(normalize_address_text, return_dtype=pl.Utf8)
+        .alias("normalized_text"),
     )
     df = df.with_columns(
         pl.struct(["normalized_text", "country"])
@@ -212,7 +216,9 @@ def build_address_table(
         .alias("block_key")
     )
     df = df.with_columns(
-        (pl.col("source") + pl.lit(":") + pl.col("source_id") + pl.lit("#addr")).alias("address_uid")
+        (pl.col("source") + pl.lit(":") + pl.col("source_id") + pl.lit("#addr")).alias(
+            "address_uid"
+        )
     )
     df = df.unique(subset=["address_uid"], keep="first")
     df = df.select(["address_uid", *ADDRESS_COLUMNS])

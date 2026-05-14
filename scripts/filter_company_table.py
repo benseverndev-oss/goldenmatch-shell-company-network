@@ -65,12 +65,8 @@ PLACEHOLDER_NAMES: set[str] = {
 
 @app.command()
 def main(
-    in_path: Path = typer.Option(
-        PROCESSED_DIR / "company_entities.parquet", "--in", "-i"
-    ),
-    out_path: Path = typer.Option(
-        PROCESSED_DIR / "company_entities.parquet", "--out", "-o"
-    ),
+    in_path: Path = typer.Option(PROCESSED_DIR / "company_entities.parquet", "--in", "-i"),
+    out_path: Path = typer.Option(PROCESSED_DIR / "company_entities.parquet", "--out", "-o"),
     keep_unfiltered: bool = typer.Option(True, "--keep-unfiltered/--no-keep-unfiltered"),
     min_name_chars: int = typer.Option(4, "--min-name-chars"),
     drop_sources: str = typer.Option(
@@ -119,14 +115,18 @@ def main(
         df = df.filter(~pl.col("source").str.to_lowercase().is_in(list(drop_set)))
         log.info(
             "dropped sources %s: %d rows -> %d rows",
-            sorted(drop_set), before_drop, df.height,
+            sorted(drop_set),
+            before_drop,
+            df.height,
         )
     if keep_set:
         before_keep = df.height
         df = df.filter(pl.col("source").str.to_lowercase().is_in(list(keep_set)))
         log.info(
             "kept only sources %s: %d rows -> %d rows",
-            sorted(keep_set), before_keep, df.height,
+            sorted(keep_set),
+            before_keep,
+            df.height,
         )
 
     placeholders = pl.lit(list(PLACEHOLDER_NAMES))
@@ -153,10 +153,7 @@ def main(
     # dedupe — see the 'stichtin||nl' and 'the trus||au' blocks in the
     # earlier failed run.
     blk = (
-        pl.col("normalized_name")
-        .fill_null("")
-        .str.slice(0, 8)
-        .str.to_lowercase()
+        pl.col("normalized_name").fill_null("").str.slice(0, 8).str.to_lowercase()
         + pl.lit("||")
         + pl.col("jurisdiction").fill_null("")
     )

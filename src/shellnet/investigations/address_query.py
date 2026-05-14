@@ -81,9 +81,7 @@ def rank_addresses(
     first_token = seed.normalized_text.split(" ", 1)[0] if seed.normalized_text else ""
     block = address_df
     if first_token:
-        block = block.filter(
-            pl.col("normalized_text").str.contains(first_token, literal=True)
-        )
+        block = block.filter(pl.col("normalized_text").str.contains(first_token, literal=True))
     if block.height == 0:
         # Fall back to the full table if blocking dropped everything (rare).
         block = address_df
@@ -127,9 +125,7 @@ def rank_addresses(
         (pl.col("country") != seed.normalized_country) | pl.col("country").is_null()
     )
     in_results = _to_candidates(in_df, in_country=True)
-    out_results = (
-        _to_candidates(out_df, in_country=False) if include_outside_country else []
-    )
+    out_results = _to_candidates(out_df, in_country=False) if include_outside_country else []
     return in_results, out_results
 
 
@@ -177,9 +173,7 @@ def collect_entities_at_addresses(
     # Path 2: ICIJ registered_address edges — the address-node uid is the
     # entity_uid of the address itself, and edges point company → address.
     if edges_df is not None and edges_df.height:
-        icij_address_uids = [
-            f"icij:{a.source_id}" for a in addresses if a.source == "icij"
-        ]
+        icij_address_uids = [f"icij:{a.source_id}" for a in addresses if a.source == "icij"]
         if icij_address_uids:
             addr_edges = edges_df.filter(
                 pl.col("kind_raw").str.to_lowercase().str.contains("address", literal=False)
@@ -200,12 +194,8 @@ def collect_entities_at_addresses(
                     if isinstance(cu, str):
                         company_by_uid[cu] = r
             for e in addr_edges.to_dicts():
-                a_uid = (
-                    e["dst_node"] if e["dst_node"] in uid_to_addr_uid else e["src_node"]
-                )
-                entity_uid = (
-                    e["src_node"] if a_uid == e["dst_node"] else e["dst_node"]
-                )
+                a_uid = e["dst_node"] if e["dst_node"] in uid_to_addr_uid else e["src_node"]
+                entity_uid = e["src_node"] if a_uid == e["dst_node"] else e["dst_node"]
                 addr_uid = uid_to_addr_uid.get(a_uid)
                 if addr_uid is None or (entity_uid, addr_uid) in seen:
                     continue
@@ -244,9 +234,7 @@ def render_address_report(
     generated_at = generated_at or datetime.now(UTC)
     lines: list[str] = []
     country_label = seed.normalized_country or "(unspecified)"
-    lines.append(
-        f"# Address investigation: `{_md_escape(seed.text)[:80]}` / {country_label}"
-    )
+    lines.append(f"# Address investigation: `{_md_escape(seed.text)[:80]}` / {country_label}")
     lines.append("")
     lines.append(
         f"Generated `{generated_at.isoformat(timespec='seconds')}`"
@@ -265,7 +253,9 @@ def render_address_report(
     lines.append("")
 
     total_entities = sum(len(v) for v in entities_by_address.values())
-    distinct_entities = len({e.entity_uid for bucket in entities_by_address.values() for e in bucket})
+    distinct_entities = len(
+        {e.entity_uid for bucket in entities_by_address.values() for e in bucket}
+    )
     lines.append("## Summary")
     lines.append("")
     if in_country:
@@ -291,9 +281,7 @@ def render_address_report(
             lines.append("_None._")
             lines.append("")
             return
-        lines.append(
-            "| # | score | exact | address_uid | source | country | raw_text |"
-        )
+        lines.append("| # | score | exact | address_uid | source | country | raw_text |")
         lines.append("| ---: | ---: | :-: | --- | --- | --- | --- |")
         for i, c in enumerate(rows, start=1):
             lines.append(

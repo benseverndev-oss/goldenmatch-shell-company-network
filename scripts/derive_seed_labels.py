@@ -24,8 +24,9 @@ app = typer.Typer(add_completion=False, no_args_is_help=False)
 def main(
     company_table: Path = typer.Option(PROCESSED_DIR / "company_entities.parquet"),
     out_path: Path = typer.Option(REPORTS_DIR / "labels.csv"),
-    merge: bool = typer.Option(True, "--merge/--overwrite",
-                               help="Merge into existing labels (keep human labels)."),
+    merge: bool = typer.Option(
+        True, "--merge/--overwrite", help="Merge into existing labels (keep human labels)."
+    ),
     verbose: bool = typer.Option(False, "--verbose", "-v"),
 ) -> None:
     logging.basicConfig(
@@ -46,9 +47,7 @@ def main(
         # Human labels win on conflict — drop any derived row whose pair is
         # already labelled by a human, then concat the rest.
         human_pairs = set()
-        for r in existing.filter(
-            pl.col("source").str.starts_with("human:")
-        ).iter_rows(named=True):
+        for r in existing.filter(pl.col("source").str.starts_with("human:")).iter_rows(named=True):
             human_pairs.add((r["left_uid"], r["right_uid"]))
         derived = derived.filter(
             ~pl.struct(["left_uid", "right_uid"]).map_elements(

@@ -34,9 +34,7 @@ def _stage_full_fixtures(tmp_path: Path, fixtures_dir: Path) -> tuple[Path, Path
         (raw_icij / dst).write_text((fixtures_dir / src).read_text("utf-8"))
     interim = tmp_path / "interim"
     icij.ingest(raw_dir=raw_icij, out_dir=interim)
-    oc_df = opencorporates.parse_local_file(
-        fixtures_dir / "opencorporates_company_sample.json"
-    )
+    oc_df = opencorporates.parse_local_file(fixtures_dir / "opencorporates_company_sample.json")
     oc_df.write_parquet(interim / "opencorporates_companies.parquet")
     gleif.ingest(input_path=fixtures_dir / "gleif_lei_sample.json", out_dir=interim)
     opensanctions.ingest(
@@ -48,9 +46,7 @@ def _stage_full_fixtures(tmp_path: Path, fixtures_dir: Path) -> tuple[Path, Path
     return interim, processed
 
 
-def test_source_note_appears_in_rendered_report(
-    tmp_path: Path, fixtures_dir: Path
-) -> None:
+def test_source_note_appears_in_rendered_report(tmp_path: Path, fixtures_dir: Path) -> None:
     _, processed = _stage_full_fixtures(tmp_path, fixtures_dir)
     df = pl.read_parquet(processed / "company_entities.parquet")
     seed = make_seed("ACME HOLDINGS LIMITED", "bvi")

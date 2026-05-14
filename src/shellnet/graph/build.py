@@ -90,7 +90,9 @@ def add_same_as_edges(
     """
     paths = run_paths(output_dir, run_name)
     if not paths.clusters_csv.exists():
-        log.warning("No GoldenMatch cluster file at %s — skipping same_as overlay.", paths.clusters_csv)
+        log.warning(
+            "No GoldenMatch cluster file at %s — skipping same_as overlay.", paths.clusters_csv
+        )
         return 0
     if source_table is None:
         # Convention: company runs join against the processed company table.

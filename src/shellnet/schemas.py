@@ -15,13 +15,13 @@ from pydantic import BaseModel, ConfigDict, Field
 
 SourceName = Literal["icij", "opencorporates", "gleif", "opensanctions"]
 RelationshipKind = Literal[
-    "officer_of",          # person → company
-    "intermediary_of",     # entity → company (ICIJ-specific)
-    "shareholder_of",      # entity → company
-    "parent_of",           # company → company (ownership / control)
-    "registered_at",       # company → address
-    "associated_with",     # generic, weak
-    "same_as",             # cross-source identity hypothesis
+    "officer_of",  # person → company
+    "intermediary_of",  # entity → company (ICIJ-specific)
+    "shareholder_of",  # entity → company
+    "parent_of",  # company → company (ownership / control)
+    "registered_at",  # company → address
+    "associated_with",  # generic, weak
+    "same_as",  # cross-source identity hypothesis
 ]
 
 
@@ -98,10 +98,10 @@ class RelationshipEdge(BaseModel):
 
     source: SourceName
     source_id: str | None = None  # provider's edge id if any
-    src_node: str               # "<source>:<source_id>"
-    dst_node: str               # "<source>:<source_id>"
+    src_node: str  # "<source>:<source_id>"
+    dst_node: str  # "<source>:<source_id>"
     kind: RelationshipKind
-    role: str | None = None     # provider-specific role label
+    role: str | None = None  # provider-specific role label
     start_date: date | None = None
     end_date: date | None = None
     raw: dict[str, Any] = Field(default_factory=dict)

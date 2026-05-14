@@ -59,9 +59,7 @@ def _jaccard(a: set[str], b: set[str]) -> float:
 def main(
     processed_dir: Path = typer.Option(Path("/data/processed"), "--processed-dir"),
     interim_dir: Path = typer.Option(Path("/data/interim"), "--interim-dir"),
-    out_md: Path = typer.Option(
-        Path("/data/reports/generated/cluster_ranking.md"), "--out-md"
-    ),
+    out_md: Path = typer.Option(Path("/data/reports/generated/cluster_ranking.md"), "--out-md"),
     top_n: int = typer.Option(50, "--top-n"),
     verbose: bool = typer.Option(False, "--verbose", "-v"),
 ) -> None:
@@ -73,8 +71,7 @@ def main(
     log.info("loading clusters + list-matches from Postgres")
     with _conn() as conn, conn.cursor() as cur:
         cur.execute(
-            "SELECT run_id FROM shellnet.runs "
-            "WHERE what='company' ORDER BY created_at DESC LIMIT 1"
+            "SELECT run_id FROM shellnet.runs WHERE what='company' ORDER BY created_at DESC LIMIT 1"
         )
         row = cur.fetchone()
         if not row:
@@ -153,8 +150,7 @@ def main(
     icij_uids = {u for u in company_lookup if u.startswith("icij:")}
     icij_ids = {u.split(":", 1)[1] for u in icij_uids}
     edge_subset = edges.filter(
-        pl.col("src_node").is_in(list(icij_ids))
-        | pl.col("dst_node").is_in(list(icij_ids))
+        pl.col("src_node").is_in(list(icij_ids)) | pl.col("dst_node").is_in(list(icij_ids))
     )
     log.info("filtered edges to %d incident to clustered ICIJ entities", edge_subset.height)
 
@@ -196,9 +192,7 @@ def main(
             for j in range(i + 1, len(token_sets)):
                 agreement_pairs.append(_jaccard(token_sets[i], token_sets[j]))
         if agreement_pairs:
-            high_share = sum(1 for x in agreement_pairs if x >= 0.6) / len(
-                agreement_pairs
-            )
+            high_share = sum(1 for x in agreement_pairs if x >= 0.6) / len(agreement_pairs)
         else:
             high_share = 0.0
 
@@ -227,14 +221,9 @@ def main(
                 "addresses": total_addr,
                 "officers": total_off,
                 "sample_names": " · ".join(
-                    n[:30] for n in (
-                        company_lookup.get(u, {}).get("name") or "" for u in uids
-                    ) if n
+                    n[:30] for n in (company_lookup.get(u, {}).get("name") or "" for u in uids) if n
                 )[:120],
-                "sample_anchor": (
-                    anchors_by_uid[anchor_uids[0]][0][1][:60]
-                    if anchor_uids else ""
-                ),
+                "sample_anchor": (anchors_by_uid[anchor_uids[0]][0][1][:60] if anchor_uids else ""),
             }
         )
 
