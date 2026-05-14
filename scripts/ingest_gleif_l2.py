@@ -1,6 +1,9 @@
 """Ingest the OpenOwnership GLEIF L2 BODS parquet bundle.
 
-Writes /data/interim/gleif_l2_relationships.parquet — corporate
+    uv run python scripts/ingest_gleif_l2.py \\
+        --input data/raw/openownership/gleif_bods.zip
+
+Writes ``data/interim/gleif_l2_relationships.parquet`` — corporate
 parent/child ownership edges with share %, type, and dates. Consumed
 downstream by the graph layer.
 """
@@ -25,9 +28,14 @@ def main(
         DATA_DIR / "raw" / "openownership" / "gleif_bods.zip",
         "--input",
         "-i",
+        help="Path to the OpenOwnership GLEIF L2 BODS zip bundle.",
     ),
-    out_dir: Path = typer.Option(INTERIM_DIR, "--out-dir"),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    out_dir: Path = typer.Option(
+        INTERIM_DIR,
+        "--out-dir",
+        help="Where to write `gleif_l2_relationships.parquet`.",
+    ),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

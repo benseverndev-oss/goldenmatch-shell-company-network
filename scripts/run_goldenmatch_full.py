@@ -1,5 +1,7 @@
 """Invoke the GoldenMatch CLI for real and persist its output.
 
+    uv run python scripts/run_goldenmatch_full.py --what company
+
 We shell out to ``goldenmatch dedupe`` (instead of importing GoldenMatch's
 internal API) because the CLI is the documented, stable surface and
 because shell-out keeps our wrapper honest about which env vars and
@@ -64,12 +66,19 @@ def _resolve(what: str) -> _Target:
 
 @app.command()
 def main(
-    what: str = typer.Option("company", "--what", "-w"),
-    output_dir: Path = typer.Option(REPORTS_DIR, "--output-dir"),
+    what: str = typer.Option(
+        "company",
+        "--what",
+        "-w",
+        help="Which unified table to dedupe: `company`, `address`, or `person`.",
+    ),
+    output_dir: Path = typer.Option(
+        REPORTS_DIR, "--output-dir", help="Where GoldenMatch writes cluster + lineage files."
+    ),
     dry_run: bool = typer.Option(
         False, "--dry-run", help="Print the command we would invoke and exit."
     ),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

@@ -1,7 +1,10 @@
 """Build the unified company table from all available interim parquets.
 
+    uv run python scripts/build_candidate_tables.py
+
 Tolerates missing sources — if you've only ingested ICIJ so far, you'll
-still get a (smaller) processed table out the other end.
+still get a (smaller) processed table out the other end. Output lands
+at ``data/processed/company_entities.parquet``.
 """
 
 from __future__ import annotations
@@ -19,9 +22,9 @@ app = typer.Typer(add_completion=False, no_args_is_help=False)
 
 @app.command()
 def main(
-    interim_dir: Path = typer.Option(INTERIM_DIR),
-    out_dir: Path = typer.Option(PROCESSED_DIR),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    interim_dir: Path = typer.Option(INTERIM_DIR, help="Override the interim-parquet directory."),
+    out_dir: Path = typer.Option(PROCESSED_DIR, help="Where to write `company_entities.parquet`."),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

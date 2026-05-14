@@ -76,11 +76,21 @@ def _read_seeds(path: Path) -> list[dict[str, str]]:
 @app.command()
 def main(
     seeds: Path = typer.Argument(..., help="CSV file with name,jurisdiction,source_note columns."),
-    top_n: int = typer.Option(25, "--top-n"),
-    min_score: float = typer.Option(85.0, "--min-score"),
-    global_fallback: bool = typer.Option(True, "--global-fallback/--no-global-fallback"),
-    processed_dir: Path = typer.Option(PROCESSED_DIR, "--processed-dir"),
-    interim_dir: Path = typer.Option(INTERIM_DIR, "--interim-dir"),
+    top_n: int = typer.Option(25, "--top-n", help="Max candidates per section, per seed."),
+    min_score: float = typer.Option(
+        85.0, "--min-score", help="RapidFuzz token_sort_ratio floor (0-100)."
+    ),
+    global_fallback: bool = typer.Option(
+        True,
+        "--global-fallback/--no-global-fallback",
+        help="If a jurisdiction is given, also search outside it and list separately.",
+    ),
+    processed_dir: Path = typer.Option(
+        PROCESSED_DIR, "--processed-dir", help="Override the processed-parquet directory."
+    ),
+    interim_dir: Path = typer.Option(
+        INTERIM_DIR, "--interim-dir", help="Override the interim-parquet directory."
+    ),
     out_dir: Path = typer.Option(
         PROJECT_ROOT / "reports",
         "--out-dir",
@@ -91,13 +101,15 @@ def main(
         "--batch-id",
         help="Override the auto-derived batch id. Defaults to the seeds-file stem.",
     ),
-    no_postgres: bool = typer.Option(False, "--no-postgres"),
+    no_postgres: bool = typer.Option(
+        False, "--no-postgres", help="Skip the Postgres lookup even if DATABASE_URL is set."
+    ),
     fail_fast: bool = typer.Option(
         False,
         "--fail-fast",
         help="Abort the batch on the first error instead of recording it in the index.",
     ),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

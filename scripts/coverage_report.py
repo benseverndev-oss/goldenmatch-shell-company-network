@@ -1,5 +1,7 @@
 """Write a Markdown column-coverage report for the current interim/processed data.
 
+    uv run python scripts/coverage_report.py
+
 Default target list covers every parquet the four adapters and the
 candidate-table builder can emit. Missing files are flagged in the report
 but don't fail the run.
@@ -36,8 +38,10 @@ def _default_targets() -> list[Path]:
 
 @app.command()
 def main(
-    out: Path = typer.Option(REPORTS_DIR / "coverage.md"),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    out: Path = typer.Option(
+        REPORTS_DIR / "coverage.md", help="Where to write the coverage Markdown."
+    ),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

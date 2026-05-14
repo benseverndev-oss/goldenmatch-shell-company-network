@@ -65,7 +65,7 @@ def main(
     ),
     dest: Path = typer.Option(ICIJ_RAW, help="Where to unzip the bundle."),
     keep_zip: bool = typer.Option(False, "--keep-zip", help="Keep the ZIP after extraction."),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

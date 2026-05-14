@@ -23,7 +23,13 @@ app = typer.Typer(add_completion=False, no_args_is_help=True)
 
 @app.command()
 def main(
-    zip_path: Path = typer.Argument(..., exists=True, dir_okay=False, readable=True),
+    zip_path: Path = typer.Argument(
+        ...,
+        exists=True,
+        dir_okay=False,
+        readable=True,
+        help="Local path to the ICIJ Offshore Leaks zip to upload.",
+    ),
     url: str = typer.Option(None, "--url", help="Base URL. Falls back to $SHELLNET_JOB_URL."),
     token: str = typer.Option(
         None, "--token", help="Bearer token. Falls back to $SHELLNET_JOB_TOKEN."

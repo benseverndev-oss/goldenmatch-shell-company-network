@@ -26,7 +26,7 @@ app = typer.Typer(add_completion=False, no_args_is_help=False)
 def main(
     raw_dir: Path = typer.Option(ICIJ_RAW, help="Directory containing ICIJ CSV files."),
     out_dir: Path = typer.Option(INTERIM_DIR, help="Where to write interim parquet files."),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

@@ -27,7 +27,7 @@ def main(
     ),
     sample: int = typer.Option(0, "--sample", "-n", help="Truncate to N records (0 = all)."),
     out_dir: Path = typer.Option(INTERIM_DIR, help="Where to write interim parquet."),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

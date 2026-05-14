@@ -1,5 +1,7 @@
 """Sanity-check that the GoldenMatch config loads against the unified table.
 
+    uv run python scripts/run_goldenmatch_smoke.py
+
 This is intentionally cheap: it loads the company table, loads the YAML
 config, and prints a small summary. Heavy matching runs should go through
 the GoldenMatch CLI directly so we don't reinvent its UX here.
@@ -20,8 +22,13 @@ app = typer.Typer(add_completion=False, no_args_is_help=False)
 
 @app.command()
 def main(
-    config: Path = typer.Option(None, "--config", "-c"),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    config: Path = typer.Option(
+        None,
+        "--config",
+        "-c",
+        help="GoldenMatch YAML config path (defaults to the company config).",
+    ),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

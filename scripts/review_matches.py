@@ -1,5 +1,8 @@
 """Heuristic precision review of a GoldenMatch list-match output.
 
+    uv run python scripts/review_matches.py \\
+        --matched-csv reports/generated/icij_os_vs_gleif_matched.csv
+
 We don't have human labels, so this classifies each ``target -> ref`` pair
 by a set of cheap heuristics and reports the distribution. The intent is
 to estimate where the false-positive risk lives, not to ground-truth the
@@ -80,15 +83,21 @@ def main(
     matched_csv: Path = typer.Option(
         Path("/data/reports/generated/icij_os_vs_gleif_matched.csv"),
         "--matched-csv",
+        help="Path to a goldenmatch `*_matched.csv` output.",
     ),
-    sample_size: int = typer.Option(8, "--sample-size"),
-    suspect_sample_size: int = typer.Option(20, "--suspect-sample-size"),
+    sample_size: int = typer.Option(8, "--sample-size", help="Rows to sample per trusted class."),
+    suspect_sample_size: int = typer.Option(
+        20,
+        "--suspect-sample-size",
+        help="Rows to sample per suspect class (`jur_mismatch`, `low_overlap`).",
+    ),
     out_md: Path = typer.Option(
         Path("/data/reports/generated/icij_os_vs_gleif_review.md"),
         "--out-md",
+        help="Markdown output path for the review.",
     ),
-    seed: int = typer.Option(0, "--seed"),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    seed: int = typer.Option(0, "--seed", help="`random.seed()` value for reproducible sampling."),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

@@ -36,23 +36,41 @@ log = logging.getLogger(__name__)
 
 @app.command()
 def main(
-    name: str = typer.Option(..., "--name"),
+    name: str = typer.Option(..., "--name", help="Seed person name."),
     country: str | None = typer.Option(
         None, "--country", help="ISO-2/ISO-3/alias country preference."
     ),
-    top_n: int = typer.Option(25, "--top-n"),
+    top_n: int = typer.Option(25, "--top-n", help="Max candidates per section."),
     min_score: float = typer.Option(
         90.0,
         "--min-score",
         help="Person matching defaults higher than company matching (names collide harder).",
     ),
-    global_fallback: bool = typer.Option(True, "--global-fallback/--no-global-fallback"),
-    processed_dir: Path = typer.Option(PROCESSED_DIR, "--processed-dir"),
-    interim_dir: Path = typer.Option(INTERIM_DIR, "--interim-dir"),
-    out_dir: Path = typer.Option(PROJECT_ROOT / "reports", "--out-dir"),
-    out_path: Path | None = typer.Option(None, "--out-path"),
-    source_note: str | None = typer.Option(None, "--source-note"),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    global_fallback: bool = typer.Option(
+        True,
+        "--global-fallback/--no-global-fallback",
+        help="If a country is given, also search outside it and list separately.",
+    ),
+    processed_dir: Path = typer.Option(
+        PROCESSED_DIR, "--processed-dir", help="Override the processed-parquet directory."
+    ),
+    interim_dir: Path = typer.Option(
+        INTERIM_DIR, "--interim-dir", help="Override the interim-parquet directory."
+    ),
+    out_dir: Path = typer.Option(
+        PROJECT_ROOT / "reports",
+        "--out-dir",
+        help="Reports root. The report lands under `<out-dir>/investigations/persons/`.",
+    ),
+    out_path: Path | None = typer.Option(
+        None, "--out-path", help="Override the auto-generated report path entirely."
+    ),
+    source_note: str | None = typer.Option(
+        None,
+        "--source-note",
+        help="Free-text seed provenance (URL / citation) embedded in the report.",
+    ),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

@@ -1,5 +1,8 @@
 """Filter the unified company table to keep only matchable rows.
 
+    uv run python scripts/filter_company_table.py
+    uv run python scripts/filter_company_table.py --drop-sources gleif
+
 The full 4.1M-row table from ICIJ + GLEIF + OpenSanctions has long-tail
 placeholder names ("STICHTING", "THE TRUSTEE", "BEARER", etc.) and very
 short names that produce mega-blocks during GoldenMatch dedupe (e.g.
@@ -65,10 +68,28 @@ PLACEHOLDER_NAMES: set[str] = {
 
 @app.command()
 def main(
-    in_path: Path = typer.Option(PROCESSED_DIR / "company_entities.parquet", "--in", "-i"),
-    out_path: Path = typer.Option(PROCESSED_DIR / "company_entities.parquet", "--out", "-o"),
-    keep_unfiltered: bool = typer.Option(True, "--keep-unfiltered/--no-keep-unfiltered"),
-    min_name_chars: int = typer.Option(4, "--min-name-chars"),
+    in_path: Path = typer.Option(
+        PROCESSED_DIR / "company_entities.parquet",
+        "--in",
+        "-i",
+        help="Source parquet. If a sibling `<stem>.unfiltered.parquet` exists, that's read instead so re-runs start from the original.",
+    ),
+    out_path: Path = typer.Option(
+        PROCESSED_DIR / "company_entities.parquet",
+        "--out",
+        "-o",
+        help="Destination parquet (overwrites by default).",
+    ),
+    keep_unfiltered: bool = typer.Option(
+        True,
+        "--keep-unfiltered/--no-keep-unfiltered",
+        help="Save a pre-filter backup at `<out>.unfiltered.parquet` before overwriting.",
+    ),
+    min_name_chars: int = typer.Option(
+        4,
+        "--min-name-chars",
+        help="Drop rows whose `normalized_name` is shorter than this.",
+    ),
     drop_sources: str = typer.Option(
         "",
         "--drop-sources",
@@ -84,7 +105,7 @@ def main(
         "--skip-megablock-filter",
         help="Skip the mega-block size filter (useful when source itself is the filter).",
     ),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

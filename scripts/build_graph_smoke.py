@@ -1,5 +1,7 @@
 """Build the company/officer/address graph and dump a JSON summary.
 
+    uv run python scripts/build_graph_smoke.py
+
 Reads from data/processed/ and data/interim/ — i.e. it expects the ingest
 + candidate-table scripts to have run first. Outputs reports/generated/
 graph_smoke_summary.json.
@@ -21,16 +23,22 @@ app = typer.Typer(add_completion=False, no_args_is_help=False)
 
 @app.command()
 def main(
-    processed_dir: Path = typer.Option(PROCESSED_DIR),
-    interim_dir: Path = typer.Option(INTERIM_DIR),
+    processed_dir: Path = typer.Option(
+        PROCESSED_DIR, help="Override the processed-parquet directory."
+    ),
+    interim_dir: Path = typer.Option(INTERIM_DIR, help="Override the interim-parquet directory."),
     out_path: Path = typer.Option(None, help="Override the summary output path."),
     overlay_same_as: bool = typer.Option(
         True,
         "--overlay-same-as/--no-overlay-same-as",
         help="Layer GoldenMatch same_as edges from reports/generated/ if present.",
     ),
-    run_name: str = typer.Option("company", "--run-name"),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    run_name: str = typer.Option(
+        "company",
+        "--run-name",
+        help="GoldenMatch run name whose same_as edges to overlay (matches the run-name passed to `run_goldenmatch_full.py`).",
+    ),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

@@ -1,5 +1,7 @@
 """Emit a CSV of marginal-band candidate pairs from the company table.
 
+    uv run python scripts/generate_candidate_pairs.py
+
 We block on the normalized-name prefix + jurisdiction (the same loose
 block used in the conservative GoldenMatch config) and emit every
 within-block pair that isn't trivially same-LEI or same-(company_number,
@@ -32,14 +34,20 @@ def _block_key(name: str | None, juris: str | None, prefix_len: int) -> str:
 
 @app.command()
 def main(
-    company_table: Path = typer.Option(PROCESSED_DIR / "company_entities.parquet"),
-    out_path: Path = typer.Option(REPORTS_DIR / "candidate_pairs.csv"),
+    company_table: Path = typer.Option(
+        PROCESSED_DIR / "company_entities.parquet",
+        help="Unified company-entities parquet.",
+    ),
+    out_path: Path = typer.Option(
+        REPORTS_DIR / "candidate_pairs.csv",
+        help="Where to write the candidate-pairs CSV.",
+    ),
     prefix_len: int = typer.Option(8, "--prefix-len", help="Name-prefix length for blocking."),
-    max_pairs: int = typer.Option(500, "--max-pairs", "-n"),
+    max_pairs: int = typer.Option(500, "--max-pairs", "-n", help="Cap on emitted pairs."),
     max_block_size: int = typer.Option(
         40, "--max-block-size", help="Skip blocks bigger than this (cartesian explosion)."
     ),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

@@ -1,6 +1,9 @@
 """Evaluate v1 vs v2 list-match runs against the hand-labelled set.
 
-Reads:
+    uv run python scripts/eval_v1_vs_v2.py
+
+Requires ``DATABASE_URL`` (the published list-match runs live in
+Postgres). Reads:
   * data/labels/marginal_v1.csv (300 labelled pairs across four buckets)
   * shellnet.list_matches in Postgres (v1 + v2 runs identified by run name)
 
@@ -85,10 +88,18 @@ def _pr(tp: int, fp: int, fn: int) -> dict[str, float | int]:
 
 @app.command()
 def main(
-    labels_csv: Path = typer.Option(Path("data/labels/marginal_v1.csv"), "--labels"),
-    out_md: Path = typer.Option(Path("reports/eval_v1_vs_v2.md"), "--out-md"),
-    out_json: Path = typer.Option(Path("reports/eval_v1_vs_v2.json"), "--out-json"),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    labels_csv: Path = typer.Option(
+        Path("data/labels/marginal_v1.csv"),
+        "--labels",
+        help="Hand-labelled CSV with `label` ∈ {match, no_match, unsure}.",
+    ),
+    out_md: Path = typer.Option(
+        Path("reports/eval_v1_vs_v2.md"), "--out-md", help="Markdown output path."
+    ),
+    out_json: Path = typer.Option(
+        Path("reports/eval_v1_vs_v2.json"), "--out-json", help="JSON output path (raw counts)."
+    ),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

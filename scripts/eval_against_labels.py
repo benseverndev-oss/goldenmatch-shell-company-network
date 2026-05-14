@@ -1,5 +1,7 @@
 """Score a GoldenMatch run against the labels CSV.
 
+    uv run python scripts/eval_against_labels.py --run-name company
+
 Reads:
   * the GoldenMatch cluster CSV (default: reports/generated/company_clusters.csv)
   * the labels CSV (default: reports/generated/labels.csv)
@@ -26,11 +28,26 @@ app = typer.Typer(add_completion=False, no_args_is_help=False)
 
 @app.command()
 def main(
-    run_name: str = typer.Option("company", "--run-name", "-r"),
-    output_dir: Path = typer.Option(REPORTS_DIR, "--output-dir"),
-    labels_path: Path = typer.Option(REPORTS_DIR / "labels.csv", "--labels"),
-    out_path: Path = typer.Option(REPORTS_DIR / "evaluation.json", "--out"),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    run_name: str = typer.Option(
+        "company",
+        "--run-name",
+        "-r",
+        help="GoldenMatch run name (matches the `--run-name` passed to `run_goldenmatch_full.py`).",
+    ),
+    output_dir: Path = typer.Option(
+        REPORTS_DIR, "--output-dir", help="GoldenMatch output directory."
+    ),
+    labels_path: Path = typer.Option(
+        REPORTS_DIR / "labels.csv",
+        "--labels",
+        help="Labels CSV (output of `derive_seed_labels.py` or hand-labelled).",
+    ),
+    out_path: Path = typer.Option(
+        REPORTS_DIR / "evaluation.json",
+        "--out",
+        help="Where to write the per-source P/R/F1 JSON.",
+    ),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

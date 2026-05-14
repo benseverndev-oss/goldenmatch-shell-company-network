@@ -34,8 +34,12 @@ def main(
         "Default: keep everything. Useful on the 2.7 GB consolidated 'default' collection "
         "where you don't need vehicles, addresses-as-entities, etc.",
     ),
-    batch_size: int = typer.Option(50_000, "--batch-size"),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    batch_size: int = typer.Option(
+        50_000,
+        "--batch-size",
+        help="How many FtM records to accumulate per parquet write. Lower if memory is tight.",
+    ),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

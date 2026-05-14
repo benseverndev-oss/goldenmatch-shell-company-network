@@ -1,6 +1,8 @@
 """List-match OpenSanctions sanctioned/crime-tagged Persons against ICIJ
 officers + intermediaries.
 
+    uv run python scripts/list_match_os_sanctions_vs_icij.py
+
 The full-corpus person dedupe (1.86M rows) is infrastructure-bound at the
 configured blocking — pathological for Russian-patronymic / sanctions data.
 This script narrows the cross-source question to the one that's actually
@@ -34,17 +36,35 @@ log = logging.getLogger(__name__)
 
 @app.command()
 def main(
-    person_table: Path = typer.Option(PROCESSED_DIR / "person_entities.parquet", "--person-table"),
-    out_dir: Path = typer.Option(PROCESSED_DIR, "--out-dir"),
-    reports_dir: Path = typer.Option(REPORTS_DIR, "--reports-dir"),
-    run_name: str = typer.Option("list_match_os_sanctions_vs_icij", "--run-name"),
-    config: Path = typer.Option(CONFIGS_DIR / "goldenmatch_person.yml", "--config"),
+    person_table: Path = typer.Option(
+        PROCESSED_DIR / "person_entities.parquet",
+        "--person-table",
+        help="Unified person-entities parquet.",
+    ),
+    out_dir: Path = typer.Option(
+        PROCESSED_DIR,
+        "--out-dir",
+        help="Where to write the OS-sanctioned + ICIJ person subsets.",
+    ),
+    reports_dir: Path = typer.Option(
+        REPORTS_DIR, "--reports-dir", help="Where goldenmatch writes matched + scores files."
+    ),
+    run_name: str = typer.Option(
+        "list_match_os_sanctions_vs_icij",
+        "--run-name",
+        help="goldenmatch run name (also the output-file prefix).",
+    ),
+    config: Path = typer.Option(
+        CONFIGS_DIR / "goldenmatch_person.yml",
+        "--config",
+        help="goldenmatch YAML config (defaults to the person config).",
+    ),
     skip_match: bool = typer.Option(
         False,
         "--skip-match",
         help="Only build the two parquet subsets; don't shell out to goldenmatch.",
     ),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

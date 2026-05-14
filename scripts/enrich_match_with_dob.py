@@ -1,5 +1,8 @@
 """Enrich a list-match CSV with DOBs from both sides.
 
+    uv run python scripts/enrich_match_with_dob.py \\
+        reports/generated/list_match_os_sanctions_vs_icij_matched.csv
+
 OS side: parse `properties.birthDate` from the raw_json column of
 opensanctions_entities.parquet. UK PSC side: lookup statementId in
 uk_psc_dob.parquet (produced by extract_uk_psc_dob.py).
@@ -41,10 +44,24 @@ def _year(dob: str | None) -> int | None:
 
 @app.command()
 def main(
-    matched_csv: Path = typer.Argument(...),
-    os_parquet: Path = typer.Option(INTERIM_DIR / "opensanctions_entities.parquet", "--os-parquet"),
-    uk_dob_parquet: Path = typer.Option(PROCESSED_DIR / "uk_psc_dob.parquet", "--uk-dob"),
-    out_csv: Path | None = typer.Option(None, "--out"),
+    matched_csv: Path = typer.Argument(
+        ..., help="Input goldenmatch `*_matched.csv` (the file to enrich)."
+    ),
+    os_parquet: Path = typer.Option(
+        INTERIM_DIR / "opensanctions_entities.parquet",
+        "--os-parquet",
+        help="OpenSanctions interim parquet (source of OS-side DOBs from `properties.birthDate`).",
+    ),
+    uk_dob_parquet: Path = typer.Option(
+        PROCESSED_DIR / "uk_psc_dob.parquet",
+        "--uk-dob",
+        help="UK PSC DOB lookup parquet (output of `extract_uk_psc_dob.py`).",
+    ),
+    out_csv: Path | None = typer.Option(
+        None,
+        "--out",
+        help="Destination CSV. Defaults to `<input-stem>_dob.csv`.",
+    ),
 ) -> None:
     logging.basicConfig(
         level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s"
