@@ -1,6 +1,6 @@
 # Project status — `goldenmatch-shell-company-network`
 
-_Snapshot as of 2026-05-12. Phases 0–6 landed on `main`._
+_Snapshot as of 2026-05-13. Phases 0–6 landed on `main`._
 
 ## TL;DR
 
@@ -9,10 +9,12 @@ public GoldenMatch case study on shell-company / offshore-entity networks.
 End-to-end run on real ICIJ + GLEIF + OpenSanctions data (not just
 fixtures), 300 hand-labelled marginal pairs grounding the eval, v1 → v2
 config sweep with a band-weighted precision lift, centrality + Louvain
-communities on the cluster sub-graph, and a Phoenix Spree case-study
-writeup with full source provenance. The remaining holes are
-OpenCorporates ingest (no API key) and the probabilistic-matchkey
-upgrade now that real labels exist.
+communities on the cluster sub-graph, and two shipped case studies
+(Phoenix Spree Deutschland + Epstein corporate-network seed review) with
+full source provenance. A DOB + news-coverage post-processor narrows the
+5.6k `icij_os_vs_gleif` matched pairs down to 29 investigative-grade
+survivors. The remaining holes are OpenCorporates ingest (no API key)
+and the probabilistic-matchkey upgrade now that real labels exist.
 
 ## What runs today
 
@@ -86,6 +88,11 @@ ingest ─┬─► icij_entities/addresses/officers/intermediaries/edges.parque
 | `investigate_person.py` | Person-side seed-query: name+country → matched person rows → all companies attached via officer / intermediary / shareholder edges |
 | `investigate_address.py` | Address-side seed-query: free-text+country → matched address rows → all entities registered there |
 | `expand_2hop.py` | One-shot 2-hop walk from a company `entity_uid` — surfaces every other company sharing an officer / intermediary with the seed. `--named-individuals-only` drops Appleby/PwC-style provider noise |
+| `extract_uk_psc_dob.py` | Stream the UK BODS zip, project `(name, dob_year, dob_month)` for every PSC into `uk_psc_dob.parquet` (~12M rows) |
+| `enrich_match_with_dob.py` | Triangulate OS + UK PSC DOB onto the `list_match_os_sanctions_vs_icij` matched-CSV so each row carries a DOB anchor when one exists |
+| `score_prior_coverage.py` | Cheap news-coverage score per matched pair — counts hits across OS topics + the OS `wikidataId` flag so analyst attention can be prioritised by prior public attention |
+| `filter_match_survivors.py` | Drop matched pairs without a DOB anchor *and* without prior coverage — narrows the 5.6k `icij_os_vs_gleif` matched-CSV to 29 investigative-grade survivors |
+| `walk_gleif_ownership.py` | Anchor matched entities against the GLEIF L2 ownership graph; surfaces parent / subsidiary chains for the survivor list |
 
 All available as `just`/`make` recipes.
 
@@ -100,7 +107,7 @@ All available as `just`/`make` recipes.
 | **3** — Address clusters | table builder + GoldenMatch config + top-N report all green |
 | **4** — Persons / officers / intermediaries | done — ICIJ officers + intermediaries + OS Persons fused, person config landed |
 | **5** — Graph analysis | `same_as` overlay landed; Louvain communities + degree centrality on 50,998-node cluster sub-graph |
-| **6** — Case-study writeup | Phoenix Spree (cluster 503264, 9 members, Jersey, 100% GLEIF anchored) shipped with executable notebook |
+| **6** — Case-study writeup | Two shipped: Phoenix Spree (cluster 503264, 9 members, Jersey, 100% GLEIF anchored) and Epstein corporate-network seed review (28 sourced seeds → 29 investigative-grade survivors → *Liquid Funding, Ltd.* as the single corroborated lead). Both have executable notebooks + HTML exports |
 
 ## Numbers (real data)
 
@@ -117,6 +124,13 @@ GoldenMatch v1 → v2 list-match (`icij_os_vs_gleif`):
 - v1 (threshold 0.85): 20,297 matched pairs
 - v2 (threshold 0.92, token_sort): 5,630 matched pairs (~73% reduction)
 - Cluster sub-graph: 50,998 nodes / 75,011 edges, 3,018 Louvain communities
+
+DOB + coverage survivor filter (`icij_os_vs_gleif` matched-CSV):
+- Input: ~5,630 matched pairs at v2 threshold 0.92
+- After DOB anchor enrichment (`enrich_match_with_dob.py`, OS DOB + UK PSC DOB join)
+- After news-coverage scoring (`score_prior_coverage.py`, OS topics + `wikidataId`)
+- After survivor filter (`filter_match_survivors.py`, DOB *and* prior coverage required):
+  **29 investigative-grade rows**
 
 Labels:
 - 300 pairs across 4 stratified buckets in `data/labels/marginal_v1.csv`
@@ -141,7 +155,7 @@ Labels:
 2. **Probabilistic matchkey + negative evidence.** Real labels now exist (300 pairs). Promote `name_juris_address_weighted` from weighted to `probabilistic` with Fellegi-Sunter EM, add `negative_evidence` for divergent identifiers / jurisdictions. The 50/43/16 split in the `v2_marginal` bucket is the most informative training signal.
 3. **Centrality report enrichment.** Top-N table currently has empty `name` / `jur` / `cluster` columns for hubs in the ICIJ-only sub-graph — needs a join back to `company_entities` / `person_entities` on `entity_uid` before publication.
 4. **`normalize_person_name`.** Person table currently borrows `normalize_company_name`. Needs honorifics, `"Doe, John"` ↔ `"John Doe"`, and transliteration handling.
-5. **More case-study writeups.** Phoenix Spree is the first. Centrality + community output should surface 1–2 more clusters worth writing up (largest community by member count, highest-centrality intermediary, etc.).
+5. **More case-study writeups.** Phoenix Spree + Epstein are shipped. Centrality + community output should surface 1–2 more clusters worth writing up (largest community by member count, highest-centrality intermediary, etc.).
 6. **GLEIF XML.** Today we parse JSON / JSONL + the Golden Copy JSON. The Golden Copy XML and ZIP shapes are still `NotImplementedError` — decide whether to implement or drop.
 
 ## Ethical posture
