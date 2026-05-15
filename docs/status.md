@@ -1,6 +1,6 @@
 # Project status — `goldenmatch-shell-company-network`
 
-_Snapshot as of 2026-05-13. Phases 0–6 landed on `main`._
+_Snapshot as of 2026-05-15. Phases 0–6 landed on `main`; tagged `v1.0.0`._
 
 ## TL;DR
 
@@ -79,8 +79,9 @@ ingest ─┬─► icij_entities/addresses/officers/intermediaries/edges.parque
 | `run_goldenmatch_full.py` | Shell out to `goldenmatch dedupe`, join cluster output to `entity_uid` |
 | `eval_against_labels.py` | P/R/F1 per bucket + band-weighted overall precision estimate |
 | `build_graph_smoke.py` | NetworkX graph + JSON summary, with `same_as` overlay |
-| `centrality_communities.py` | Louvain + degree centrality on cluster sub-graph |
-| `case_study_phoenix_spree.py` | Cluster provenance writeup with side-by-side member table |
+| `compute_centrality.py` | Louvain + degree centrality on cluster sub-graph |
+| `notebooks/_build_case_study_notebook.py` | Build the Phoenix Spree case-study notebook from cluster provenance |
+| `notebooks/_build_epstein_case_study_notebook.py` | Build the Epstein case-study notebook from the survivor list |
 | `report_shared_addresses.py` | Top-N shared addresses → Markdown + parquet |
 | `coverage_report.py` | Per-column fill-rate report across all parquets |
 | `investigate_entity.py` | Seed-query workflow: rank candidates for one `(name, jurisdiction)` pair, attach 1-hop ICIJ neighbourhood, optionally enrich from Postgres |
@@ -149,14 +150,39 @@ Labels:
 - Sandbox-clean: nothing in `data/raw`, `data/interim`, `data/processed`, `reports/generated` is committed (gitignored). Only `.gitkeep` placeholders.
 - No hardcoded secrets. `OPENCORPORATES_API_KEY` and `OPENSANCTIONS_DATASET_URL` are env-driven and optional.
 
-## What's open
+## Parked / future work
 
-1. **OpenCorporates ingest.** Adapter is ready, blocked on API key + curated seed list of ~20 high-profile shell-company names.
-2. **Probabilistic matchkey + negative evidence.** Real labels now exist (300 pairs). Promote `name_juris_address_weighted` from weighted to `probabilistic` with Fellegi-Sunter EM, add `negative_evidence` for divergent identifiers / jurisdictions. The 50/43/16 split in the `v2_marginal` bucket is the most informative training signal.
-3. **Centrality report enrichment.** Top-N table currently has empty `name` / `jur` / `cluster` columns for hubs in the ICIJ-only sub-graph — needs a join back to `company_entities` / `person_entities` on `entity_uid` before publication.
-4. **`normalize_person_name`.** Person table currently borrows `normalize_company_name`. Needs honorifics, `"Doe, John"` ↔ `"John Doe"`, and transliteration handling.
-5. **More case-study writeups.** Phoenix Spree + Epstein are shipped. Centrality + community output should surface 1–2 more clusters worth writing up (largest community by member count, highest-centrality intermediary, etc.).
-6. **GLEIF XML.** Today we parse JSON / JSONL + the Golden Copy JSON. The Golden Copy XML and ZIP shapes are still `NotImplementedError` — decide whether to implement or drop.
+The v1.0 release closes Phases 0–6. The items below are deliberately
+parked: each is either blocked on an external constraint or out of
+scope for the case-study deliverable. Anyone forking the repo can pick
+them up.
+
+1. **OpenCorporates ingest.** Adapter is ready, blocked on API key +
+   curated seed list of ~20 high-profile shell-company names.
+2. **Probabilistic matchkey + negative evidence.** Real labels exist
+   (300 pairs). Promoting `name_juris_address_weighted` from weighted
+   to `probabilistic` with Fellegi-Sunter EM is the obvious next step.
+   `negative_evidence` is configured but commented out in
+   `goldenmatch_company.yml` — blocked on a goldenmatch 1.12.x polars
+   schema bug in the `match` subcommand (works in `dedupe`).
+3. **Centrality report enrichment.** Top-N table has empty `name` /
+   `jur` / `cluster` columns for hubs in the ICIJ-only sub-graph —
+   needs a join back to `company_entities` / `person_entities` on
+   `entity_uid`.
+4. **`normalize_person_name`.** Person table currently borrows
+   `normalize_company_name`. Needs honorifics, `"Doe, John"` ↔
+   `"John Doe"`, and transliteration handling before person dedupe
+   tightens further.
+5. **Address dedupe at full scale.** Address-table GoldenMatch dedupe
+   OOMs because placeholder/legal-form prefixes form 9k+-row
+   mega-blocks. Apply the same mega-block filter we use for companies,
+   or pre-strip legal-form prefixes during normalization.
+6. **More case-study writeups.** Phoenix Spree + Epstein are shipped.
+   Centrality + community output should surface 1–2 more candidates
+   (largest community by member count, highest-centrality intermediary).
+7. **GLEIF XML.** Today we parse JSON / JSONL + the Golden Copy JSON.
+   The Golden Copy XML and ZIP shapes raise `NotImplementedError` —
+   decide whether to implement or drop.
 
 ## Ethical posture
 
