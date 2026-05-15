@@ -1,6 +1,9 @@
 """Sample ~300 marginal pairs to label by hand.
 
-Stratification (intent: validate the v1 -> v2 config tighten):
+    uv run python scripts/build_label_set.py
+
+Requires ``DATABASE_URL`` (the published list-match runs live in
+Postgres). Stratification (intent: validate the v1 -> v2 config tighten):
 
   * ``v1_dropped`` (n=100): pairs from the v1 list-match run that score
     0.85 <= s < 0.92. v2's threshold raise removed these — labelling
@@ -98,13 +101,37 @@ def _classify(target_name, ref_name, target_jur, ref_jur) -> str:
 
 @app.command()
 def main(
-    out_csv: Path = typer.Option(Path("data/labels/marginal_v1.csv"), "--out"),
-    seed: int = typer.Option(7, "--seed"),
-    v1_dropped: int = typer.Option(100, "--v1-dropped"),
-    v2_marginal: int = typer.Option(100, "--v2-marginal"),
-    perfect_sanity: int = typer.Option(50, "--perfect-sanity"),
-    v2_borderline: int = typer.Option(50, "--v2-borderline"),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    out_csv: Path = typer.Option(
+        Path("data/labels/marginal_v1.csv"),
+        "--out",
+        help="Destination CSV — gets one row per sampled pair with empty `label` / `rationale` columns for the labeler to fill in.",
+    ),
+    seed: int = typer.Option(
+        7,
+        "--seed",
+        help="`random.seed()` value. Pin so re-runs draw the same pairs.",
+    ),
+    v1_dropped: int = typer.Option(
+        100,
+        "--v1-dropped",
+        help="How many pairs to sample from the v1-dropped band (0.85 <= score < 0.92).",
+    ),
+    v2_marginal: int = typer.Option(
+        100,
+        "--v2-marginal",
+        help="How many pairs to sample from the v2-marginal band (0.92 <= score < 0.97).",
+    ),
+    perfect_sanity: int = typer.Option(
+        50,
+        "--perfect-sanity",
+        help="How many pairs to sample from the perfect band (score >= 0.99) as a sanity check.",
+    ),
+    v2_borderline: int = typer.Option(
+        50,
+        "--v2-borderline",
+        help="How many `jur_close`+`jur_loose` v2 pairs to sample (oversampled then filtered to this count).",
+    ),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

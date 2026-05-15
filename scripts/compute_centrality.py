@@ -1,5 +1,7 @@
 """Compute centrality + community detection on the cluster sub-graph.
 
+    uv run python scripts/compute_centrality.py
+
 The full ICIJ + GLEIF graph is too large for full betweenness centrality
 (2M+ nodes). This script restricts to the *cluster sub-graph*:
 
@@ -48,17 +50,31 @@ def _conn():
 
 @app.command()
 def main(
-    processed_dir: Path = typer.Option(Path("/data/processed"), "--processed-dir"),
-    interim_dir: Path = typer.Option(Path("/data/interim"), "--interim-dir"),
-    out_parquet: Path = typer.Option(
-        Path("/data/processed/cluster_centrality.parquet"), "--out-parquet"
+    processed_dir: Path = typer.Option(
+        Path("/data/processed"),
+        "--processed-dir",
+        help="Override the processed-parquet directory.",
     ),
-    out_md: Path = typer.Option(Path("/data/reports/generated/centrality_top.md"), "--out-md"),
+    interim_dir: Path = typer.Option(
+        Path("/data/interim"),
+        "--interim-dir",
+        help="Override the interim-parquet directory.",
+    ),
+    out_parquet: Path = typer.Option(
+        Path("/data/processed/cluster_centrality.parquet"),
+        "--out-parquet",
+        help="Where to write the per-node centrality parquet.",
+    ),
+    out_md: Path = typer.Option(
+        Path("/data/reports/generated/centrality_top.md"),
+        "--out-md",
+        help="Where to write the top-N Markdown report.",
+    ),
     betweenness_k: int = typer.Option(
         500, "--betweenness-k", help="k for k-sampled betweenness; 0 = full (slow on big graphs)."
     ),
-    top_n: int = typer.Option(30, "--top-n"),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    top_n: int = typer.Option(30, "--top-n", help="Rows per top-N table in the Markdown."),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

@@ -67,8 +67,12 @@ def main(
         "--global-fallback/--no-global-fallback",
         help="If a jurisdiction is given, also search outside it and list separately.",
     ),
-    processed_dir: Path = typer.Option(PROCESSED_DIR, "--processed-dir"),
-    interim_dir: Path = typer.Option(INTERIM_DIR, "--interim-dir"),
+    processed_dir: Path = typer.Option(
+        PROCESSED_DIR, "--processed-dir", help="Override the processed-parquet directory."
+    ),
+    interim_dir: Path = typer.Option(
+        INTERIM_DIR, "--interim-dir", help="Override the interim-parquet directory."
+    ),
     out_dir: Path = typer.Option(
         PROJECT_ROOT / "reports",
         "--out-dir",
@@ -84,7 +88,7 @@ def main(
         "--no-postgres",
         help="Skip the Postgres lookup even if DATABASE_URL is set.",
     ),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

@@ -1,5 +1,8 @@
 """Score each unique candidate-novel match by prior published coverage.
 
+    uv run python scripts/score_prior_coverage.py \\
+        reports/generated/matched_dob.csv
+
 For every distinct (target_name, target_country) tuple in an enriched
 match CSV, run a Firecrawl search for the name + relevant keywords
 and produce a prior-coverage score:
@@ -107,8 +110,14 @@ def _score(results: list[dict]) -> tuple[int, int]:
 
 @app.command()
 def main(
-    enriched_csv: Path = typer.Argument(...),
-    out_csv: Path | None = typer.Option(None, "--out"),
+    enriched_csv: Path = typer.Argument(
+        ..., help="Input CSV (output of `enrich_match_with_dob.py`)."
+    ),
+    out_csv: Path | None = typer.Option(
+        None,
+        "--out",
+        help="Destination CSV. Defaults to `<input-stem>_scored.csv`.",
+    ),
     exact_only: bool = typer.Option(
         True,
         "--exact-only/--all",
@@ -119,7 +128,9 @@ def main(
         "--dob-ok-only",
         help="Only score rows where DOB confirms identity (both_present_year_match or ref/target_only).",
     ),
-    delay: float = typer.Option(0.5, "--delay"),
+    delay: float = typer.Option(
+        0.5, "--delay", help="Pause between Firecrawl requests, in seconds."
+    ),
 ) -> None:
     logging.basicConfig(
         level=logging.INFO,

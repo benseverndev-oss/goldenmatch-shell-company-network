@@ -1,6 +1,9 @@
 """Rank multi-member dedupe clusters by a composite 'defensibility' score.
 
-Pulls the latest v2 company-dedupe run from Postgres (``shellnet.clusters``),
+    uv run python scripts/rank_clusters.py
+
+Requires ``DATABASE_URL``. Pulls the latest v2 company-dedupe run from
+Postgres (``shellnet.clusters``),
 joins with the unified company-entities parquet for names + jurisdictions,
 the ICIJ edges parquet for officer / address counts, and the latest
 list-match run (``shellnet.list_matches``) for GLEIF cross-source anchors.
@@ -57,11 +60,23 @@ def _jaccard(a: set[str], b: set[str]) -> float:
 
 @app.command()
 def main(
-    processed_dir: Path = typer.Option(Path("/data/processed"), "--processed-dir"),
-    interim_dir: Path = typer.Option(Path("/data/interim"), "--interim-dir"),
-    out_md: Path = typer.Option(Path("/data/reports/generated/cluster_ranking.md"), "--out-md"),
-    top_n: int = typer.Option(50, "--top-n"),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    processed_dir: Path = typer.Option(
+        Path("/data/processed"),
+        "--processed-dir",
+        help="Override the processed-parquet directory.",
+    ),
+    interim_dir: Path = typer.Option(
+        Path("/data/interim"),
+        "--interim-dir",
+        help="Override the interim-parquet directory.",
+    ),
+    out_md: Path = typer.Option(
+        Path("/data/reports/generated/cluster_ranking.md"),
+        "--out-md",
+        help="Where to write the ranked-cluster Markdown.",
+    ),
+    top_n: int = typer.Option(50, "--top-n", help="Rows kept in the Markdown table."),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

@@ -1,6 +1,9 @@
 """Filter a DOB-enriched + coverage-scored match CSV down to the
 investigative-grade survivor set.
 
+    uv run python scripts/filter_match_survivors.py \\
+        reports/generated/matched_dob_scored.csv
+
 Survivor criteria:
 - target_normalized_name == ref_normalized_name (exact-name match)
 - target_country != cn (drop common-Chinese-name collisions)
@@ -29,8 +32,12 @@ log = logging.getLogger(__name__)
 
 @app.command()
 def main(
-    scored_csv: Path = typer.Argument(...),
-    out_csv: Path = typer.Option(REPORTS_DIR / "investigative_grade_survivors.csv", "--out"),
+    scored_csv: Path = typer.Argument(..., help="Input CSV (output of `score_prior_coverage.py`)."),
+    out_csv: Path = typer.Option(
+        REPORTS_DIR / "investigative_grade_survivors.csv",
+        "--out",
+        help="Where to write the survivor CSV.",
+    ),
 ) -> None:
     logging.basicConfig(
         level=logging.INFO,

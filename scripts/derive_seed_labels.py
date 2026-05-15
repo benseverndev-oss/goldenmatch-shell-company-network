@@ -1,5 +1,7 @@
 """Write auto-derived seed labels from the unified company table.
 
+    uv run python scripts/derive_seed_labels.py
+
 These are NOT a substitute for human labels. They're the cheap, very
 high-confidence labels (same LEI → match; same name + different LEI →
 no_match) that we can extract without judgement. They seed the labels
@@ -22,12 +24,18 @@ app = typer.Typer(add_completion=False, no_args_is_help=False)
 
 @app.command()
 def main(
-    company_table: Path = typer.Option(PROCESSED_DIR / "company_entities.parquet"),
-    out_path: Path = typer.Option(REPORTS_DIR / "labels.csv"),
+    company_table: Path = typer.Option(
+        PROCESSED_DIR / "company_entities.parquet",
+        help="Unified company-entities parquet.",
+    ),
+    out_path: Path = typer.Option(
+        REPORTS_DIR / "labels.csv",
+        help="Where to write the labels CSV.",
+    ),
     merge: bool = typer.Option(
         True, "--merge/--overwrite", help="Merge into existing labels (keep human labels)."
     ),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

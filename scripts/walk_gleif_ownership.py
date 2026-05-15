@@ -2,6 +2,8 @@
 OFAC/EU/UK asset-frozen sanctioned entities and surface their adjacent
 not-yet-sanctioned subsidiaries / parents.
 
+    uv run python scripts/walk_gleif_ownership.py
+
 This is the Tier-D workflow that makes the GLEIF L2 ingest pay off.
 The list-match-against-OS pipeline (the rest of the project) is
 person-anchored — given a sanctioned person, find their offshore
@@ -47,13 +49,20 @@ def _extract_lei(identifiers: list[str] | None) -> str | None:
 
 @app.command()
 def main(
-    os_parquet: Path = typer.Option(INTERIM_DIR / "opensanctions_entities.parquet", "--os-parquet"),
+    os_parquet: Path = typer.Option(
+        INTERIM_DIR / "opensanctions_entities.parquet",
+        "--os-parquet",
+        help="OpenSanctions interim parquet (source of sanctioned-entity LEIs).",
+    ),
     edges_parquet: Path = typer.Option(
-        INTERIM_DIR / "gleif_l2_relationships.parquet", "--edges-parquet"
+        INTERIM_DIR / "gleif_l2_relationships.parquet",
+        "--edges-parquet",
+        help="GLEIF L2 ownership-edges interim parquet (parent / subsidiary links).",
     ),
     out_path: Path = typer.Option(
         PROJECT_ROOT / "reports" / "investigations" / "gleif_ownership_chains.md",
         "--out",
+        help="Markdown output path for the walk report.",
     ),
     sanctions_datasets: str = typer.Option(
         # Original filter was us_ofac,eu_fsf,gb_hmt — too narrow. OS
@@ -78,7 +87,7 @@ def main(
         help="Comma-separated substrings of OS dataset names to count as "
         "real asset-freeze sanctions (vs reg.action / sanction.linked).",
     ),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

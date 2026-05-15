@@ -1,6 +1,9 @@
 """Re-apply normalization to all interim parquet files in place.
 
-Useful after tweaking shellnet/normalize.py without re-ingesting raw data.
+    uv run python scripts/normalize_entities.py
+
+Useful after tweaking ``shellnet/normalize.py`` without re-ingesting raw
+data. Rewrites each interim parquet listed in `_RENORM_PLAN`.
 """
 
 from __future__ import annotations
@@ -51,8 +54,8 @@ def _norm_for(target_col: str):
 
 @app.command()
 def main(
-    interim_dir: Path = typer.Option(INTERIM_DIR),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    interim_dir: Path = typer.Option(INTERIM_DIR, help="Override the interim-parquet directory."),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

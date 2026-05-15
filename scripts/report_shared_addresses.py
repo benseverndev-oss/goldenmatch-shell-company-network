@@ -1,5 +1,7 @@
 """Aggregate the address table to surface shared registered-agent addresses.
 
+    uv run python scripts/report_shared_addresses.py
+
 Shared addresses (one address hosting many otherwise unrelated entities)
 are a classic shell-company tell. This is descriptive, not accusatory —
 many large law firms and registered-agent services legitimately host
@@ -43,12 +45,21 @@ def _markdown(df: pl.DataFrame, top_n: int) -> str:
 
 @app.command()
 def main(
-    address_path: Path = typer.Option(PROCESSED_DIR / "address_entities.parquet"),
-    top_n: int = typer.Option(20, "--top-n", "-n"),
-    min_count: int = typer.Option(3, "--min-count"),
-    out_parquet: Path = typer.Option(REPORTS_DIR / "shared_addresses.parquet"),
-    out_md: Path = typer.Option(REPORTS_DIR / "shared_addresses.md"),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    address_path: Path = typer.Option(
+        PROCESSED_DIR / "address_entities.parquet",
+        help="Unified address-entities parquet.",
+    ),
+    top_n: int = typer.Option(20, "--top-n", "-n", help="Rows to keep in the top-N report."),
+    min_count: int = typer.Option(
+        3, "--min-count", help="Minimum hosted-entity count for a row to be reported."
+    ),
+    out_parquet: Path = typer.Option(
+        REPORTS_DIR / "shared_addresses.parquet", help="Where to write the report parquet."
+    ),
+    out_md: Path = typer.Option(
+        REPORTS_DIR / "shared_addresses.md", help="Where to write the report Markdown."
+    ),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

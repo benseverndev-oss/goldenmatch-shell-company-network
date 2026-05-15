@@ -1,8 +1,11 @@
 """Extract UK PSC DOBs from the cached BODS ZIP on Railway.
 
-Emits /data/processed/uk_psc_dob.parquet keyed by statementId with
-recordDetails_birthDate. Used by enrich_match_with_dob.py to add
-target_dob to matched.csv rows.
+    uv run python scripts/extract_uk_psc_dob.py \\
+        --input data/raw/openownership/uk_bods.zip
+
+Emits ``data/processed/uk_psc_dob.parquet`` keyed by ``statementId``
+with ``recordDetails_birthDate``. Used by `enrich_match_with_dob.py` to
+add target_dob to matched.csv rows.
 """
 
 from __future__ import annotations
@@ -23,9 +26,16 @@ log = logging.getLogger(__name__)
 @app.command()
 def main(
     zip_path: Path = typer.Option(
-        DATA_DIR / "raw" / "openownership" / "uk_bods.zip", "--input", "-i"
+        DATA_DIR / "raw" / "openownership" / "uk_bods.zip",
+        "--input",
+        "-i",
+        help="Path to the OpenOwnership UK BODS zip bundle.",
     ),
-    out_path: Path = typer.Option(PROCESSED_DIR / "uk_psc_dob.parquet", "--out"),
+    out_path: Path = typer.Option(
+        PROCESSED_DIR / "uk_psc_dob.parquet",
+        "--out",
+        help="Where to write the (statementId, dob) parquet.",
+    ),
 ) -> None:
     logging.basicConfig(
         level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s"

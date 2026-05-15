@@ -1,5 +1,7 @@
 """Generate a per-cluster provenance report.
 
+    uv run python scripts/provenance_report.py 503264
+
 Pulls every piece of evidence for the named cluster — the ICIJ source rows,
 the GLEIF list-match anchors, the v2 match scores, the ICIJ relationships
 touching the cluster (officers, intermediaries, addresses, parent/child) —
@@ -41,10 +43,22 @@ def _conn():
 @app.command()
 def main(
     cluster_id: int = typer.Argument(..., help="cluster_id from shellnet.clusters"),
-    processed_dir: Path = typer.Option(Path("/data/processed"), "--processed-dir"),
-    interim_dir: Path = typer.Option(Path("/data/interim"), "--interim-dir"),
-    out_dir: Path = typer.Option(Path("/data/reports/generated/case_studies"), "--out-dir"),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    processed_dir: Path = typer.Option(
+        Path("/data/processed"),
+        "--processed-dir",
+        help="Override the processed-parquet directory.",
+    ),
+    interim_dir: Path = typer.Option(
+        Path("/data/interim"),
+        "--interim-dir",
+        help="Override the interim-parquet directory.",
+    ),
+    out_dir: Path = typer.Option(
+        Path("/data/reports/generated/case_studies"),
+        "--out-dir",
+        help="Where the `<cluster_id>_<slug>.md` report lands.",
+    ),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,

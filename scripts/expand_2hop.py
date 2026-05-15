@@ -69,16 +69,31 @@ def _is_named_individual(person_name: str | None, kind: str | None) -> bool:
 
 @app.command()
 def main(
-    entity_uid: str = typer.Option(..., "--entity-uid"),
+    entity_uid: str = typer.Option(
+        ..., "--entity-uid", help="Seed company `entity_uid` (e.g. `icij:82004676`)."
+    ),
     label: str = typer.Option(..., "--label", help="Short slug for the output filename."),
-    processed_dir: Path = typer.Option(PROCESSED_DIR, "--processed-dir"),
-    interim_dir: Path = typer.Option(INTERIM_DIR, "--interim-dir"),
+    processed_dir: Path = typer.Option(
+        PROCESSED_DIR, "--processed-dir", help="Override the processed-parquet directory."
+    ),
+    interim_dir: Path = typer.Option(
+        INTERIM_DIR, "--interim-dir", help="Override the interim-parquet directory."
+    ),
     out_dir: Path = typer.Option(
         PROJECT_ROOT / "reports" / "investigations" / "expansions",
         "--out-dir",
+        help="Where the `<label>_2hop.md` report lands.",
     ),
-    person_limit: int = typer.Option(50, "--person-limit"),
-    company_limit_per_person: int = typer.Option(25, "--company-limit-per-person"),
+    person_limit: int = typer.Option(
+        50,
+        "--person-limit",
+        help="Cap on hop-1 person uids to walk. Reduce when the seed is at a high-volume provider address.",
+    ),
+    company_limit_per_person: int = typer.Option(
+        25,
+        "--company-limit-per-person",
+        help="Per-person cap on hop-2 company edges. Suppresses Appleby-style bulk-registration noise.",
+    ),
     named_individuals_only: bool = typer.Option(
         False,
         "--named-individuals-only",
@@ -86,7 +101,7 @@ def main(
         "PwC, etc.) or carry corporate legal suffixes (Ltd, LLC). Big "
         "noise reducer when the seed is anchored at an offshore provider.",
     ),
-    verbose: bool = typer.Option(False, "--verbose", "-v"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Emit DEBUG-level logs."),
 ) -> None:
     logging.basicConfig(
         level=logging.DEBUG if verbose else logging.INFO,
