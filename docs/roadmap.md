@@ -58,7 +58,11 @@ is reusable for later phases.
       (`scripts/generate_candidate_pairs.py`, `scripts/derive_seed_labels.py`).
 - [x] Evaluator that scores a run against the labels CSV with humans-only
       and derived-only splits (`scripts/eval_against_labels.py`).
-- [ ] Hand-label 200–500 candidate pairs from the marginal band.
+- [x] Hand-label 200–500 candidate pairs from the marginal band.
+      Landed 300 pairs across 4 stratified buckets in
+      `data/labels/marginal_v1.csv` (v1_dropped n=100, v2_marginal n=100,
+      perfect_sanity n=50, v2_borderline_class n=50). Headline:
+      band-weighted strict precision v1 43.7% → v2 94.4% (+50.7pp).
 - [x] Tighten the name+address matchkey. Swapped `jaro_winkler` →
       `token_sort` and raised threshold 0.85 → 0.92 after the first run
       surfaced ~10K leading-token false positives (CRYSTAL FINANCE /
@@ -123,6 +127,23 @@ is reusable for later phases.
       (28 sourced seeds → 29 investigative-grade survivors after DOB +
       coverage filter → one corroborated lead: *Liquid Funding, Ltd.*,
       Bermuda, Paradise Papers — Appleby).
+
+## Phase 7 — Closeout (v1.0)
+
+The case study is shipped. Phases 0–6 are on `main`; the repo is
+tagged `v1.0.0`. Remaining items in `docs/status.md` § Parked / future
+work are deliberately scoped out — each is blocked on an external
+constraint (API key, upstream library bug) or out of scope for the
+case-study deliverable. Anyone forking the repo can pick them up.
+
+- [x] All branches merged or deleted; main matches origin.
+- [x] CLI UX pass: every Typer option has `help=` text and every
+      script's docstring carries a usage example.
+- [x] Pre-commit hook + ruff + simplified CI lint.
+- [x] README polished against the actual shipped pipeline (not
+      scaffolding instructions).
+- [x] Roadmap and status reconciled; obsolete script names corrected.
+- [x] Tag `v1.0.0` cut with a release note.
 
 ## Phase 6 — Polish & publication
 

@@ -220,8 +220,11 @@ without it but at lower rate limits and with less data per record.
 
 ## Status
 
-The scaffolding (Phase 0), most of the analytical plumbing for Phases 2–5,
-and a first real-data ingest pass are all in place. What works today:
+**v1.0.0** — Phases 0–6 shipped on `main`. Full real-data ingest
+(ICIJ + GLEIF + OpenSanctions + UK PSC), 300 hand-labelled marginal
+pairs, v1 → v2 config sweep with band-weighted precision lift,
+centrality + Louvain on the cluster sub-graph, and two end-to-end
+case-study writeups. What works today:
 
 - All four source adapters parse fixture-shaped inputs to parquet, including
   ICIJ officers and intermediaries.
@@ -262,18 +265,23 @@ and a first real-data ingest pass are all in place. What works today:
   interim/processed parquet.
 - 60 pytest tests run end-to-end with no network.
 
-What's still ahead (`docs/roadmap.md`):
+**v1.0 is the case-study deliverable.** Phases 0–6 are shipped: ingest,
+unified tables, matching + eval, address + person tables, graph
+analysis, and two case-study writeups with full provenance. Items
+parked for v1.0 (full list in `docs/status.md` § Parked / future work):
 
-- Address + person GoldenMatch dedupe needs the same mega-block filter
-  + tighter blocking before it'll fit in memory.
-- OpenCorporates seed ingest (needs an API key and a curated seed list).
-- `normalize_person_name` (honorifics, `"Doe, John"` ↔ `"John Doe"`,
-  transliteration) — person table currently borrows the company
-  normalizer.
-- Probabilistic matchkey + negative evidence on the unified company
-  table, now that the 300-pair hand-labelled set exists.
-- Additional case-study writeups beyond Phoenix Spree + Epstein
-  (centrality top-N + Louvain output should surface candidates).
+- OpenCorporates ingest — adapter ready, blocked on API key + curated
+  seed list.
+- Probabilistic matchkey + `negative_evidence` — labels exist (300
+  pairs); `negative_evidence` is blocked on an upstream goldenmatch
+  1.12.x polars schema bug in `match`.
+- Address dedupe at full scale — needs the mega-block filter applied
+  the same way as companies, or pre-stripped legal-form prefixes.
+- `normalize_person_name` — currently borrows the company normalizer.
+- More case studies — Phoenix Spree + Epstein are shipped; centrality
+  + community output should surface 1–2 more candidates.
+- GLEIF Golden Copy XML / ZIP — JSON / JSONL parsing is live; XML +
+  ZIP raise `NotImplementedError`.
 
 ## Legal & ethical
 
