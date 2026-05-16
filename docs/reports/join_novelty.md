@@ -1,6 +1,6 @@
 # Newly surfaced cross-source joins
 
-_Generated 2026-05-16 19:26 UTC by `scripts/render_join_novelty_report.py` from a Railway-side
+_Generated 2026-05-16 19:32 UTC by `scripts/render_join_novelty_report.py` from a Railway-side
 build of `scripts/build_join_novelty_report.py`. See
 [`docs/prior_art_comparison.md`](../prior_art_comparison.md) for what makes
 these "newly surfaced" versus what ICIJ Offshore Leaks DB / OCCRP Aleph
@@ -49,9 +49,9 @@ flag sanctions status.
 | Jurisdiction | Triples |
 |---|---:|
 | bm | 13 |
-| mt | 1 |
-| vg | 1 |
 | hk | 1 |
+| vg | 1 |
+| mt | 1 |
 
 
 ## 2. DOB-confirmed sanctioned officer pairs (OS sanctions ↔ UK PSC)
