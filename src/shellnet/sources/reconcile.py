@@ -91,9 +91,15 @@ def run(
         cmd += ["-c", str(cache_dir)]
 
     log.info("reconcile: %s", " ".join(shlex.quote(c) for c in cmd))
+    # Use DEVNULL for stdin: reconcile@latest's cli-renderer calls
+    # `process.stdin.unref()` during setup, which crashes when stdin is the
+    # inherited uvicorn handle on Node 20+ ("Process.stdin.unref is not a
+    # function"). A real /dev/null fd gives Node a ReadStream that *does*
+    # expose unref().
     with output_csv.open("wb") as fh:
         proc = subprocess.run(
             cmd,
+            stdin=subprocess.DEVNULL,
             stdout=fh,
             stderr=subprocess.PIPE,
             timeout=timeout,
