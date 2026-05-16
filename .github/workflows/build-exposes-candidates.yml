@@ -1,0 +1,137 @@
+name: build exposé candidates (Railway-side compute)
+
+# Refreshes docs/reports/exposes_candidates.md + docs/reports/dossiers/*.md.
+#
+# 1. Triggers build_rare_officer_dossiers on Railway (heavy 2-hop walk
+#    on the multi-GB person + edge tables on /data).
+# 2. Downloads the small dossier parquet to the runner.
+# 3. Fires firecrawl queries per distinct rare-name.
+# 4. Renders the per-lead dossier .md files + the ranked index.
+# 5. Direct-pushes to main (enterprise policy blocks PR creation).
+#
+# Spec: docs/superpowers/specs/2026-05-16-expose-candidates-design.md
+
+on:
+  workflow_dispatch:
+    inputs:
+      top_n:
+        description: "Seed-name cap fed to Railway script"
+        required: true
+        default: "50"
+        type: string
+      max_degree:
+        description: "Per-seed edge fan-out cap for the 2-hop walk"
+        required: true
+        default: "25"
+        type: string
+
+concurrency:
+  group: build-exposes-candidates
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Railway compute, runner render, direct-push
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SHELLNET_JOB_URL: ${{ vars.SHELLNET_JOB_URL }}
+      SHELLNET_JOB_TOKEN: ${{ secrets.SHELLNET_JOB_TOKEN }}
+      FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+      TOP_N: ${{ inputs.top_n }}
+      MAX_DEGREE: ${{ inputs.max_degree }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - name: Sync deps
+        run: uv sync --frozen --no-dev
+
+      - name: Confirm Railway reachable
+        run: |
+          set -euo pipefail
+          curl -fsS "$SHELLNET_JOB_URL/healthz"
+
+      - name: Trigger build_rare_officer_dossiers on Railway
+        run: |
+          set -euo pipefail
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+            "$SHELLNET_JOB_URL/run-script?name=build_rare_officer_dossiers"
+          echo
+
+      - name: Poll until build completes
+        run: |
+          set -euo pipefail
+          stage="script_build_rare_officer_dossiers"
+          for _ in $(seq 1 360); do
+            sleep 5
+            s=$(curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+                "$SHELLNET_JOB_URL/status" \
+                | python -c "import sys,json; d=json.load(sys.stdin); print(d['stages'].get('$stage',{}).get('status','?'))")
+            echo "  $stage: $s"
+            case "$s" in
+              completed) break ;;
+              failed)
+                echo "::error::$stage failed"
+                curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+                  "$SHELLNET_JOB_URL/logs/$stage?tail=120" || true
+                exit 1
+                ;;
+            esac
+          done
+
+      - name: Download dossier parquet
+        run: |
+          set -euo pipefail
+          mkdir -p data/processed
+          curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+            "$SHELLNET_JOB_URL/download?path=processed/rare_officer_dossiers.parquet" \
+            -o data/processed/rare_officer_dossiers.parquet
+          ls -lh data/processed/rare_officer_dossiers.parquet
+
+      - name: Run firecrawl search per rare name
+        run: |
+          set -euo pipefail
+          mkdir -p docs/reports/data
+          uv run python scripts/search_dossier_freshness.py \
+            --parquet data/processed/rare_officer_dossiers.parquet \
+            --out docs/reports/data/search_results.json \
+            --verbose
+
+      - name: Render dossiers + index
+        run: |
+          set -euo pipefail
+          uv run python scripts/render_dossiers.py \
+            --parquet data/processed/rare_officer_dossiers.parquet \
+            --search-results docs/reports/data/search_results.json \
+            --out-dir docs/reports \
+            --verbose
+
+      - name: Stage tracked copy of the dossier parquet
+        run: |
+          set -euo pipefail
+          cp data/processed/rare_officer_dossiers.parquet \
+             docs/reports/data/rare_officer_dossiers.parquet
+
+      - name: Commit + push to main
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/reports/exposes_candidates.md \
+                  docs/reports/dossiers/ \
+                  docs/reports/data/search_results.json \
+                  docs/reports/data/rare_officer_dossiers.parquet
+          if git diff --cached --quiet; then
+            echo "No changes to commit; report unchanged."
+            exit 0
+          fi
+          git commit -m "report: refresh exposé candidates (top_n=$TOP_N, auto from build-exposes-candidates.yml)"
+          git push origin HEAD:main
