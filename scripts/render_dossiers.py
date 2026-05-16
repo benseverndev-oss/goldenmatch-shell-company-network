@@ -5,6 +5,7 @@ Spec: docs/superpowers/specs/2026-05-16-expose-candidates-design.md
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import re
@@ -26,7 +27,11 @@ _SLUG_RE = re.compile(r"[^a-z0-9]+")
 
 def _slug(name: str) -> str:
     s = _SLUG_RE.sub("-", name.lower()).strip("-")
-    return s or "unnamed"
+    if s:
+        return s
+    # Non-ASCII names collapse to empty. Use a short hash of the original
+    # name so two non-ASCII names don't both land on "unnamed.md".
+    return "x-" + hashlib.sha1(name.encode("utf-8")).hexdigest()[:10]
 
 
 def _hits_section(query: str, hits: list[dict[str, Any]]) -> str:
@@ -206,7 +211,7 @@ def main(
         )
 
     # Sort: pinned first, then score DESC.
-    index_rows.sort(key=lambda r: (-int(r["pinned"]), -r["score"]))
+    index_rows.sort(key=lambda r: (-int(r["pinned"]), -r["score"], r["name"]))
 
     # Render the index.
     idx = [
@@ -222,8 +227,9 @@ def main(
     ]
     for i, r in enumerate(index_rows, start=1):
         pin = "📌 " if r["pinned"] else ""
+        safe_name = r["name"].replace("|", "\\|").replace("[", "\\[").replace("]", "\\]")
         idx.append(
-            f"| {i} | {pin}{r['name']} | {r['sources']} | {r['companies']} | "
+            f"| {i} | {pin}{safe_name} | {r['sources']} | {r['companies']} | "
             f"{r['jurisdictions']} | {r['sanc_adj']} | {r['hits_offshore']} | "
             f"{r['score']:.2f} | [→](dossiers/{r['slug']}.md) |"
         )
