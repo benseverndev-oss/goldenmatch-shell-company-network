@@ -1,6 +1,6 @@
 # Newly surfaced cross-source joins
 
-_Generated 2026-05-16 20:20 UTC by `scripts/render_join_novelty_report.py` from a Railway-side
+_Generated 2026-05-16 20:45 UTC by `scripts/render_join_novelty_report.py` from a Railway-side
 build of `scripts/build_join_novelty_report.py`. See
 [`docs/prior_art_comparison.md`](../prior_art_comparison.md) for what makes
 these "newly surfaced" versus what ICIJ Offshore Leaks DB / OCCRP Aleph
@@ -34,10 +34,10 @@ flag sanctions status.
 
 | LEI | GLEIF name | ICIJ name (sample) | ICIJ row count | OS name | Jurisdiction | OS list count |
 |---|---|---|---:|---|---|---:|
-| `52990053RSLBKN4VFX85` | MERCHANTILE ASSET LIMITED | MERCHANT CHARTER LIMITED (1 variants) | 1 | Merchant Supreme Co., Ltd. | vg | 4 |
-| `213800IMQFB4XIUD2580` | VASSILIADES & CO. (MALTA) LIMITED | VASSILIADES & CO. (MALTA) LIMITED (1 variants) | 1 | VASSILIADES & CO. MALTA LIMITED | mt | 5 |
-| `2138006Z57H3EJHYY303` | ALTITUDE X2 LTD. | Altitude X2 Ltd. (13 variants) | 13 | Altitude X3 LTD | bm | 4 |
 | `300300HHTAWFTXYVVI58` | Hong Kong Linear Growth Limited | Hong Kong Jinzhao Resources Limited (1 variants) | 1 | HONG KONG INTERTRADE COMPANY | hk | 9 |
+| `213800IMQFB4XIUD2580` | VASSILIADES & CO. (MALTA) LIMITED | VASSILIADES & CO. (MALTA) LIMITED (1 variants) | 1 | VASSILIADES & CO. MALTA LIMITED | mt | 5 |
+| `52990053RSLBKN4VFX85` | MERCHANTILE ASSET LIMITED | MERCHANT CHARTER LIMITED (1 variants) | 1 | Merchant Supreme Co., Ltd. | vg | 4 |
+| `2138006Z57H3EJHYY303` | ALTITUDE X2 LTD. | Altitude X2 Ltd. (13 variants) | 13 | Altitude X3 LTD | bm | 4 |
 
 
 ### Jurisdiction distribution
@@ -72,9 +72,9 @@ parquet has the full 38 rows.
 | Vladimir Pozdnyakov | Vladimir Poliakov | 1946-05 | ru | 1 | ua_nsdc_sanctions | 0.939 |
 | Elena SMIRNOVA | Elena Korneeva | 1981-10 | ru | 1 | gb_fcdo_sanctions | 0.927 |
 | Mikhail Serdyuk | Mikhail Sarkisiants | 1976-03 | ru | 1 | ua_nsdc_sanctions | 0.904 |
-| Iakovlev Igor | Igor Iakovlev | 1965-10 | ru | 1 | ua_nsdc_sanctions | 0.900 |
-| Gruzdeva Olga | Olga Gruzdeva | 1974-06 | ru | 1 | ua_nsdc_sanctions | 0.900 |
 | Fedorov Igor | Igor Fedorov | 1966-01 | ru | 1 | ua_nsdc_sanctions | 0.900 |
+| Gruzdeva Olga | Olga Gruzdeva | 1974-06 | ru | 1 | ua_nsdc_sanctions | 0.900 |
+| Iakovlev Igor | Igor Iakovlev | 1965-10 | ru | 1 | ua_nsdc_sanctions | 0.900 |
 | Astafurov Pavel | Mr Pavel Astafurov | 1987-09 | ru | 1 | ua_nsdc_sanctions | 0.877 |
 | Fedorov Pavel | Mr Pavel Fedorov | 1984-02 | ru | 1 | ua_nsdc_sanctions | 0.874 |
 | Konstantin Dobrynin | Mr Konstantin Dobrynin | 1976-11 | ru | 1 | ua_nsdc_sanctions | 0.851 |
@@ -96,34 +96,34 @@ primitive. Top 30 shown.
 |---|---|---|---:|---:|
 | Mr. Vladimir Shevtsov | Mr Vladimir Shevtsov | ru | 8 | 1.000 |
 | Mr. Yury Sneshko | Mr Yury Sneshko | ru | 7 | 1.000 |
-| Mr. Avraam Kapiri | Mr Avraam Kapiri | cy | 5 | 1.000 |
 | ALI EID KHAMIS THANI ALMHEIRI | Ali Eid Khamis Thani Almheiri | ae | 5 | 1.000 |
-| MARIE LOUISE ZAMMIT | Marie Louise Zammit | mt | 4 | 1.000 |
+| Mr. Avraam Kapiri | Mr Avraam Kapiri | cy | 5 | 1.000 |
 | MR ANDREY IVANOV | Mr Andrey Ivanov | ru | 4 | 1.000 |
-| MR. TEDDY SAGI | Mr Teddy Sagi | cy | 3 | 1.000 |
-| MR. ALEXEY POPOV | Mr Alexey Popov | ru | 3 | 1.000 |
+| MARIE LOUISE ZAMMIT | Marie Louise Zammit | mt | 4 | 1.000 |
 | FAISAL ALI HABIB SAJWANI | Faisal Ali Habib Sajwani | ae | 3 | 1.000 |
+| MR. ALEXEY POPOV | Mr Alexey Popov | ru | 3 | 1.000 |
+| MR. TEDDY SAGI | Mr Teddy Sagi | cy | 3 | 1.000 |
 | MR HAGOP BOHDJELIAN | Mr Hagop Bohdjelian | cy | 3 | 1.000 |
-| Mrs. Marina Psyllou | Mrs Marina Psyllou | cy | 2 | 1.000 |
-| MR. ANDREAS SPYRIDES | Mr Andreas Spyrides | cy | 2 | 1.000 |
-| Mr. Alexander Popov | Mr. Alexander Popov | ru | 2 | 1.000 |
-| MR. SERGEY PRONIN | Mr Sergey Pronin | ru | 2 | 1.000 |
-| MR. YURIY ZHUKOV | Mr Yuriy Zhukov | ru | 2 | 1.000 |
-| WENDY PENELOPE CUSCHIERI | Wendy Penelope Cuschieri | mt | 2 | 1.000 |
-| Mr. Andrey Smirnov | Mr Andrey Smirnov | ru | 2 | 1.000 |
-| Mr. Vladimir Kuznetsov | Mr Vladimir Kuznetsov | ru | 2 | 1.000 |
+| ELIOT JON FARRUGIA | Eliot Jon Farrugia | mt | 2 | 1.000 |
 | MR. SERGEY SMIRNOV | Mr Sergey Smirnov | ru | 2 | 1.000 |
-| Mr. Evgeny Aptekar | Mr Evgeny Aptekar | ru | 2 | 1.000 |
 | Mr. Alexander Gorbachev | Mr Alexander Gorbachev | ru | 2 | 1.000 |
+| SULTAN ALI ISMAIL ALI ALFAHIM | Sultan Ali Ismail Ali Alfahim | ae | 2 | 1.000 |
+| MR. SERGEY PRONIN | Mr Sergey Pronin | ru | 2 | 1.000 |
+| Mr. Alexander Popov | Mr. Alexander Popov | ru | 2 | 1.000 |
+| JEAN PAUL FABRI | Jean Paul Fabri | mt | 2 | 1.000 |
+| Mrs. Marina Psyllou | Mrs Marina Psyllou | cy | 2 | 1.000 |
+| Mr. Vladimir Kuznetsov | Mr Vladimir Kuznetsov | ru | 2 | 1.000 |
 | ELIAS IBRAHIM SALLOUM | Elias Ibrahim Salloum | ae | 2 | 1.000 |
 | Mr. Vladimir Dunaev | Mr Vladimir Dunaev | ru | 2 | 1.000 |
 | AKHILESH KUMAR TIWARI | Akhilesh Kumar Tiwari | cy | 2 | 1.000 |
-| MR GARO BOHDJELIAN | Mr Garo Bohdjelian | cy | 2 | 1.000 |
-| SULTAN ALI ISMAIL ALI ALFAHIM | Sultan Ali Ismail Ali Alfahim | ae | 2 | 1.000 |
-| JEAN PAUL FABRI | Jean Paul Fabri | mt | 2 | 1.000 |
+| MR. ANDREAS SPYRIDES | Mr Andreas Spyrides | cy | 2 | 1.000 |
+| MR. YURIY ZHUKOV | Mr Yuriy Zhukov | ru | 2 | 1.000 |
 | Mr. Sergey  KLYCHKOV | Mr. Sergey Klychkov | ru | 2 | 1.000 |
+| Mr. Andrey Smirnov | Mr Andrey Smirnov | ru | 2 | 1.000 |
+| MR GARO BOHDJELIAN | Mr Garo Bohdjelian | cy | 2 | 1.000 |
 | Mr Boris Kreyzerov | Mr Boris Kreyzerov | ru | 2 | 1.000 |
-| ELIOT JON FARRUGIA | Eliot Jon Farrugia | mt | 2 | 1.000 |
+| WENDY PENELOPE CUSCHIERI | Wendy Penelope Cuschieri | mt | 2 | 1.000 |
+| Mr. Evgeny Aptekar | Mr Evgeny Aptekar | ru | 2 | 1.000 |
 
 
 ### ICIJ↔UK_PSC country distribution
