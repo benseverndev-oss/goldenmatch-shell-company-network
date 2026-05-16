@@ -23,15 +23,23 @@ app = typer.Typer(add_completion=False, no_args_is_help=False)
 def _render_company_table(df: pl.DataFrame) -> str:
     if df.height == 0:
         return "_No company-side triples found in the current run._\n"
-    cols = ["icij_name", "os_name", "gleif_name", "lei", "icij_jurisdiction", "sanction_list_count"]
-    rows = df.select(cols).to_dicts()
+    # Collapse to one row per LEI so the table reads as anchors, not duplicates.
+    grouped = df.group_by("lei").agg(
+        pl.col("icij_name").n_unique().alias("icij_name_variants"),
+        pl.col("icij_name").first().alias("icij_name_sample"),
+        pl.col("os_name").first().alias("os_name"),
+        pl.col("gleif_name").first().alias("gleif_name"),
+        pl.col("icij_jurisdiction").first().alias("icij_jurisdiction"),
+        pl.col("sanction_list_count").first().alias("sanction_list_count"),
+        pl.col("icij_uid").len().alias("icij_row_count"),
+    )
     out = [
-        "| ICIJ name | OS name | GLEIF name | LEI | Jurisdiction | OS list count |",
-        "|---|---|---|---|---|---|",
+        "| LEI | GLEIF name | ICIJ name (sample) | ICIJ row count | OS name | Jurisdiction | OS list count |",
+        "|---|---|---|---:|---|---|---:|",
     ]
-    for r in rows:
+    for r in grouped.to_dicts():
         out.append(
-            "| {icij_name} | {os_name} | {gleif_name} | `{lei}` | {icij_jurisdiction} | {sanction_list_count} |".format(
+            "| `{lei}` | {gleif_name} | {icij_name_sample} ({icij_name_variants} variants) | {icij_row_count} | {os_name} | {icij_jurisdiction} | {sanction_list_count} |".format(
                 **{k: ("" if v is None else str(v).replace("|", "\\|")) for k, v in r.items()}
             )
         )
@@ -41,15 +49,30 @@ def _render_company_table(df: pl.DataFrame) -> str:
 def _render_person_table(df: pl.DataFrame, *, limit: int = 50) -> str:
     if df.height == 0:
         return "_No DOB-confirmed sanctioned-officer pairs found in the current run._\n"
-    cols = ["psc_name", "os_name", "psc_dob", "psc_country", "sanction_datasets", "name_score"]
-    rows = df.head(limit).select(cols).to_dicts()
+    # One row per sanctioned anchor (os_uid). Show how many PSC seats they hold
+    # (psc_uid count) so reviewers see the network footprint, not just names.
+    grouped = (
+        df.group_by("os_uid")
+        .agg(
+            pl.col("os_name").first().alias("os_name"),
+            pl.col("psc_name").first().alias("psc_name_sample"),
+            pl.col("psc_name").n_unique().alias("psc_name_variants"),
+            pl.col("psc_uid").n_unique().alias("psc_seats"),
+            pl.col("psc_dob").first().alias("psc_dob"),
+            pl.col("psc_country").first().alias("psc_country"),
+            pl.col("sanction_datasets").first().alias("sanction_datasets"),
+            pl.col("name_score").max().alias("name_score"),
+        )
+        .sort(by=["psc_seats", "name_score"], descending=[True, True])
+        .head(limit)
+    )
     out = [
-        "| UK PSC officer | OS sanctioned name | DOB | Country | Sanction lists | Name score |",
-        "|---|---|---|---|---|---|",
+        "| Sanctioned name (OS) | UK PSC name | DOB | Country | PSC seats | Sanction lists | Name score |",
+        "|---|---|---|---|---:|---|---:|",
     ]
-    for r in rows:
+    for r in grouped.to_dicts():
         out.append(
-            "| {psc_name} | {os_name} | {psc_dob} | {psc_country} | {sanction_datasets} | {name_score:.3f} |".format(
+            "| {os_name} | {psc_name_sample} | {psc_dob} | {psc_country} | {psc_seats} | {sanction_datasets} | {name_score:.3f} |".format(
                 **{
                     k: ("" if v is None else (v if isinstance(v, float) else str(v).replace("|", "\\|")))
                     for k, v in r.items()
@@ -92,10 +115,15 @@ already surface._
 
 ## Summary
 
-| Kind | Rows | Distinct anchors | With evasion signal | With UK-disq overlap |
+The headline numbers are **distinct anchors** — the underlying entity
+or sanctioned-person being surfaced, not the number of rows. Rows are
+inflated by duplicate variants of the same entity (e.g. ICIJ filings
+under multiple spellings of the same shell company name).
+
+| Kind | Anchors | (Rows) | Anchors with evasion signal | Anchors with UK-disq overlap |
 |---|---:|---:|---:|---:|
-| ICIJ + OS + GLEIF company triples | {cs["n_rows"]} | {cs["distinct_leis"]} LEIs | {cs["with_evasion_signal"]} | {cs["with_disqualified_director_overlap"]} |
-| DOB-confirmed OS↔UK_PSC pairs | {ps["n_rows"]} | {ps["distinct_os_uids"]} sanctioned IDs | {ps["with_evasion_signal"]} | {ps["with_disqualified_director_overlap"]} |
+| ICIJ + OS + GLEIF company triples | **{cs["distinct_leis"]} LEIs** | {cs["n_rows"]} | {cs["with_evasion_signal"]} | {cs["with_disqualified_director_overlap"]} |
+| DOB-confirmed OS↔UK_PSC pairs | **{ps["distinct_os_uids"]} sanctioned IDs** | {ps["n_rows"]} | {ps["with_evasion_signal"]} | {ps["with_disqualified_director_overlap"]} |
 
 **Evasion signal** = `n_datasets == 1` on the sanctions overlay AND
 `us_ofac_sdn` is absent — the regional-list-but-not-OFAC pattern the
