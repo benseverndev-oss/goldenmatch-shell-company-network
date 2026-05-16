@@ -52,6 +52,89 @@ _HIGH_CONF_DOB = ("match", "both_present_year_match", "both_present_full_match")
 _REPORTS_DIR = DATA_DIR / "reports" / "generated"
 
 
+def _icij_psc_pairs(matched_csv: Path) -> pl.DataFrame:
+    """ICIJ ↔ UK PSC pairs from list_match_icij_vs_uk_psc.
+
+    Filtered to high-signal subset:
+
+    - **Exact** normalized-name equality (not fuzzy). Without DOB on
+      the ICIJ side, fuzzy matches are dominated by first-name +
+      honorific collisions ("Mr Sergey ... vs Mr Sergey ...").
+    - Same country tag on both sides (RU↔RU, CY↔CY, etc.).
+    - ≥ 3-token name (drops single-surname matches).
+    - Score = 1.0 (exact-string after normalization).
+
+    Acknowledged limitation: even exact-string matches can be different
+    people with the same name in different datasets. Section 4 (rare
+    multi-source officer names) is the same-evidence-base view of who
+    actually appears in N sources.
+    """
+    if not matched_csv.exists():
+        return pl.DataFrame()
+    raw = pl.read_csv(matched_csv, ignore_errors=True, infer_schema_length=500)
+    n_tokens = pl.col("target_normalized_name").str.split(" ").list.len()
+    pairs = raw.filter(
+        (pl.col("target_country") == pl.col("ref_country"))
+        & (pl.col("target_country").is_not_null())
+        & (pl.col("target_country") != "")
+        & (n_tokens >= 3)
+        & (pl.col("target_normalized_name") == pl.col("ref_normalized_name"))
+        & (pl.col("__match_score__") >= 0.99)
+    ).select(
+        pl.col("target_entity_uid").alias("psc_uid"),
+        pl.col("target_name").alias("psc_name"),
+        pl.col("target_country").alias("country"),
+        pl.col("ref_entity_uid").alias("icij_uid"),
+        pl.col("ref_name").alias("icij_name"),
+        pl.col("__match_score__").alias("name_score"),
+    )
+    return pairs.with_columns(
+        pl.lit("icij_psc_pair").alias("kind"),
+        pl.lit(2).alias("n_sources"),
+    )
+
+
+def _rare_officer_overlaps(officer_overlap_parquet: Path) -> pl.DataFrame:
+    """Officer names appearing across 2+ sources with bounded cardinality.
+
+    Selects only names that look investigative:
+      - n_sources >= 2 (already enforced upstream)
+      - max_per_source <= 2 (rare in EVERY source — not a common-name explosion)
+      - n_tokens >= 3 (single-token surnames are too ambiguous)
+    """
+    if not officer_overlap_parquet.exists():
+        return pl.DataFrame()
+    raw = pl.read_parquet(officer_overlap_parquet)
+    return (
+        raw.filter((pl.col("max_per_source") <= 2) & (pl.col("n_tokens") >= 3))
+        .with_columns(
+            pl.lit("officer_overlap").alias("kind"),
+        )
+        .rename({"n_sources": "_n_sources"})
+        .with_columns(pl.col("_n_sources").alias("n_sources"))
+        .drop("_n_sources")
+    )
+
+
+def _disqualified_overlaps(disq_overlap_parquet: Path) -> pl.DataFrame:
+    """Disqualified UK directors who appear in cross-source datasets.
+
+    Filters to ICIJ + GLEIF matches (the rare ones) — UK PSC matches
+    are dominated by common UK names (Singh, Smith) and aren't useful
+    signal.
+    """
+    if not disq_overlap_parquet.exists():
+        return pl.DataFrame()
+    raw = pl.read_parquet(disq_overlap_parquet)
+    return (
+        raw.filter(pl.col("source").is_in(["icij", "gleif"]))
+        .with_columns(
+            pl.lit("disqualified_overlap").alias("kind"),
+            pl.lit(2).alias("n_sources"),
+        )
+    )
+
+
 def _company_triples(
     icij_os_vs_gleif: Path,
 ) -> pl.DataFrame:
@@ -154,6 +237,46 @@ def _enrich_with_disqualified_directors(
     return joined.with_columns(pl.col("disq_length").is_not_null().alias("uk_disqualified_match"))
 
 
+def _summary_for_extras(
+    icij_psc: pl.DataFrame, rare_officers: pl.DataFrame, disq_xref: pl.DataFrame
+) -> dict[str, object]:
+    return {
+        "icij_psc_pairs": {
+            "n_rows": int(icij_psc.height),
+            "distinct_psc_uids": (
+                int(icij_psc.select("psc_uid").unique().height) if icij_psc.height else 0
+            ),
+            "distinct_icij_uids": (
+                int(icij_psc.select("icij_uid").unique().height) if icij_psc.height else 0
+            ),
+            "country_distribution": (
+                icij_psc.group_by("country").len().sort("len", descending=True).to_dicts()
+                if icij_psc.height
+                else []
+            ),
+        },
+        "rare_officer_overlaps": {
+            "n_rows": int(rare_officers.height),
+            "by_n_sources": (
+                rare_officers.group_by("n_sources")
+                .len()
+                .sort("n_sources", descending=True)
+                .to_dicts()
+                if rare_officers.height
+                else []
+            ),
+        },
+        "disqualified_overlaps": {
+            "n_rows": int(disq_xref.height),
+            "by_source": (
+                disq_xref.group_by("source").len().sort("len", descending=True).to_dicts()
+                if disq_xref.height
+                else []
+            ),
+        },
+    }
+
+
 def _summary(company: pl.DataFrame, persons: pl.DataFrame) -> dict[str, object]:
     return {
         "company_triples": {
@@ -222,6 +345,19 @@ def main(
         INTERIM_DIR / "uk_disqualified_directors.parquet",
         "--disqualified",
     ),
+    icij_psc_matched: Path = typer.Option(
+        _REPORTS_DIR / "list_match_icij_vs_uk_psc_matched.csv",
+        "--icij-psc-matched",
+        help="ICIJ↔UK_PSC direct match CSV.",
+    ),
+    officer_overlap: Path = typer.Option(
+        PROCESSED_DIR / "officer_overlap.parquet",
+        "--officer-overlap",
+    ),
+    disqualified_overlaps: Path = typer.Option(
+        PROCESSED_DIR / "disqualified_overlaps.parquet",
+        "--disqualified-overlaps",
+    ),
     out_parquet: Path = typer.Option(
         PROCESSED_DIR / "join_novelty.parquet",
         "--out-parquet",
@@ -277,17 +413,17 @@ def main(
     ).head(top_n)
     log.info("dob-confirmed person pairs kept: %d", persons.height)
 
-    # Align schemas before vstack: each row keeps its specific columns; the
-    # consumer (the renderer) groups by `kind` and picks the right ones.
-    common_cols = ["kind", "n_sources"]
+    icij_psc = _icij_psc_pairs(icij_psc_matched).head(top_n)
+    log.info("icij↔psc filtered pairs kept: %d", icij_psc.height)
+
+    rare_officers = _rare_officer_overlaps(officer_overlap).head(top_n)
+    log.info("rare multi-source officer names kept: %d", rare_officers.height)
+
+    disq_xref = _disqualified_overlaps(disqualified_overlaps).head(top_n)
+    log.info("disqualified-director cross-refs kept: %d", disq_xref.height)
+
     all_rows = pl.concat(
-        [
-            company.with_columns(pl.lit(None).cast(pl.Utf8).alias("psc_uid")),
-            persons.with_columns(
-                pl.lit(None).cast(pl.Utf8).alias("icij_uid"),
-                pl.lit(None).cast(pl.Utf8).alias("lei"),
-            ),
-        ],
+        [company, persons, icij_psc, rare_officers, disq_xref],
         how="diagonal_relaxed",
     )
     log.info(
@@ -299,11 +435,11 @@ def main(
     all_rows.write_parquet(out_parquet)
 
     summary = _summary(company, persons)
+    summary.update(_summary_for_extras(icij_psc, rare_officers, disq_xref))
     out_summary.write_text(json.dumps(summary, indent=2, default=str), encoding="utf-8")
     log.info("summary written to %s", out_summary)
     typer.echo(f"Wrote: {out_parquet}")
     typer.echo(f"Wrote: {out_summary}")
-    _ = common_cols  # quiet pyright
 
 
 if __name__ == "__main__":

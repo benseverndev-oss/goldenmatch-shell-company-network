@@ -12,11 +12,11 @@
         "len": 13
       },
       {
-        "icij_jurisdiction": "mt",
+        "icij_jurisdiction": "vg",
         "len": 1
       },
       {
-        "icij_jurisdiction": "vg",
+        "icij_jurisdiction": "mt",
         "len": 1
       },
       {
@@ -30,5 +30,54 @@
     "distinct_os_uids": 137,
     "with_evasion_signal": 38,
     "with_disqualified_director_overlap": 0
+  },
+  "icij_psc_pairs": {
+    "n_rows": 166,
+    "distinct_psc_uids": 166,
+    "distinct_icij_uids": 111,
+    "country_distribution": [
+      {
+        "country": "ru",
+        "len": 91
+      },
+      {
+        "country": "cy",
+        "len": 30
+      },
+      {
+        "country": "ae",
+        "len": 27
+      },
+      {
+        "country": "mt",
+        "len": 18
+      }
+    ]
+  },
+  "rare_officer_overlaps": {
+    "n_rows": 200,
+    "by_n_sources": [
+      {
+        "n_sources": 3,
+        "len": 17
+      },
+      {
+        "n_sources": 2,
+        "len": 183
+      }
+    ]
+  },
+  "disqualified_overlaps": {
+    "n_rows": 7,
+    "by_source": [
+      {
+        "source": "gleif",
+        "len": 4
+      },
+      {
+        "source": "icij",
+        "len": 3
+      }
+    ]
   }
 }

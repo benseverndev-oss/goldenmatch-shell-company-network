@@ -1,6 +1,6 @@
 # Newly surfaced cross-source joins
 
-_Generated 2026-05-16 19:37 UTC by `scripts/render_join_novelty_report.py` from a Railway-side
+_Generated 2026-05-16 20:20 UTC by `scripts/render_join_novelty_report.py` from a Railway-side
 build of `scripts/build_join_novelty_report.py`. See
 [`docs/prior_art_comparison.md`](../prior_art_comparison.md) for what makes
 these "newly surfaced" versus what ICIJ Offshore Leaks DB / OCCRP Aleph
@@ -8,10 +8,18 @@ already surface._
 
 ## Summary
 
-| Kind | Rows | Distinct anchors | With evasion signal | With UK-disq overlap |
-|---|---:|---:|---:|---:|
-| ICIJ + OS + GLEIF company triples | 16 | 4 LEIs | 0 | 0 |
-| DOB-confirmed OS↔UK_PSC pairs | 200 | 137 sanctioned IDs | 38 | 0 |
+The headline numbers are **distinct anchors** — the underlying entity
+or sanctioned-person being surfaced, not the number of rows. Rows are
+inflated by duplicate variants of the same entity (e.g. ICIJ filings
+under multiple spellings of the same shell company name).
+
+| Kind | Anchors | (Rows) | Notes |
+|---|---:|---:|---|
+| 1. ICIJ + OS + GLEIF company triples | **4 LEIs** | 16 | 3-source company anchors |
+| 2. DOB-confirmed OS↔UK_PSC pairs | **137 sanctioned IDs** | 200 | 38 with evasion signal |
+| 3. ICIJ↔UK_PSC direct pairs (filtered) | **111 ICIJ uids** | 166 | same-country, ≥3-token names, score ≥ 0.95 |
+| 4. Rare multi-source officer names | 200 names | 200 | max ≤ 2 per source, ≥ 3 tokens |
+| 5. UK disqualified-director cross-refs | 7 matches | 7 | ICIJ + GLEIF only (UK PSC dominated by name collisions) |
 
 **Evasion signal** = `n_datasets == 1` on the sanctions overlay AND
 `us_ofac_sdn` is absent — the regional-list-but-not-OFAC pattern the
@@ -24,24 +32,12 @@ single dataset's UI — ICIJ's Offshore Leaks DB doesn't show GLEIF LEIs;
 OpenSanctions doesn't surface ICIJ leak provenance; GLEIF doesn't
 flag sanctions status.
 
-| ICIJ name | OS name | GLEIF name | LEI | Jurisdiction | OS list count |
-|---|---|---|---|---|---|
-| Altitude X2 Ltd. | Altitude X3 LTD | ALTITUDE X2 LTD. | `2138006Z57H3EJHYY303` | bm | 4 |
-| VASSILIADES & CO. (MALTA) LIMITED | VASSILIADES & CO. MALTA LIMITED | VASSILIADES & CO. (MALTA) LIMITED | `213800IMQFB4XIUD2580` | mt | 5 |
-| Altitude 42 Limited | Altitude X3 LTD | ALTITUDE X2 LTD. | `2138006Z57H3EJHYY303` | bm | 4 |
-| Altitude X3 Ltd. | Altitude X3 LTD | ALTITUDE X2 LTD. | `2138006Z57H3EJHYY303` | bm | 4 |
-| Altitude X4 Ltd. | Altitude X3 LTD | ALTITUDE X2 LTD. | `2138006Z57H3EJHYY303` | bm | 4 |
-| Altitude X1 Ltd. | Altitude X3 LTD | ALTITUDE X2 LTD. | `2138006Z57H3EJHYY303` | bm | 4 |
-| Altitude 15 Ltd. | Altitude X3 LTD | ALTITUDE X2 LTD. | `2138006Z57H3EJHYY303` | bm | 4 |
-| Altitude 60 Ltd. | Altitude X3 LTD | ALTITUDE X2 LTD. | `2138006Z57H3EJHYY303` | bm | 4 |
-| Altitude 51 Ltd. | Altitude X3 LTD | ALTITUDE X2 LTD. | `2138006Z57H3EJHYY303` | bm | 4 |
-| Altitude 50 Ltd. | Altitude X3 LTD | ALTITUDE X2 LTD. | `2138006Z57H3EJHYY303` | bm | 4 |
-| Altitude 45 Ltd. | Altitude X3 LTD | ALTITUDE X2 LTD. | `2138006Z57H3EJHYY303` | bm | 4 |
-| Altitude 41 Ltd. | Altitude X3 LTD | ALTITUDE X2 LTD. | `2138006Z57H3EJHYY303` | bm | 4 |
-| Altitude 35 Ltd. | Altitude X3 LTD | ALTITUDE X2 LTD. | `2138006Z57H3EJHYY303` | bm | 4 |
-| Hong Kong Jinzhao Resources Limited | HONG KONG INTERTRADE COMPANY | Hong Kong Linear Growth Limited | `300300HHTAWFTXYVVI58` | hk | 9 |
-| MERCHANT CHARTER LIMITED | Merchant Supreme Co., Ltd. | MERCHANTILE ASSET LIMITED | `52990053RSLBKN4VFX85` | vg | 4 |
-| Altitude Air Services Limited | Altitude X3 LTD | ALTITUDE X2 LTD. | `2138006Z57H3EJHYY303` | bm | 4 |
+| LEI | GLEIF name | ICIJ name (sample) | ICIJ row count | OS name | Jurisdiction | OS list count |
+|---|---|---|---:|---|---|---:|
+| `52990053RSLBKN4VFX85` | MERCHANTILE ASSET LIMITED | MERCHANT CHARTER LIMITED (1 variants) | 1 | Merchant Supreme Co., Ltd. | vg | 4 |
+| `213800IMQFB4XIUD2580` | VASSILIADES & CO. (MALTA) LIMITED | VASSILIADES & CO. (MALTA) LIMITED (1 variants) | 1 | VASSILIADES & CO. MALTA LIMITED | mt | 5 |
+| `2138006Z57H3EJHYY303` | ALTITUDE X2 LTD. | Altitude X2 Ltd. (13 variants) | 13 | Altitude X3 LTD | bm | 4 |
+| `300300HHTAWFTXYVVI58` | Hong Kong Linear Growth Limited | Hong Kong Jinzhao Resources Limited (1 variants) | 1 | HONG KONG INTERTRADE COMPANY | hk | 9 |
 
 
 ### Jurisdiction distribution
@@ -49,8 +45,8 @@ flag sanctions status.
 | Jurisdiction | Triples |
 |---|---:|
 | bm | 13 |
-| mt | 1 |
 | vg | 1 |
+| mt | 1 |
 | hk | 1 |
 
 
@@ -58,49 +54,145 @@ flag sanctions status.
 
 Sanctioned persons whose name + date-of-birth-year match a UK PSC officer
 record. Filtered to the **evasion signal** subset (sanctioned by at least
-one government list but absent from OFAC SDN) — top 50 shown,
+one government list but absent from OFAC SDN) — top 30 shown,
 parquet has the full 38 rows.
 
-| UK PSC officer | OS sanctioned name | DOB | Country | Sanction lists | Name score |
+| Sanctioned name (OS) | UK PSC name | DOB | Country | PSC seats | Sanction lists | Name score |
+|---|---|---|---|---:|---|---:|
+| Antoniou Konstantinos | Mr Konstantinos Antoniou | 1961-04 | cy | 5 | ua_nsdc_sanctions | 0.883 |
+| Leonid Boguslavsky | Leonid Boguslavskiy | 1951-06 | ru | 4 | ua_nsdc_sanctions | 0.962 |
+| Pavel Maslovsky | Pavel Maslovsky | 1956-12 | ru | 3 | ua_nsdc_sanctions | 1.000 |
+| Konstantinov Nikolai | Konstantin Ulanov | 1985-08 | ru | 2 | ua_nsdc_sanctions | 0.946 |
+| Ronami Ekaterina | Ms. Ekaterina Ronami | 1988-08 | ru | 2 | ua_nsdc_sanctions | 0.860 |
+| Maxim / Maksim Volkov | Maxim Novichkov | 1975-10 | ru | 2 | ua_nsdc_sanctions | 0.847 |
+| Andreev Vitalii | Iurii Andreev | 1985-08 | ru | 2 | ua_nsdc_sanctions | 0.841 |
+| Maruev Aleksei | Mr Aleksei Chua | 1977-11 | ru | 2 | ua_nsdc_sanctions | 0.840 |
+| Viktor Pichugov | Victor Pichugov | 1958-05 | cy | 1 | ua_nsdc_sanctions | 0.977 |
+| Elena Strokova | Elena Kostikova | 1976-03 | ru | 1 | ua_nsdc_sanctions | 0.950 |
+| Vladimir Pozdnyakov | Vladimir Poliakov | 1946-05 | ru | 1 | ua_nsdc_sanctions | 0.939 |
+| Elena SMIRNOVA | Elena Korneeva | 1981-10 | ru | 1 | gb_fcdo_sanctions | 0.927 |
+| Mikhail Serdyuk | Mikhail Sarkisiants | 1976-03 | ru | 1 | ua_nsdc_sanctions | 0.904 |
+| Iakovlev Igor | Igor Iakovlev | 1965-10 | ru | 1 | ua_nsdc_sanctions | 0.900 |
+| Gruzdeva Olga | Olga Gruzdeva | 1974-06 | ru | 1 | ua_nsdc_sanctions | 0.900 |
+| Fedorov Igor | Igor Fedorov | 1966-01 | ru | 1 | ua_nsdc_sanctions | 0.900 |
+| Astafurov Pavel | Mr Pavel Astafurov | 1987-09 | ru | 1 | ua_nsdc_sanctions | 0.877 |
+| Fedorov Pavel | Mr Pavel Fedorov | 1984-02 | ru | 1 | ua_nsdc_sanctions | 0.874 |
+| Konstantin Dobrynin | Mr Konstantin Dobrynin | 1976-11 | ru | 1 | ua_nsdc_sanctions | 0.851 |
+| Markelov Valerii | Mr Valeriy Markelov | 1965-10 | ru | 1 | ua_nsdc_sanctions | 0.843 |
+| Pyotr Kondrashev | Mr Petr Kondrashev | 1949-07 | ru | 1 | ua_nsdc_sanctions | 0.841 |
+| Klimov Aleksei | Mr. Aleksei Kudinov | 1979-01 | ru | 1 | ua_nsdc_sanctions | 0.840 |
+| Vetrova Iuliia | Iuliia Volkova | 1984-08 | ru | 1 | ua_nsdc_sanctions | 0.840 |
+| Sophocleous Chrysostomos | Chrysostomos Sofokleous | 1969-09 | cy | 1 | ua_nsdc_sanctions | 0.838 |
+
+
+## 3. ICIJ ↔ UK PSC direct pairs (no sanctions pivot)
+
+Same-country, multi-token-name, high-score matches between ICIJ leak
+officers and UK PSC foreign-national directors. Independent of
+sanctions status — the cleanest "person in 2 unrelated datasets"
+primitive. Top 30 shown.
+
+| ICIJ leak name | UK PSC name (sample) | Country | PSC seats | Score |
+|---|---|---|---:|---:|
+| Mr. Vladimir Shevtsov | Mr Vladimir Shevtsov | ru | 8 | 1.000 |
+| Mr. Yury Sneshko | Mr Yury Sneshko | ru | 7 | 1.000 |
+| Mr. Avraam Kapiri | Mr Avraam Kapiri | cy | 5 | 1.000 |
+| ALI EID KHAMIS THANI ALMHEIRI | Ali Eid Khamis Thani Almheiri | ae | 5 | 1.000 |
+| MARIE LOUISE ZAMMIT | Marie Louise Zammit | mt | 4 | 1.000 |
+| MR ANDREY IVANOV | Mr Andrey Ivanov | ru | 4 | 1.000 |
+| MR. TEDDY SAGI | Mr Teddy Sagi | cy | 3 | 1.000 |
+| MR. ALEXEY POPOV | Mr Alexey Popov | ru | 3 | 1.000 |
+| FAISAL ALI HABIB SAJWANI | Faisal Ali Habib Sajwani | ae | 3 | 1.000 |
+| MR HAGOP BOHDJELIAN | Mr Hagop Bohdjelian | cy | 3 | 1.000 |
+| Mrs. Marina Psyllou | Mrs Marina Psyllou | cy | 2 | 1.000 |
+| MR. ANDREAS SPYRIDES | Mr Andreas Spyrides | cy | 2 | 1.000 |
+| Mr. Alexander Popov | Mr. Alexander Popov | ru | 2 | 1.000 |
+| MR. SERGEY PRONIN | Mr Sergey Pronin | ru | 2 | 1.000 |
+| MR. YURIY ZHUKOV | Mr Yuriy Zhukov | ru | 2 | 1.000 |
+| WENDY PENELOPE CUSCHIERI | Wendy Penelope Cuschieri | mt | 2 | 1.000 |
+| Mr. Andrey Smirnov | Mr Andrey Smirnov | ru | 2 | 1.000 |
+| Mr. Vladimir Kuznetsov | Mr Vladimir Kuznetsov | ru | 2 | 1.000 |
+| MR. SERGEY SMIRNOV | Mr Sergey Smirnov | ru | 2 | 1.000 |
+| Mr. Evgeny Aptekar | Mr Evgeny Aptekar | ru | 2 | 1.000 |
+| Mr. Alexander Gorbachev | Mr Alexander Gorbachev | ru | 2 | 1.000 |
+| ELIAS IBRAHIM SALLOUM | Elias Ibrahim Salloum | ae | 2 | 1.000 |
+| Mr. Vladimir Dunaev | Mr Vladimir Dunaev | ru | 2 | 1.000 |
+| AKHILESH KUMAR TIWARI | Akhilesh Kumar Tiwari | cy | 2 | 1.000 |
+| MR GARO BOHDJELIAN | Mr Garo Bohdjelian | cy | 2 | 1.000 |
+| SULTAN ALI ISMAIL ALI ALFAHIM | Sultan Ali Ismail Ali Alfahim | ae | 2 | 1.000 |
+| JEAN PAUL FABRI | Jean Paul Fabri | mt | 2 | 1.000 |
+| Mr. Sergey  KLYCHKOV | Mr. Sergey Klychkov | ru | 2 | 1.000 |
+| Mr Boris Kreyzerov | Mr Boris Kreyzerov | ru | 2 | 1.000 |
+| ELIOT JON FARRUGIA | Eliot Jon Farrugia | mt | 2 | 1.000 |
+
+
+### ICIJ↔UK_PSC country distribution
+
+| Country | Pairs |
+|---|---:|
+| ru | 91 |
+| cy | 30 |
+| ae | 27 |
+| mt | 18 |
+
+
+## 4. Rare multi-source officer names
+
+Normalized officer names appearing in 2+ source datasets, with all of:
+**max ≤ 2 entities per source** (so not a common-name explosion),
+**≥ 3 tokens** (so not just a first + last name collision), **at least
+2 distinct sources**. Top 30 shown.
+
+| Officer name | n_sources | total | icij_uid | icij_name | icij_jurisdiction | gleif_uid | lei | gleif_name | icij_gleif_score | os_uid | os_name | os_gleif_score | sanction_list_count | sanction_datasets | evasion_signal_single_list_non_ofac | _d_dob | disq_length | uk_disqualified_match | psc_uid | psc_name | psc_dob | psc_country | os_dob | name_score | dob_match | prior_coverage_n | prior_coverage_mainstream | country | uk_psc | opensanctions | icij | overlap_kind | entity_uid | source | name | disq_person_name | disq_dob | disq_case_number | disq_company_name |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| john o connor | 3 | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 1 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| james michael green | 3 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 2 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| mr vadim samoylenko | 3 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| muhammad umar khan | 3 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| stephen john wheeler | 3 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| michael john rooney | 3 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| rajesh kumar gupta | 3 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| chen wei hsu | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| alan richard taylor | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| javed ali khan | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| luiz alberto rodrigues | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| ryan john lee | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| david james mason | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| ali raza khan | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| philippe le gall | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| abdul hamid khan | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| michael o sullivan | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| mr robert gaspar | 2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| calvin edward ayre | 2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| mr koba kezherashvili | 2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| ish kumar handa | 2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| mohammed hani kassab | 2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| trevor peter ridley | 2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| michael edward jones | 2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| erbil mehmet arkin | 2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| mr richard murad | 2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| liaquat ali pirani | 2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| derek john green | 2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| robert hutchison penman | 2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| keith roger neville | 2 | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+
+
+## 5. UK disqualified-director cross-references
+
+The 222-row UK Insolvency Service struck-off register cross-referenced
+against the **full** unified person + company tables. Filtered to ICIJ
++ GLEIF matches (UK PSC matches are dominated by Singh / Smith / Jones
+name collisions and provide no signal).
+
+| Source | Matched name | Country | Disqualified director | DoB | Length |
 |---|---|---|---|---|---|
-| Pavel Maslovsky | Pavel Maslovsky | 1956-12 | ru | ua_nsdc_sanctions | 1.000 |
-| Pavel Maslovsky | Pavel Maslovsky | 1956-12 | ru | ua_nsdc_sanctions | 1.000 |
-| Pavel Maslovsky | Pavel Maslovsky | 1956-12 | ru | ua_nsdc_sanctions | 1.000 |
-| Victor Pichugov | Viktor Pichugov | 1958-05 | cy | ua_nsdc_sanctions | 0.977 |
-| Leonid Boguslavskiy | Leonid Boguslavsky | 1951-06 | ru | ua_nsdc_sanctions | 0.962 |
-| Elena Kostikova | Elena Strokova | 1976-03 | ru | ua_nsdc_sanctions | 0.950 |
-| Konstantin Ulanov | Konstantinov Nikolai | 1985-08 | ru | ua_nsdc_sanctions | 0.946 |
-| Konstantin Ulanov | Konstantinov Nikolai | 1985-08 | ru | ua_nsdc_sanctions | 0.946 |
-| Vladimir Poliakov | Vladimir Pozdnyakov | 1946-05 | ru | ua_nsdc_sanctions | 0.939 |
-| Elena Korneeva | Elena SMIRNOVA | 1981-10 | ru | gb_fcdo_sanctions | 0.927 |
-| Mikhail Sarkisiants | Mikhail Serdyuk | 1976-03 | ru | ua_nsdc_sanctions | 0.904 |
-| Olga Gruzdeva | Gruzdeva Olga | 1974-06 | ru | ua_nsdc_sanctions | 0.900 |
-| Igor Iakovlev | Iakovlev Igor | 1965-10 | ru | ua_nsdc_sanctions | 0.900 |
-| Igor Fedorov | Fedorov Igor | 1966-01 | ru | ua_nsdc_sanctions | 0.900 |
-| Mr Konstantinos Antoniou | Antoniou Konstantinos | 1961-04 | cy | ua_nsdc_sanctions | 0.883 |
-| Mr. Konstantinos Antoniou | Antoniou Konstantinos | 1961-04 | cy | ua_nsdc_sanctions | 0.883 |
-| Mr Konstantinos Antoniou | Antoniou Konstantinos | 1961-04 | cy | ua_nsdc_sanctions | 0.883 |
-| Mr Konstantinos Antoniou | Antoniou Konstantinos | 1961-04 | cy | ua_nsdc_sanctions | 0.883 |
-| Mr Konstantinos Antoniou | Antoniou Konstantinos | 1961-04 | cy | ua_nsdc_sanctions | 0.883 |
-| Mr Pavel Astafurov | Astafurov Pavel | 1987-09 | ru | ua_nsdc_sanctions | 0.877 |
-| Mr Pavel Fedorov | Fedorov Pavel | 1984-02 | ru | ua_nsdc_sanctions | 0.874 |
-| Ms. Ekaterina Ronami | Ronami Ekaterina | 1988-08 | ru | ua_nsdc_sanctions | 0.860 |
-| Mrs Ekaterina Nosik | Ronami Ekaterina | 1988-04 | ru | ua_nsdc_sanctions | 0.852 |
-| Mr Konstantin Dobrynin | Konstantin Dobrynin | 1976-11 | ru | ua_nsdc_sanctions | 0.851 |
-| Mr Leonid Boguslavsky | Leonid Boguslavsky | 1951-06 | ru | ua_nsdc_sanctions | 0.850 |
-| Mr Leonid Boguslavsky | Leonid Boguslavsky | 1951-06 | ru | ua_nsdc_sanctions | 0.850 |
-| Mr Leonid Boguslavsky | Leonid Boguslavsky | 1951-06 | ru | ua_nsdc_sanctions | 0.850 |
-| Maxim Novichkov | Maxim / Maksim Volkov | 1975-10 | ru | ua_nsdc_sanctions | 0.847 |
-| Mr Valeriy Markelov | Markelov Valerii | 1965-10 | ru | ua_nsdc_sanctions | 0.843 |
-| Mr Petr Kondrashev | Pyotr Kondrashev | 1949-07 | ru | ua_nsdc_sanctions | 0.841 |
-| Iurii Andreev | Andreev Vitalii | 1985-08 | ru | ua_nsdc_sanctions | 0.841 |
-| Iurii Andreev | Andreev Vitalii | 1985-08 | ru | ua_nsdc_sanctions | 0.841 |
-| Mr. Aleksei Kudinov | Klimov Aleksei | 1979-01 | ru | ua_nsdc_sanctions | 0.840 |
-| Mr Aleksei Chua | Maruev Aleksei | 1977-11 | ru | ua_nsdc_sanctions | 0.840 |
-| Iuliia Volkova | Vetrova Iuliia | 1984-08 | ru | ua_nsdc_sanctions | 0.840 |
-| Mr Aleksei Zhukov | Maruev Aleksei | 1977-10 | ru | ua_nsdc_sanctions | 0.839 |
-| Chrysostomos Sofokleous | Sophocleous Chrysostomos | 1969-09 | cy | ua_nsdc_sanctions | 0.838 |
-| Maxim Miroshkin | Maxim / Maksim Volkov | 1975-09 | ru | ua_nsdc_sanctions | 0.838 |
+| icij | Santokh Singh | in | Santokh Singh | 25/5/1971 | 7 Years Month(s) |
+| icij | Sajid Bashir | gb | Sajid Bashir | 26/1/1993 | 9 Years 0 Month(s) |
+| icij | BFD LTD. |  | Qazi Shamael Iqbal | 22/10/1993 | 9 Years Month(s) |
+| gleif | ES MANUFACTURING LTD | gb | Helen Rosalyn James | 14/11/1955 | 8 Years Month(s) |
+| gleif | SATCHI HOLDINGS PLC | gb | Jennifer McQueen | 2/1/1983 | 9 Years 0 Month(s) |
+| gleif | BFD CORP |  | Qazi Shamael Iqbal | 22/10/1993 | 9 Years Month(s) |
+| gleif | BFD | be | Qazi Shamael Iqbal | 22/10/1993 | 9 Years Month(s) |
 
 
 ## Caveats

@@ -82,6 +82,70 @@ def _render_person_table(df: pl.DataFrame, *, limit: int = 50) -> str:
     return "\n".join(out) + "\n"
 
 
+def _render_icij_psc_table(df: pl.DataFrame, *, limit: int = 50) -> str:
+    if df.height == 0:
+        return "_No filtered ICIJ↔UK_PSC pairs in the current run._\n"
+    # One row per ICIJ uid (a person may sit on multiple UK PSC seats).
+    grouped = (
+        df.group_by("icij_uid")
+        .agg(
+            pl.col("icij_name").first(),
+            pl.col("psc_name").first().alias("psc_name_sample"),
+            pl.col("psc_uid").n_unique().alias("psc_seats"),
+            pl.col("country").first(),
+            pl.col("name_score").max(),
+        )
+        .sort(by=["psc_seats", "name_score"], descending=[True, True])
+        .head(limit)
+    )
+    out = [
+        "| ICIJ leak name | UK PSC name (sample) | Country | PSC seats | Score |",
+        "|---|---|---|---:|---:|",
+    ]
+    for r in grouped.to_dicts():
+        out.append(
+            f"| {r['icij_name']} | {r['psc_name_sample']} | {r['country']} | {r['psc_seats']} | {r['name_score']:.3f} |"
+        )
+    return "\n".join(out) + "\n"
+
+
+def _render_officer_overlap_table(df: pl.DataFrame, *, limit: int = 50) -> str:
+    if df.height == 0:
+        return "_No rare multi-source officer names in the current run._\n"
+    cols = [c for c in df.columns if c not in ("kind", "n_tokens", "max_per_source")]
+    # Want: normalized_name, n_sources, total_entities, per-source counts (the source-named columns)
+    source_cols = [c for c in cols if c not in ("normalized_name", "n_sources", "total_entities")]
+    show = df.head(limit)
+    header_extras = " | ".join(source_cols)
+    out = [
+        f"| Officer name | n_sources | total | {header_extras} |",
+        "|---|---:|---:|" + "---:|" * len(source_cols),
+    ]
+    for r in show.to_dicts():
+        per_src = " | ".join(str(int(r.get(c, 0) or 0)) for c in source_cols)
+        out.append(
+            f"| {r['normalized_name']} | {int(r['n_sources'])} | {int(r['total_entities'])} | {per_src} |"
+        )
+    return "\n".join(out) + "\n"
+
+
+def _render_disq_xref_table(df: pl.DataFrame) -> str:
+    if df.height == 0:
+        return "_No disqualified-director overlaps in the current run._\n"
+    cols = ["source", "name", "country", "disq_person_name", "disq_dob", "disq_length"]
+    out = [
+        "| Source | Matched name | Country | Disqualified director | DoB | Length |",
+        "|---|---|---|---|---|---|",
+    ]
+    for r in df.select(cols).to_dicts():
+        out.append(
+            "| {source} | {name} | {country} | {disq_person_name} | {disq_dob} | {disq_length} |".format(
+                **{k: ("" if v is None else str(v).replace("|", "\\|")) for k, v in r.items()}
+            )
+        )
+    return "\n".join(out) + "\n"
+
+
 @app.command()
 def main(
     parquet: Path = typer.Option(..., "--parquet", help="join_novelty.parquet from Railway."),
@@ -103,6 +167,13 @@ def main(
 
     cs = s["company_triples"]
     ps = s["dob_confirmed_pairs"]
+    ips = s.get("icij_psc_pairs", {"n_rows": 0, "distinct_psc_uids": 0, "distinct_icij_uids": 0, "country_distribution": []})
+    rop = s.get("rare_officer_overlaps", {"n_rows": 0, "by_n_sources": []})
+    dxr = s.get("disqualified_overlaps", {"n_rows": 0, "by_source": []})
+
+    icij_psc = df.filter(pl.col("kind") == "icij_psc_pair")
+    rare_off = df.filter(pl.col("kind") == "officer_overlap")
+    disq_xref = df.filter(pl.col("kind") == "disqualified_overlap")
     now = datetime.now(UTC).strftime("%Y-%m-%d %H:%M UTC")
 
     body = f"""# Newly surfaced cross-source joins
@@ -120,10 +191,13 @@ or sanctioned-person being surfaced, not the number of rows. Rows are
 inflated by duplicate variants of the same entity (e.g. ICIJ filings
 under multiple spellings of the same shell company name).
 
-| Kind | Anchors | (Rows) | Anchors with evasion signal | Anchors with UK-disq overlap |
-|---|---:|---:|---:|---:|
-| ICIJ + OS + GLEIF company triples | **{cs["distinct_leis"]} LEIs** | {cs["n_rows"]} | {cs["with_evasion_signal"]} | {cs["with_disqualified_director_overlap"]} |
-| DOB-confirmed OS↔UK_PSC pairs | **{ps["distinct_os_uids"]} sanctioned IDs** | {ps["n_rows"]} | {ps["with_evasion_signal"]} | {ps["with_disqualified_director_overlap"]} |
+| Kind | Anchors | (Rows) | Notes |
+|---|---:|---:|---|
+| 1. ICIJ + OS + GLEIF company triples | **{cs["distinct_leis"]} LEIs** | {cs["n_rows"]} | 3-source company anchors |
+| 2. DOB-confirmed OS↔UK_PSC pairs | **{ps["distinct_os_uids"]} sanctioned IDs** | {ps["n_rows"]} | {ps["with_evasion_signal"]} with evasion signal |
+| 3. ICIJ↔UK_PSC direct pairs (filtered) | **{ips["distinct_icij_uids"]} ICIJ uids** | {ips["n_rows"]} | same-country, ≥3-token names, score ≥ 0.95 |
+| 4. Rare multi-source officer names | {rop["n_rows"]} names | {rop["n_rows"]} | max ≤ 2 per source, ≥ 3 tokens |
+| 5. UK disqualified-director cross-refs | {dxr["n_rows"]} matches | {dxr["n_rows"]} | ICIJ + GLEIF only (UK PSC dominated by name collisions) |
 
 **Evasion signal** = `n_datasets == 1` on the sanctions overlay AND
 `us_ofac_sdn` is absent — the regional-list-but-not-OFAC pattern the
@@ -156,6 +230,43 @@ one government list but absent from OFAC SDN) — top {person_limit} shown,
 parquet has the full {persons.height} rows.
 
 {_render_person_table(persons, limit=person_limit)}
+
+## 3. ICIJ ↔ UK PSC direct pairs (no sanctions pivot)
+
+Same-country, multi-token-name, high-score matches between ICIJ leak
+officers and UK PSC foreign-national directors. Independent of
+sanctions status — the cleanest "person in 2 unrelated datasets"
+primitive. Top {person_limit} shown.
+
+{_render_icij_psc_table(icij_psc, limit=person_limit)}
+
+### ICIJ↔UK_PSC country distribution
+
+| Country | Pairs |
+|---|---:|
+"""
+    for c in ips["country_distribution"]:
+        body += f"| {c['country']} | {c['len']} |\n"
+
+    body += f"""
+
+## 4. Rare multi-source officer names
+
+Normalized officer names appearing in 2+ source datasets, with all of:
+**max ≤ 2 entities per source** (so not a common-name explosion),
+**≥ 3 tokens** (so not just a first + last name collision), **at least
+2 distinct sources**. Top {person_limit} shown.
+
+{_render_officer_overlap_table(rare_off, limit=person_limit)}
+
+## 5. UK disqualified-director cross-references
+
+The 222-row UK Insolvency Service struck-off register cross-referenced
+against the **full** unified person + company tables. Filtered to ICIJ
++ GLEIF matches (UK PSC matches are dominated by Singh / Smith / Jones
+name collisions and provide no signal).
+
+{_render_disq_xref_table(disq_xref)}
 
 ## Caveats
 
