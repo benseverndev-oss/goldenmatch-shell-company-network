@@ -466,6 +466,13 @@ _ALLOWED_SCRIPTS = {
         "--out",
         "/data/processed/sanctions_overlay.parquet",
     ],
+    "build_reconcile_shortlists": [
+        "scripts/build_reconcile_shortlists.py",
+        "--overlay",
+        "/data/processed/sanctions_overlay.parquet",
+        "--out-dir",
+        "/data/reports/generated",
+    ],
     "reconcile_equasis": [
         "scripts/reconcile_equasis.py",
         "--input",
