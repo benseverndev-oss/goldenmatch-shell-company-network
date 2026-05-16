@@ -24,6 +24,22 @@ log = logging.getLogger(__name__)
 
 _SLUG_RE = re.compile(r"[^a-z0-9]+")
 
+# Honorifics dropped at display time. Source `normalized_name` doesn't strip
+# these, so the rare-name set ends up with "mr foo bar" and "foo bar" as
+# separate entries. We display the stripped form and merge index rows that
+# collide on it, taking the higher-scoring row's dossier link as the survivor.
+_HONORIFICS = frozenset(
+    {"mr", "mrs", "ms", "miss", "dr", "sir", "lord", "lady", "sheikh", "prof", "hon", "rev"}
+)
+
+
+def _display_name(rare_name: str) -> str:
+    """Strip leading honorific tokens. Display-time only — slug uses raw input."""
+    tokens = rare_name.split()
+    while tokens and tokens[0].lower().rstrip(".") in _HONORIFICS:
+        tokens.pop(0)
+    return " ".join(tokens) if tokens else rare_name
+
 
 def _slug(name: str) -> str:
     s = _SLUG_RE.sub("-", name.lower()).strip("-")
@@ -71,8 +87,9 @@ def _render_one(
     h_localized = cast(list[dict[str, Any]], hits.get("localized") or [])
     top_juris = cast(str, hits.get("dominant_jurisdiction") or "")
 
+    display = _display_name(rare_name)
     body = [
-        f"# {rare_name}",
+        f"# {display}",
         "",
         (
             f"**Sources:** {len(sources)} ({', '.join(sources)})  •  "
@@ -83,8 +100,48 @@ def _render_one(
             f"{'  •  ⚠️ degree-capped (partial picture)' if degree_capped else ''}"
         ),
         "",
-        "## Linked entities by source",
     ]
+    if display != rare_name:
+        body.append(
+            f"_Normalized name in source data: `{rare_name}` — honorifics stripped for display._"
+        )
+        body.append("")
+
+    # Address overlap rollup — surface shared-address shell clusters explicitly
+    # before listing companies individually. Spec promised this; renderer
+    # didn't do it in v1.
+    if expanded.height > 0:
+        addr_groups = (
+            expanded.filter(
+                pl.col("company_normalized_address").is_not_null()
+                & (pl.col("company_normalized_address").str.len_chars() > 0)
+            )
+            .group_by("company_normalized_address")
+            .agg(
+                pl.col("company_name").unique().alias("companies"),
+                pl.col("company_jurisdiction").unique().alias("jurisdictions"),
+            )
+            .filter(pl.col("companies").list.len() >= 2)
+            .sort(by=pl.col("companies").list.len(), descending=True)
+        )
+        if addr_groups.height > 0:
+            body.append("## Shared-address shell clusters")
+            body.append("")
+            body.append(
+                "_Multiple ICIJ-linked companies registered at the same address — the "
+                "shell-network shape the spec was designed to surface._"
+            )
+            body.append("")
+            for grp in addr_groups.to_dicts():
+                addr = grp["company_normalized_address"][:100]
+                companies = "; ".join(grp["companies"])
+                juris = ", ".join(j for j in grp["jurisdictions"] if j) or "—"
+                body.append(
+                    f"- `{addr}` ({juris}) — {len(grp['companies'])} companies: {companies}"
+                )
+            body.append("")
+
+    body.append("## Linked entities by source")
     for src in sorted(sources):
         sub = rows.filter(pl.col("person_source") == src)
         n_ents = sub.select("person_entity_uid").unique().height
@@ -97,13 +154,11 @@ def _render_one(
             body.append("")
             body.append("**Linked companies (ICIJ 2-hop walk):**")
             for c in expanded.select(
-                ["company_name", "company_jurisdiction", "sanction_datasets", "company_normalized_address"]
+                ["company_name", "company_jurisdiction", "company_normalized_address"]
             ).unique().to_dicts():
-                sanc = c["sanction_datasets"] or "—"
                 body.append(
                     f"- {c['company_name']} ({c['company_jurisdiction'] or '—'}) — "
-                    f"address: `{(c['company_normalized_address'] or '—')[:80]}` — "
-                    f"sanctions: {sanc}"
+                    f"address: `{(c['company_normalized_address'] or '—')[:80]}`"
                 )
         elif src in ("uk_psc", "opensanctions"):
             body.append(
@@ -174,7 +229,7 @@ def main(
         # the search step writes a non-empty dominant_jurisdiction iff it
         # passed the plurality-with-margin test in search_dossier_freshness.
         localized_ran = bool(hits.get("dominant_jurisdiction"))
-        n_sanc_adj = expanded.filter(pl.col("sanction_datasets").is_not_null()).height
+        degree_capped = bool(rows.select(pl.col("degree_capped").any()).item())
 
         score = novelty_score(
             hits_general=n_general,
@@ -199,19 +254,33 @@ def main(
         index_rows.append(
             {
                 "name": rare_name,
+                "display": _display_name(rare_name),
                 "slug": slug,
                 "sources": rows.select("person_source").unique().height,
                 "companies": n_companies,
                 "jurisdictions": n_juris,
-                "sanc_adj": n_sanc_adj,
                 "hits_offshore": n_offshore,
                 "score": score,
                 "pinned": pinned,
+                "degree_capped": degree_capped,
             }
         )
 
-    # Sort: pinned first, then score DESC.
-    index_rows.sort(key=lambda r: (-int(r["pinned"]), -r["score"], r["name"]))
+    # Merge index rows that collapse to the same display name (e.g. "mr foo bar"
+    # and "foo bar"). Keep the highest-scoring row's dossier link as the
+    # canonical one; orphan the other dossier file (it stays on disk and
+    # surfaces in the orphaned-dossier footer).
+    by_display: dict[str, dict[str, Any]] = {}
+    for r in index_rows:
+        existing = by_display.get(r["display"])
+        if existing is None or r["score"] > existing["score"]:
+            by_display[r["display"]] = r
+    index_rows = list(by_display.values())
+
+    # Sort: pinned first, then score DESC, then display name for stable diffs.
+    index_rows.sort(key=lambda r: (-int(r["pinned"]), -r["score"], r["display"]))
+
+    n_degree_capped = sum(1 for r in index_rows if r["degree_capped"])
 
     # Render the index.
     idx = [
@@ -221,16 +290,23 @@ def main(
         "",
         "Score is a triage signal, not a verdict — open each dossier and judge.",
         "📌 = auto-pinned (zero web mentions + ≥3 linked companies).",
+        "⚠️ = ICIJ edge fan-out truncated by `--max-degree`; dossier is partial.",
         "",
-        "| Rank | Name | Sources | Companies | Juris | Sanctions adj | Web hits (offshore) | Score | Dossier |",
-        "|---:|---|---:|---:|---:|---:|---:|---:|---|",
+        f"**Run notes:** {n_degree_capped} of {len(index_rows)} dossiers degree-capped. "
+        "Sanctions-adjacency column dropped from the index — the current join only "
+        "resolves for OS-sourced linked companies, which never overlap with the ICIJ-"
+        "walked set; column was zero across the board (see follow-up phase 2).",
+        "",
+        "| Rank | Name | Sources | Companies | Juris | Web hits (offshore) | Score | Dossier |",
+        "|---:|---|---:|---:|---:|---:|---:|---|",
     ]
     for i, r in enumerate(index_rows, start=1):
         pin = "📌 " if r["pinned"] else ""
-        safe_name = r["name"].replace("|", "\\|").replace("[", "\\[").replace("]", "\\]")
+        cap = " ⚠️" if r["degree_capped"] else ""
+        safe_name = r["display"].replace("|", "\\|").replace("[", "\\[").replace("]", "\\]")
         idx.append(
-            f"| {i} | {pin}{safe_name} | {r['sources']} | {r['companies']} | "
-            f"{r['jurisdictions']} | {r['sanc_adj']} | {r['hits_offshore']} | "
+            f"| {i} | {pin}{safe_name}{cap} | {r['sources']} | {r['companies']} | "
+            f"{r['jurisdictions']} | {r['hits_offshore']} | "
             f"{r['score']:.2f} | [→](dossiers/{r['slug']}.md) |"
         )
 
