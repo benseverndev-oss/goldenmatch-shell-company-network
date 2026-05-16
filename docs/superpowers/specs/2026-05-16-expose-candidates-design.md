@@ -186,7 +186,9 @@ novelty_score(row) =
     +0.10 * min(n_jurisdictions / 3, 1.0)                  # multi-juris bonus
 ```
 
-Score ∈ [0, 1]. ≥ 0.80 = "investigate this one." Weights operator-tunable via CLI flags. The renderer sorts the index by score DESC. Score is a triage signal, NOT a verdict — the explicit comment in the rendered file makes that clear.
+Score ∈ [0, 1]. ≥ 0.80 = "investigate this one." Weights are **constants in `shellnet.novelty_ranking.novelty_score`**, locked by unit tests in `tests/test_novelty_ranking.py`. Operator-tunable flags were considered and rejected as YAGNI: changing weights should require touching code AND updating the test (which is the review gate). The renderer sorts the index by score DESC. Score is a triage signal, NOT a verdict — the explicit comment in the rendered file makes that clear.
+
+**Important: the localized-query term only applies when the localized firecrawl query actually ran** (i.e., the seed had a dominant jurisdiction passing the plurality-with-margin test). Skipped queries must pass `localized_ran=False` into the scorer so a missing dominant-jurisdiction doesn't grant a free 0.15 bonus. This was caught in plan review pass 1.
 
 Names where `len(hits_offshore) == 0` AND `len(hits_general) == 0` AND `n_linked_companies >= 3` are auto-pinned to the top of the index irrespective of score, with a `(uncovered + multi-shell)` annotation — they're the cleanest "found-X-first" candidates.
 

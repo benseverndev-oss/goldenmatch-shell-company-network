@@ -53,52 +53,74 @@ import pytest
 from shellnet.novelty_ranking import auto_pin, novelty_score
 
 
-def test_zero_hits_zero_companies_yields_baseline_floor() -> None:
-    # No web hits at all, no shell density: max from web terms (0.40+0.25+0.15=0.80)
+def test_zero_hits_localized_ran_yields_baseline_floor() -> None:
+    # No web hits at all (localized RAN with 0 hits), no shell density:
+    # max from web terms (0.40 + 0.25 + 0.15 = 0.80)
     score = novelty_score(
-        hits_general=0, hits_offshore=0, hits_localized=0,
+        hits_general=0, hits_offshore=0,
+        hits_localized=0, localized_ran=True,
         n_linked_companies=0, n_jurisdictions=0,
     )
     assert score == pytest.approx(0.80, abs=1e-6)
 
 
+def test_localized_skipped_does_not_grant_bonus() -> None:
+    # No dominant jurisdiction → localized query SKIPPED.
+    # The 0.15 term must NOT apply (was the bug spotted in review pass 2).
+    score = novelty_score(
+        hits_general=0, hits_offshore=0,
+        hits_localized=0, localized_ran=False,
+        n_linked_companies=0, n_jurisdictions=0,
+    )
+    assert score == pytest.approx(0.65, abs=1e-6)  # 0.40 + 0.25 + 0
+
+
 def test_full_hits_full_density_yields_density_only() -> None:
     # Saturated web hits cancel the web bonus; only density terms contribute
     score = novelty_score(
-        hits_general=10, hits_offshore=5, hits_localized=3,
+        hits_general=10, hits_offshore=5,
+        hits_localized=3, localized_ran=True,
         n_linked_companies=5, n_jurisdictions=3,
     )
     # 0 + 0 + 0 + 0.10 + 0.10
     assert score == pytest.approx(0.20, abs=1e-6)
 
 
-def test_localized_hits_break_zero_bonus() -> None:
-    # 0 localized hits gives full 0.15 bonus; ≥1 zeroes that term
+def test_localized_zero_hits_when_run_breaks_to_full_bonus() -> None:
     base = dict(hits_general=0, hits_offshore=0, n_linked_companies=0, n_jurisdictions=0)
-    score_zero = novelty_score(**base, hits_localized=0)
-    score_one = novelty_score(**base, hits_localized=1)
-    assert score_zero - score_one == pytest.approx(0.15, abs=1e-6)
+    score_ran_zero = novelty_score(**base, hits_localized=0, localized_ran=True)
+    score_ran_one = novelty_score(**base, hits_localized=1, localized_ran=True)
+    assert score_ran_zero - score_ran_one == pytest.approx(0.15, abs=1e-6)
 
 
 def test_score_bounded_zero_to_one() -> None:
-    # Probe edges: nothing in, everything in
-    assert 0.0 <= novelty_score(hits_general=0, hits_offshore=0, hits_localized=0,
-                                n_linked_companies=0, n_jurisdictions=0) <= 1.0
-    assert 0.0 <= novelty_score(hits_general=100, hits_offshore=100, hits_localized=100,
-                                n_linked_companies=100, n_jurisdictions=100) <= 1.0
+    assert 0.0 <= novelty_score(
+        hits_general=0, hits_offshore=0,
+        hits_localized=0, localized_ran=True,
+        n_linked_companies=0, n_jurisdictions=0,
+    ) <= 1.0
+    assert 0.0 <= novelty_score(
+        hits_general=100, hits_offshore=100,
+        hits_localized=100, localized_ran=True,
+        n_linked_companies=100, n_jurisdictions=100,
+    ) <= 1.0
 
 
 def test_density_bonus_caps() -> None:
-    # n_linked_companies past 5 doesn't keep increasing the term
-    s5 = novelty_score(hits_general=10, hits_offshore=5, hits_localized=3,
-                      n_linked_companies=5, n_jurisdictions=0)
-    s20 = novelty_score(hits_general=10, hits_offshore=5, hits_localized=3,
-                       n_linked_companies=20, n_jurisdictions=0)
+    s5 = novelty_score(
+        hits_general=10, hits_offshore=5,
+        hits_localized=3, localized_ran=True,
+        n_linked_companies=5, n_jurisdictions=0,
+    )
+    s20 = novelty_score(
+        hits_general=10, hits_offshore=5,
+        hits_localized=3, localized_ran=True,
+        n_linked_companies=20, n_jurisdictions=0,
+    )
     assert s5 == s20
 
 
 def test_auto_pin_requires_zero_web_hits_and_multi_shell() -> None:
-    # Auto-pin: zero hits across general+offshore AND ≥3 linked companies
     assert auto_pin(hits_general=0, hits_offshore=0, n_linked_companies=3) is True
     assert auto_pin(hits_general=1, hits_offshore=0, n_linked_companies=3) is False
     assert auto_pin(hits_general=0, hits_offshore=1, n_linked_companies=3) is False
@@ -129,18 +151,26 @@ def novelty_score(
     hits_general: int,
     hits_offshore: int,
     hits_localized: int,
+    localized_ran: bool,
     n_linked_companies: int,
     n_jurisdictions: int,
 ) -> float:
     """Weighted novelty score in [0, 1].
 
-    See the spec's "Novelty score" section. Operator-tunable weights are
-    intentionally constants here — change them by editing this function
-    and updating the unit tests so the change is reviewed.
+    Weights are constants locked by unit tests. The spec's earlier draft
+    spoke of "operator-tunable via CLI flags"; we reject that as YAGNI —
+    changing weights requires touching this function AND updating the
+    tests, which is the review gate. Spec amended to match.
+
+    ``localized_ran`` must be True only when the localized firecrawl query
+    was actually emitted (the dominant-jurisdiction plurality test passed).
+    Skipped-query runs MUST pass False, otherwise every name without a
+    dominant jurisdiction gets a free 0.15 bonus — the bug spotted in
+    review pass 2.
     """
     offshore_term = 0.40 * (1 - min(hits_offshore / 5, 1.0))
     general_term = 0.25 * (1 - min(hits_general / 10, 1.0))
-    localized_term = 0.15 * (1 if hits_localized == 0 else 0)
+    localized_term = 0.15 if (localized_ran and hits_localized == 0) else 0.0
     company_density = 0.10 * min(n_linked_companies / 5, 1.0)
     jurisdiction_density = 0.10 * min(n_jurisdictions / 3, 1.0)
     return offshore_term + general_term + localized_term + company_density + jurisdiction_density
@@ -358,8 +388,9 @@ def _expanded_icij_rows(
     stubs: pl.DataFrame,
     icij_edges: Path,
     company_table: Path,
+    person_table: Path,
     sanctions_overlay: Path,
-    max_degree: int,
+    max_edges_per_seed: int,
 ) -> pl.DataFrame:
     """For ICIJ-source person rows in stubs, walk icij_edges to companies.
 
@@ -400,14 +431,16 @@ def _expanded_icij_rows(
         .filter(pl.col("seed_uid") != pl.col("linked_uid"))
     )
 
-    # Degree cap per seed.
+    # Edge-fan-out cap per seed. Note: this caps RAW edges, not linked
+    # companies — some edges resolve to addresses or non-company entities
+    # and will get filtered out by the company join below. Renaming to
+    # max_edges_per_seed for honesty.
     degree_per_seed = pairs.group_by("seed_uid").agg(pl.len().alias("degree"))
     pairs = pairs.join(degree_per_seed, on="seed_uid", how="left")
     capped = pairs.with_columns(
-        (pl.col("degree") > max_degree).alias("degree_capped")
+        (pl.col("degree") > max_edges_per_seed).alias("degree_capped")
     )
-    # head(max_degree) per group
-    capped = capped.sort("linked_uid").group_by("seed_uid").head(max_degree)
+    capped = capped.sort("linked_uid").group_by("seed_uid").head(max_edges_per_seed)
 
     # Lookup linked companies (linked_uid that exist in company_entities)
     companies = (
@@ -469,9 +502,11 @@ def _expanded_icij_rows(
         how="vertical",
     ).unique()
 
-    # co_uid → normalized_name (only those that are persons in person_entities)
+    # co_uid → normalized_name (only those that are persons in person_entities).
+    # Use the explicitly-passed person_table path rather than guessing a
+    # sibling filename — the spec doesn't pin layout that strictly.
     co_names = (
-        pl.scan_parquet(company_table.parent / "person_entities.parquet")
+        pl.scan_parquet(person_table)
         .filter(pl.col("entity_uid").is_in(co_pairs.select("co_uid").to_series().to_list()))
         .select(
             pl.col("entity_uid").alias("co_uid"),
@@ -526,8 +561,9 @@ With:
         stubs,
         icij_edges=icij_edges,
         company_table=company_table,
+        person_table=person_table,
         sanctions_overlay=sanctions_overlay,
-        max_degree=max_degree,
+        max_edges_per_seed=max_degree,
     )
     log.info("icij-expanded rows: %d", expanded.height)
 
@@ -978,12 +1014,17 @@ def main(
         n_general = len(hits.get("general") or [])
         n_offshore = len(hits.get("offshore") or [])
         n_localized = len(hits.get("localized") or [])
+        # localized_ran == True only when the localized query was emitted:
+        # the search step writes a non-empty dominant_jurisdiction iff it
+        # passed the plurality-with-margin test in search_dossier_freshness.
+        localized_ran = bool(hits.get("dominant_jurisdiction"))
         n_sanc_adj = expanded.filter(pl.col("sanction_datasets").is_not_null()).height
 
         score = novelty_score(
             hits_general=n_general,
             hits_offshore=n_offshore,
             hits_localized=n_localized,
+            localized_ran=localized_ran,
             n_linked_companies=n_companies,
             n_jurisdictions=n_juris,
         )
