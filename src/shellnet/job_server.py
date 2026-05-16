@@ -493,6 +493,17 @@ _ALLOWED_SCRIPTS = {
         "--reports-dir",
         "/data/reports/generated",
     ],
+    "build_discovery_lift": [
+        "scripts/build_discovery_lift.py",
+        "--person-table",
+        "/data/processed/person_entities.parquet",
+        "--dossier-parquet",
+        "/data/processed/rare_officer_dossiers.parquet",
+        "--out-parquet",
+        "/data/processed/discovery_lift.parquet",
+        "--out-summary",
+        "/data/processed/discovery_lift_summary.json",
+    ],
     "build_rare_officer_dossiers": [
         "scripts/build_rare_officer_dossiers.py",
         "--officer-overlap",

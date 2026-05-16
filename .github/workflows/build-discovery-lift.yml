@@ -1,0 +1,106 @@
+name: build discovery-lift benchmark (Railway-side compute)
+
+# Refreshes docs/reports/discovery_lift.md.
+# Spec: docs/superpowers/specs/2026-05-16-discovery-lift-benchmark.md
+#
+# 1. Triggers build_discovery_lift on Railway (reads person_entities.parquet).
+# 2. Downloads the small parquet + JSON summary.
+# 3. Renders the markdown report.
+# 4. Direct-pushes to main (enterprise blocks PR creation).
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: build-discovery-lift
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Railway compute, runner render, direct-push
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SHELLNET_JOB_URL: ${{ vars.SHELLNET_JOB_URL }}
+      SHELLNET_JOB_TOKEN: ${{ secrets.SHELLNET_JOB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - name: Sync deps
+        run: uv sync --frozen --no-dev
+
+      - name: Confirm Railway reachable
+        run: |
+          set -euo pipefail
+          curl -fsS "$SHELLNET_JOB_URL/healthz"
+
+      - name: Trigger build_discovery_lift on Railway
+        run: |
+          set -euo pipefail
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+            "$SHELLNET_JOB_URL/run-script?name=build_discovery_lift"
+          echo
+
+      - name: Poll until build completes
+        run: |
+          set -euo pipefail
+          stage="script_build_discovery_lift"
+          for _ in $(seq 1 240); do
+            sleep 5
+            s=$(curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+                "$SHELLNET_JOB_URL/status" \
+                | python -c "import sys,json; d=json.load(sys.stdin); print(d['stages'].get('$stage',{}).get('status','?'))")
+            echo "  $stage: $s"
+            case "$s" in
+              completed) break ;;
+              failed)
+                echo "::error::$stage failed"
+                curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+                  "$SHELLNET_JOB_URL/logs/$stage?tail=120" || true
+                exit 1
+                ;;
+            esac
+          done
+
+      - name: Download artifacts
+        run: |
+          set -euo pipefail
+          mkdir -p data/processed docs/reports/data
+          for p in processed/discovery_lift.parquet processed/discovery_lift_summary.json; do
+            curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+              "$SHELLNET_JOB_URL/download?path=$p" \
+              -o "data/$p"
+          done
+          cp data/processed/discovery_lift.parquet docs/reports/data/
+          cp data/processed/discovery_lift_summary.json docs/reports/data/
+
+      - name: Render markdown
+        run: |
+          set -euo pipefail
+          uv run python scripts/render_discovery_lift.py \
+            --parquet docs/reports/data/discovery_lift.parquet \
+            --summary docs/reports/data/discovery_lift_summary.json \
+            --out docs/reports/discovery_lift.md
+
+      - name: Commit + push to main
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/reports/discovery_lift.md \
+                  docs/reports/data/discovery_lift.parquet \
+                  docs/reports/data/discovery_lift_summary.json
+          if git diff --cached --quiet; then
+            echo "No changes; report unchanged."
+            exit 0
+          fi
+          git commit -m "report: refresh discovery-lift benchmark (auto from build-discovery-lift.yml)"
+          git push origin HEAD:main
