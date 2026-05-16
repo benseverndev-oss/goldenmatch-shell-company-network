@@ -147,7 +147,11 @@ def _expanded_icij_rows(
     capped = pairs.with_columns(
         (pl.col("degree") > max_edges_per_seed).alias("degree_capped")
     )
-    capped = capped.sort("linked_uid").group_by("seed_uid").head(max_edges_per_seed)
+    capped = (
+        capped.sort(["seed_uid", "linked_uid"])
+        .group_by("seed_uid", maintain_order=True)
+        .head(max_edges_per_seed)
+    )
 
     # Lookup linked companies (linked_uid that exist in company_entities)
     companies = (
@@ -222,6 +226,7 @@ def _expanded_icij_rows(
         .collect()
     )
     co_pairs = co_pairs.join(co_names, on="co_uid", how="inner")
+    co_pairs = co_pairs.filter(~pl.col("co_uid").is_in(seed_uids))
     co_officers = co_pairs.group_by("company_entity_uid").agg(
         pl.col("co_name").unique().alias("co_officers")
     )
