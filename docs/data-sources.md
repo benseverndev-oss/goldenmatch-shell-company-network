@@ -265,3 +265,82 @@ Railway: `POST /run-script?name=reconcile_equasis`
 - The thin wrapper at `src/shellnet/sources/reconcile.py` is shared by
   all three scripts; add new reconcilers by mirroring the existing
   script files.
+
+---
+
+## 7. UK disqualified directors (Insolvency Service)
+
+- **Source repo:** https://github.com/maxharlow/scrape-disqualified-directors
+- **Upstream:** `insolvencydirect.bis.gov.uk` (UK Insolvency Service
+  register of disqualified directors).
+- **What it adds:** a list of named individuals barred from acting as
+  UK company directors, with date of birth, disqualification length,
+  last-known address, and the company / conduct that triggered the
+  disqualification. An exact `(normalized_person_name, date_of_birth)`
+  match against our person table is a strong investigative signal —
+  this person is in our shell-network *and* has been struck off in the
+  UK for company-officer misconduct.
+
+### Run
+
+```bash
+# Scrape (sequential, ~hours; cached by the upstream scraper).
+uv run python scripts/scrape_disqualified_directors.py
+# Project the CSV into the join-ready parquet.
+uv run python scripts/ingest_uk_disqualified_directors.py
+```
+
+Railway: `POST /run-script?name=scrape_uk_disqualified_directors` then
+`POST /run-script?name=ingest_uk_disqualified_directors`.
+
+### Output
+
+- Raw: `data/raw/scrapers/disqualified-directors/disqualified-directors.csv`
+- Projected: `data/interim/uk_disqualified_directors.parquet` with
+  columns `source_id, person_name, normalized_person_name,
+  date_of_birth, company_name, normalized_company_name, address_raw,
+  normalized_address, date_order_starts, disqualification_length,
+  conduct, information_correct_as_of`.
+
+### Caveats
+
+- The upstream site is unauthenticated but sequential
+  (`maxParallel: 1`); a full crawl is slow. Run it on Railway and let
+  the resulting CSV sit on the data volume.
+- The Insolvency Service publishes only *recent* disqualifications;
+  historic strike-offs may not appear. A non-match here does not
+  exonerate.
+
+---
+
+## 8. UK MPs' Register of Members' Financial Interests
+
+- **Source repo:** https://github.com/maxharlow/scrape-members-financial-interests
+- **Upstream:** `publications.parliament.uk` (Register of Members'
+  Financial Interests).
+- **What it adds:** a PEP / political-exposure overlay against
+  shortlists. Useful for spotting cases where an investigative
+  shortlist intersects with declared MP interests — historically a
+  fertile area for shell-company conflicts.
+
+### Run
+
+```bash
+uv run python scripts/scrape_mp_interests.py
+```
+
+Railway: `POST /run-script?name=scrape_mp_interests`. The scraper
+caches per-URL responses under `data/raw/scrapers/members-financial-interests/cache/`
+so re-runs are mostly free.
+
+### Output
+
+`data/raw/scrapers/members-financial-interests/members-financial-interests.csv`.
+We don't (yet) ingest this into the unified person table — schema is
+loose ("structural inconsistencies may occur" per the upstream
+README); use it as a spot-check overlay against ranked shortlists.
+
+### Caveats
+
+- Upstream README warns: "It's probably not wise to use this as your
+  sole source for anything important." Treat as enrichment.

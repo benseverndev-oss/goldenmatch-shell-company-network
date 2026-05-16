@@ -495,6 +495,23 @@ _ALLOWED_SCRIPTS = {
         "--out",
         "/data/reports/generated/us_shortlist_sec.csv",
     ],
+    "scrape_uk_disqualified_directors": [
+        "scripts/scrape_disqualified_directors.py",
+        "--out",
+        "/data/raw/scrapers/disqualified-directors/disqualified-directors.csv",
+    ],
+    "ingest_uk_disqualified_directors": [
+        "scripts/ingest_uk_disqualified_directors.py",
+        "--input",
+        "/data/raw/scrapers/disqualified-directors/disqualified-directors.csv",
+        "--out-dir",
+        "/data/interim",
+    ],
+    "scrape_mp_interests": [
+        "scripts/scrape_mp_interests.py",
+        "--out",
+        "/data/raw/scrapers/members-financial-interests/members-financial-interests.csv",
+    ],
 }
 
 
