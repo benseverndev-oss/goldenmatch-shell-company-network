@@ -36,6 +36,7 @@ from pathlib import Path
 import polars as pl
 import typer
 
+from shellnet.normalize import normalize_company_name
 from shellnet.paths import INTERIM_DIR, PROCESSED_DIR, ensure_dirs
 
 app = typer.Typer(add_completion=False, no_args_is_help=False)
@@ -87,6 +88,7 @@ def _stub_rows(seeds: pl.DataFrame, person_table: Path) -> pl.DataFrame:
         pl.lit(None).cast(pl.List(pl.Utf8)).alias("co_officers"),
         pl.lit(None).cast(pl.Utf8).alias("sanction_datasets"),
         pl.lit(None).cast(pl.Int32).alias("n_sanction_datasets"),
+        pl.lit(None).cast(pl.Utf8).alias("sanction_match_kind"),
         pl.lit(False).alias("degree_capped"),
     )
 
@@ -168,8 +170,16 @@ def _expanded_icij_rows(
         .collect()
     )
 
-    # Sanctions adjacency: only for OS-sourced companies; strip the prefix.
-    overlay = pl.read_parquet(sanctions_overlay).select(
+    # Sanctions adjacency, two-pass:
+    #
+    # Pass 1 (precise): OS-sourced companies link via source_id → overlay.os_id.
+    # Pass 2 (fallback): non-OS companies (ICIJ-sourced in practice for the
+    # 2-hop walk) match on normalized company name → overlay.caption. The
+    # fallback's false-positive risk is non-trivial — sanctioned and
+    # non-sanctioned companies can share a name string — so the renderer
+    # surfaces the match source so a reviewer can sanity-check.
+    overlay_raw = pl.read_parquet(sanctions_overlay)
+    overlay = overlay_raw.select(
         pl.col("os_id"),
         pl.col("datasets").alias("sanction_datasets"),
         pl.col("n_datasets").alias("n_sanction_datasets"),
@@ -183,6 +193,52 @@ def _expanded_icij_rows(
     companies = companies.join(
         overlay, left_on="_os_key", right_on="os_id", how="left"
     ).drop("_os_key", "company_source_id")
+    companies = companies.with_columns(
+        pl.when(pl.col("sanction_datasets").is_not_null())
+        .then(pl.lit("os_id"))
+        .otherwise(None)
+        .alias("sanction_match_kind")
+    )
+
+    # Pass 2: name fallback for companies still without an adjacency hit.
+    # Match against both `caption` AND every alias in `names` (the overlay's
+    # ;-separated alias list). Aliases catch the common transliteration
+    # variants OS carries (e.g. Cyrillic/Latin name pairs).
+    overlay_name_lookup = overlay_raw.with_columns(
+        pl.col("names").str.split(";").alias("_aliases"),
+    ).explode("_aliases").with_columns(
+        pl.col("_aliases").str.strip_chars()
+        .map_elements(normalize_company_name, return_dtype=pl.Utf8)
+        .alias("_norm_alias"),
+    ).filter(pl.col("_norm_alias").str.len_chars() > 0)
+    overlay_name_lookup = overlay_name_lookup.group_by("_norm_alias").agg(
+        pl.col("datasets").first().alias("sanction_datasets_name"),
+        pl.col("n_datasets").first().alias("n_sanction_datasets_name"),
+    ).rename({"_norm_alias": "_norm_caption"})
+    companies = companies.with_columns(
+        pl.when(pl.col("sanction_datasets").is_null())
+        .then(
+            pl.col("company_name").map_elements(
+                normalize_company_name, return_dtype=pl.Utf8
+            )
+        )
+        .otherwise(None)
+        .alias("_name_key")
+    ).filter(
+        pl.col("_name_key").is_null() | (pl.col("_name_key").str.len_chars() > 0)
+    )
+    companies = companies.join(
+        overlay_name_lookup, left_on="_name_key", right_on="_norm_caption", how="left"
+    ).with_columns(
+        pl.coalesce(pl.col("sanction_datasets"), pl.col("sanction_datasets_name")).alias("sanction_datasets"),
+        pl.coalesce(pl.col("n_sanction_datasets"), pl.col("n_sanction_datasets_name")).alias("n_sanction_datasets"),
+        pl.when(pl.col("sanction_match_kind") == "os_id")
+        .then(pl.lit("os_id"))
+        .when(pl.col("sanction_datasets_name").is_not_null())
+        .then(pl.lit("name"))
+        .otherwise(None)
+        .alias("sanction_match_kind"),
+    ).drop("sanction_datasets_name", "n_sanction_datasets_name", "_name_key")
 
     # Join companies onto the (seed, linked) pairs.
     expanded = (
@@ -255,6 +311,7 @@ def _expanded_icij_rows(
         "co_officers",
         "sanction_datasets",
         pl.col("n_sanction_datasets").cast(pl.Int32),
+        "sanction_match_kind",
         "degree_capped",
     )
     return out

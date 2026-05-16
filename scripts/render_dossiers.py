@@ -251,6 +251,7 @@ def main(
             _render_one(rare_name, rows, hits, score, pinned, now),
             encoding="utf-8",
         )
+        n_sanc_adj = expanded.filter(pl.col("sanction_datasets").is_not_null()).height
         index_rows.append(
             {
                 "name": rare_name,
@@ -260,6 +261,7 @@ def main(
                 "companies": n_companies,
                 "jurisdictions": n_juris,
                 "hits_offshore": n_offshore,
+                "sanc_adj": n_sanc_adj,
                 "score": score,
                 "pinned": pinned,
                 "degree_capped": degree_capped,
@@ -281,6 +283,11 @@ def main(
     index_rows.sort(key=lambda r: (-int(r["pinned"]), -r["score"], r["display"]))
 
     n_degree_capped = sum(1 for r in index_rows if r["degree_capped"])
+    # Show the sanctions-adjacency column only when at least one row has a hit.
+    # The Phase 2 fallback (string-name match against overlay aliases) widens
+    # recall, but for some top-N slices the column will still be all-zero and
+    # adding noise to the index isn't useful.
+    show_sanc_col = any(r["sanc_adj"] > 0 for r in index_rows)
 
     # Render the index.
     idx = [
@@ -293,20 +300,34 @@ def main(
         "⚠️ = ICIJ edge fan-out truncated by `--max-degree`; dossier is partial.",
         "",
         f"**Run notes:** {n_degree_capped} of {len(index_rows)} dossiers degree-capped. "
-        "Sanctions-adjacency column dropped from the index — the current join only "
-        "resolves for OS-sourced linked companies, which never overlap with the ICIJ-"
-        "walked set; column was zero across the board (see follow-up phase 2).",
+        + (
+            "Sanctions-adjacency column hidden — zero hits across all dossiers "
+            "in this run (Phase-2 name-match fallback is wired but didn't fire). "
+            if not show_sanc_col
+            else "Sanctions-adjacency column populated via Phase-2 name-match "
+            "fallback for some companies; cross-check the dossier for `kind=name` "
+            "matches, which carry higher false-positive risk than `kind=os_id`."
+        ),
         "",
-        "| Rank | Name | Sources | Companies | Juris | Web hits (offshore) | Score | Dossier |",
-        "|---:|---|---:|---:|---:|---:|---:|---|",
+        (
+            "| Rank | Name | Sources | Companies | Juris | Sanc adj | Web hits (offshore) | Score | Dossier |"
+            if show_sanc_col
+            else "| Rank | Name | Sources | Companies | Juris | Web hits (offshore) | Score | Dossier |"
+        ),
+        (
+            "|---:|---|---:|---:|---:|---:|---:|---:|---|"
+            if show_sanc_col
+            else "|---:|---|---:|---:|---:|---:|---:|---|"
+        ),
     ]
     for i, r in enumerate(index_rows, start=1):
         pin = "📌 " if r["pinned"] else ""
         cap = " ⚠️" if r["degree_capped"] else ""
         safe_name = r["display"].replace("|", "\\|").replace("[", "\\[").replace("]", "\\]")
+        sanc_cell = f" {r['sanc_adj']} |" if show_sanc_col else ""
         idx.append(
             f"| {i} | {pin}{safe_name}{cap} | {r['sources']} | {r['companies']} | "
-            f"{r['jurisdictions']} | {r['hits_offshore']} | "
+            f"{r['jurisdictions']} |{sanc_cell} {r['hits_offshore']} | "
             f"{r['score']:.2f} | [→](dossiers/{r['slug']}.md) |"
         )
 
