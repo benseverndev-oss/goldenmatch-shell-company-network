@@ -85,9 +85,7 @@ def build_local_overlay(
     overlay with ``sanction.linked``, ``reg.action``, or ``crime`` topics
     per the OS taxonomy notes in CLAUDE.md).
     """
-    df = pl.scan_parquet(os_parquet).filter(
-        pl.col("topics").list.contains("sanction")
-    )
+    df = pl.scan_parquet(os_parquet).filter(pl.col("topics").list.contains("sanction"))
 
     df = df.with_columns(
         pl.col("datasets")
@@ -113,21 +111,10 @@ def build_local_overlay(
         pl.col("source_id").alias("os_id"),
         pl.col("entity_schema").alias("schema"),
         pl.col("name").alias("caption"),
-        pl.col("_all_names")
-        .list.eval(pl.element().fill_null(""))
-        .list.join("; ")
-        .alias("names"),
+        pl.col("_all_names").list.eval(pl.element().fill_null("")).list.join("; ").alias("names"),
         pl.col("_all_names").list.len().cast(pl.Int32).alias("n_names"),
-        pl.col("sanction_datasets")
-        .list.unique()
-        .list.sort()
-        .list.join("; ")
-        .alias("datasets"),
-        pl.col("sanction_datasets")
-        .list.unique()
-        .list.len()
-        .cast(pl.Int32)
-        .alias("n_datasets"),
+        pl.col("sanction_datasets").list.unique().list.sort().list.join("; ").alias("datasets"),
+        pl.col("sanction_datasets").list.unique().list.len().cast(pl.Int32).alias("n_datasets"),
         pl.col("topics").list.join("; ").alias("topics"),
         pl.col("jurisdictions").list.join("; ").alias("jurisdictions"),
     )
@@ -151,9 +138,9 @@ def merge_external(
     for col in ("schema", "caption", "names", "n_names", "datasets", "n_datasets"):
         ext_col = f"{col}_ext"
         if ext_col in join.columns:
-            join = join.with_columns(
-                pl.coalesce([pl.col(ext_col), pl.col(col)]).alias(col)
-            ).drop(ext_col)
+            join = join.with_columns(pl.coalesce([pl.col(ext_col), pl.col(col)]).alias(col)).drop(
+                ext_col
+            )
     return join
 
 

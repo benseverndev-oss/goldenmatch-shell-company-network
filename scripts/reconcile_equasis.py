@@ -45,9 +45,7 @@ def main(
     ensure_dirs()
     creds = os.environ.get("EQUASIS_CREDENTIALS")
     if not creds or ":" not in creds:
-        raise typer.BadParameter(
-            "EQUASIS_CREDENTIALS env var must be set as 'email:password'."
-        )
+        raise typer.BadParameter("EQUASIS_CREDENTIALS env var must be set as 'email:password'.")
     out_path = reconcile.run(
         "ship-imo-numbers-to-ship-details",
         input,
