@@ -13,17 +13,12 @@ name: build exposé candidates (Railway-side compute)
 
 on:
   workflow_dispatch:
-    inputs:
-      top_n:
-        description: "Seed-name cap fed to Railway script"
-        required: true
-        default: "50"
-        type: string
-      max_degree:
-        description: "Per-seed edge fan-out cap for the 2-hop walk"
-        required: true
-        default: "25"
-        type: string
+    # No inputs surfaced yet. The Railway-side script's --top-n and
+    # --max-degree are hardcoded in src/shellnet/job_server.py's
+    # _ALLOWED_SCRIPTS allowlist (top_n=50, max_degree=25). To change
+    # them, edit the allowlist entry, redeploy Railway, then re-run.
+    # Per-run overrides would require job_server.py to accept query
+    # params; that's a follow-up not in scope for this workflow.
 
 concurrency:
   group: build-exposes-candidates
@@ -41,8 +36,6 @@ jobs:
       SHELLNET_JOB_URL: ${{ vars.SHELLNET_JOB_URL }}
       SHELLNET_JOB_TOKEN: ${{ secrets.SHELLNET_JOB_TOKEN }}
       FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
-      TOP_N: ${{ inputs.top_n }}
-      MAX_DEGREE: ${{ inputs.max_degree }}
     steps:
       - uses: actions/checkout@v4
 
@@ -133,5 +126,5 @@ jobs:
             echo "No changes to commit; report unchanged."
             exit 0
           fi
-          git commit -m "report: refresh exposé candidates (top_n=$TOP_N, auto from build-exposes-candidates.yml)"
+          git commit -m "report: refresh exposé candidates (auto from build-exposes-candidates.yml)"
           git push origin HEAD:main
