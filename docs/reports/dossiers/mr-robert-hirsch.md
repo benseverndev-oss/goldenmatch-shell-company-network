@@ -1,6 +1,6 @@
 # robert hirsch
 
-**Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 4  •  **Jurisdictions:** vg  •  **Novelty score:** 0.24
+**Sources:** 2 (uk_psc, icij)  •  **Linked companies:** 4  •  **Jurisdictions:** vg  •  **Novelty score:** 0.24
 
 _Normalized name in source data: `mr robert hirsch` — honorifics stripped for display._
 
@@ -12,14 +12,14 @@ _Multiple ICIJ-linked companies registered at the same address — the shell-net
 
 ## Linked entities by source
 ### icij (2 entities)
-- MR. ROBERT HIRSCH — `icij:12002521` — country: —
 - MR. ROBERT HIRSCH — `icij:12132752` — country: ch
+- MR. ROBERT HIRSCH — `icij:12002521` — country: —
 
 **Linked companies (ICIJ 2-hop walk):**
+- DIOSCUROS PROPERTIES INC. (vg) — address: `hirsch cie rue du grand chene 6 1003 lausanne switzerland`
 - MARNER ENGINEERING CORP. (vg) — address: `hirsch cie rue du grand chene 6 1003 lausanne switzerland`
 - BALMARK TRADING CORPORATION (—) — address: `hirsch cie rue du grand chene 6 1003 lausanne switzerland`
 - MINROSE REAL ESTATE S.A. (vg) — address: `hirsch cie rue du grand chene 6 1003 lausanne switzerland`
-- DIOSCUROS PROPERTIES INC. (vg) — address: `hirsch cie rue du grand chene 6 1003 lausanne switzerland`
 
 ### uk_psc (2 entities)
 - Mr Robert Hirsch — `uk_psc:f91c8a5a-dae3-44a1-720a-2c3470c39017` — country: gb

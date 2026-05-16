@@ -15,8 +15,8 @@ _Normalized name in source data: `mr david poland` — honorifics stripped for d
 - ALVERTON INTERMANAGEMENT LIMITED (vg) — address: `sia legal services enkura str 7 riga lv1048 ukraine wc2h 7dq`
 
 ### uk_psc (2 entities)
-- Mr David Poland — `uk_psc:871da52a-a369-255e-0da6-f062033561dd` — country: gb
 - Mr David Poland — `uk_psc:3dd3fdf4-8a35-8772-2732-a77d0968b074` — country: gb
+- Mr David Poland — `uk_psc:871da52a-a369-255e-0da6-f062033561dd` — country: gb
   _(stub only — no person→company relations parquet for uk_psc in v1)_
 
 ## Web search (firecrawl, 2026-05-16)

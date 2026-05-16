@@ -1,6 +1,6 @@
 # tracy jane pozo
 
-**Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 50  •  **Jurisdictions:** mt  •  **Novelty score:** 0.26  •  ⚠️ degree-capped (partial picture)
+**Sources:** 2 (uk_psc, icij)  •  **Linked companies:** 50  •  **Jurisdictions:** mt  •  **Novelty score:** 0.26  •  ⚠️ degree-capped (partial picture)
 
 ## Linked entities by source
 ### icij (2 entities)
@@ -8,56 +8,56 @@
 - TRACY JANE POZO — `icij:56055924` — country: —
 
 **Linked companies (ICIJ 2-hop walk):**
-- MARYVALE INVESTMENT COMPANY LIMITED (mt) — address: `—`
-- ARIA PROPERTIES LIMITED (mt) — address: `—`
-- HARTSWOOD INVESTMENTS LIMITED (mt) — address: `—`
-- SATIVA PROPERTIES LIMITED (mt) — address: `—`
-- ACACIA PROPERTIES LIMITED (mt) — address: `—`
-- BAYBIRD CONSULTANTS LIMITED (mt) — address: `—`
-- SERICEA PROPERTIES LIMITED (mt) — address: `—`
-- ANANDA HOLDINGS LIMITED (mt) — address: `—`
-- ACER PROPERTIES LIMITED (mt) — address: `—`
-- SCOPULINA PROPERTIES LIMITED (mt) — address: `—`
+- ROXSPUR LIMITED (mt) — address: `—`
 - BIOCORP SERVICE COMPANY LIMITED (mt) — address: `—`
-- AQUATICA PROPERTIES LIMITED (mt) — address: `—`
-- LAKELAND HOLDINGS LIMITED (mt) — address: `—`
-- SUFFOLK INTERNATIONAL LIMITED (mt) — address: `—`
+- BAYBIRD CONSULTANTS LIMITED (mt) — address: `—`
+- SHORTIA PROPERTY LIMITED (mt) — address: `—`
+- ATLANTICA PROPERTIES LIMITED (mt) — address: `—`
+- SAPIUM PROPERTIES LIMITED (mt) — address: `—`
+- CAMEROON INVESTMENTS LIMITED (mt) — address: `—`
+- SAHARA PROPERTIES LIMITED (mt) — address: `—`
+- ACACIA PROPERTIES LIMITED (mt) — address: `—`
+- SATIVA PROPERTIES LIMITED (mt) — address: `—`
 - SOPHORA PROPERTIES LIMITED (mt) — address: `—`
 - LAZARD LIMITED (mt) — address: `—`
-- PARCENER LIMITED (mt) — address: `—`
-- CAMEROON INVESTMENTS LIMITED (mt) — address: `—`
-- BUENAVISTA PROPERTIES LIMITED (mt) — address: `—`
-- LENANE (INTERNATIONAL) LIMITED (mt) — address: `—`
-- KRYPTON SERVICE COMPANY LIMITED (mt) — address: `—`
-- SAHARA PROPERTIES LIMITED (mt) — address: `—`
-- ELLWAY CONSULTANTS LIMITED (mt) — address: `—`
-- ROXSPUR LIMITED (mt) — address: `—`
-- MARKET COMMUNICATIONS LIMITED (mt) — address: `—`
-- ULNESS INVESTMENTS LIMITED (mt) — address: `—`
-- ANTARCTICA PROPERTIES LIMITED (mt) — address: `—`
-- CHINEWOOD LIMITED (mt) — address: `—`
-- SERRATA PROPERTIES LIMITED (mt) — address: `—`
-- CROSSKEY COMPUTERS LIMITED (mt) — address: `—`
-- MOLONEY INVESTMENTS LIMITED (mt) — address: `—`
-- SUBER PROPERTIES LIMITED (mt) — address: `—`
-- ARBOREA PROPERTIES LIMITED (mt) — address: `—`
-- SAPIUM PROPERTIES LIMITED (mt) — address: `—`
 - THORNBURY PROPERTY LIMITED (mt) — address: `—`
-- NORWEGIAN MASCOT LIMITED (mt) — address: `—`
-- ABURY LIMITED (mt) — address: `—`
-- TABOR PROPERTIES LIMITED (mt) — address: `—`
-- RUTHWELL LIMITED (mt) — address: `—`
-- ATLANTICA PROPERTIES LIMITED (mt) — address: `—`
-- SANWEST HOLDINGS LIMITED (mt) — address: `—`
-- CALDER ENTERPRISES LIMITED (mt) — address: `—`
-- SHORTIA PROPERTY LIMITED (mt) — address: `—`
-- AUROUS INVESTMENTS LIMITED (mt) — address: `—`
-- DELLA PROPERTIES LIMITED (mt) — address: `—`
-- RULANDER INVESTMENTS LIMITED (mt) — address: `—`
-- CASSELLA SERVICE COMPANY LIMITED (mt) — address: `—`
-- JCS HOLMAN LIMITED (mt) — address: `—`
-- CAMILLE SERVICE COMPANY LIMITED (mt) — address: `—`
+- ELLWAY CONSULTANTS LIMITED (mt) — address: `—`
 - AURORA PROPERTIES LIMITED (mt) — address: `—`
+- RUTHWELL LIMITED (mt) — address: `—`
+- SANWEST HOLDINGS LIMITED (mt) — address: `—`
+- HARTSWOOD INVESTMENTS LIMITED (mt) — address: `—`
+- ULNESS INVESTMENTS LIMITED (mt) — address: `—`
+- SERRATA PROPERTIES LIMITED (mt) — address: `—`
+- ANANDA HOLDINGS LIMITED (mt) — address: `—`
+- SUFFOLK INTERNATIONAL LIMITED (mt) — address: `—`
+- CHINEWOOD LIMITED (mt) — address: `—`
+- RULANDER INVESTMENTS LIMITED (mt) — address: `—`
+- MOLONEY INVESTMENTS LIMITED (mt) — address: `—`
+- BUENAVISTA PROPERTIES LIMITED (mt) — address: `—`
+- TABOR PROPERTIES LIMITED (mt) — address: `—`
+- PARCENER LIMITED (mt) — address: `—`
+- SCOPULINA PROPERTIES LIMITED (mt) — address: `—`
+- ARBOREA PROPERTIES LIMITED (mt) — address: `—`
+- SUBER PROPERTIES LIMITED (mt) — address: `—`
+- LAKELAND HOLDINGS LIMITED (mt) — address: `—`
+- DELLA PROPERTIES LIMITED (mt) — address: `—`
+- ACER PROPERTIES LIMITED (mt) — address: `—`
+- SERICEA PROPERTIES LIMITED (mt) — address: `—`
+- ARIA PROPERTIES LIMITED (mt) — address: `—`
+- ANTARCTICA PROPERTIES LIMITED (mt) — address: `—`
+- LENANE (INTERNATIONAL) LIMITED (mt) — address: `—`
+- CALDER ENTERPRISES LIMITED (mt) — address: `—`
+- MARKET COMMUNICATIONS LIMITED (mt) — address: `—`
+- NORWEGIAN MASCOT LIMITED (mt) — address: `—`
+- KRYPTON SERVICE COMPANY LIMITED (mt) — address: `—`
+- AQUATICA PROPERTIES LIMITED (mt) — address: `—`
+- AUROUS INVESTMENTS LIMITED (mt) — address: `—`
+- CAMILLE SERVICE COMPANY LIMITED (mt) — address: `—`
+- JCS HOLMAN LIMITED (mt) — address: `—`
+- CROSSKEY COMPUTERS LIMITED (mt) — address: `—`
+- CASSELLA SERVICE COMPANY LIMITED (mt) — address: `—`
+- MARYVALE INVESTMENT COMPANY LIMITED (mt) — address: `—`
+- ABURY LIMITED (mt) — address: `—`
 
 ### uk_psc (2 entities)
 - Tracy Jane Pozo — `uk_psc:e0ebca87-6d5d-bfb2-8e59-dd21f02ae16e` — country: gb

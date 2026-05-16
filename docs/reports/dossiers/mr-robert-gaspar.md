@@ -1,6 +1,6 @@
 # robert gaspar
 
-**Sources:** 2 (uk_psc, icij)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.20
+**Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.20
 
 _Normalized name in source data: `mr robert gaspar` — honorifics stripped for display._
 
@@ -16,12 +16,12 @@ _Multiple ICIJ-linked companies registered at the same address — the shell-net
 - Mr. ROBERT GASPAR — `icij:12143336` — country: es
 
 **Linked companies (ICIJ 2-hop walk):**
-- BAXCO GROUP S.A. (vg) — address: `steval management s a case postale 3106 1211 geneve 3 switzerland`
 - MISADION INTERNATIONAL LTD. (vg) — address: `steval management s a case postale 3106 1211 geneve 3 switzerland`
+- BAXCO GROUP S.A. (vg) — address: `steval management s a case postale 3106 1211 geneve 3 switzerland`
 
 ### uk_psc (2 entities)
-- Mr Robert Gaspar — `uk_psc:0481eda4-e8b7-48f0-503b-116245ec44c5` — country: hu
 - Mr Robert Gaspar — `uk_psc:ba044dc3-3f6e-691e-0f95-540f8913131e` — country: hu
+- Mr Robert Gaspar — `uk_psc:0481eda4-e8b7-48f0-503b-116245ec44c5` — country: hu
   _(stub only — no person→company relations parquet for uk_psc in v1)_
 
 ## Web search (firecrawl, 2026-05-16)

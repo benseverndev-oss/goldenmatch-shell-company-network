@@ -6,15 +6,15 @@ _Normalized name in source data: `mr koba kezherashvili` — honorifics stripped
 
 ## Linked entities by source
 ### icij (2 entities)
-- MR. KOBA KEZHERASHVILI — `icij:12105024` — country: —
 - MR. KOBA KEZHERASHVILI — `icij:12100558` — country: —
+- MR. KOBA KEZHERASHVILI — `icij:12105024` — country: —
 
 **Linked companies (ICIJ 2-hop walk):**
 - OOCO LTD. (vg) — address: `mft services sa case postale 5235 1211 geneve 11 switzerland`
 
 ### uk_psc (2 entities)
-- Mr Koba Kezherashvili — `uk_psc:da213519-c455-d1c4-6e4e-1b60855593ce` — country: ge
 - Mr Koba Kezherashvili — `uk_psc:a93afe18-1ea3-3eb7-4642-77e9ab5c59da` — country: ge
+- Mr Koba Kezherashvili — `uk_psc:da213519-c455-d1c4-6e4e-1b60855593ce` — country: ge
   _(stub only — no person→company relations parquet for uk_psc in v1)_
 
 ## Web search (firecrawl, 2026-05-16)

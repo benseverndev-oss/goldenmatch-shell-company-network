@@ -10,8 +10,8 @@ _Normalized name in source data: `dr norbert seeger` — honorifics stripped for
 - Dr. Norbert Seeger — `icij:240512919` — country: li
 
 **Linked companies (ICIJ 2-hop walk):**
-- GIVA FINANCE LTD (vg) — address: `—`
 - MORTIMER HOLDING & FINANCE S.A (vg) — address: `—`
+- GIVA FINANCE LTD (vg) — address: `—`
 
 ### uk_psc (2 entities)
 - Dr Norbert Seeger — `uk_psc:dcb55947-da3f-dc94-7fe4-37aaeb23262f` — country: li

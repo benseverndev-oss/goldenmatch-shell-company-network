@@ -16,11 +16,11 @@ _Multiple ICIJ-linked companies registered at the same address — the shell-net
 - Sheikh Sultan Bin Jassim Al-Thani — `icij:12191990` — country: —
 
 **Linked companies (ICIJ 2-hop walk):**
-- SARDINIA INVESTMENT LIMITED (—) — address: `freeport trust company limited 4 athol street douglas isle of man im1 1ld britis`
-- Ironforge Limited (—) — address: `freeport trust company limited 4 athol street douglas isle of man im1 1ld britis`
 - ALPHA INVESTMENT MANAGEMENT LIMITED (—) — address: `freeport trust company limited 4 athol street douglas isle of man im1 1ld britis`
-- Tusker Trading Limited (vg) — address: `freeport trust company limited 4 athol street douglas isle of man im1 1ld britis`
+- Ironforge Limited (—) — address: `freeport trust company limited 4 athol street douglas isle of man im1 1ld britis`
 - Sandsend Management Limited (—) — address: `freeport trust company limited 4 athol street douglas isle of man im1 1ld britis`
+- Tusker Trading Limited (vg) — address: `freeport trust company limited 4 athol street douglas isle of man im1 1ld britis`
+- SARDINIA INVESTMENT LIMITED (—) — address: `freeport trust company limited 4 athol street douglas isle of man im1 1ld britis`
 
 ### uk_psc (2 entities)
 - Sheikh Sultan Bin Jassim Al-Thani — `uk_psc:1621d40b-a586-9d26-a1b2-c20305d47aeb` — country: qa

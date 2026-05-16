@@ -1,18 +1,18 @@
 # robert hutchison penman
 
-**Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 1  •  **Jurisdictions:** —  •  **Novelty score:** 0.15
+**Sources:** 2 (uk_psc, icij)  •  **Linked companies:** 1  •  **Jurisdictions:** —  •  **Novelty score:** 0.15
 
 ## Linked entities by source
 ### icij (2 entities)
-- Robert Hutchison PENMAN — `icij:240477822` — country: —
 - Robert Hutchison PENMAN — `icij:240477821` — country: —
+- Robert Hutchison PENMAN — `icij:240477822` — country: —
 
 **Linked companies (ICIJ 2-hop walk):**
 - MPG HOLDINGS LTD (—) — address: `—`
 
 ### uk_psc (2 entities)
-- Robert Hutchison Penman — `uk_psc:031feb07-24b1-2b04-079f-d51cd36fad7f` — country: gb
 - Robert Hutchison Penman — `uk_psc:626331a7-32b8-4bfa-8304-831a7cdfaed2` — country: gb
+- Robert Hutchison Penman — `uk_psc:031feb07-24b1-2b04-079f-d51cd36fad7f` — country: gb
   _(stub only — no person→company relations parquet for uk_psc in v1)_
 
 ## Web search (firecrawl, 2026-05-16)

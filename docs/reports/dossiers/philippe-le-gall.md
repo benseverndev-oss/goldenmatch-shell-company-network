@@ -1,6 +1,6 @@
 # philippe le gall
 
-**Sources:** 3 (icij, opensanctions, uk_psc)  •  **Linked companies:** 1  •  **Jurisdictions:** mt  •  **Novelty score:** 0.18
+**Sources:** 3 (opensanctions, uk_psc, icij)  •  **Linked companies:** 1  •  **Jurisdictions:** mt  •  **Novelty score:** 0.18
 
 ## Linked entities by source
 ### icij (1 entity)

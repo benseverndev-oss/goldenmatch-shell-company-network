@@ -1,16 +1,16 @@
 # darragh o brien
 
-**Sources:** 2 (opensanctions, uk_psc)  •  **Linked companies:** 0  •  **Jurisdictions:** —  •  **Novelty score:** 0.12
+**Sources:** 2 (uk_psc, opensanctions)  •  **Linked companies:** 0  •  **Jurisdictions:** —  •  **Novelty score:** 0.12
 
 ## Linked entities by source
 ### opensanctions (2 entities)
-- Darragh O’Brien — `opensanctions:Q1166562` — country: ie
 - Darragh O'Brien — `opensanctions:ie-parl-2851a3450ee1178b0533a6fecd54fe67146f3ef6` — country: —
+- Darragh O’Brien — `opensanctions:Q1166562` — country: ie
   _(stub only — no person→company relations parquet for opensanctions in v1)_
 
 ### uk_psc (2 entities)
-- Darragh O'Brien — `uk_psc:cbc6a1a9-37a5-ed1d-e471-ac649145805d` — country: ie
 - Darragh O'Brien — `uk_psc:1929434e-7d53-969a-8d6a-7c0b0d5fe138` — country: ie
+- Darragh O'Brien — `uk_psc:cbc6a1a9-37a5-ed1d-e471-ac649145805d` — country: ie
   _(stub only — no person→company relations parquet for uk_psc in v1)_
 
 ## Web search (firecrawl, 2026-05-16)

@@ -1,6 +1,6 @@
 # derek john green
 
-**Sources:** 2 (uk_psc, icij)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.20
+**Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.20
 
 ## Linked entities by source
 ### icij (2 entities)

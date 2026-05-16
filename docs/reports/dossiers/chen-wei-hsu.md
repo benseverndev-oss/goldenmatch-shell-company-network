@@ -1,6 +1,6 @@
 # chen wei hsu
 
-**Sources:** 3 (opensanctions, icij, uk_psc)  •  **Linked companies:** 1  •  **Jurisdictions:** —  •  **Novelty score:** 0.15
+**Sources:** 3 (uk_psc, icij, opensanctions)  •  **Linked companies:** 1  •  **Jurisdictions:** —  •  **Novelty score:** 0.15
 
 ## Linked entities by source
 ### icij (1 entity)

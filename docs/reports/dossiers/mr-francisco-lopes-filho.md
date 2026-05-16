@@ -1,13 +1,13 @@
 # francisco lopes filho
 
-**Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.74
+**Sources:** 2 (uk_psc, icij)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.74
 
 _Normalized name in source data: `mr francisco lopes filho` — honorifics stripped for display._
 
 ## Linked entities by source
 ### icij (2 entities)
-- MR. FRANCISCO LOPES FILHO — `icij:12218288` — country: ch
 - Mr. FRANCISCO LOPES FILHO — `icij:12154838` — country: ch
+- MR. FRANCISCO LOPES FILHO — `icij:12218288` — country: ch
 
 **Linked companies (ICIJ 2-hop walk):**
 - GREATFAMILY HOLDINGS INC. (vg) — address: `ubs s a aoon rue du rhone 8 case postale 2600 geneve 1204 geneva switzerland s i`

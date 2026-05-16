@@ -1,6 +1,6 @@
 # mohamed nazir bin abdul razak
 
-**Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.20
+**Sources:** 2 (uk_psc, icij)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.20
 
 ## Shared-address shell clusters
 
@@ -18,8 +18,8 @@ _Multiple ICIJ-linked companies registered at the same address — the shell-net
 - Gembrook Worldwide Ltd (vg) — address: `portcullis trustnet chambers p o box 3444 road town tortola british virgin islan`
 
 ### uk_psc (2 entities)
-- Mohamed Nazir Bin Abdul Razak — `uk_psc:46810a71-7905-2840-882e-14c4ca72f36d` — country: my
 - Mohamed Nazir, Bin, Abdul Razak — `uk_psc:fcd9dadf-6555-c073-7e5b-96a9e196e422` — country: my
+- Mohamed Nazir Bin Abdul Razak — `uk_psc:46810a71-7905-2840-882e-14c4ca72f36d` — country: my
   _(stub only — no person→company relations parquet for uk_psc in v1)_
 
 ## Web search (firecrawl, 2026-05-16)

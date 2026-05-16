@@ -4,8 +4,8 @@
 
 ## Linked entities by source
 ### icij (2 entities)
-- TREVOR PETER RIDLEY — `icij:240043096` — country: —
 - TREVOR PETER RIDLEY — `icij:240043094` — country: —
+- TREVOR PETER RIDLEY — `icij:240043096` — country: —
 
 **Linked companies (ICIJ 2-hop walk):**
 - GH TASSFORM (PTC) LIMITED (vg) — address: `—`

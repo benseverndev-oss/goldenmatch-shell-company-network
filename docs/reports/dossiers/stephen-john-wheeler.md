@@ -1,6 +1,6 @@
 # stephen john wheeler
 
-**Sources:** 3 (uk_psc, icij, opensanctions)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.87
+**Sources:** 3 (icij, uk_psc, opensanctions)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.87
 
 ## Shared-address shell clusters
 
@@ -14,8 +14,8 @@ _Multiple ICIJ-linked companies registered at the same address — the shell-net
 - STEPHEN JOHN WHEELER — `icij:12176315` — country: gb
 
 **Linked companies (ICIJ 2-hop walk):**
-- Carbon Source Ltd. (vg) — address: `the law trust limited 68 athol street douglas isle of man im1 1je british isles`
 - CML Commodities Ltd (vg) — address: `the law trust limited 68 athol street douglas isle of man im1 1je british isles`
+- Carbon Source Ltd. (vg) — address: `the law trust limited 68 athol street douglas isle of man im1 1je british isles`
 
 ### opensanctions (1 entity)
 - Stephen John WHEELER — `opensanctions:gb-coh-ludcp5iz6c8zjj8ipkvhp-bmhnw` — country: —

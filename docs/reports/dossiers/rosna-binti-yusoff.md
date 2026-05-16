@@ -1,6 +1,6 @@
 # rosna binti yusoff
 
-**Sources:** 2 (uk_psc, icij)  •  **Linked companies:** 4  •  **Jurisdictions:** vg  •  **Novelty score:** 0.32
+**Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 4  •  **Jurisdictions:** vg  •  **Novelty score:** 0.32
 
 ## Shared-address shell clusters
 
@@ -14,14 +14,14 @@ _Multiple ICIJ-linked companies registered at the same address — the shell-net
 - Rosna Binti Yusoff — `icij:12164750` — country: hk
 
 **Linked companies (ICIJ 2-hop walk):**
-- PTG Land Limited [PFE LAND LIMITED (vg) — address: `pacific tiger group limited 19th floor hong kong diamond exchange building 8 10 `
-- PATHFINDER ASIA LIMITED (—) — address: `pacific tiger group limited 19th floor hong kong diamond exchange building 8 10 `
 - EVENSHOT ENTERPRISES LIMITED (—) — address: `pacific tiger group limited 19th floor hong kong diamond exchange building 8 10 `
+- PTG Land Limited [PFE LAND LIMITED (vg) — address: `pacific tiger group limited 19th floor hong kong diamond exchange building 8 10 `
 - STARGATE HOLDINGS LIMITED (—) — address: `pacific tiger group limited 19th floor hong kong diamond exchange building 8 10 `
+- PATHFINDER ASIA LIMITED (—) — address: `pacific tiger group limited 19th floor hong kong diamond exchange building 8 10 `
 
 ### uk_psc (2 entities)
-- Rosna Binti Yusoff — `uk_psc:e0dd319a-4184-0106-49aa-685bc36e9355` — country: my
 - Rosna Binti Yusoff — `uk_psc:5344e923-cbcb-d660-1f3a-53e609481239` — country: my
+- Rosna Binti Yusoff — `uk_psc:e0dd319a-4184-0106-49aa-685bc36e9355` — country: my
   _(stub only — no person→company relations parquet for uk_psc in v1)_
 
 ## Web search (firecrawl, 2026-05-16)

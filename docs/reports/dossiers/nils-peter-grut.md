@@ -1,6 +1,6 @@
 # nils peter grut
 
-**Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 4  •  **Jurisdictions:** mt  •  **Novelty score:** 0.24
+**Sources:** 2 (uk_psc, icij)  •  **Linked companies:** 4  •  **Jurisdictions:** mt  •  **Novelty score:** 0.24
 
 ## Linked entities by source
 ### icij (2 entities)
@@ -8,10 +8,10 @@
 - NILS PETER GRUT — `icij:56068063` — country: —
 
 **Linked companies (ICIJ 2-hop walk):**
-- PARK & FLY DEVELOPMENTS LIMITED (mt) — address: `—`
 - H.R.MARITIME INTERNATIONAL LIMITED (mt) — address: `—`
-- ENERGEASE LIMITED (mt) — address: `—`
 - MILESTONE CAPITAL PARTNERS LIMITED (mt) — address: `—`
+- PARK & FLY DEVELOPMENTS LIMITED (mt) — address: `—`
+- ENERGEASE LIMITED (mt) — address: `—`
 
 ### uk_psc (2 entities)
 - Nils Peter Grut — `uk_psc:4275b678-976b-6d10-b098-6a69a7769987` — country: se

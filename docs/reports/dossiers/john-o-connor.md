@@ -1,6 +1,6 @@
 # john o connor
 
-**Sources:** 3 (icij, opensanctions, uk_psc)  •  **Linked companies:** 6  •  **Jurisdictions:** mt  •  **Novelty score:** 0.26
+**Sources:** 3 (opensanctions, icij, uk_psc)  •  **Linked companies:** 6  •  **Jurisdictions:** mt  •  **Novelty score:** 0.26
 
 ## Linked entities by source
 ### icij (2 entities)
@@ -8,12 +8,12 @@
 - JOHN O'CONNOR — `icij:56102532` — country: ie
 
 **Linked companies (ICIJ 2-hop walk):**
-- TRINITY TRADING LIMITED (mt) — address: `—`
-- TRINITY HOLDINGS LIMITED (mt) — address: `—`
 - HAAGSE POORT (HOLDINGS)(MALTA) PLC (mt) — address: `—`
-- CO-ARMA MARINE CONSTRUCTION LIMITED (mt) — address: `—`
 - BEDFONT LAKES (HOLDINGS) (MALTA) P.L.C. (mt) — address: `—`
+- TRINITY HOLDINGS LIMITED (mt) — address: `—`
 - DS CORPORATE CONSULTANTS LIMITED (mt) — address: `—`
+- CO-ARMA MARINE CONSTRUCTION LIMITED (mt) — address: `—`
+- TRINITY TRADING LIMITED (mt) — address: `—`
 
 ### opensanctions (1 entity)
 - John O'Connor — `opensanctions:Q139073000` — country: —

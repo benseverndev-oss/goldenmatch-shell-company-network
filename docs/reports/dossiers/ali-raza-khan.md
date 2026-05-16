@@ -1,6 +1,6 @@
 # ali raza khan
 
-**Sources:** 3 (icij, opensanctions, uk_psc)  •  **Linked companies:** 1  •  **Jurisdictions:** —  •  **Novelty score:** 0.67
+**Sources:** 3 (uk_psc, icij, opensanctions)  •  **Linked companies:** 1  •  **Jurisdictions:** —  •  **Novelty score:** 0.67
 
 ## Linked entities by source
 ### icij (1 entity)

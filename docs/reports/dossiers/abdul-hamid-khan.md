@@ -1,6 +1,6 @@
 # abdul hamid khan
 
-**Sources:** 3 (uk_psc, opensanctions, icij)  •  **Linked companies:** 1  •  **Jurisdictions:** vg  •  **Novelty score:** 0.85
+**Sources:** 3 (icij, uk_psc, opensanctions)  •  **Linked companies:** 1  •  **Jurisdictions:** vg  •  **Novelty score:** 0.85
 
 ## Linked entities by source
 ### icij (1 entity)

@@ -12,8 +12,8 @@
 - WESTGROVE PROPERTIES LIMITED (vg) — address: `meridian corporate services case postale 1507 2 rue d thalberg 1211 geneva 1 swi`
 
 ### uk_psc (2 entities)
-- Liaquat Ali Pirani — `uk_psc:fa39b0d8-02a9-90f9-5620-e468e7eafe52` — country: —
 - Liaquat Ali Pirani — `uk_psc:e48c200c-9438-25db-78b0-bc23de31023f` — country: —
+- Liaquat Ali Pirani — `uk_psc:fa39b0d8-02a9-90f9-5620-e468e7eafe52` — country: —
   _(stub only — no person→company relations parquet for uk_psc in v1)_
 
 ## Web search (firecrawl, 2026-05-16)
