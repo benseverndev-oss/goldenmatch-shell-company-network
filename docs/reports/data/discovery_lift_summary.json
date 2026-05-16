@@ -1,0 +1,32 @@
+{
+  "tiers": {
+    "B1_naive_casefold": {
+      "n_anchors_multisource": 22695,
+      "description": "Names appearing in 2+ sources after only lower().strip()"
+    },
+    "B2_goldenmatch_normalize": {
+      "n_anchors_multisource": 25247,
+      "description": "Names appearing in 2+ sources after normalize_company_name"
+    },
+    "B3_rare_filtered": {
+      "n_anchors_multisource": 3838,
+      "description": "B2 narrowed to max_per_source <= 2, n_tokens >= 3"
+    },
+    "B4_dossier_pipeline": {
+      "n_anchors_multisource": 50,
+      "n_anchors_with_signal": 46,
+      "n_anchors_with_sanctions": 0,
+      "description": "B3 seeds that actually became dossiers + graph-walk signal"
+    }
+  },
+  "deltas": {
+    "B2_minus_B1": 2552,
+    "B3_minus_B2": -21409,
+    "B4_minus_B3": -3788
+  },
+  "reachable_by_tier": {
+    "b1_only": 0,
+    "b2_only": 1641,
+    "b4_seeds_naive_unreachable": 7
+  }
+}
