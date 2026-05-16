@@ -11,6 +11,12 @@ RUN apt-get update \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
     && npm install -g reconcile@latest \
+    # Patch reconcile 3.x: cli-renderer.js:163 calls Process.stdin.unref()
+    # without a guard, which crashes on Node 20+ when stdin is DEVNULL/pipe
+    # (TypeError: Process.stdin.unref is not a function). Upstream master
+    # already guards this; here we guard the published 3.3.0 in-place.
+    && sed -i 's|    Process\.stdin\.unref()|    if (Process.stdin.unref) Process.stdin.unref()|' \
+       /usr/lib/node_modules/reconcile/cli-renderer.js \
     && rm -rf /var/lib/apt/lists/*
 
 # Max Harlow's Node.js scrapers (not on npm). Cloned + `npm install`ed
