@@ -76,6 +76,26 @@ doc states the comparison plainly so the
    makes this trivial; Aleph carries the same OS data but doesn't
    compute the aggregate.
 
+### Quantified discovery lift
+
+It's reasonable to ask: "how much of this is the normalize / graph layer doing real work versus just a fancier wrapper around `name.lower()`?" The
+[discovery-lift benchmark](reports/discovery_lift.md) measures this directly
+against a naive case-fold baseline on the same corpus:
+
+- **22,695** multi-source person-name overlaps surfaced by lowercase +
+  whitespace-strip alone.
+- **25,247** when `normalize_company_name` is applied (legal-suffix strip,
+  ASCII fold, tokenize) — a **+2,552 anchor recall lift (11%)**.
+- **1,641** of those B2 anchors are invisible to the naive baseline. The
+  inverse — anchors only the naive baseline catches — is 0 (it surfaces a
+  strict subset).
+- Of the top-50 dossier seeds, **7 are invisible to a naive baseline**.
+
+The lift is **strongest at the normalization layer**, not at the graph
+walk — that's the honest read. The graph walk's contribution is qualitative
+(linked companies, addresses, sanctions adjacency surfaced per lead), not
+quantitative (more anchors). The benchmark says so plainly.
+
 ### Things this project does *worse*
 
 Honest list:
