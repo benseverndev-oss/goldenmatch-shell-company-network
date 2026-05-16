@@ -1,6 +1,14 @@
-# sheikh sultan bin jassim al thani
+# sultan bin jassim al thani
 
 **Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 5  •  **Jurisdictions:** vg  •  **Novelty score:** 0.26
+
+_Normalized name in source data: `sheikh sultan bin jassim al thani` — honorifics stripped for display._
+
+## Shared-address shell clusters
+
+_Multiple ICIJ-linked companies registered at the same address — the shell-network shape the spec was designed to surface._
+
+- `freeport trust company limited 4 athol street douglas isle of man im1 1ld british isles` (vg) — 5 companies: Tusker Trading Limited; Ironforge Limited; SARDINIA INVESTMENT LIMITED; Sandsend Management Limited; ALPHA INVESTMENT MANAGEMENT LIMITED
 
 ## Linked entities by source
 ### icij (2 entities)
@@ -8,15 +16,15 @@
 - Sheikh Sultan Bin Jassim Al-Thani — `icij:12191990` — country: —
 
 **Linked companies (ICIJ 2-hop walk):**
-- ALPHA INVESTMENT MANAGEMENT LIMITED (—) — address: `freeport trust company limited 4 athol street douglas isle of man im1 1ld britis` — sanctions: —
-- Tusker Trading Limited (vg) — address: `freeport trust company limited 4 athol street douglas isle of man im1 1ld britis` — sanctions: —
-- SARDINIA INVESTMENT LIMITED (—) — address: `freeport trust company limited 4 athol street douglas isle of man im1 1ld britis` — sanctions: —
-- Sandsend Management Limited (—) — address: `freeport trust company limited 4 athol street douglas isle of man im1 1ld britis` — sanctions: —
-- Ironforge Limited (—) — address: `freeport trust company limited 4 athol street douglas isle of man im1 1ld britis` — sanctions: —
+- SARDINIA INVESTMENT LIMITED (—) — address: `freeport trust company limited 4 athol street douglas isle of man im1 1ld britis`
+- Ironforge Limited (—) — address: `freeport trust company limited 4 athol street douglas isle of man im1 1ld britis`
+- ALPHA INVESTMENT MANAGEMENT LIMITED (—) — address: `freeport trust company limited 4 athol street douglas isle of man im1 1ld britis`
+- Tusker Trading Limited (vg) — address: `freeport trust company limited 4 athol street douglas isle of man im1 1ld britis`
+- Sandsend Management Limited (—) — address: `freeport trust company limited 4 athol street douglas isle of man im1 1ld britis`
 
 ### uk_psc (2 entities)
-- Sheikh Sultan Bin Jassim Al-Thani — `uk_psc:f93753f5-659a-a1cd-4962-d9f442b3b9ff` — country: qa
 - Sheikh Sultan Bin Jassim Al-Thani — `uk_psc:1621d40b-a586-9d26-a1b2-c20305d47aeb` — country: qa
+- Sheikh Sultan Bin Jassim Al-Thani — `uk_psc:f93753f5-659a-a1cd-4962-d9f442b3b9ff` — country: qa
   _(stub only — no person→company relations parquet for uk_psc in v1)_
 
 ## Web search (firecrawl, 2026-05-16)

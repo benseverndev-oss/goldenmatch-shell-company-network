@@ -4,13 +4,13 @@
 
 ## Linked entities by source
 ### opensanctions (2 entities)
-- Muhammad Hassan Raza — `opensanctions:pk-cnic-3630119039183` — country: pk
 - Muhammad Hassan Raza — `opensanctions:pk-cnic-3730172417659` — country: pk
+- Muhammad Hassan Raza — `opensanctions:pk-cnic-3630119039183` — country: pk
   _(stub only — no person→company relations parquet for opensanctions in v1)_
 
 ### uk_psc (2 entities)
-- Muhammad Hassan Raza — `uk_psc:4ef2fd74-1868-6c94-9c0f-67d732739423` — country: pk
 - Muhammad Hassan Raza — `uk_psc:9a34ffaf-2234-a0fc-089f-6ed51f062a1d` — country: pk
+- Muhammad Hassan Raza — `uk_psc:4ef2fd74-1868-6c94-9c0f-67d732739423` — country: pk
   _(stub only — no person→company relations parquet for uk_psc in v1)_
 
 ## Web search (firecrawl, 2026-05-16)

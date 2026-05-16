@@ -4,16 +4,16 @@
 
 ## Linked entities by source
 ### icij (2 entities)
-- TREVOR PETER RIDLEY — `icij:240043094` — country: —
 - TREVOR PETER RIDLEY — `icij:240043096` — country: —
+- TREVOR PETER RIDLEY — `icij:240043094` — country: —
 
 **Linked companies (ICIJ 2-hop walk):**
-- GH TASSFORM (PTC) LIMITED (vg) — address: `—` — sanctions: —
-- SHERINGHAM CAPITAL LIMITED (vg) — address: `—` — sanctions: —
+- GH TASSFORM (PTC) LIMITED (vg) — address: `—`
+- SHERINGHAM CAPITAL LIMITED (vg) — address: `—`
 
 ### uk_psc (2 entities)
-- Trevor Peter Ridley — `uk_psc:c2a4447e-b0c3-26e3-aa75-5dd6d9f7d66c` — country: za
 - Trevor Peter Ridley — `uk_psc:120b6cca-360a-1dd3-b7e3-2b62dd7fde16` — country: gb
+- Trevor Peter Ridley — `uk_psc:c2a4447e-b0c3-26e3-aa75-5dd6d9f7d66c` — country: za
   _(stub only — no person→company relations parquet for uk_psc in v1)_
 
 ## Web search (firecrawl, 2026-05-16)

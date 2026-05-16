@@ -1,13 +1,13 @@
 # chen wei hsu
 
-**Sources:** 3 (uk_psc, icij, opensanctions)  •  **Linked companies:** 1  •  **Jurisdictions:** —  •  **Novelty score:** 0.15
+**Sources:** 3 (opensanctions, icij, uk_psc)  •  **Linked companies:** 1  •  **Jurisdictions:** —  •  **Novelty score:** 0.15
 
 ## Linked entities by source
 ### icij (1 entity)
 - Chen, Wei-Hsu — `icij:49544` — country: —
 
 **Linked companies (ICIJ 2-hop walk):**
-- M.J. Health Management International Holding Inc. (—) — address: `david chong co office b1 7 f loyong court 212 220 lockhart road wanchai hong kon` — sanctions: —
+- M.J. Health Management International Holding Inc. (—) — address: `david chong co office b1 7 f loyong court 212 220 lockhart road wanchai hong kon`
 
 ### opensanctions (1 entity)
 - Chen-Wei Hsu — `opensanctions:Q28418899` — country: tw

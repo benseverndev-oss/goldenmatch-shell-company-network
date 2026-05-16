@@ -1,6 +1,6 @@
 # liaquat ali pirani
 
-**Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.35
+**Sources:** 2 (uk_psc, icij)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.35
 
 ## Linked entities by source
 ### icij (2 entities)
@@ -8,8 +8,8 @@
 - LIAQUAT ALI PIRANI — `icij:13005490` — country: gb
 
 **Linked companies (ICIJ 2-hop walk):**
-- ZERCO MANAGEMENT CORP. (vg) — address: `p s j alexander co ltd 1 doughty street london east london wc1n 2ph england unit` — sanctions: —
-- WESTGROVE PROPERTIES LIMITED (vg) — address: `meridian corporate services case postale 1507 2 rue d thalberg 1211 geneva 1 swi` — sanctions: —
+- ZERCO MANAGEMENT CORP. (vg) — address: `p s j alexander co ltd 1 doughty street london east london wc1n 2ph england unit`
+- WESTGROVE PROPERTIES LIMITED (vg) — address: `meridian corporate services case postale 1507 2 rue d thalberg 1211 geneva 1 swi`
 
 ### uk_psc (2 entities)
 - Liaquat Ali Pirani — `uk_psc:fa39b0d8-02a9-90f9-5620-e468e7eafe52` — country: —

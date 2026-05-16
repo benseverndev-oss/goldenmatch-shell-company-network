@@ -2,14 +2,20 @@
 
 **Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.20
 
+## Shared-address shell clusters
+
+_Multiple ICIJ-linked companies registered at the same address — the shell-network shape the spec was designed to surface._
+
+- `a1 company services limited 788 790 finchley road london nw11 7tj england united kingdom` (vg) — 2 companies: Pinky Pinks Property Limited; Milford Trading Group Limited
+
 ## Linked entities by source
 ### icij (2 entities)
-- Ish Kumar Handa — `icij:12137950` — country: gb
 - ISH KUMAR HANDA — `icij:12121176` — country: gb
+- Ish Kumar Handa — `icij:12137950` — country: gb
 
 **Linked companies (ICIJ 2-hop walk):**
-- Pinky Pinks Property Limited (vg) — address: `a1 company services limited 788 790 finchley road london nw11 7tj england united` — sanctions: —
-- Milford Trading Group Limited (vg) — address: `a1 company services limited 788 790 finchley road london nw11 7tj england united` — sanctions: —
+- Pinky Pinks Property Limited (vg) — address: `a1 company services limited 788 790 finchley road london nw11 7tj england united`
+- Milford Trading Group Limited (vg) — address: `a1 company services limited 788 790 finchley road london nw11 7tj england united`
 
 ### uk_psc (2 entities)
 - Ish Kumar Handa — `uk_psc:95322902-7cdd-a6e1-b39a-726110eb7b01` — country: —

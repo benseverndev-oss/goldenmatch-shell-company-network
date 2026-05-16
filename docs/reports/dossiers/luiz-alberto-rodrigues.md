@@ -7,7 +7,7 @@
 - LUIZ ALBERTO RODRIGUES — `icij:12197557` — country: br
 
 **Linked companies (ICIJ 2-hop walk):**
-- MAGENTA GLOBAL BUSINESS LTD. (vg) — address: `hoslynd corp s a dr luis bonavita 1294 unidad 2207 world trade center ruc 21 473` — sanctions: —
+- MAGENTA GLOBAL BUSINESS LTD. (vg) — address: `hoslynd corp s a dr luis bonavita 1294 unidad 2207 world trade center ruc 21 473`
 
 ### opensanctions (1 entity)
 - Luiz Alberto Rodrigues — `opensanctions:Q10320595` — country: —

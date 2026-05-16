@@ -7,7 +7,7 @@
 - PHILIPPE LE GALL — `icij:56017913` — country: fr
 
 **Linked companies (ICIJ 2-hop walk):**
-- FEEL.AERO Ltd (mt) — address: `—` — sanctions: —
+- FEEL.AERO Ltd (mt) — address: `—`
 
 ### opensanctions (1 entity)
 - Philippe LE GALL — `opensanctions:fr-maires-2961327f9557ae56bb5f7ac3a4e3ad01bc78259c` — country: —

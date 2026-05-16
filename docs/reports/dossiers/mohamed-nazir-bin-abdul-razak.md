@@ -1,6 +1,12 @@
 # mohamed nazir bin abdul razak
 
-**Sources:** 2 (uk_psc, icij)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.20
+**Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.20
+
+## Shared-address shell clusters
+
+_Multiple ICIJ-linked companies registered at the same address — the shell-network shape the spec was designed to surface._
+
+- `portcullis trustnet chambers p o box 3444 road town tortola british virgin islands` (vg) — 2 companies: Gembrook Worldwide Ltd; Tangerine Square Limited
 
 ## Linked entities by source
 ### icij (2 entities)
@@ -8,8 +14,8 @@
 - Mohamed Nazir Bin Abdul Razak — `icij:67097` — country: —
 
 **Linked companies (ICIJ 2-hop walk):**
-- Tangerine Square Limited (vg) — address: `portcullis trustnet chambers p o box 3444 road town tortola british virgin islan` — sanctions: —
-- Gembrook Worldwide Ltd (vg) — address: `portcullis trustnet chambers p o box 3444 road town tortola british virgin islan` — sanctions: —
+- Tangerine Square Limited (vg) — address: `portcullis trustnet chambers p o box 3444 road town tortola british virgin islan`
+- Gembrook Worldwide Ltd (vg) — address: `portcullis trustnet chambers p o box 3444 road town tortola british virgin islan`
 
 ### uk_psc (2 entities)
 - Mohamed Nazir Bin Abdul Razak — `uk_psc:46810a71-7905-2840-882e-14c4ca72f36d` — country: my

@@ -1,13 +1,13 @@
 # ryan john lee
 
-**Sources:** 3 (uk_psc, opensanctions, icij)  •  **Linked companies:** 1  •  **Jurisdictions:** vg  •  **Novelty score:** 0.18
+**Sources:** 3 (icij, opensanctions, uk_psc)  •  **Linked companies:** 1  •  **Jurisdictions:** vg  •  **Novelty score:** 0.18
 
 ## Linked entities by source
 ### icij (1 entity)
 - RYAN JOHN LEE — `icij:12124449` — country: za
 
 **Linked companies (ICIJ 2-hop walk):**
-- HUNKY DORY OVERSEAS LIMITED (vg) — address: `united ventures limited charter place 23 27 seaton place st helier jersey je1 1j` — sanctions: —
+- HUNKY DORY OVERSEAS LIMITED (vg) — address: `united ventures limited charter place 23 27 seaton place st helier jersey je1 1j`
 
 ### opensanctions (1 entity)
 - Ryan John LEE — `opensanctions:gb-coh-nhuashegkip4uuggsuunhhxbqym` — country: —

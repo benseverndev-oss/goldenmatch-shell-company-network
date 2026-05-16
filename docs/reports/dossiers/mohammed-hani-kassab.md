@@ -8,8 +8,8 @@
 - MOHAMMED HANI KASSAB — `icij:240101127` — country: —
 
 **Linked companies (ICIJ 2-hop walk):**
-- ELTRACE INTERNATIONAL LIMITED (—) — address: `—` — sanctions: —
-- DREGHORN INTERNATIONAL LTD. (vg) — address: `—` — sanctions: —
+- ELTRACE INTERNATIONAL LIMITED (—) — address: `—`
+- DREGHORN INTERNATIONAL LTD. (vg) — address: `—`
 
 ### uk_psc (2 entities)
 - Mohammed Hani Kassab — `uk_psc:c341ed39-c180-fff5-e5df-49e14b8f115a` — country: kn

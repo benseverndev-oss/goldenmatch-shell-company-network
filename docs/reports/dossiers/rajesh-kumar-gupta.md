@@ -4,11 +4,11 @@
 
 ## Linked entities by source
 ### icij (2 entities)
-- RAJESH KUMAR GUPTA — `icij:13001526` — country: in
 - RAJESH KUMAR GUPTA — `icij:12097252` — country: in
+- RAJESH KUMAR GUPTA — `icij:13001526` — country: in
 
 **Linked companies (ICIJ 2-hop walk):**
-- SOUTHWEST MINERALS LIMITED (vg) — address: `offshorer business services hk ltd unit 826 8 f ocean centre harbour city 5 cant` — sanctions: —
+- SOUTHWEST MINERALS LIMITED (vg) — address: `offshorer business services hk ltd unit 826 8 f ocean centre harbour city 5 cant`
 
 ### opensanctions (1 entity)
 - Rajesh Kumar Gupta — `opensanctions:Q137210364` — country: —

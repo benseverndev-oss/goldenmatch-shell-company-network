@@ -1,15 +1,23 @@
-# mr vadim samoylenko
+# vadim samoylenko
 
-**Sources:** 3 (uk_psc, icij, opensanctions)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.56
+**Sources:** 3 (opensanctions, uk_psc, icij)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.56
+
+_Normalized name in source data: `mr vadim samoylenko` — honorifics stripped for display._
+
+## Shared-address shell clusters
+
+_Multiple ICIJ-linked companies registered at the same address — the shell-network shape the spec was designed to surface._
+
+- `sergey sobolev graff international partners k s dobroluybova street house 2 building 1 moscow moskva` (vg) — 2 companies: BARNSLEY INTERINVEST LIMITED; MARTLAND PROJECT LIMITED
 
 ## Linked entities by source
 ### icij (2 entities)
-- MR. VADIM SAMOYLENKO — `icij:13001554` — country: ru
 - MR. VADIM SAMOYLENKO — `icij:13006329` — country: ru
+- MR. VADIM SAMOYLENKO — `icij:13001554` — country: ru
 
 **Linked companies (ICIJ 2-hop walk):**
-- BARNSLEY INTERINVEST LIMITED (vg) — address: `sergey sobolev graff international partners k s dobroluybova street house 2 buil` — sanctions: —
-- MARTLAND PROJECT LIMITED (vg) — address: `sergey sobolev graff international partners k s dobroluybova street house 2 buil` — sanctions: —
+- MARTLAND PROJECT LIMITED (vg) — address: `sergey sobolev graff international partners k s dobroluybova street house 2 buil`
+- BARNSLEY INTERINVEST LIMITED (vg) — address: `sergey sobolev graff international partners k s dobroluybova street house 2 buil`
 
 ### opensanctions (1 entity)
 - Mr Vadim Samoylenko — `opensanctions:gb-coh-psc-OC428060-drumcnpjiu6cpmlkd4at96rmbw8` — country: ru

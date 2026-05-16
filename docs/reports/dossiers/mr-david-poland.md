@@ -1,6 +1,8 @@
-# mr david poland
+# david poland
 
-**Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 3  •  **Jurisdictions:** vg  •  **Novelty score:** 0.22
+**Sources:** 2 (uk_psc, icij)  •  **Linked companies:** 3  •  **Jurisdictions:** vg  •  **Novelty score:** 0.22
+
+_Normalized name in source data: `mr david poland` — honorifics stripped for display._
 
 ## Linked entities by source
 ### icij (2 entities)
@@ -8,9 +10,9 @@
 - MR. DAVID POLAND — `icij:12216294` — country: gb
 
 **Linked companies (ICIJ 2-hop walk):**
-- DAMS ATLANTIC TRADE LTD. (—) — address: `unitrust corporate services ltd john humphries house room 304 4 10 stockwell str` — sanctions: —
-- BRYTANICCA HOLDINGS LIMITED (—) — address: `global wealth management center limited 9 neverovskogo street office 315 moscow ` — sanctions: —
-- ALVERTON INTERMANAGEMENT LIMITED (vg) — address: `sia legal services enkura str 7 riga lv1048 ukraine wc2h 7dq` — sanctions: —
+- BRYTANICCA HOLDINGS LIMITED (—) — address: `global wealth management center limited 9 neverovskogo street office 315 moscow `
+- DAMS ATLANTIC TRADE LTD. (—) — address: `unitrust corporate services ltd john humphries house room 304 4 10 stockwell str`
+- ALVERTON INTERMANAGEMENT LIMITED (vg) — address: `sia legal services enkura str 7 riga lv1048 ukraine wc2h 7dq`
 
 ### uk_psc (2 entities)
 - Mr David Poland — `uk_psc:871da52a-a369-255e-0da6-f062033561dd` — country: gb

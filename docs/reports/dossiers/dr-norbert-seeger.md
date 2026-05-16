@@ -1,6 +1,8 @@
-# dr norbert seeger
+# norbert seeger
 
-**Sources:** 2 (uk_psc, icij)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.20
+**Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.20
+
+_Normalized name in source data: `dr norbert seeger` — honorifics stripped for display._
 
 ## Linked entities by source
 ### icij (2 entities)
@@ -8,8 +10,8 @@
 - Dr. Norbert Seeger — `icij:240512919` — country: li
 
 **Linked companies (ICIJ 2-hop walk):**
-- MORTIMER HOLDING & FINANCE S.A (vg) — address: `—` — sanctions: —
-- GIVA FINANCE LTD (vg) — address: `—` — sanctions: —
+- GIVA FINANCE LTD (vg) — address: `—`
+- MORTIMER HOLDING & FINANCE S.A (vg) — address: `—`
 
 ### uk_psc (2 entities)
 - Dr Norbert Seeger — `uk_psc:dcb55947-da3f-dc94-7fe4-37aaeb23262f` — country: li

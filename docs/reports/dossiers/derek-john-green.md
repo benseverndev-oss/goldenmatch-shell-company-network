@@ -1,15 +1,15 @@
 # derek john green
 
-**Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.20
+**Sources:** 2 (uk_psc, icij)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.20
 
 ## Linked entities by source
 ### icij (2 entities)
-- DEREK JOHN GREEN — `icij:240057006` — country: —
 - DEREK JOHN GREEN — `icij:240105164` — country: —
+- DEREK JOHN GREEN — `icij:240057006` — country: —
 
 **Linked companies (ICIJ 2-hop walk):**
-- Hollyhill Holding Limited (vg) — address: `—` — sanctions: —
-- CAPEND HOLDINGS LIMITED (—) — address: `—` — sanctions: —
+- CAPEND HOLDINGS LIMITED (—) — address: `—`
+- Hollyhill Holding Limited (vg) — address: `—`
 
 ### uk_psc (2 entities)
 - Derek John Green — `uk_psc:8176c958-b7de-b339-ddc3-6ad94d65da84` — country: gb

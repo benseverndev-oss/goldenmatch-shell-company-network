@@ -1,11 +1,11 @@
 # salah ud din
 
-**Sources:** 2 (opensanctions, uk_psc)  •  **Linked companies:** 0  •  **Jurisdictions:** —  •  **Novelty score:** 0.12
+**Sources:** 2 (uk_psc, opensanctions)  •  **Linked companies:** 0  •  **Jurisdictions:** —  •  **Novelty score:** 0.12
 
 ## Linked entities by source
 ### opensanctions (2 entities)
-- Salah ud Din — `opensanctions:pk-cnic-1120103294111` — country: pk
 - Salah ud Din — `opensanctions:Q55955742` — country: —
+- Salah ud Din — `opensanctions:pk-cnic-1120103294111` — country: pk
   _(stub only — no person→company relations parquet for opensanctions in v1)_
 
 ### uk_psc (2 entities)

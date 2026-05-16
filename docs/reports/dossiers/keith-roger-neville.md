@@ -2,14 +2,20 @@
 
 **Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.49
 
+## Shared-address shell clusters
+
+_Multiple ICIJ-linked companies registered at the same address — the shell-network shape the spec was designed to surface._
+
+- `popular corporate service limited 1 suites 1801 1802 18 f alliance building 130 136 connaught road c` (vg) — 2 companies: MASTER DRIVE TECHNOLOGY LTD.; SHARP EDGE MANAGEMENT LIMITED
+
 ## Linked entities by source
 ### icij (2 entities)
-- Keith Roger NEVILLE — `icij:12101429` — country: au
 - KEITH ROGER NEVILLE — `icij:12116576` — country: us
+- Keith Roger NEVILLE — `icij:12101429` — country: au
 
 **Linked companies (ICIJ 2-hop walk):**
-- MASTER DRIVE TECHNOLOGY LTD. (vg) — address: `popular corporate service limited 1 suites 1801 1802 18 f alliance building 130 ` — sanctions: —
-- SHARP EDGE MANAGEMENT LIMITED (vg) — address: `popular corporate service limited 1 suites 1801 1802 18 f alliance building 130 ` — sanctions: —
+- MASTER DRIVE TECHNOLOGY LTD. (vg) — address: `popular corporate service limited 1 suites 1801 1802 18 f alliance building 130 `
+- SHARP EDGE MANAGEMENT LIMITED (vg) — address: `popular corporate service limited 1 suites 1801 1802 18 f alliance building 130 `
 
 ### uk_psc (2 entities)
 - Keith Roger Neville — `uk_psc:1d484d88-99f2-6a2d-71d0-5ab0ca5815b7` — country: gb

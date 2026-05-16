@@ -1,6 +1,6 @@
 # calvin edward ayre
 
-**Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 3  •  **Jurisdictions:** mt  •  **Novelty score:** 0.22
+**Sources:** 2 (uk_psc, icij)  •  **Linked companies:** 3  •  **Jurisdictions:** mt  •  **Novelty score:** 0.22
 
 ## Linked entities by source
 ### icij (2 entities)
@@ -8,13 +8,13 @@
 - CALVIN EDWARD AYRE — `icij:56077208` — country: —
 
 **Linked companies (ICIJ 2-hop walk):**
-- Sutherland Finance Limited (mt) — address: `—` — sanctions: —
-- STRATHAM FINANCE LIMITED (mt) — address: `—` — sanctions: —
-- Bodog Music (Europe) Limited (mt) — address: `—` — sanctions: —
+- Bodog Music (Europe) Limited (mt) — address: `—`
+- STRATHAM FINANCE LIMITED (mt) — address: `—`
+- Sutherland Finance Limited (mt) — address: `—`
 
 ### uk_psc (2 entities)
-- Calvin Edward Ayre — `uk_psc:44c4a19d-fb9b-f6a6-b6d0-8b0a282b307a` — country: ag
 - Calvin Edward Ayre — `uk_psc:e63725ff-b359-6199-fedc-69efee30db18` — country: —
+- Calvin Edward Ayre — `uk_psc:44c4a19d-fb9b-f6a6-b6d0-8b0a282b307a` — country: ag
   _(stub only — no person→company relations parquet for uk_psc in v1)_
 
 ## Web search (firecrawl, 2026-05-16)

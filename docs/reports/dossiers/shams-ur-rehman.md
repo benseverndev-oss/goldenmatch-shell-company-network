@@ -1,16 +1,16 @@
 # shams ur rehman
 
-**Sources:** 2 (uk_psc, opensanctions)  •  **Linked companies:** 0  •  **Jurisdictions:** —  •  **Novelty score:** 0.12
+**Sources:** 2 (opensanctions, uk_psc)  •  **Linked companies:** 0  •  **Jurisdictions:** —  •  **Novelty score:** 0.12
 
 ## Linked entities by source
 ### opensanctions (2 entities)
-- Shams ur Rehman — `opensanctions:pk-cnic-1110101412003` — country: pk
 - Shams ur Rehman — `opensanctions:pk-cnic-2130297775487` — country: pk
+- Shams ur Rehman — `opensanctions:pk-cnic-1110101412003` — country: pk
   _(stub only — no person→company relations parquet for opensanctions in v1)_
 
 ### uk_psc (2 entities)
-- Shams Ur Rehman — `uk_psc:ca479097-77a7-57a3-379f-4955a88d930d` — country: gb
 - Shams Ur Rehman — `uk_psc:db16936d-73e3-3afa-684e-b73bcb98bfc9` — country: gb
+- Shams Ur Rehman — `uk_psc:ca479097-77a7-57a3-379f-4955a88d930d` — country: gb
   _(stub only — no person→company relations parquet for uk_psc in v1)_
 
 ## Web search (firecrawl, 2026-05-16)

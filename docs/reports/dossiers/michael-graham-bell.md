@@ -1,15 +1,15 @@
 # michael graham bell
 
-**Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.20
+**Sources:** 2 (uk_psc, icij)  •  **Linked companies:** 2  •  **Jurisdictions:** vg  •  **Novelty score:** 0.20
 
 ## Linked entities by source
 ### icij (2 entities)
-- MICHAEL GRAHAM BELL — `icij:12110164` — country: cy
 - Michael Graham Bell — `icij:40538` — country: cy
+- MICHAEL GRAHAM BELL — `icij:12110164` — country: cy
 
 **Linked companies (ICIJ 2-hop walk):**
-- Okte Group, Corp. (vg) — address: `consulco international limited ras al khaimah free trade zone ras al khaimah uni` — sanctions: —
-- MESKER FINANCE LIMITED (—) — address: `alpha ibc ltd 4b orfeos street nicosia 1070 cyprus rt bvi` — sanctions: —
+- Okte Group, Corp. (vg) — address: `consulco international limited ras al khaimah free trade zone ras al khaimah uni`
+- MESKER FINANCE LIMITED (—) — address: `alpha ibc ltd 4b orfeos street nicosia 1070 cyprus rt bvi`
 
 ### uk_psc (2 entities)
 - Michael Graham Bell — `uk_psc:0eacb256-daba-8abe-5225-2cc9b39e46eb` — country: gb

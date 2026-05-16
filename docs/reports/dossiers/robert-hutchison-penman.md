@@ -8,7 +8,7 @@
 - Robert Hutchison PENMAN — `icij:240477821` — country: —
 
 **Linked companies (ICIJ 2-hop walk):**
-- MPG HOLDINGS LTD (—) — address: `—` — sanctions: —
+- MPG HOLDINGS LTD (—) — address: `—`
 
 ### uk_psc (2 entities)
 - Robert Hutchison Penman — `uk_psc:031feb07-24b1-2b04-079f-d51cd36fad7f` — country: gb

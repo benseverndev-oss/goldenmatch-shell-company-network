@@ -1,21 +1,29 @@
-# mr robert hirsch
+# robert hirsch
 
 **Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 4  •  **Jurisdictions:** vg  •  **Novelty score:** 0.24
 
+_Normalized name in source data: `mr robert hirsch` — honorifics stripped for display._
+
+## Shared-address shell clusters
+
+_Multiple ICIJ-linked companies registered at the same address — the shell-network shape the spec was designed to surface._
+
+- `hirsch cie rue du grand chene 6 1003 lausanne switzerland` (vg) — 4 companies: BALMARK TRADING CORPORATION; MINROSE REAL ESTATE S.A.; MARNER ENGINEERING CORP.; DIOSCUROS PROPERTIES INC.
+
 ## Linked entities by source
 ### icij (2 entities)
-- MR. ROBERT HIRSCH — `icij:12132752` — country: ch
 - MR. ROBERT HIRSCH — `icij:12002521` — country: —
+- MR. ROBERT HIRSCH — `icij:12132752` — country: ch
 
 **Linked companies (ICIJ 2-hop walk):**
-- BALMARK TRADING CORPORATION (—) — address: `hirsch cie rue du grand chene 6 1003 lausanne switzerland` — sanctions: —
-- MINROSE REAL ESTATE S.A. (vg) — address: `hirsch cie rue du grand chene 6 1003 lausanne switzerland` — sanctions: —
-- MARNER ENGINEERING CORP. (vg) — address: `hirsch cie rue du grand chene 6 1003 lausanne switzerland` — sanctions: —
-- DIOSCUROS PROPERTIES INC. (vg) — address: `hirsch cie rue du grand chene 6 1003 lausanne switzerland` — sanctions: —
+- MARNER ENGINEERING CORP. (vg) — address: `hirsch cie rue du grand chene 6 1003 lausanne switzerland`
+- BALMARK TRADING CORPORATION (—) — address: `hirsch cie rue du grand chene 6 1003 lausanne switzerland`
+- MINROSE REAL ESTATE S.A. (vg) — address: `hirsch cie rue du grand chene 6 1003 lausanne switzerland`
+- DIOSCUROS PROPERTIES INC. (vg) — address: `hirsch cie rue du grand chene 6 1003 lausanne switzerland`
 
 ### uk_psc (2 entities)
-- Mr Robert Hirsch — `uk_psc:b03da74e-8664-3611-7196-2aca2b07ee83` — country: gb
 - Mr Robert Hirsch — `uk_psc:f91c8a5a-dae3-44a1-720a-2c3470c39017` — country: gb
+- Mr Robert Hirsch — `uk_psc:b03da74e-8664-3611-7196-2aca2b07ee83` — country: gb
   _(stub only — no person→company relations parquet for uk_psc in v1)_
 
 ## Web search (firecrawl, 2026-05-16)

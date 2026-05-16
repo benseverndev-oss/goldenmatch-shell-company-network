@@ -1,17 +1,23 @@
 # rosna binti yusoff
 
-**Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 4  •  **Jurisdictions:** vg  •  **Novelty score:** 0.32
+**Sources:** 2 (uk_psc, icij)  •  **Linked companies:** 4  •  **Jurisdictions:** vg  •  **Novelty score:** 0.32
+
+## Shared-address shell clusters
+
+_Multiple ICIJ-linked companies registered at the same address — the shell-network shape the spec was designed to surface._
+
+- `pacific tiger group limited 19th floor hong kong diamond exchange building 8 10 duddell street centr` (vg) — 4 companies: PTG Land Limited [PFE LAND LIMITED; PATHFINDER ASIA LIMITED; EVENSHOT ENTERPRISES LIMITED; STARGATE HOLDINGS LIMITED
 
 ## Linked entities by source
 ### icij (2 entities)
-- Rosna Binti Yusoff — `icij:12164750` — country: hk
 - Rosna Binti Yusoff — `icij:12172503` — country: —
+- Rosna Binti Yusoff — `icij:12164750` — country: hk
 
 **Linked companies (ICIJ 2-hop walk):**
-- PATHFINDER ASIA LIMITED (—) — address: `pacific tiger group limited 19th floor hong kong diamond exchange building 8 10 ` — sanctions: —
-- PTG Land Limited [PFE LAND LIMITED (vg) — address: `pacific tiger group limited 19th floor hong kong diamond exchange building 8 10 ` — sanctions: —
-- EVENSHOT ENTERPRISES LIMITED (—) — address: `pacific tiger group limited 19th floor hong kong diamond exchange building 8 10 ` — sanctions: —
-- STARGATE HOLDINGS LIMITED (—) — address: `pacific tiger group limited 19th floor hong kong diamond exchange building 8 10 ` — sanctions: —
+- PTG Land Limited [PFE LAND LIMITED (vg) — address: `pacific tiger group limited 19th floor hong kong diamond exchange building 8 10 `
+- PATHFINDER ASIA LIMITED (—) — address: `pacific tiger group limited 19th floor hong kong diamond exchange building 8 10 `
+- EVENSHOT ENTERPRISES LIMITED (—) — address: `pacific tiger group limited 19th floor hong kong diamond exchange building 8 10 `
+- STARGATE HOLDINGS LIMITED (—) — address: `pacific tiger group limited 19th floor hong kong diamond exchange building 8 10 `
 
 ### uk_psc (2 entities)
 - Rosna Binti Yusoff — `uk_psc:e0dd319a-4184-0106-49aa-685bc36e9355` — country: my

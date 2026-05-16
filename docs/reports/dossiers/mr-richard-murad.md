@@ -1,6 +1,8 @@
-# mr richard murad
+# richard murad
 
 **Sources:** 2 (icij, uk_psc)  •  **Linked companies:** 1  •  **Jurisdictions:** vg  •  **Novelty score:** 0.18
+
+_Normalized name in source data: `mr richard murad` — honorifics stripped for display._
 
 ## Linked entities by source
 ### icij (2 entities)
@@ -8,11 +10,11 @@
 - MR RICHARD MURAD — `icij:12122088` — country: gb
 
 **Linked companies (ICIJ 2-hop walk):**
-- HASTINGS MANAGEMENT OVERSEAS LIMITED (vg) — address: `stm fidecs management ltd p o box 575 montagu pavillion 8 10 queensway gibraltar` — sanctions: —
+- HASTINGS MANAGEMENT OVERSEAS LIMITED (vg) — address: `stm fidecs management ltd p o box 575 montagu pavillion 8 10 queensway gibraltar`
 
 ### uk_psc (2 entities)
-- Mr Richard Murad — `uk_psc:be114a6a-09ac-50d3-8ed3-a02e1f0c7ebc` — country: gb
 - Mr Richard Murad — `uk_psc:6726763e-746b-4190-cb90-e9b10310d314` — country: gb
+- Mr Richard Murad — `uk_psc:be114a6a-09ac-50d3-8ed3-a02e1f0c7ebc` — country: gb
   _(stub only — no person→company relations parquet for uk_psc in v1)_
 
 ## Web search (firecrawl, 2026-05-16)

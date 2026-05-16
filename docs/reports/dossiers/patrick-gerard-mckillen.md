@@ -8,13 +8,13 @@
 - PATRICK GERARD MCKILLEN — `icij:56102109` — country: ie
 
 **Linked companies (ICIJ 2-hop walk):**
-- MILA INVESTMENT HOLDINGS LTD (mt) — address: `—` — sanctions: —
-- NUDE ESTATES MALTA LIMITED (mt) — address: `—` — sanctions: —
-- HELLENE LTD (mt) — address: `—` — sanctions: —
+- MILA INVESTMENT HOLDINGS LTD (mt) — address: `—`
+- HELLENE LTD (mt) — address: `—`
+- NUDE ESTATES MALTA LIMITED (mt) — address: `—`
 
 ### uk_psc (2 entities)
-- Patrick Gerard Mckillen — `uk_psc:c67e3452-6285-3603-c4b4-b187b8b4a157` — country: —
 - Patrick Gerard Mckillen — `uk_psc:72512044-a5b8-5985-e39c-a7ef9ae8cd11` — country: —
+- Patrick Gerard Mckillen — `uk_psc:c67e3452-6285-3603-c4b4-b187b8b4a157` — country: —
   _(stub only — no person→company relations parquet for uk_psc in v1)_
 
 ## Web search (firecrawl, 2026-05-16)

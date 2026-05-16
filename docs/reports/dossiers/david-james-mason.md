@@ -1,20 +1,20 @@
 # david james mason
 
-**Sources:** 3 (uk_psc, icij, opensanctions)  •  **Linked companies:** 8  •  **Jurisdictions:** mt  •  **Novelty score:** 0.26
+**Sources:** 3 (opensanctions, uk_psc, icij)  •  **Linked companies:** 8  •  **Jurisdictions:** mt  •  **Novelty score:** 0.26
 
 ## Linked entities by source
 ### icij (1 entity)
 - DAVID JAMES MASON — `icij:56026496` — country: —
 
 **Linked companies (ICIJ 2-hop walk):**
-- ABBEYGLEN LIMITED (mt) — address: `—` — sanctions: —
-- FMZ & PARTNERS LIMITED (mt) — address: `—` — sanctions: —
-- SEVERN HOLDINGS LIMITED (mt) — address: `—` — sanctions: —
-- CLARENDON PROPERTIES (MALTA) LIMITED (mt) — address: `—` — sanctions: —
-- SEVERN INVESTMENTS LIMITED (mt) — address: `—` — sanctions: —
-- BIELEFELD PROPERTIES LIMITED (mt) — address: `—` — sanctions: —
-- BRAINTREE PROPERTIES LIMITED (mt) — address: `—` — sanctions: —
-- INVICTUS PROPERTIES SOLUTIONS LIMITED (mt) — address: `—` — sanctions: —
+- INVICTUS PROPERTIES SOLUTIONS LIMITED (mt) — address: `—`
+- BIELEFELD PROPERTIES LIMITED (mt) — address: `—`
+- BRAINTREE PROPERTIES LIMITED (mt) — address: `—`
+- FMZ & PARTNERS LIMITED (mt) — address: `—`
+- ABBEYGLEN LIMITED (mt) — address: `—`
+- SEVERN HOLDINGS LIMITED (mt) — address: `—`
+- SEVERN INVESTMENTS LIMITED (mt) — address: `—`
+- CLARENDON PROPERTIES (MALTA) LIMITED (mt) — address: `—`
 
 ### opensanctions (1 entity)
 - DAVID JAMES MASON — `opensanctions:us-fed-excl-david-james-mason-34209-bradenton` — country: us
