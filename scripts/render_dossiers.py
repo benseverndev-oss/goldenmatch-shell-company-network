@@ -10,7 +10,7 @@ import logging
 import re
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import polars as pl
 import typer
@@ -29,7 +29,7 @@ def _slug(name: str) -> str:
     return s or "unnamed"
 
 
-def _hits_section(label: str, query: str, hits: list[dict[str, Any]]) -> str:
+def _hits_section(query: str, hits: list[dict[str, Any]]) -> str:
     if not hits:
         return f"### `{query}` — 0 hits\n_No hits._\n"
     lines = [f"### `{query}` — {len(hits)} hits"]
@@ -61,10 +61,10 @@ def _render_one(
     sources = rows.select("person_source").unique().to_series().to_list()
     degree_capped = bool(rows.select(pl.col("degree_capped").any()).item())
 
-    h_general = hits.get("general") or []
-    h_offshore = hits.get("offshore") or []
-    h_localized = hits.get("localized") or []
-    top_juris = hits.get("dominant_jurisdiction") or ""
+    h_general = cast(list[dict[str, Any]], hits.get("general") or [])
+    h_offshore = cast(list[dict[str, Any]], hits.get("offshore") or [])
+    h_localized = cast(list[dict[str, Any]], hits.get("localized") or [])
+    top_juris = cast(str, hits.get("dominant_jurisdiction") or "")
 
     body = [
         f"# {rare_name}",
@@ -110,12 +110,12 @@ def _render_one(
         [
             "## Web search (firecrawl, " + now.split(" ")[0] + ")",
             "",
-            _hits_section("offshore", f'"{rare_name}" (shell OR offshore OR director OR PSC)', list(h_offshore)),
-            _hits_section("general", f'"{rare_name}"', list(h_general)),
+            _hits_section(f'"{rare_name}" (shell OR offshore OR director OR PSC)', h_offshore),
+            _hits_section(f'"{rare_name}"', h_general),
         ]
     )
     if top_juris:
-        body.append(_hits_section("localized", f'"{rare_name}" {top_juris}', list(h_localized)))
+        body.append(_hits_section(f'"{rare_name}" {top_juris}', h_localized))
 
     body.extend(
         [
