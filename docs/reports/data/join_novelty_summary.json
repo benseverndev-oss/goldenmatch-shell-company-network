@@ -1,0 +1,34 @@
+{
+  "company_triples": {
+    "n_rows": 16,
+    "distinct_leis": 4,
+    "distinct_icij_uids": 16,
+    "distinct_os_uids": 4,
+    "with_evasion_signal": 0,
+    "with_disqualified_director_overlap": 0,
+    "jurisdiction_distribution": [
+      {
+        "icij_jurisdiction": "bm",
+        "len": 13
+      },
+      {
+        "icij_jurisdiction": "mt",
+        "len": 1
+      },
+      {
+        "icij_jurisdiction": "vg",
+        "len": 1
+      },
+      {
+        "icij_jurisdiction": "hk",
+        "len": 1
+      }
+    ]
+  },
+  "dob_confirmed_pairs": {
+    "n_rows": 200,
+    "distinct_os_uids": 137,
+    "with_evasion_signal": 38,
+    "with_disqualified_director_overlap": 0
+  }
+}

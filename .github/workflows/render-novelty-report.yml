@@ -1,0 +1,132 @@
+name: render novelty report (Railway-side compute)
+
+# Refreshes docs/reports/join_novelty.md.
+#
+# Step 1 runs `scripts/build_join_novelty_report.py` on the Railway
+# shellnet-job container (it needs the multi-GB interim parquets that
+# only live on /data). Step 2 pulls the small summary artifacts down
+# to the GH Actions runner and renders the markdown report locally.
+# Step 3 opens a PR with the diff so the report change is reviewable
+# rather than silently committed to main.
+#
+# Triggered manually from the Actions UI. Per CLAUDE.md, heavy compute
+# never runs on the runner — only the templating step does.
+
+on:
+  workflow_dispatch:
+    inputs:
+      person_limit:
+        description: "Max person rows in the rendered table (parquet keeps all)"
+        required: true
+        default: "50"
+        type: string
+
+concurrency:
+  group: render-novelty-report
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  render:
+    name: Build on Railway, render on Actions, open PR
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SHELLNET_JOB_URL: ${{ vars.SHELLNET_JOB_URL }}
+      SHELLNET_JOB_TOKEN: ${{ secrets.SHELLNET_JOB_TOKEN }}
+      PERSON_LIMIT: ${{ inputs.person_limit }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - name: Sync deps (just polars + typer)
+        run: uv sync --frozen --no-dev
+
+      - name: Confirm server reachable
+        run: |
+          set -euo pipefail
+          curl -fsS "$SHELLNET_JOB_URL/healthz"
+          echo
+
+      - name: Trigger build on Railway
+        run: |
+          set -euo pipefail
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+            "$SHELLNET_JOB_URL/run-script?name=build_join_novelty_report"
+          echo
+
+      - name: Poll until build completes
+        run: |
+          set -euo pipefail
+          stage="script_build_join_novelty_report"
+          for _ in $(seq 1 240); do
+            sleep 5
+            s=$(curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" "$SHELLNET_JOB_URL/status" \
+                | python -c "import sys,json; d=json.load(sys.stdin); print(d['stages'].get('$stage',{}).get('status','?'))")
+            echo "  $stage: $s"
+            case "$s" in
+              completed) break ;;
+              failed)
+                echo "::error::$stage failed"
+                curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+                  "$SHELLNET_JOB_URL/logs/$stage?tail=120" || true
+                exit 1 ;;
+            esac
+          done
+
+      - name: Download summary artifacts
+        run: |
+          set -euo pipefail
+          mkdir -p data/processed
+          for p in processed/join_novelty.parquet processed/join_novelty_summary.json; do
+            curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+              "$SHELLNET_JOB_URL/download?path=$p" \
+              -o "data/$p"
+            ls -lh "data/$p"
+          done
+
+      - name: Render markdown report
+        run: |
+          set -euo pipefail
+          uv run python scripts/render_join_novelty_report.py \
+            --parquet data/processed/join_novelty.parquet \
+            --summary data/processed/join_novelty_summary.json \
+            --out docs/reports/join_novelty.md \
+            --person-limit "$PERSON_LIMIT"
+
+      - name: Stage tracked copies of the summary artifacts
+        # data/processed/ is gitignored; mirror the small outputs into
+        # docs/reports/data/ so the PR can include them.
+        run: |
+          set -euo pipefail
+          mkdir -p docs/reports/data
+          cp data/processed/join_novelty.parquet docs/reports/data/join_novelty.parquet
+          cp data/processed/join_novelty_summary.json docs/reports/data/join_novelty_summary.json
+
+      - name: Open or update PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: bot/refresh-novelty-report
+          commit-message: "report: refresh docs/reports/join_novelty.md"
+          title: "report: refresh join-novelty report"
+          body: |
+            Auto-generated from `render-novelty-report.yml`.
+
+            Source: `scripts/build_join_novelty_report.py` on Railway.
+            Renderer: `scripts/render_join_novelty_report.py` on Actions.
+
+            Person-row limit on the rendered table: `${{ inputs.person_limit }}`.
+            (The parquet keeps the full result; only the table is truncated.)
+          add-paths: |
+            docs/reports/join_novelty.md
+            docs/reports/data/join_novelty.parquet
+            docs/reports/data/join_novelty_summary.json
