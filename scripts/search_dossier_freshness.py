@@ -71,7 +71,12 @@ def _firecrawl_search(
             return []
         resp.raise_for_status()
         data = resp.json()
-        return data.get("data", []) or data.get("results", []) or []
+        # Firecrawl's responses use either "data" or "results" depending on
+        # endpoint version. Explicit-key check so an empty "data" doesn't
+        # silently fall through to "results".
+        if "data" in data:
+            return data.get("data") or []
+        return data.get("results") or []
     except (httpx.HTTPError, httpx.ReadTimeout, ValueError) as exc:
         log.warning("firecrawl exception for %r: %s", query, exc)
         return []
