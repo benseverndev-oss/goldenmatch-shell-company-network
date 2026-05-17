@@ -1,0 +1,90 @@
+name: build adversarial benchmark (Railway-side compute)
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: build-adversarial-benchmark
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SHELLNET_JOB_URL: ${{ vars.SHELLNET_JOB_URL }}
+      SHELLNET_JOB_TOKEN: ${{ secrets.SHELLNET_JOB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+      - name: Sync deps
+        run: uv sync --frozen --no-dev
+      - name: Confirm Railway reachable
+        run: curl -fsS "$SHELLNET_JOB_URL/healthz"
+      - name: Trigger build_adversarial_benchmark
+        run: |
+          set -euo pipefail
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+            "$SHELLNET_JOB_URL/run-script?name=build_adversarial_benchmark"
+          echo
+      - name: Poll until complete
+        run: |
+          set -euo pipefail
+          stage="script_build_adversarial_benchmark"
+          done=false
+          for _ in $(seq 1 240); do
+            sleep 5
+            s=$(curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+                "$SHELLNET_JOB_URL/status" \
+                | python -c "import sys,json; d=json.load(sys.stdin); print(d['stages'].get('$stage',{}).get('status','?'))")
+            echo "  $stage: $s"
+            case "$s" in
+              completed) done=true; break ;;
+              failed)
+                curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+                  "$SHELLNET_JOB_URL/logs/$stage?tail=120" || true
+                exit 1
+                ;;
+            esac
+          done
+          if [ "$done" != "true" ]; then
+            echo "::error::poll loop timed out"
+            exit 1
+          fi
+      - name: Download artifacts
+        run: |
+          set -euo pipefail
+          mkdir -p data/processed docs/reports/data
+          for p in processed/adversarial_benchmark.parquet \
+                   processed/adversarial_benchmark_summary.json; do
+            curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+              "$SHELLNET_JOB_URL/download?path=$p" -o "data/$p"
+            cp "data/$p" "docs/reports/data/$(basename $p)"
+          done
+      - name: Render markdown
+        run: |
+          set -euo pipefail
+          uv run python scripts/render_adversarial_benchmark.py \
+            --parquet docs/reports/data/adversarial_benchmark.parquet \
+            --summary docs/reports/data/adversarial_benchmark_summary.json \
+            --out docs/reports/adversarial_benchmark.md
+      - name: Commit + push to main
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/reports/adversarial_benchmark.md \
+                  docs/reports/data/adversarial_benchmark.parquet \
+                  docs/reports/data/adversarial_benchmark_summary.json
+          if git diff --cached --quiet; then
+            echo "No changes; report unchanged."
+            exit 0
+          fi
+          git commit -m "report: refresh adversarial benchmark (auto from build-adversarial-benchmark.yml)"
+          git push origin HEAD:main

@@ -493,6 +493,15 @@ _ALLOWED_SCRIPTS = {
         "--reports-dir",
         "/data/reports/generated",
     ],
+    "build_adversarial_benchmark": [
+        "scripts/build_adversarial_benchmark.py",
+        "--discovery-parquet",
+        "/data/processed/discovery_lift.parquet",
+        "--out-parquet",
+        "/data/processed/adversarial_benchmark.parquet",
+        "--out-summary",
+        "/data/processed/adversarial_benchmark_summary.json",
+    ],
     "build_baseline_comparison": [
         "scripts/build_baseline_comparison.py",
         "--discovery-parquet",

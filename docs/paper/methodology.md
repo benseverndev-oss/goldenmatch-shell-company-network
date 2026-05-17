@@ -1,6 +1,6 @@
 # Registry-anchored offshore graph reconstruction
 
-_A reproducible methodology for cross-source entity resolution on shell-company corpora, with quantified discovery lift and probability-calibrated scoring._
+_Entity resolution under intentional opacity and fragmented public registries — a reproducible methodology with quantified discovery lift, probability-calibrated scoring, and adversarial-robustness benchmarks._
 
 **Project:** [`goldenmatch-shell-company-network`](https://github.com/benzsevern/goldenmatch-shell-company-network)
 **Author:** Ben Severn
@@ -12,9 +12,28 @@ _A reproducible methodology for cross-source entity resolution on shell-company 
 
 Two tools dominate public offshore-investigation work today: **ICIJ's Offshore Leaks Database** and **OCCRP's Aleph**. Both are excellent at *search*: type a name, see what records mention it. Neither answers the question an investigator typically asks next: _"this person appears in a leak — does an independent legal-entity registry also know about them, and what does that registry say?"_
 
-The answer requires explicit cross-source entity resolution: deduping rows from ICIJ leaks (Panama / Paradise / Pandora), OpenSanctions, the UK Persons of Significant Control register, and the GLEIF Level-1/Level-2 LEI corpus into shared identities. Both tools display each dataset separately. Neither computes the joins.
+The answer requires explicit cross-source entity resolution. But the entity-resolution problem here has a property generic ER literature usually ignores: **the entities are designed to defeat resolution**. This is ER under intentional opacity.
 
-This project provides that layer:
+### 1.5 Adversary model
+
+The reconciliation problem in this domain is fundamentally adversarial. Concretely, an adversary controls:
+
+- **Choice of incorporation jurisdiction.** A holding can be registered in any of ~200 jurisdictions, of which only a handful (UK PSC, US Delaware, certain EU registries) publish beneficial-ownership data. Jurisdiction shopping is the most basic move.
+- **Name transliteration and spelling variants across registries.** "Pavel Maslovsky" / "Pavel Maslowski" / "Маслоўскі" — the same person under registrar-specific orthography. Public registries have no shared name-normalisation contract.
+- **Legal-form permutation.** "Acme Ltd" / "Acme Limited" / "Acme LLC" / "Acme Holdings" — different legal-form suffixes attached to functionally-identical incorporations across jurisdictions.
+- **Layering depth.** N-level shell chains between an Ultimate Beneficial Owner (UBO) and an observable transaction. Each layer is a separate legal entity in a separate registry.
+- **Sanctions-list dodging.** Avoid the OFAC SDN list specifically (which most KYC tooling checks against) while accepting listing on a regional list with less commercial reach (UA NSDC, GB FCDO, EU FSF).
+
+The adversary does **not** control, by construction:
+
+- **Leak corpora** (Panama / Paradise / Pandora / FinCEN files). Leaks are an asymmetric channel — adversaries can't prevent retrospective disclosure of records they intended to be private.
+- **GLEIF LEI registrations** where they happen voluntarily for capital-markets access.
+- **UK PSC public-record DOBs.** Once submitted, the year + month is public.
+- **Cross-source overlaps in observable name strings.** Even after all the perturbation moves above, the same human is *eventually* recorded under recognisable variants because at some point they must use a name in a context the registry captures.
+
+The methodology in §3 is designed against this adversary. The benchmark in §5 quantifies which adversary moves it actually defeats and which it doesn't.
+
+### 1.6 What this project provides
 
 - Ingests the public sources into a unified `person_entities` and `company_entities` parquet pair.
 - Runs **goldenmatch** entity resolution across them with explicit confidence scoring.
@@ -76,12 +95,13 @@ Three layered operations, each shippable on its own:
 
 ## 4. Quantitative evaluation
 
-Three benchmark reports back the methodology, each refreshed by its own
+Four benchmark reports back the methodology, each refreshed by its own
 GH-Actions workflow:
 
 - [`discovery_lift.md`](../reports/discovery_lift.md) — tier-by-tier anchor counts (B1→B4).
 - [`baseline_comparison.md`](../reports/baseline_comparison.md) — comparison vs. tools an analyst might use today: ICIJ search, naive fuzzy match, analyst-time model.
 - [`calibration_benchmark.md`](../reports/calibration_benchmark.md) — PAV-isotonic calibration of the raw match score.
+- [`adversarial_benchmark.md`](../reports/adversarial_benchmark.md) — robustness to perturbations modelling the adversary in §1.5 (covered in §5).
 
 ### 4.1 Discovery lift
 
@@ -161,7 +181,47 @@ Fits a hand-rolled Pool-Adjacent-Violators isotonic regression (no sklearn depen
 2. DOB supervision is specific to the OS↔(ICIJ∪PSC) person-side match. Company-side scores need their own supervisor (LEI agreement would work but the GLEIF match file in this corpus doesn't carry LEI on the target side).
 3. The calibrator is fit to *this* goldenmatch config. Retune the matcher and refit.
 
-## 5. Worked example: Francisco Lopes Filho
+## 5. Adversarial robustness
+
+[`adversarial_benchmark.md`](../reports/adversarial_benchmark.md) tests
+the methodology directly against the threat model from §1.5. Four
+synthetic perturbations are applied to each of a 500-anchor B3 sample,
+modelling distinct adversary moves:
+
+| Perturbation | Adversary move modelled | B2 (normalize) recovery | B6 (fuzzy ≥ 0.85) recovery |
+|---|---|---:|---:|
+| `suffix_mutation` | Swap legal-form suffix across jurisdictions | 76.5% | 100% |
+| `honorific_insertion` | Inflate salutation (Mr / Dr / Sheikh) | **0%** | 100% |
+| `transliteration` | Char-level substitution (i↔y, kh↔h, sh↔sch, ts↔z) | **2%** | 96% |
+| `token_reorder_drop` | Shuffle middle tokens; drop one if ≥4 tokens | 87% | 100% |
+
+**Three honest findings:**
+
+1. **The normalize layer is a partial defense.** It handles suffix
+   mutation (~77% recovery) and surfaces token-reorder cases when the
+   middle-token count is small enough to make reorder a no-op (~87%).
+   It is **defeated entirely by honorific insertion** — the source-table
+   `normalize_company_name` doesn't strip "Mr"/"Ms"/"Dr", which is the
+   reason rare-officer-overlap surfaces both "mr francisco lopes filho"
+   and "francisco lopes filho" as separate keys today.
+2. **Transliteration is the strongest adversary move.** Character-level
+   substitutions matching realistic slavic/arabic variance drop the
+   normalize-layer recovery to 2%. Fuzzy at threshold 85 catches 96%
+   but at the cost of false-positive risk on common names. The pipeline
+   does **not** currently defend against this.
+3. **Fuzzy match at 0.85 is broadly robust, but unprincipled.** B6
+   recovers ≥96% across all four perturbations, but the same threshold
+   that survives "Mr Foo" also matches "Mark Taylor" to dozens of
+   unrelated people. There is no calibrated probability behind the 0.85
+   threshold — the calibration benchmark in §4.3 quantifies the
+   over-confidence problem more generally.
+
+The benchmark surfaces a concrete, fixable gap: **strip honorifics in
+`normalize_company_name` itself, not just at the renderer.** That
+single change would close the largest current vulnerability. Captured
+as a §6.2 follow-up.
+
+## 6. Worked example: Francisco Lopes Filho
 
 Top-ranked dossier in the current `exposes_candidates.md`. The name appears in two source datasets:
 
@@ -182,7 +242,7 @@ The firecrawl freshness check (run by [`build-exposes-candidates.yml`](../../.gi
 
 This is the prototype of the kind of lead the methodology produces. It's not a Panama-Papers-scale revelation by itself. The point of the dossiers index is to put 50 such candidates in front of a human reviewer in one place.
 
-## 6. Limitations
+## 7. Limitations
 
 **Honest list:**
 
@@ -193,7 +253,7 @@ This is the prototype of the kind of lead the methodology produces. It's not a P
 5. **No public UI.** The output is parquet files and Markdown reports. Not directly usable by non-engineer journalists today.
 6. **Enterprise CI policy blocks PR-based review of bot commits.** The auto-generated report refreshes direct-commit to `main`. Workable for a single-author research repo; would not be the right call for a multi-contributor compliance system.
 
-## 7. Reproducibility
+## 8. Reproducibility
 
 Every artifact in this repo is regenerable from the published source dumps. Three workflows refresh the headline reports end-to-end:
 
@@ -209,7 +269,7 @@ The seed parameters live in `src/shellnet/job_server.py:_ALLOWED_SCRIPTS`. Chang
 
 Specs and plans for each component are committed alongside the code in `docs/superpowers/specs/` and `docs/superpowers/plans/`. The intent is that a reader can read the spec, look at the commit history, and reconstruct why each decision was made.
 
-## 8. Prior art comparison
+## 9. Prior art comparison
 
 [`prior_art_comparison.md`](../prior_art_comparison.md) covers this in detail. Short version:
 
@@ -222,22 +282,33 @@ Specs and plans for each component are committed alongside the code in `docs/sup
 | Cross-source dedupe with confidence scoring | ✗ | ✗ | ✓ |
 | **Probability-calibrated match scores** | ✗ | ✗ | ✓ (§4.3) |
 | **Ranked discovery-novelty report** | ✗ | ✗ | ✓ (§4.1) |
+| **Explicit adversary model + robustness benchmark** | ✗ | ✗ | ✓ (§1.5, §5) |
 | Live document UI for journalists | ✓ | ✓ | ✗ |
 | Hosted, free, public | ✓ | ✓ | ✗ (single-author research) |
 
 The project is positioned as a **layer** on top of what those two tools aggregate, not a replacement.
 
-## 9. Future work
+## 10. Future work
+
+### 10.1 Quick fix surfaced by §5
+
+**Honorific stripping in `normalize_company_name`.** The adversarial
+benchmark surfaced the only fully-defeated current attack: prepend
+"Mr"/"Ms"/"Dr". The fix is one function edit (`normalize_company_name`
+already strips legal suffixes via the same pattern; honorifics extend
+that). Closes the 0% recovery cell in §5.
+
+### 10.2 Larger directions
 
 Five paths flagged from external review, ordered by cost × payoff:
 
-1. **Hand-labeled gold standard** for ER calibration. The DOB-based supervision in §4.3 works but is bound to a specific subset (OS↔persons). Producing 300-500 hand-labeled marginal pairs would unlock per-source-pair calibration and held-out evaluation.
+1. **Hand-labeled gold standard** for ER calibration *and* annotation reliability. The DOB-based supervision in §4.3 works but is bound to a specific subset (OS↔persons). Producing 300-500 hand-labeled marginal pairs with two annotators would unlock both per-source-pair calibration and inter-rater-agreement reporting (Cohen's κ + protocol documentation), addressing the methodological-rigor gap external reviewers have flagged for the labels question.
 2. **Materialise UK PSC and OS person→company relations parquets.** Removes the source-asymmetry caveat from §6 and lets the graph walk produce equally rich dossiers for non-ICIJ-sourced persons.
 3. **Temporal snapshots.** Re-ingest the source dumps quarterly; track cluster-membership churn over time. Enables the kind of "shell-network evolution" story arc that Phoenix Spree-style investigations rely on.
 4. **Cross-jurisdiction beneficial-ownership reconstruction.** Given a leaf company, walk to the ultimate beneficial owner across multiple registries with confidence attached to each hop. A research-paper-sized commitment but addresses the compliance-research community directly.
 5. **Embedding-based name match as a 5th calibration tier.** Compare goldenmatch's string-similarity approach against a multilingual text embedder (e.g. paraphrase-multilingual-MiniLM) on the same DOB-based supervision. Validates whether the recall lift in §4.1 generalises.
 
-## 10. Citing this work
+## 11. Citing this work
 
 Until a DOI lands (planned via Zenodo), cite the repository:
 
