@@ -1,0 +1,33 @@
+{
+  "kind": "pav_isotonic",
+  "checkpoints": [
+    {
+      "max_score": 0.8203125000000001,
+      "calibrated_prob": 0.0
+    },
+    {
+      "max_score": 0.8203125000000001,
+      "calibrated_prob": 0.0
+    },
+    {
+      "max_score": 0.8203619942069054,
+      "calibrated_prob": 0.0
+    },
+    {
+      "max_score": 0.8204545378684998,
+      "calibrated_prob": 0.0
+    },
+    {
+      "max_score": 0.9657894894480705,
+      "calibrated_prob": 0.48286604361370716
+    },
+    {
+      "max_score": 0.9787683933973311,
+      "calibrated_prob": 0.625
+    },
+    {
+      "max_score": 1.0,
+      "calibrated_prob": 0.9615384615384616
+    }
+  ]
+}
