@@ -314,15 +314,15 @@ the credibility-weighted graph into actionable reviewer signal.
             "grounded; low-mean ones rest on inferred edges and deserve "
             "review before publication.\n\n"
         )
-        body += "| Community | Size | Edges | Mean credibility | Min credibility |\n"
-        body += "|---:|---:|---:|---:|---:|\n"
-        top_agg = aggregates_df.sort("size", descending=True).head(10)
+        body += "| Community | Internal edges | Mean credibility | Min credibility |\n"
+        body += "|---:|---:|---:|---:|\n"
+        top_agg = aggregates_df.sort("n_internal_edges", descending=True).head(10)
         for r in top_agg.iter_rows(named=True):
             body += (
-                f"| {int(r['community_id'])} | {int(r['size'])} | "
+                f"| {int(r['community_id'])} | "
                 f"{int(r['n_internal_edges'])} | "
-                f"{float(r['mean_credibility']):.3f} | "
-                f"{float(r['min_credibility']):.3f} |\n"
+                f"{float(r['mean_edge_credibility']):.3f} | "
+                f"{float(r['min_edge_credibility']):.3f} |\n"
             )
         body += "\n"
 
@@ -339,7 +339,7 @@ the credibility-weighted graph into actionable reviewer signal.
         for r in contradictions_df.head(10).iter_rows(named=True):
             body += (
                 f"| `{r['node_a']}` | `{r['node_b']}` | "
-                f"{int(r['lo_community_id'])} | "
+                f"{int(r['lo_community'])} | "
                 f"{int(r['hi_community_a'])} | {int(r['hi_community_b'])} |\n"
             )
         body += "\n"
@@ -353,12 +353,14 @@ the credibility-weighted graph into actionable reviewer signal.
             "manual-review targets — a yes/no decision on each rewrites "
             f"large parts of the community structure. Total: **{review_df.height:,}**.\n\n"
         )
-        body += "| Source | Target | Kind | Credibility | Priority |\n"
-        body += "|---|---|---|---:|---:|\n"
+        body += "| Node A | Node B | Edge credibility | Uncertainty | Impact | Priority |\n"
+        body += "|---|---|---:|---:|---:|---:|\n"
         for r in review_df.head(15).iter_rows(named=True):
             body += (
-                f"| `{r['src_uid']}` | `{r['dst_uid']}` | `{r['kind_raw']}` | "
-                f"{float(r['credibility']):.3f} | "
+                f"| `{r['node_a']}` | `{r['node_b']}` | "
+                f"{float(r['edge_credibility']):.3f} | "
+                f"{float(r['uncertainty']):.3f} | "
+                f"{float(r['impact_score']):.3f} | "
                 f"{float(r['priority']):.3f} |\n"
             )
         body += "\n"
