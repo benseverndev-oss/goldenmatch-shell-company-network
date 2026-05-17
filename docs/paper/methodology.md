@@ -1,10 +1,32 @@
 # Registry-anchored offshore graph reconstruction
 
-_Entity resolution under intentional opacity and fragmented public registries — a reproducible methodology with quantified discovery lift, probability-calibrated scoring, and adversarial-robustness benchmarks._
+_A lead-generation engine for cross-source offshore investigations: ranked candidate leads, calibrated confidence scores, an adversarial-ER threat model, and quantified discovery lift over baseline workflows._
 
 **Project:** [`goldenmatch-shell-company-network`](https://github.com/benzsevern/goldenmatch-shell-company-network)
 **Author:** Ben Severn
 **Status:** Living document, last refreshed alongside the benchmark reports it cites.
+
+---
+
+## TL;DR
+
+**What this is.** A reproducible pipeline that ingests ICIJ Offshore Leaks, OpenSanctions, UK PSC, and the GLEIF LEI corpus into a unified entity graph, reconciles identities across sources with calibrated confidence, and emits a ranked **exposé-candidates index** of cross-source overlaps invisible to any single-source UI.
+
+**Headline measurable claims (all on `main`, all reproducible):**
+
+- **+11% recall** over a naive case-fold baseline. Normalization rescues 1,641 multi-source anchors that lowercase-and-strip misses. See [§4.1](#41-discovery-lift).
+- **0% of cross-source overlays surface through ICIJ Offshore Leaks DB's name search** by structural necessity (ICIJ doesn't ingest UK PSC / GLEIF). See [§4.2](#42-baseline-comparison--vs-icij-search-naive-fuzzy-analyst-time).
+- **×2.7 analyst speedup** modelled over the full 3,838-anchor B3 population (256 hours → 96 hours). [§4.2](#42-baseline-comparison--vs-icij-search-naive-fuzzy-analyst-time).
+- **−40% Brier / −45% log-loss** after PAV-isotonic calibration of the raw ER score. Raw `__match_score__` is demonstrably overconfident; thresholding on it is a methodology error. [§4.3](#43-er-score-calibration).
+- **Mean Jaccard 0.993** on community structure across credibility thresholds {0.5, 0.7, 0.9}. Communities aren't artifacts of the cut-off. [§6](#6-confidence-aware-graph-reconstruction).
+- **Documented adversarial failure modes.** B2 normalize fails 100% against honorific insertion, 98% against transliteration. We say so. [§5](#5-adversarial-robustness).
+
+**Exemplar lead (§7):** Francisco Lopes Filho, b. Sept 1935. Officer of two BVI Panama-Papers shells at Geneva Swiss-bank addresses, AND person-of-significant-control of CHAMPEL LLP (London). Both halves public; **the join is not reported anywhere** per a firecrawl search at time of writing. Rank-1 in [`exposes_candidates.md`](../reports/exposes_candidates.md).
+
+**Refresh in one command:**
+```bash
+gh workflow run build-exposes-candidates.yml   # regenerates the lead index + 50 dossiers
+```
 
 ---
 
@@ -13,6 +35,8 @@ _Entity resolution under intentional opacity and fragmented public registries �
 Two tools dominate public offshore-investigation work today: **ICIJ's Offshore Leaks Database** and **OCCRP's Aleph**. Both are excellent at *search*: type a name, see what records mention it. Neither answers the question an investigator typically asks next: _"this person appears in a leak — does an independent legal-entity registry also know about them, and what does that registry say?"_
 
 The answer requires explicit cross-source entity resolution. But the entity-resolution problem here has a property generic ER literature usually ignores: **the entities are designed to defeat resolution**. This is ER under intentional opacity.
+
+The framing this project takes is therefore not "analysis tool" but **lead-generation engine**: a system that systematically surfaces investigatively-valuable cross-source structures that standard search workflows miss. The TL;DR above lists the measurable evidence; the rest of the paper defines the methodology and quantifies which adversary moves it defeats.
 
 ### 1.5 Adversary model
 
@@ -102,6 +126,8 @@ GH-Actions workflow:
 - [`baseline_comparison.md`](../reports/baseline_comparison.md) — comparison vs. tools an analyst might use today: ICIJ search, naive fuzzy match, analyst-time model.
 - [`calibration_benchmark.md`](../reports/calibration_benchmark.md) — PAV-isotonic calibration of the raw match score.
 - [`adversarial_benchmark.md`](../reports/adversarial_benchmark.md) — robustness to perturbations modelling the adversary in §1.5 (covered in §5).
+
+Plus [`failed_investigations.md`](../reports/failed_investigations.md) — the inverse of the benchmark suite, documenting five real failure modes the pipeline exhibits (zero-match reconciles, broken upstream scraper, name-collision noise on common UK names, structurally-disjoint sanctions/leak populations, the honorific-insertion vulnerability). Published because methodological credibility requires reporting failures.
 
 ### 4.1 Discovery lift
 
