@@ -309,7 +309,7 @@ the credibility-weighted graph into actionable reviewer signal.
         body += "### Per-community confidence aggregates\n\n"
         body += (
             "Mean / min edge credibility within each community at the "
-            f"strict threshold ({s['stability']['thresholds'][-1]:.2f}). "
+            f"strict threshold ({s['thresholds'][-1]:.2f}). "
             "Communities with high mean credibility are structurally "
             "grounded; low-mean ones rest on inferred edges and deserve "
             "review before publication.\n\n"
