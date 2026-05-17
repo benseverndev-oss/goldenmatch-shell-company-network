@@ -1,0 +1,273 @@
+{
+  "structures": {
+    "S1_latent_intermediary_reuse": {
+      "n_detected": 126,
+      "min_clients_threshold": 3,
+      "top_5": [
+        {
+          "dst_node": "icij:101300076",
+          "n_clients": 5
+        },
+        {
+          "dst_node": "icij:82019585",
+          "n_clients": 4
+        },
+        {
+          "dst_node": "icij:101300442",
+          "n_clients": 4
+        },
+        {
+          "dst_node": "icij:101300337",
+          "n_clients": 4
+        },
+        {
+          "dst_node": "icij:101300690",
+          "n_clients": 4
+        }
+      ]
+    },
+    "S2_jurisdiction_bridges": {
+      "n_detected": 99,
+      "top_5": [
+        {
+          "src_node": "icij:80033141",
+          "company_a": "icij:82002777",
+          "company_b": "icij:82022446",
+          "juris_a": "us",
+          "juris_b": "ky"
+        },
+        {
+          "src_node": "icij:80114736",
+          "company_a": "icij:82000231",
+          "company_b": "icij:82001775",
+          "juris_a": "bm",
+          "juris_b": "us"
+        },
+        {
+          "src_node": "icij:80056378",
+          "company_a": "icij:82007452",
+          "company_b": "icij:82014151",
+          "juris_a": "bm",
+          "juris_b": "us"
+        },
+        {
+          "src_node": "icij:80055721",
+          "company_a": "icij:82002744",
+          "company_b": "icij:82005296",
+          "juris_a": "us",
+          "juris_b": "bm"
+        },
+        {
+          "src_node": "icij:80056378",
+          "company_a": "icij:82003067",
+          "company_b": "icij:82014150",
+          "juris_a": "bm",
+          "juris_b": "us"
+        }
+      ]
+    },
+    "S3_hidden_registry_anchors": {
+      "n_detected": 19934,
+      "distinct_icij_uids": 19934,
+      "distinct_leis": 10157,
+      "top_5": [
+        {
+          "target_name": "BOUMA CORPORATION LTD",
+          "target_jurisdiction": "ky",
+          "ref_name": "Bouma Corporporation Ltd",
+          "ref_lei": "254900Q808X0MEWHIG67"
+        },
+        {
+          "target_name": "Atrium XI",
+          "target_jurisdiction": "ky",
+          "ref_name": "Atrium XI",
+          "ref_lei": "549300TGINJQCXBCLS76"
+        },
+        {
+          "target_name": "Atrium X",
+          "target_jurisdiction": "ky",
+          "ref_name": "Atrium X",
+          "ref_lei": "254900BPA69DOSW60885"
+        },
+        {
+          "target_name": "Atrium X Trust",
+          "target_jurisdiction": "ky",
+          "ref_name": "Atrium X",
+          "ref_lei": "254900BPA69DOSW60885"
+        },
+        {
+          "target_name": "ROCK ENTERPRISES LIMITED",
+          "target_jurisdiction": "mt",
+          "ref_name": "Rock Enterprises Limited",
+          "ref_lei": "485100O56SYJ99TTKV40"
+        }
+      ]
+    },
+    "S4_sanctions_adjacent_closure": {
+      "n_detected": 25,
+      "top_5": [
+        {
+          "community_id": 2762,
+          "size": 173,
+          "n_jurisdictions": 3,
+          "jurisdictions": "hk;mt;vg",
+          "n_sanctioned": 1,
+          "address_density": 0.13,
+          "intermediary_density": 0.502,
+          "officer_density": 0.364,
+          "anomaly_score": 0.4205
+        },
+        {
+          "community_id": 2125,
+          "size": 1771,
+          "n_jurisdictions": 6,
+          "jurisdictions": "ae;ch;gb;hk;us;vg",
+          "n_sanctioned": 3,
+          "address_density": 0.938,
+          "intermediary_density": 0.0,
+          "officer_density": 0.062,
+          "anomaly_score": 0.3942
+        },
+        {
+          "community_id": 3401,
+          "size": 4014,
+          "n_jurisdictions": 7,
+          "jurisdictions": "cy;hk;mt;nz;uk;uy;vg",
+          "n_sanctioned": 5,
+          "address_density": 0.057,
+          "intermediary_density": 0.581,
+          "officer_density": 0.233,
+          "anomaly_score": 0.3931
+        },
+        {
+          "community_id": 954,
+          "size": 29,
+          "n_jurisdictions": 2,
+          "jurisdictions": "mt;vg",
+          "n_sanctioned": 2,
+          "address_density": 0.05,
+          "intermediary_density": 0.575,
+          "officer_density": 0.375,
+          "anomaly_score": 0.3445
+        },
+        {
+          "community_id": 3841,
+          "size": 3356,
+          "n_jurisdictions": 16,
+          "jurisdictions": "ae;ai;bm;bs;bz;cy;gg;hk;im;je;ky;mt;pa;sg;vg;xx",
+          "n_sanctioned": 4,
+          "address_density": 0.366,
+          "intermediary_density": 0.021,
+          "officer_density": 0.612,
+          "anomaly_score": 0.3401
+        }
+      ]
+    },
+    "S5_fragmented_ownership_convergence": {
+      "n_detected": 2010,
+      "min_entities": 3,
+      "max_entities": 10,
+      "min_distinct_officers": 3,
+      "top_5": [
+        {
+          "normalized_address": "fortenberry corporate services ltd 519 st james court st denis street port louis mauritius",
+          "n_distinct_officers": 470,
+          "n_companies": 6
+        },
+        {
+          "normalized_address": "lic luis fernando herrera toledo legal center 6 avenida 20 25 zona 10 ciudad de guatemala republica de guatemala 01010",
+          "n_distinct_officers": 159,
+          "n_companies": 9
+        },
+        {
+          "normalized_address": "cr pablo cataumbert colonia 981 piso 8 montevideo uruguay",
+          "n_distinct_officers": 124,
+          "n_companies": 3
+        },
+        {
+          "normalized_address": "mesoamerica plaza roble edificio el portico piso 2 escazu costa rica",
+          "n_distinct_officers": 121,
+          "n_companies": 9
+        },
+        {
+          "normalized_address": "evgeny l andreev 5 bakunina prospect saint petersburg 191024 saint petersburg russia",
+          "n_distinct_officers": 120,
+          "n_companies": 4
+        }
+      ]
+    },
+    "S6_anomalous_communities": {
+      "n_detected": 50,
+      "median_size": 61,
+      "max_anomaly": 0.4543,
+      "top_5": [
+        {
+          "community_id": 1878,
+          "size": 78,
+          "n_jurisdictions": 3,
+          "jurisdictions": "pa;us;vg",
+          "n_sanctioned": 0,
+          "address_density": 0.855,
+          "intermediary_density": 0.0,
+          "officer_density": 0.145,
+          "anomaly_score": 0.4543
+        },
+        {
+          "community_id": 377,
+          "size": 115,
+          "n_jurisdictions": 2,
+          "jurisdictions": "cy;vg",
+          "n_sanctioned": 0,
+          "address_density": 0.0,
+          "intermediary_density": 1.0,
+          "officer_density": 0.0,
+          "anomaly_score": 0.444
+        },
+        {
+          "community_id": 3557,
+          "size": 107,
+          "n_jurisdictions": 2,
+          "jurisdictions": "hk;vg",
+          "n_sanctioned": 0,
+          "address_density": 0.028,
+          "intermediary_density": 0.935,
+          "officer_density": 0.037,
+          "anomaly_score": 0.4402
+        },
+        {
+          "community_id": 308,
+          "size": 64,
+          "n_jurisdictions": 2,
+          "jurisdictions": "uk;vg",
+          "n_sanctioned": 0,
+          "address_density": 0.093,
+          "intermediary_density": 0.68,
+          "officer_density": 0.227,
+          "anomaly_score": 0.4257
+        },
+        {
+          "community_id": 2762,
+          "size": 173,
+          "n_jurisdictions": 3,
+          "jurisdictions": "hk;mt;vg",
+          "n_sanctioned": 1,
+          "address_density": 0.13,
+          "intermediary_density": 0.502,
+          "officer_density": 0.364,
+          "anomaly_score": 0.4205
+        }
+      ]
+    }
+  },
+  "baseline_reachability": {
+    "S1": "ICIJ DB shows intermediary records but does not aggregate per-client distinctness in batch.",
+    "S2": "Cross-entity bridges require joining officer-of edges across companies; ICIJ DB cannot compute that.",
+    "S3": "ICIJ DB has no GLEIF integration. 0% reachable from ICIJ search alone.",
+    "S4": "Per-entity records don't flag sanctions; community-level closure requires both layers.",
+    "S5": "Per-address listings exist on ICIJ DB but officer-distinctness across hosted entities isn't surfaced.",
+    "S6": "Communities are not a concept in ICIJ DB."
+  },
+  "totals": {
+    "total_pipeline_structures": 22244
+  }
+}
