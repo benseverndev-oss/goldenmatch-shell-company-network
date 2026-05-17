@@ -532,6 +532,13 @@ _ALLOWED_SCRIPTS = {
         "--out-summary",
         "/data/processed/temporal_patterns_summary.json",
     ],
+    "build_discovery_advantage": [
+        "scripts/build_discovery_advantage.py",
+        "--inputs-dir",
+        "/data/processed",
+        "--out-summary",
+        "/data/processed/discovery_advantage_summary.json",
+    ],
     "build_structure_benchmark": [
         "scripts/build_structure_benchmark.py",
         "--edges",
