@@ -65,6 +65,9 @@ jobs:
                    processed/confidence_communities.parquet \
                    processed/confidence_community_anomalies.parquet \
                    processed/confidence_indirect_links.parquet \
+                   processed/confidence_community_aggregates.parquet \
+                   processed/confidence_contradictions.parquet \
+                   processed/confidence_review_priority.parquet \
                    processed/confidence_graph_summary.json; do
             curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
               "$SHELLNET_JOB_URL/download?path=$p" -o "data/$p"
@@ -88,6 +91,9 @@ jobs:
                   docs/reports/data/confidence_communities.parquet \
                   docs/reports/data/confidence_community_anomalies.parquet \
                   docs/reports/data/confidence_indirect_links.parquet \
+                  docs/reports/data/confidence_community_aggregates.parquet \
+                  docs/reports/data/confidence_contradictions.parquet \
+                  docs/reports/data/confidence_review_priority.parquet \
                   docs/reports/data/confidence_graph_summary.json
           if git diff --cached --quiet; then
             echo "No changes; report unchanged."

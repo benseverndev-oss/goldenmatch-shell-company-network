@@ -347,6 +347,182 @@ def main(
         out_communities.parent / "confidence_community_anomalies.parquet"
     )
 
+    # --- Confidence-aware reasoning extensions ----------------------------
+    # 1. Per-community confidence aggregate: mean credibility of the
+    #    community's INTERNAL edges. Communities anchored by structural ICIJ
+    #    edges score high; communities knit together by inferred edges score
+    #    low. This is a graph-level confidence score the reviewer asked for.
+    # 2. Contradiction-aware closure: pairs of nodes that share a community
+    #    at threshold 0.5 but are SPLIT at threshold 0.9 indicate a low-
+    #    credibility "bridge" edge held the cluster together. These pairs are
+    #    the ones where the system is uncertain about identity.
+    # 3. Review-priority ranking: edges whose endpoints sit on a contradiction
+    #    boundary AND have moderate credibility (0.4-0.7 range, the "gray
+    #    zone") are the highest-value targets for hand review.
+    log.info("computing confidence-aware reasoning extensions ...")
+
+    # 1. Per-community confidence aggregate.
+    strict_member_to_cid = {
+        row["node_uid"]: row["community_id"]
+        for row in communities_df.filter(pl.col("threshold") == strictest).iter_rows(
+            named=True
+        )
+    }
+    cid_internal_weights: dict[int, list[float]] = {}
+    for u, v, d in g.edges(data=True):
+        if d["weight"] < strictest:
+            continue
+        c_u = strict_member_to_cid.get(u)
+        c_v = strict_member_to_cid.get(v)
+        if c_u is None or c_v is None or c_u != c_v:
+            continue
+        cid_internal_weights.setdefault(c_u, []).append(float(d["weight"]))
+    confidence_rows = [
+        {
+            "community_id": cid,
+            "n_internal_edges": len(ws),
+            "mean_edge_credibility": sum(ws) / len(ws) if ws else 0.0,
+            "min_edge_credibility": min(ws) if ws else 0.0,
+        }
+        for cid, ws in cid_internal_weights.items()
+    ]
+    confidence_df = (
+        pl.DataFrame(confidence_rows).sort("mean_edge_credibility", descending=True)
+        if confidence_rows
+        else pl.DataFrame(
+            schema={
+                "community_id": pl.Int64,
+                "n_internal_edges": pl.Int64,
+                "mean_edge_credibility": pl.Float64,
+                "min_edge_credibility": pl.Float64,
+            }
+        )
+    )
+    confidence_df.write_parquet(
+        out_communities.parent / "confidence_community_aggregates.parquet"
+    )
+    log.info(
+        "community confidence aggregates: %d communities scored",
+        confidence_df.height,
+    )
+
+    # 2. Contradiction-aware closure. Pairs of nodes that:
+    #    - share a community at the most permissive threshold (lo)
+    #    - are in DIFFERENT communities at the strictest threshold (hi)
+    # The low-credibility edges that held them together are contradictions.
+    # We sample pairs to bound compute (full pair set is O(N^2) per community).
+    _lo_threshold = _THRESHOLDS[0]
+    lo_member_to_cid = {
+        row["node_uid"]: row["community_id"]
+        for row in communities_df.filter(pl.col("threshold") == _lo_threshold).iter_rows(named=True)
+    }
+    contradictions: list[dict] = []
+    # For each lo-threshold community, find pairs split at hi-threshold.
+    lo_communities: dict[int, list[str]] = {}
+    for node, cid in lo_member_to_cid.items():
+        lo_communities.setdefault(cid, []).append(node)
+    for cid, members in lo_communities.items():
+        if len(members) < 2 or len(members) > 200:
+            # Skip singletons; cap pair-set per community to bound work.
+            continue
+        for i in range(len(members)):
+            a = members[i]
+            cid_a_hi = strict_member_to_cid.get(a)
+            if cid_a_hi is None:
+                continue
+            for j in range(i + 1, len(members)):
+                b = members[j]
+                cid_b_hi = strict_member_to_cid.get(b)
+                if cid_b_hi is None:
+                    continue
+                if cid_a_hi != cid_b_hi:
+                    contradictions.append(
+                        {
+                            "node_a": a,
+                            "node_b": b,
+                            "lo_community": cid,
+                            "hi_community_a": cid_a_hi,
+                            "hi_community_b": cid_b_hi,
+                        }
+                    )
+            if len(contradictions) >= 5000:
+                break
+        if len(contradictions) >= 5000:
+            log.info("  contradiction cap reached at 5000; truncating")
+            break
+    contradictions_df = (
+        pl.DataFrame(contradictions)
+        if contradictions
+        else pl.DataFrame(
+            schema={
+                "node_a": pl.Utf8,
+                "node_b": pl.Utf8,
+                "lo_community": pl.Int64,
+                "hi_community_a": pl.Int64,
+                "hi_community_b": pl.Int64,
+            }
+        )
+    )
+    contradictions_df.write_parquet(
+        out_communities.parent / "confidence_contradictions.parquet"
+    )
+    log.info("contradictions detected: %d", contradictions_df.height)
+
+    # 3. Review-priority ranking: edges in the 0.4-0.7 credibility "gray zone"
+    # whose endpoints are in a contradiction-prone community. Operationalise
+    # as: edges with weight in [0.4, 0.75] connecting two seeds OR connecting
+    # a seed to a node that appears in many contradictions.
+    contradiction_node_counts: dict[str, int] = {}
+    for row in contradictions_df.iter_rows(named=True):
+        contradiction_node_counts[row["node_a"]] = (
+            contradiction_node_counts.get(row["node_a"], 0) + 1
+        )
+        contradiction_node_counts[row["node_b"]] = (
+            contradiction_node_counts.get(row["node_b"], 0) + 1
+        )
+    review_rows: list[dict] = []
+    for u, v, d in g.edges(data=True):
+        w = float(d["weight"])
+        if not (0.4 <= w <= 0.75):
+            continue
+        u_contradict = contradiction_node_counts.get(u, 0)
+        v_contradict = contradiction_node_counts.get(v, 0)
+        if u_contradict + v_contradict == 0 and u not in seeds and v not in seeds:
+            continue
+        # Priority = uncertainty × investigative_impact.
+        uncertainty = 1.0 - abs(w - 0.575) / 0.175  # 1 at 0.575 midpoint, 0 at edges
+        impact = (u_contradict + v_contradict) / 10 + (
+            1 if u in seeds or v in seeds else 0
+        )
+        review_rows.append(
+            {
+                "node_a": u,
+                "node_b": v,
+                "edge_credibility": w,
+                "uncertainty": uncertainty,
+                "impact_score": impact,
+                "priority": uncertainty * impact,
+            }
+        )
+    review_df = (
+        pl.DataFrame(review_rows).sort("priority", descending=True)
+        if review_rows
+        else pl.DataFrame(
+            schema={
+                "node_a": pl.Utf8,
+                "node_b": pl.Utf8,
+                "edge_credibility": pl.Float64,
+                "uncertainty": pl.Float64,
+                "impact_score": pl.Float64,
+                "priority": pl.Float64,
+            }
+        )
+    )
+    review_df.write_parquet(
+        out_communities.parent / "confidence_review_priority.parquet"
+    )
+    log.info("review-priority edges (gray-zone + contradiction-touching): %d", review_df.height)
+
     # Multi-hop confidence decay: for each pair of dossier-anchor seeds that
     # are NOT directly connected, compute the highest-probability 2-3 hop
     # path. Path probability = product of edge credibilities. Surfaces
@@ -366,7 +542,7 @@ def main(
                 g,
                 src,
                 cutoff=3.0,  # -log(0.05) ≈ 3.0; paths weaker than 0.05 ignored
-                weight=lambda u, v, d: -math.log(max(d["weight"], 1e-3)),
+                weight=lambda _u, _v, d: -math.log(max(d["weight"], 1e-3)),
             )
         except (nx.NetworkXNoPath, KeyError):
             continue

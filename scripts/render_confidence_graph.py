@@ -74,6 +74,19 @@ def main(
     indirect_df: pl.DataFrame | None = (
         pl.read_parquet(indirect_path) if indirect_path.exists() else None
     )
+    # Confidence-aware-reasoning extensions (loaded if sibling parquets exist).
+    aggregates_path = edges.parent / "confidence_community_aggregates.parquet"
+    aggregates_df: pl.DataFrame | None = (
+        pl.read_parquet(aggregates_path) if aggregates_path.exists() else None
+    )
+    contradictions_path = edges.parent / "confidence_contradictions.parquet"
+    contradictions_df: pl.DataFrame | None = (
+        pl.read_parquet(contradictions_path) if contradictions_path.exists() else None
+    )
+    review_path = edges.parent / "confidence_review_priority.parquet"
+    review_df: pl.DataFrame | None = (
+        pl.read_parquet(review_path) if review_path.exists() else None
+    )
 
     sub = s["subgraph"]
     stab = s["stability"]
@@ -285,7 +298,72 @@ compelling" indirect links the per-anchor dossier walks miss.
 
     body += """
 
-## What this report does NOT prove
+## Confidence-aware reasoning extensions
+
+These extensions sit on top of the threshold-stability analysis and turn
+the credibility-weighted graph into actionable reviewer signal.
+
+"""
+
+    if aggregates_df is not None and aggregates_df.height > 0:
+        body += "### Per-community confidence aggregates\n\n"
+        body += (
+            "Mean / min edge credibility within each community at the "
+            f"strict threshold ({s['stability']['thresholds'][-1]:.2f}). "
+            "Communities with high mean credibility are structurally "
+            "grounded; low-mean ones rest on inferred edges and deserve "
+            "review before publication.\n\n"
+        )
+        body += "| Community | Size | Edges | Mean credibility | Min credibility |\n"
+        body += "|---:|---:|---:|---:|---:|\n"
+        top_agg = aggregates_df.sort("size", descending=True).head(10)
+        for r in top_agg.iter_rows(named=True):
+            body += (
+                f"| {int(r['community_id'])} | {int(r['size'])} | "
+                f"{int(r['n_internal_edges'])} | "
+                f"{float(r['mean_credibility']):.3f} | "
+                f"{float(r['min_credibility']):.3f} |\n"
+            )
+        body += "\n"
+
+    if contradictions_df is not None and contradictions_df.height > 0:
+        body += "### Contradiction-aware closure\n\n"
+        body += (
+            "Node pairs that share a community at the loose threshold but "
+            "split across distinct communities at the strict threshold — "
+            "the soft edges between them are the load-bearing assumptions. "
+            f"Detected: **{contradictions_df.height:,}** pairs (capped).\n\n"
+        )
+        body += "| Node A | Node B | Loose community | Strict A | Strict B |\n"
+        body += "|---|---|---:|---:|---:|\n"
+        for r in contradictions_df.head(10).iter_rows(named=True):
+            body += (
+                f"| `{r['node_a']}` | `{r['node_b']}` | "
+                f"{int(r['lo_community_id'])} | "
+                f"{int(r['hi_community_a'])} | {int(r['hi_community_b'])} |\n"
+            )
+        body += "\n"
+
+    if review_df is not None and review_df.height > 0:
+        body += "### Review-priority ranking\n\n"
+        body += (
+            "Edges in the gray zone (credibility 0.4–0.75) that touch "
+            "contradiction-prone nodes or dossier seeds, ranked by "
+            "`uncertainty × impact`. These are the highest-leverage "
+            "manual-review targets — a yes/no decision on each rewrites "
+            f"large parts of the community structure. Total: **{review_df.height:,}**.\n\n"
+        )
+        body += "| Source | Target | Kind | Credibility | Priority |\n"
+        body += "|---|---|---|---:|---:|\n"
+        for r in review_df.head(15).iter_rows(named=True):
+            body += (
+                f"| `{r['src_uid']}` | `{r['dst_uid']}` | `{r['kind_raw']}` | "
+                f"{float(r['credibility']):.3f} | "
+                f"{float(r['priority']):.3f} |\n"
+            )
+        body += "\n"
+
+    body += """## What this report does NOT prove
 
 1. **Credibility priors are operator estimates.** The per-edge-kind
    numbers in §"Edge-credibility priors" are hand-set, not learned. A

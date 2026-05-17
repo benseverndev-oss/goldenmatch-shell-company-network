@@ -532,6 +532,15 @@ _ALLOWED_SCRIPTS = {
         "--out-summary",
         "/data/processed/temporal_patterns_summary.json",
     ],
+    "build_structure_benchmark": [
+        "scripts/build_structure_benchmark.py",
+        "--edges",
+        "/data/interim/icij_edges.parquet",
+        "--entities",
+        "/data/interim/icij_entities.parquet",
+        "--out-summary",
+        "/data/processed/structure_benchmark_summary.json",
+    ],
     "build_confidence_graph": [
         "scripts/build_confidence_graph.py",
         "--edges",
