@@ -85,4 +85,5 @@ jobs:
             exit 0
           fi
           git commit -m "report: refresh non-obviousness ranking (auto from build-non-obviousness.yml)"
+          git pull --rebase origin main
           git push origin HEAD:main

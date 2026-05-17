@@ -1,0 +1,108 @@
+{
+  "n_anchors": 50,
+  "weights": {
+    "rarity": 0.3,
+    "jurisdiction_span": 0.25,
+    "graph_surprise": 0.2,
+    "shared_intermediary": 0.15,
+    "pattern_uniqueness": 0.1
+  },
+  "score_distribution": {
+    "min": 0.2408275010382804,
+    "median": 0.3942732861360125,
+    "max": 0.5331621750249014,
+    "mean": 0.40208460000010127
+  },
+  "top_10": [
+    {
+      "rare_name": "philippe le gall",
+      "rarity": 0.5735035463793008,
+      "jurisdiction_span": 1,
+      "graph_surprise": 1.0,
+      "shared_intermediary": 0,
+      "pattern_uniqueness": 0.7777777777777778,
+      "non_obviousness_score": 0.5331621750249014
+    },
+    {
+      "rare_name": "javed ali khan",
+      "rarity": 0.5735035463793008,
+      "jurisdiction_span": 1,
+      "graph_surprise": 1.0,
+      "shared_intermediary": 0,
+      "pattern_uniqueness": 0.5555555555555556,
+      "non_obviousness_score": 0.5109399528026791
+    },
+    {
+      "rare_name": "john o connor",
+      "rarity": 0.4893345190925178,
+      "jurisdiction_span": 1,
+      "graph_surprise": 1.0,
+      "shared_intermediary": 0,
+      "pattern_uniqueness": 0.7777777777777778,
+      "non_obviousness_score": 0.5079114668388665
+    },
+    {
+      "rare_name": "david mark cooper",
+      "rarity": 0.5249805590164902,
+      "jurisdiction_span": 1,
+      "graph_surprise": 1.0,
+      "shared_intermediary": 0,
+      "pattern_uniqueness": 0.6666666666666667,
+      "non_obviousness_score": 0.507494167704947
+    },
+    {
+      "rare_name": "nils peter grut",
+      "rarity": 0.5249805590164902,
+      "jurisdiction_span": 1,
+      "graph_surprise": 1.0,
+      "shared_intermediary": 0,
+      "pattern_uniqueness": 0.6666666666666667,
+      "non_obviousness_score": 0.507494167704947
+    },
+    {
+      "rare_name": "patrick gerard mckillen",
+      "rarity": 0.5249805590164902,
+      "jurisdiction_span": 1,
+      "graph_surprise": 1.0,
+      "shared_intermediary": 0,
+      "pattern_uniqueness": 0.6666666666666667,
+      "non_obviousness_score": 0.507494167704947
+    },
+    {
+      "rare_name": "calvin edward ayre",
+      "rarity": 0.5249805590164902,
+      "jurisdiction_span": 1,
+      "graph_surprise": 1.0,
+      "shared_intermediary": 0,
+      "pattern_uniqueness": 0.6666666666666667,
+      "non_obviousness_score": 0.507494167704947
+    },
+    {
+      "rare_name": "erbil mehmet arkin",
+      "rarity": 0.5249805590164902,
+      "jurisdiction_span": 1,
+      "graph_surprise": 1.0,
+      "shared_intermediary": 0,
+      "pattern_uniqueness": 0.6666666666666667,
+      "non_obviousness_score": 0.507494167704947
+    },
+    {
+      "rare_name": "muhammad umar khan",
+      "rarity": 0.5249805590164902,
+      "jurisdiction_span": 1,
+      "graph_surprise": 1.0,
+      "shared_intermediary": 0,
+      "pattern_uniqueness": 0.5555555555555556,
+      "non_obviousness_score": 0.49638305659383597
+    },
+    {
+      "rare_name": "michael john rooney",
+      "rarity": 0.5249805590164902,
+      "jurisdiction_span": 1,
+      "graph_surprise": 1.0,
+      "shared_intermediary": 0,
+      "pattern_uniqueness": 0.5555555555555556,
+      "non_obviousness_score": 0.49638305659383597
+    }
+  ]
+}

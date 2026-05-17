@@ -92,4 +92,5 @@ jobs:
             exit 0
           fi
           git commit -m "report: refresh baseline comparison (auto from build-baseline-comparison.yml)"
+          git pull --rebase origin main
           git push origin HEAD:main

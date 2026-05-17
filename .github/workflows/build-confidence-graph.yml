@@ -92,4 +92,5 @@ jobs:
             exit 0
           fi
           git commit -m "report: refresh confidence-aware graph (auto from build-confidence-graph.yml)"
+          git pull --rebase origin main
           git push origin HEAD:main

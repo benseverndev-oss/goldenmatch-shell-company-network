@@ -87,4 +87,5 @@ jobs:
             exit 0
           fi
           git commit -m "report: refresh adversarial benchmark (auto from build-adversarial-benchmark.yml)"
+          git pull --rebase origin main
           git push origin HEAD:main
