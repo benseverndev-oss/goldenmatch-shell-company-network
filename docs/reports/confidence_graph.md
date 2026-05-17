@@ -1,6 +1,6 @@
 # Confidence-aware graph reconstruction
 
-_Generated 2026-05-17 02:58 UTC from `processed/confidence_graph_edges.parquet`,
+_Generated 2026-05-17 04:31 UTC from `processed/confidence_graph_edges.parquet`,
 `processed/confidence_communities.parquet`, and
 `processed/confidence_graph_summary.json`. Companion to
 [`methodology.md` §6](../paper/methodology.md)._
@@ -62,14 +62,14 @@ aligned subgraph.
 
 | Edge kind | Credibility | Edges in subgraph |
 |---|---:|---:|
-| `officer_of` | 0.90 | 17,414 |
-| `registered_address` | 0.95 | 7,142 |
-| `intermediary_of` | 0.90 | 2,036 |
+| `officer_of` | 0.90 | 17,418 |
+| `registered_address` | 0.95 | 7,146 |
+| `intermediary_of` | 0.90 | 2,028 |
 | `similar` | 0.50 | 21 |
 | `same_name_as` | 0.50 | 13 |
 | `same_company_as` | 0.85 | 9 |
-| `same_as` | 0.95 | 2 |
 | `same_id_as` | 0.95 | 2 |
+| `same_as` | 0.95 | 2 |
 | `underlying` | 0.85 | 1 |
 
 
@@ -81,9 +81,9 @@ filtered graph.
 
 | Threshold | Edges retained | Communities | Largest | Median | Singletons |
 |---:|---:|---:|---:|---:|---:|
-| 0.50 | 23,677 | 44 | 3,132 | 12 | 0 |
-| 0.70 | 23,644 | 50 | 3,132 | 11 | 3 |
-| 0.90 | 23,634 | 53 | 3,132 | 11 | 3 |
+| 0.50 | 23,677 | 44 | 3,145 | 12 | 0 |
+| 0.70 | 23,644 | 50 | 3,145 | 11 | 3 |
+| 0.90 | 23,634 | 52 | 3,148 | 11 | 3 |
 
 
 ## Stability across thresholds
@@ -95,8 +95,8 @@ most-permissive threshold (0.50) and the most-strict threshold
 | Metric | Value |
 |---|---:|
 | Nodes evaluated | 7,888 |
-| Mean Jaccard overlap | **0.993** |
-| Nodes with overlap ≥ 0.5 | 7,823 (99.2%) |
+| Mean Jaccard overlap | **0.991** |
+| Nodes with overlap ≥ 0.5 | 7,818 (99.1%) |
 
 A mean Jaccard of 0.99 means **the community structure is
 highly stable to credibility-threshold changes**.
@@ -118,16 +118,48 @@ relevant, not just structurally large).
 
 | Community ID | Size | Seed members |
 |---:|---:|---:|
-| 32 | 3,132 | 0 |
-| 31 | 1,352 | 2 |
-| 29 | 892 | 0 |
-| 39 | 438 | 52 |
-| 40 | 420 | 5 |
-| 38 | 323 | 2 |
-| 41 | 232 | 5 |
-| 43 | 185 | 7 |
-| 42 | 163 | 3 |
+| 31 | 3,148 | 2 |
+| 32 | 1,353 | 2 |
+| 30 | 897 | 0 |
+| 40 | 436 | 52 |
+| 41 | 419 | 5 |
+| 29 | 322 | 2 |
+| 42 | 229 | 5 |
+| 43 | 184 | 7 |
+| 38 | 162 | 3 |
 | 45 | 125 | 35 |
+
+
+## Anomaly-ranked communities at threshold 0.90
+
+The size-ranked table above is a baseline. The investigatively-relevant
+ranking is by **anomaly score**, which combines:
+
+- **Seed density** (40% weight) — fraction of community members that are
+  dossier-anchor seeds. High = community is investigatively-aligned.
+- **Isolation** (35%) — fraction of community edges that are internal vs.
+  bridging out to other communities. High = self-contained cluster, a
+  shell-network signature.
+- **Size deviation** (25%) — log-size distance from the median community
+  size. Communities much smaller (tight clusters) or much larger (sprawling
+  hubs) than the median are more anomalous than typical-sized ones.
+
+Top 10:
+
+| Rank | Community | Size | Seeds | Seed density | Isolation | Anomaly score |
+|---:|---:|---:|---:|---:|---:|---:|
+| 1 | 45 | 125 | 35 | 0.28 | 1.00 | 0.712 |
+| 2 | 3 | 4 | 2 | 0.50 | 1.00 | 0.655 |
+| 3 | 19 | 4 | 2 | 0.50 | 1.00 | 0.655 |
+| 4 | 17 | 4 | 2 | 0.50 | 1.00 | 0.655 |
+| 5 | 26 | 4 | 2 | 0.50 | 1.00 | 0.655 |
+| 6 | 23 | 4 | 2 | 0.50 | 1.00 | 0.655 |
+| 7 | 20 | 4 | 2 | 0.50 | 1.00 | 0.655 |
+| 8 | 40 | 436 | 52 | 0.12 | 0.99 | 0.644 |
+| 9 | 21 | 13 | 8 | 0.62 | 1.00 | 0.614 |
+| 10 | 47 | 6 | 3 | 0.50 | 1.00 | 0.613 |
+
+The top-ranked community here is the lead-generation engine's graph-level recommendation: investigate **this cluster** because its structural signature (isolated + seed-dense + size-distinctive) is most unlike everything else in the subgraph.
 
 
 ## What this report does NOT prove
