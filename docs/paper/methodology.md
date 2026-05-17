@@ -221,7 +221,79 @@ The benchmark surfaces a concrete, fixable gap: **strip honorifics in
 single change would close the largest current vulnerability. Captured
 as a §6.2 follow-up.
 
-## 6. Worked example: Francisco Lopes Filho
+## 6. Confidence-aware graph reconstruction
+
+The dossier pipeline ranks individual anchors. A separate question is:
+**when the anchors are connected — by shared addresses, officers, or
+intermediaries — does the resulting network structure survive when we
+drop low-credibility edges?**
+
+[`confidence_graph.md`](../reports/confidence_graph.md) addresses this
+with three components:
+
+### 6.1 Per-edge credibility scoring
+
+Each ICIJ edge is annotated with a credibility weight in [0,1] derived
+from its `kind_raw`. Operator priors:
+
+- Structural facts from leak documents (`registered_address`,
+  `officer_of`, `intermediary_of`, `shareholder_of`) → **0.90–0.95**.
+- Identifier-based merges (`same_id_as`, `same_as`) → **0.95**.
+- Cross-leak company identity (`same_company_as`) → **0.85**.
+- Generic relations (`connected_to`) → **0.75**.
+- Inferred relations (`same_name_as`, `similar`) → **0.50**.
+
+These priors are hand-set. A v2 would learn them from the hand-labelled
+marginal-pair review set documented in §10.2.
+
+### 6.2 Merge confidence propagation
+
+Cross-source match edges (from `icij_os_vs_gleif_matched.csv` /
+`list_match_*` outputs) inherit the **calibrated PAV posterior
+probability** (§4.3) as their credibility weight. A weak name match
+gets a low edge weight; a strong DOB-confirmed match gets a high one.
+This is the operationalisation of §4.3's headline finding ("don't
+threshold on raw score") at the graph layer.
+
+### 6.3 Uncertainty-aware communities
+
+Louvain community detection at three credibility thresholds
+({0.5, 0.7, 0.9}). At each threshold, edges below the cut-off are
+dropped before the partition is computed. Stability is measured by
+the per-node Jaccard overlap between the community-membership at the
+most-permissive and the most-strict thresholds.
+
+**Live result on the 2-hop subgraph anchored on the dossier seed set
+(363 seed UIDs, ~3,888 nodes, ~12,452 edges):**
+
+| Threshold | Communities | Largest | Edges retained |
+|---:|---:|---:|---:|
+| 0.50 | 43 | 1,645 | 12,452 |
+| 0.70 | 49 | 1,645 | 12,421 |
+| 0.90 | 52 | 1,645 | 12,411 |
+
+**Stability: mean Jaccard = 0.986** (98.4% of nodes preserve ≥50% of
+their co-members across thresholds). The community structure is
+**highly stable to credibility-threshold changes** — the dominant
+communities are anchored by structural ICIJ edges that all have
+credibility ≥ 0.9 and survive any threshold in this range.
+
+The honest methodological claim is *not* "we found communities."
+It's "the communities we found are not an artifact of the credibility
+cut-off." If the mean Jaccard were ~0.5, the dossier-anchor analysis
+would be defenseless against the question "what if you changed your
+threshold?" At 0.986 it isn't.
+
+### 6.4 What this does not yet do
+
+- The subgraph is ICIJ-only. Cross-source match edges with PAV-
+  calibrated weights are not yet folded in. Captured as §10.2 follow-up.
+- The credibility priors are hand-set. Learning them from labelled
+  data would tighten the analysis.
+- Stability ≠ correctness. A stable community can still be wrong if
+  the priors are systematically miscalibrated.
+
+## 7. Worked example: Francisco Lopes Filho
 
 Top-ranked dossier in the current `exposes_candidates.md`. The name appears in two source datasets:
 
@@ -242,7 +314,7 @@ The firecrawl freshness check (run by [`build-exposes-candidates.yml`](../../.gi
 
 This is the prototype of the kind of lead the methodology produces. It's not a Panama-Papers-scale revelation by itself. The point of the dossiers index is to put 50 such candidates in front of a human reviewer in one place.
 
-## 7. Limitations
+## 8. Limitations
 
 **Honest list:**
 
@@ -253,7 +325,7 @@ This is the prototype of the kind of lead the methodology produces. It's not a P
 5. **No public UI.** The output is parquet files and Markdown reports. Not directly usable by non-engineer journalists today.
 6. **Enterprise CI policy blocks PR-based review of bot commits.** The auto-generated report refreshes direct-commit to `main`. Workable for a single-author research repo; would not be the right call for a multi-contributor compliance system.
 
-## 8. Reproducibility
+## 9. Reproducibility
 
 Every artifact in this repo is regenerable from the published source dumps. Three workflows refresh the headline reports end-to-end:
 
@@ -269,7 +341,7 @@ The seed parameters live in `src/shellnet/job_server.py:_ALLOWED_SCRIPTS`. Chang
 
 Specs and plans for each component are committed alongside the code in `docs/superpowers/specs/` and `docs/superpowers/plans/`. The intent is that a reader can read the spec, look at the commit history, and reconstruct why each decision was made.
 
-## 9. Prior art comparison
+## 10. Prior art comparison
 
 [`prior_art_comparison.md`](../prior_art_comparison.md) covers this in detail. Short version:
 
@@ -288,7 +360,7 @@ Specs and plans for each component are committed alongside the code in `docs/sup
 
 The project is positioned as a **layer** on top of what those two tools aggregate, not a replacement.
 
-## 10. Future work
+## 11. Future work
 
 ### 10.1 Quick fix surfaced by §5
 
@@ -308,7 +380,7 @@ Five paths flagged from external review, ordered by cost × payoff:
 4. **Cross-jurisdiction beneficial-ownership reconstruction.** Given a leaf company, walk to the ultimate beneficial owner across multiple registries with confidence attached to each hop. A research-paper-sized commitment but addresses the compliance-research community directly.
 5. **Embedding-based name match as a 5th calibration tier.** Compare goldenmatch's string-similarity approach against a multilingual text embedder (e.g. paraphrase-multilingual-MiniLM) on the same DOB-based supervision. Validates whether the recall lift in §4.1 generalises.
 
-## 11. Citing this work
+## 12. Citing this work
 
 Until a DOI lands (planned via Zenodo), cite the repository:
 
