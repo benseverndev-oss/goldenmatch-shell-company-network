@@ -1,0 +1,266 @@
+{
+  "report": "discovery_advantage",
+  "inputs_present": [
+    "adversarial_benchmark_summary.json",
+    "baseline_comparison_summary.json",
+    "calibration_summary.json",
+    "confidence_graph_summary.json",
+    "discovery_lift_summary.json",
+    "join_novelty_summary.json",
+    "latent_clusters_summary.json",
+    "non_obviousness_summary.json",
+    "structure_benchmark_summary.json",
+    "temporal_patterns_summary.json"
+  ],
+  "inputs_missing": [],
+  "headline_deltas": [
+    {
+      "axis": "Multi-source anchors surfaced (whole corpus)",
+      "baseline": 22695,
+      "pipeline": 25247,
+      "absolute_delta": 2552,
+      "relative_delta_pct": 11.2,
+      "baseline_label": "naive casefold",
+      "pipeline_label": "normalize_company_name",
+      "source": "discovery_lift_summary.json"
+    },
+    {
+      "axis": "Anchors with cross-source evidence (B3 sample N=500)",
+      "baseline": 465,
+      "pipeline": 500,
+      "absolute_delta": 35,
+      "relative_delta_pct": 7.5,
+      "baseline_label": "ICIJ name-search alone",
+      "pipeline_label": "GoldenMatch cross-source fuzzy",
+      "source": "baseline_comparison_summary.json"
+    },
+    {
+      "axis": "Analyst-hours to triage B3 population",
+      "baseline": 255.9,
+      "pipeline": 96.0,
+      "absolute_delta": 159.9,
+      "relative_delta_pct": 62.5,
+      "baseline_label": "Manual cross-reference",
+      "pipeline_label": "GoldenMatch dossier review",
+      "source": "baseline_comparison_summary.json",
+      "lower_is_better": true
+    },
+    {
+      "axis": "Perturbation recovery rate (adversarial)",
+      "baseline": 0.4245,
+      "pipeline": 0.9895,
+      "absolute_delta": 0.565,
+      "relative_delta_pct": 133.1,
+      "baseline_label": "B2 exact-after-normalize",
+      "pipeline_label": "B6 fuzzy (token-set 85)",
+      "source": "adversarial_benchmark_summary.json"
+    },
+    {
+      "axis": "Expected calibration error (ECE)",
+      "baseline": 0.3847,
+      "pipeline": 0.0,
+      "absolute_delta": 0.3847,
+      "relative_delta_pct": 100.0,
+      "baseline_label": "Raw ER score",
+      "pipeline_label": "PAV-calibrated",
+      "source": "calibration_summary.json",
+      "lower_is_better": true
+    },
+    {
+      "axis": "Brier score",
+      "baseline": 0.399,
+      "pipeline": 0.2399,
+      "absolute_delta": 0.1591,
+      "relative_delta_pct": 39.869152083144556,
+      "baseline_label": "Raw ER score",
+      "pipeline_label": "PAV-calibrated",
+      "source": "calibration_summary.json",
+      "lower_is_better": true
+    }
+  ],
+  "surfaced_structures": [
+    {
+      "id": "S1_latent_intermediary_reuse",
+      "n_detected": 126,
+      "icij_reachable": "ICIJ DB shows intermediary records but does not aggregate per-client distinctness in batch."
+    },
+    {
+      "id": "S2_jurisdiction_bridges",
+      "n_detected": 99,
+      "icij_reachable": "Cross-entity bridges require joining officer-of edges across companies; ICIJ DB cannot compute that."
+    },
+    {
+      "id": "S3_hidden_registry_anchors",
+      "n_detected": 19934,
+      "icij_reachable": "ICIJ DB has no GLEIF integration. 0% reachable from ICIJ search alone."
+    },
+    {
+      "id": "S4_sanctions_adjacent_closure",
+      "n_detected": 25,
+      "icij_reachable": "Per-entity records don't flag sanctions; community-level closure requires both layers."
+    },
+    {
+      "id": "S5_fragmented_ownership_convergence",
+      "n_detected": 2010,
+      "icij_reachable": "Per-address listings exist on ICIJ DB but officer-distinctness across hosted entities isn't surfaced."
+    },
+    {
+      "id": "S6_anomalous_communities",
+      "n_detected": 50,
+      "icij_reachable": "Communities are not a concept in ICIJ DB."
+    }
+  ],
+  "latent_mining": {
+    "louvain_total_communities": 10262,
+    "annotated_communities": 6606,
+    "max_anomaly_score": 0.4543,
+    "temporal_resurrections": 34260,
+    "temporal_bursts": null,
+    "long_lived_anchors": null
+  },
+  "non_obviousness": {
+    "n_anchors_scored": 50,
+    "top_10": [
+      {
+        "rare_name": "philippe le gall",
+        "rarity": 0.5735035463793008,
+        "jurisdiction_span": 1,
+        "graph_surprise": 1.0,
+        "shared_intermediary": 0,
+        "pattern_uniqueness": 0.7777777777777778,
+        "non_obviousness_score": 0.5331621750249014
+      },
+      {
+        "rare_name": "javed ali khan",
+        "rarity": 0.5735035463793008,
+        "jurisdiction_span": 1,
+        "graph_surprise": 1.0,
+        "shared_intermediary": 0,
+        "pattern_uniqueness": 0.5555555555555556,
+        "non_obviousness_score": 0.5109399528026791
+      },
+      {
+        "rare_name": "john o connor",
+        "rarity": 0.4893345190925178,
+        "jurisdiction_span": 1,
+        "graph_surprise": 1.0,
+        "shared_intermediary": 0,
+        "pattern_uniqueness": 0.7777777777777778,
+        "non_obviousness_score": 0.5079114668388665
+      },
+      {
+        "rare_name": "david mark cooper",
+        "rarity": 0.5249805590164902,
+        "jurisdiction_span": 1,
+        "graph_surprise": 1.0,
+        "shared_intermediary": 0,
+        "pattern_uniqueness": 0.6666666666666667,
+        "non_obviousness_score": 0.507494167704947
+      },
+      {
+        "rare_name": "nils peter grut",
+        "rarity": 0.5249805590164902,
+        "jurisdiction_span": 1,
+        "graph_surprise": 1.0,
+        "shared_intermediary": 0,
+        "pattern_uniqueness": 0.6666666666666667,
+        "non_obviousness_score": 0.507494167704947
+      },
+      {
+        "rare_name": "patrick gerard mckillen",
+        "rarity": 0.5249805590164902,
+        "jurisdiction_span": 1,
+        "graph_surprise": 1.0,
+        "shared_intermediary": 0,
+        "pattern_uniqueness": 0.6666666666666667,
+        "non_obviousness_score": 0.507494167704947
+      },
+      {
+        "rare_name": "calvin edward ayre",
+        "rarity": 0.5249805590164902,
+        "jurisdiction_span": 1,
+        "graph_surprise": 1.0,
+        "shared_intermediary": 0,
+        "pattern_uniqueness": 0.6666666666666667,
+        "non_obviousness_score": 0.507494167704947
+      },
+      {
+        "rare_name": "erbil mehmet arkin",
+        "rarity": 0.5249805590164902,
+        "jurisdiction_span": 1,
+        "graph_surprise": 1.0,
+        "shared_intermediary": 0,
+        "pattern_uniqueness": 0.6666666666666667,
+        "non_obviousness_score": 0.507494167704947
+      },
+      {
+        "rare_name": "muhammad umar khan",
+        "rarity": 0.5249805590164902,
+        "jurisdiction_span": 1,
+        "graph_surprise": 1.0,
+        "shared_intermediary": 0,
+        "pattern_uniqueness": 0.5555555555555556,
+        "non_obviousness_score": 0.49638305659383597
+      },
+      {
+        "rare_name": "michael john rooney",
+        "rarity": 0.5249805590164902,
+        "jurisdiction_span": 1,
+        "graph_surprise": 1.0,
+        "shared_intermediary": 0,
+        "pattern_uniqueness": 0.5555555555555556,
+        "non_obviousness_score": 0.49638305659383597
+      }
+    ]
+  },
+  "confidence_reasoning": {
+    "subgraph_nodes": 7888,
+    "subgraph_edges": 23677,
+    "n_seeds": 363,
+    "stability_mean_jaccard": 0.992,
+    "stability_n_stable_nodes": 7821,
+    "stability_n_evaluated": 7888
+  },
+  "join_novelty": {
+    "company_triples": {
+      "n_rows": 16,
+      "distinct_leis": 4,
+      "distinct_icij_uids": 16,
+      "distinct_os_uids": 4,
+      "with_evasion_signal": 0,
+      "with_disqualified_director_overlap": 0
+    },
+    "dob_confirmed_pairs": {
+      "n_rows": 200,
+      "distinct_os_uids": 137,
+      "with_evasion_signal": 38,
+      "with_disqualified_director_overlap": 0
+    },
+    "icij_psc_pairs": {
+      "n_rows": 166,
+      "distinct_psc_uids": 166,
+      "distinct_icij_uids": 111
+    },
+    "rare_officer_overlaps": {
+      "n_rows": 200
+    },
+    "disqualified_overlaps": {
+      "n_rows": 7
+    }
+  },
+  "analyst_review_outcomes": {
+    "status": "v2_gap_explicit",
+    "note": "No labelled analyst-review panel exists yet. The repo has no human-confirmed 'this is novel and investigatively relevant' annotations on the surfaced anchors. The structure_benchmark and non_obviousness scores are operational proxies, not ground truth. A v2 should send top-N from each surfacing channel to a panel of investigative journalists and record (a) confirm/reject, (b) novel-vs-known, (c) actionable-vs-noise.",
+    "operational_proxies_available": {
+      "structure_benchmark_total": 22244,
+      "non_obviousness_anchors": 50,
+      "marginal_pair_review_labels": 340
+    }
+  },
+  "false_positive_lens": {
+    "calibrated_ece": 1.8555418639507214e-15,
+    "raw_ece": 0.38469692980322817,
+    "n_labelled_pairs": 680,
+    "interpretation": "Calibrated ECE ~0 means pipeline output probabilities are trustworthy as confidence scores. A reviewer can rank by calibrated probability and expect approximately that fraction of top-k to be true positives. Raw ECE ~0.38 means uncalibrated scores were not trustworthy."
+  }
+}
