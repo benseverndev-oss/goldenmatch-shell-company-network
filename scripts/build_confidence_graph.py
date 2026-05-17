@@ -261,6 +261,101 @@ def main(
     communities_df = pl.DataFrame(rows)
     communities_df.write_parquet(out_communities)
 
+    # Per-community anomaly ranking at the strictest threshold.
+    # Anomaly score components:
+    #   size_deviation: |log(size) - median_log_size| — both very large
+    #     and very small communities are anomalous vs the typical size.
+    #   seed_density: fraction of members that are dossier seeds. High
+    #     density = community is investigatively-aligned.
+    #   isolation: fraction of community members with edges only to other
+    #     members (no leak-out). High isolation = self-contained cluster,
+    #     a shell-network signature.
+    strictest = _THRESHOLDS[-1]
+    strict_rows = communities_df.filter(pl.col("threshold") == strictest)
+    per_community = (
+        strict_rows.group_by("community_id")
+        .agg(
+            pl.len().alias("size"),
+            pl.col("is_seed").sum().alias("n_seeds"),
+            pl.col("node_uid").alias("members"),
+        )
+        .with_columns(
+            (pl.col("n_seeds") / pl.col("size")).alias("seed_density"),
+            pl.col("size").log().alias("log_size"),
+        )
+    )
+    if per_community.height >= 2:
+        median_log_size = float(per_community["log_size"].median() or 0)
+    else:
+        median_log_size = 0.0
+    # Compute isolation per community: edges-internal / (edges-internal + edges-outgoing).
+    member_to_cid = {
+        row["node_uid"]: row["community_id"] for row in strict_rows.iter_rows(named=True)
+    }
+    isolation_per_cid: dict[int, float] = {}
+    int_edges = 0
+    ext_edges_per_cid: dict[int, int] = {}
+    int_edges_per_cid: dict[int, int] = {}
+    for u, v, d in g.edges(data=True):
+        if d["weight"] < strictest:
+            continue
+        c_u = member_to_cid.get(u)
+        c_v = member_to_cid.get(v)
+        if c_u is None or c_v is None:
+            continue
+        if c_u == c_v:
+            int_edges_per_cid[c_u] = int_edges_per_cid.get(c_u, 0) + 1
+            int_edges += 1
+        else:
+            ext_edges_per_cid[c_u] = ext_edges_per_cid.get(c_u, 0) + 1
+            ext_edges_per_cid[c_v] = ext_edges_per_cid.get(c_v, 0) + 1
+    for cid in {*int_edges_per_cid.keys(), *ext_edges_per_cid.keys()}:
+        i = int_edges_per_cid.get(cid, 0)
+        e = ext_edges_per_cid.get(cid, 0)
+        isolation_per_cid[cid] = i / (i + e) if (i + e) else 0.0
+
+    anomaly_rows = []
+    for r in per_community.iter_rows(named=True):
+        cid = r["community_id"]
+        size_dev = (
+            abs(float(r["log_size"]) - median_log_size) / max(median_log_size, 1.0)
+        )
+        isolation = isolation_per_cid.get(cid, 0.0)
+        seed_density = float(r["seed_density"])
+        # Weights chosen to favour communities that combine investigative
+        # alignment (seed density) with structural distinctiveness (isolation +
+        # size deviation).
+        anomaly_score = (
+            0.40 * seed_density
+            + 0.35 * isolation
+            + 0.25 * min(size_dev, 1.0)
+        )
+        anomaly_rows.append(
+            {
+                "community_id": cid,
+                "size": int(r["size"]),
+                "n_seeds": int(r["n_seeds"]),
+                "seed_density": seed_density,
+                "isolation": isolation,
+                "size_deviation": size_dev,
+                "anomaly_score": anomaly_score,
+            }
+        )
+    anomaly_df = pl.DataFrame(anomaly_rows).sort("anomaly_score", descending=True)
+    anomaly_df.write_parquet(
+        out_communities.parent / "confidence_community_anomalies.parquet"
+    )
+    log.info("top-5 anomalous communities at threshold %.2f:", strictest)
+    for r in anomaly_df.head(5).iter_rows(named=True):
+        log.info(
+            "  cid=%d size=%d seeds=%d isol=%.2f anomaly=%.3f",
+            r["community_id"],
+            r["size"],
+            r["n_seeds"],
+            r["isolation"],
+            r["anomaly_score"],
+        )
+
     # Stability metric: per node, compute Jaccard overlap between its
     # community-membership at the lowest threshold (most permissive) and its
     # community-membership at the highest threshold (most strict). Louvain

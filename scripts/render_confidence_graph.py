@@ -64,6 +64,12 @@ def main(
         .head(10)
     )
 
+    # Anomaly-ranked communities (loaded from sibling parquet if present).
+    anomaly_path = edges.parent / "confidence_community_anomalies.parquet"
+    anomaly_df: pl.DataFrame | None = (
+        pl.read_parquet(anomaly_path) if anomaly_path.exists() else None
+    )
+
     sub = s["subgraph"]
     stab = s["stability"]
 
@@ -199,6 +205,42 @@ relevant, not just structurally large).
     for r in top_communities.iter_rows(named=True):
         body += (
             f"| {int(r['community_id'])} | {int(r['size']):,} | {int(r['n_seeds'])} |\n"
+        )
+
+    if anomaly_df is not None and anomaly_df.height > 0:
+        body += f"""
+
+## Anomaly-ranked communities at threshold {strictest:.2f}
+
+The size-ranked table above is a baseline. The investigatively-relevant
+ranking is by **anomaly score**, which combines:
+
+- **Seed density** (40% weight) — fraction of community members that are
+  dossier-anchor seeds. High = community is investigatively-aligned.
+- **Isolation** (35%) — fraction of community edges that are internal vs.
+  bridging out to other communities. High = self-contained cluster, a
+  shell-network signature.
+- **Size deviation** (25%) — log-size distance from the median community
+  size. Communities much smaller (tight clusters) or much larger (sprawling
+  hubs) than the median are more anomalous than typical-sized ones.
+
+Top 10:
+
+| Rank | Community | Size | Seeds | Seed density | Isolation | Anomaly score |
+|---:|---:|---:|---:|---:|---:|---:|
+"""
+        for i, r in enumerate(anomaly_df.head(10).iter_rows(named=True), start=1):
+            body += (
+                f"| {i} | {int(r['community_id'])} | {int(r['size']):,} | "
+                f"{int(r['n_seeds'])} | {float(r['seed_density']):.2f} | "
+                f"{float(r['isolation']):.2f} | {float(r['anomaly_score']):.3f} |\n"
+            )
+
+        body += (
+            "\nThe top-ranked community here is the lead-generation engine's "
+            "graph-level recommendation: investigate **this cluster** because "
+            "its structural signature (isolated + seed-dense + size-distinctive) "
+            "is most unlike everything else in the subgraph.\n"
         )
 
     body += """

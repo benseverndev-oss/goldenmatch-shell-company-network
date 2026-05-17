@@ -1,10 +1,10 @@
-name: build confidence-aware graph (Railway-side compute)
+name: build non-obviousness ranking (Railway-side compute)
 
 on:
   workflow_dispatch:
 
 concurrency:
-  group: build-confidence-graph
+  group: build-non-obviousness
   cancel-in-progress: false
 
 permissions:
@@ -13,7 +13,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 15
     env:
       SHELLNET_JOB_URL: ${{ vars.SHELLNET_JOB_URL }}
       SHELLNET_JOB_TOKEN: ${{ secrets.SHELLNET_JOB_TOKEN }}
@@ -22,23 +22,21 @@ jobs:
       - uses: astral-sh/setup-uv@v3
         with:
           enable-cache: true
-      - name: Sync deps
-        run: uv sync --frozen --no-dev
-      - name: Confirm Railway reachable
-        run: curl -fsS "$SHELLNET_JOB_URL/healthz"
-      - name: Trigger build_confidence_graph
+      - run: uv sync --frozen --no-dev
+      - run: curl -fsS "$SHELLNET_JOB_URL/healthz"
+      - name: Trigger build_non_obviousness_score
         run: |
           set -euo pipefail
           curl -fsS -X POST \
             -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
-            "$SHELLNET_JOB_URL/run-script?name=build_confidence_graph"
+            "$SHELLNET_JOB_URL/run-script?name=build_non_obviousness_score"
           echo
       - name: Poll until complete
         run: |
           set -euo pipefail
-          stage="script_build_confidence_graph"
+          stage="script_build_non_obviousness_score"
           done=false
-          for _ in $(seq 1 360); do
+          for _ in $(seq 1 180); do
             sleep 5
             s=$(curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
                 "$SHELLNET_JOB_URL/status" \
@@ -61,10 +59,8 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p data/processed docs/reports/data
-          for p in processed/confidence_graph_edges.parquet \
-                   processed/confidence_communities.parquet \
-                   processed/confidence_community_anomalies.parquet \
-                   processed/confidence_graph_summary.json; do
+          for p in processed/non_obviousness_scores.parquet \
+                   processed/non_obviousness_summary.json; do
             curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
               "$SHELLNET_JOB_URL/download?path=$p" -o "data/$p"
             cp "data/$p" "docs/reports/data/$(basename $p)"
@@ -72,24 +68,21 @@ jobs:
       - name: Render markdown
         run: |
           set -euo pipefail
-          uv run python scripts/render_confidence_graph.py \
-            --edges docs/reports/data/confidence_graph_edges.parquet \
-            --communities docs/reports/data/confidence_communities.parquet \
-            --summary docs/reports/data/confidence_graph_summary.json \
-            --out docs/reports/confidence_graph.md
+          uv run python scripts/render_non_obviousness.py \
+            --parquet docs/reports/data/non_obviousness_scores.parquet \
+            --summary docs/reports/data/non_obviousness_summary.json \
+            --out docs/reports/non_obviousness_ranking.md
       - name: Commit + push to main
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/reports/confidence_graph.md \
-                  docs/reports/data/confidence_graph_edges.parquet \
-                  docs/reports/data/confidence_communities.parquet \
-                  docs/reports/data/confidence_community_anomalies.parquet \
-                  docs/reports/data/confidence_graph_summary.json
+          git add docs/reports/non_obviousness_ranking.md \
+                  docs/reports/data/non_obviousness_scores.parquet \
+                  docs/reports/data/non_obviousness_summary.json
           if git diff --cached --quiet; then
-            echo "No changes; report unchanged."
+            echo "No changes."
             exit 0
           fi
-          git commit -m "report: refresh confidence-aware graph (auto from build-confidence-graph.yml)"
+          git commit -m "report: refresh non-obviousness ranking (auto from build-non-obviousness.yml)"
           git push origin HEAD:main
