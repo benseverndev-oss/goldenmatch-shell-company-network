@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import json
 import logging
+import math
 from pathlib import Path
 
 import networkx as nx
@@ -345,6 +346,73 @@ def main(
     anomaly_df.write_parquet(
         out_communities.parent / "confidence_community_anomalies.parquet"
     )
+
+    # Multi-hop confidence decay: for each pair of dossier-anchor seeds that
+    # are NOT directly connected, compute the highest-probability 2-3 hop
+    # path. Path probability = product of edge credibilities. Surfaces
+    # "uncertain but compelling" indirect links the dossier pipeline misses
+    # because the graph walk only goes 2 hops from each seed individually.
+    log.info("computing multi-hop confidence decay between seed pairs ...")
+    seed_list = [s for s in seeds if s in g]
+    indirect_rows: list[dict] = []
+    # Cap pair work: take only seeds with at least one edge to keep meaningful
+    # paths; bound by seed-list size of ~363 → ~65k pairs max.
+    for i, src in enumerate(seed_list):
+        # NX max-product path is equivalent to shortest path under
+        # `weight = -log(credibility)` (sum of -log == -log of product).
+        # Use Dijkstra on the negated-log graph.
+        try:
+            lengths = nx.single_source_dijkstra_path_length(
+                g,
+                src,
+                cutoff=3.0,  # -log(0.05) ≈ 3.0; paths weaker than 0.05 ignored
+                weight=lambda u, v, d: -math.log(max(d["weight"], 1e-3)),
+            )
+        except (nx.NetworkXNoPath, KeyError):
+            continue
+        for dst, neg_log_prob in lengths.items():
+            if dst == src or dst not in seeds:
+                continue
+            if src >= dst:  # canonicalise pair to avoid (a,b) and (b,a)
+                continue
+            # Skip directly-connected pairs (1-hop already in the graph).
+            if g.has_edge(src, dst):
+                continue
+            indirect_rows.append(
+                {
+                    "src_uid": src,
+                    "dst_uid": dst,
+                    "path_probability": math.exp(-neg_log_prob),
+                }
+            )
+        if (i + 1) % 50 == 0:
+            log.info("  decay: %d / %d seeds processed", i + 1, len(seed_list))
+
+    indirect_df = (
+        pl.DataFrame(indirect_rows)
+        .sort("path_probability", descending=True)
+        if indirect_rows
+        else pl.DataFrame(
+            schema={
+                "src_uid": pl.Utf8,
+                "dst_uid": pl.Utf8,
+                "path_probability": pl.Float64,
+            }
+        )
+    )
+    indirect_df.write_parquet(
+        out_communities.parent / "confidence_indirect_links.parquet"
+    )
+    log.info(
+        "indirect links (≥0.05 path probability): %d",
+        indirect_df.height,
+    )
+    if indirect_df.height > 0:
+        n_strong = indirect_df.filter(pl.col("path_probability") >= 0.5).height
+        log.info(
+            "  %d with path probability ≥ 0.5 (strong indirect candidates)",
+            n_strong,
+        )
     log.info("top-5 anomalous communities at threshold %.2f:", strictest)
     for r in anomaly_df.head(5).iter_rows(named=True):
         log.info(

@@ -69,6 +69,11 @@ def main(
     anomaly_df: pl.DataFrame | None = (
         pl.read_parquet(anomaly_path) if anomaly_path.exists() else None
     )
+    # Multi-hop indirect-links table (loaded from sibling parquet if present).
+    indirect_path = edges.parent / "confidence_indirect_links.parquet"
+    indirect_df: pl.DataFrame | None = (
+        pl.read_parquet(indirect_path) if indirect_path.exists() else None
+    )
 
     sub = s["subgraph"]
     stab = s["stability"]
@@ -241,6 +246,41 @@ Top 10:
             "graph-level recommendation: investigate **this cluster** because "
             "its structural signature (isolated + seed-dense + size-distinctive) "
             "is most unlike everything else in the subgraph.\n"
+        )
+
+    if indirect_df is not None and indirect_df.height > 0:
+        n_strong = indirect_df.filter(pl.col("path_probability") >= 0.5).height
+        body += f"""
+
+## Multi-hop indirect links between seeds
+
+Pairs of dossier-anchor seeds that are **not directly connected** but are
+reachable through a 2-3 hop path whose probability (product of edge
+credibilities along the path) is ≥ 0.05. These are the "uncertain but
+compelling" indirect links the per-anchor dossier walks miss.
+
+| Metric | Value |
+|---|---:|
+| Indirect pairs surfaced | {indirect_df.height:,} |
+| Pairs with path probability ≥ 0.5 (strong) | {n_strong:,} |
+
+### Top 10 strongest indirect links
+
+| src_uid | dst_uid | Path probability |
+|---|---|---:|
+"""
+        for r in indirect_df.head(10).iter_rows(named=True):
+            body += (
+                f"| `{r['src_uid']}` | `{r['dst_uid']}` | "
+                f"**{float(r['path_probability']):.3f}** |\n"
+            )
+
+        body += (
+            "\nA path probability of 0.5 means the chain of edge credibilities "
+            "between the two seeds multiplies out to 0.5 — strong enough that "
+            "the pair is worth investigating as if it were a direct link, even "
+            "though no single edge connects them. Lower values are weaker "
+            "but still surface candidates a 1-hop search would miss.\n"
         )
 
     body += """

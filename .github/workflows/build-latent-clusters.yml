@@ -1,10 +1,10 @@
-name: build confidence-aware graph (Railway-side compute)
+name: build latent clusters (Railway-side compute)
 
 on:
   workflow_dispatch:
 
 concurrency:
-  group: build-confidence-graph
+  group: build-latent-clusters
   cancel-in-progress: false
 
 permissions:
@@ -13,7 +13,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     env:
       SHELLNET_JOB_URL: ${{ vars.SHELLNET_JOB_URL }}
       SHELLNET_JOB_TOKEN: ${{ secrets.SHELLNET_JOB_TOKEN }}
@@ -22,23 +22,21 @@ jobs:
       - uses: astral-sh/setup-uv@v3
         with:
           enable-cache: true
-      - name: Sync deps
-        run: uv sync --frozen --no-dev
-      - name: Confirm Railway reachable
-        run: curl -fsS "$SHELLNET_JOB_URL/healthz"
-      - name: Trigger build_confidence_graph
+      - run: uv sync --frozen --no-dev
+      - run: curl -fsS "$SHELLNET_JOB_URL/healthz"
+      - name: Trigger build_latent_clusters
         run: |
           set -euo pipefail
           curl -fsS -X POST \
             -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
-            "$SHELLNET_JOB_URL/run-script?name=build_confidence_graph"
+            "$SHELLNET_JOB_URL/run-script?name=build_latent_clusters"
           echo
       - name: Poll until complete
         run: |
           set -euo pipefail
-          stage="script_build_confidence_graph"
+          stage="script_build_latent_clusters"
           done=false
-          for _ in $(seq 1 360); do
+          for _ in $(seq 1 540); do
             sleep 5
             s=$(curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
                 "$SHELLNET_JOB_URL/status" \
@@ -54,45 +52,35 @@ jobs:
             esac
           done
           if [ "$done" != "true" ]; then
-            echo "::error::poll loop timed out"
-            exit 1
+            echo "::error::poll timed out"; exit 1
           fi
       - name: Download artifacts
         run: |
           set -euo pipefail
           mkdir -p data/processed docs/reports/data
-          for p in processed/confidence_graph_edges.parquet \
-                   processed/confidence_communities.parquet \
-                   processed/confidence_community_anomalies.parquet \
-                   processed/confidence_indirect_links.parquet \
-                   processed/confidence_graph_summary.json; do
+          for p in processed/latent_clusters.parquet \
+                   processed/latent_clusters_summary.json; do
             curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
               "$SHELLNET_JOB_URL/download?path=$p" -o "data/$p"
             cp "data/$p" "docs/reports/data/$(basename $p)"
           done
       - name: Render markdown
         run: |
-          set -euo pipefail
-          uv run python scripts/render_confidence_graph.py \
-            --edges docs/reports/data/confidence_graph_edges.parquet \
-            --communities docs/reports/data/confidence_communities.parquet \
-            --summary docs/reports/data/confidence_graph_summary.json \
-            --out docs/reports/confidence_graph.md
+          uv run python scripts/render_latent_clusters.py \
+            --parquet docs/reports/data/latent_clusters.parquet \
+            --summary docs/reports/data/latent_clusters_summary.json \
+            --out docs/reports/latent_clusters.md
       - name: Commit + push to main
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/reports/confidence_graph.md \
-                  docs/reports/data/confidence_graph_edges.parquet \
-                  docs/reports/data/confidence_communities.parquet \
-                  docs/reports/data/confidence_community_anomalies.parquet \
-                  docs/reports/data/confidence_indirect_links.parquet \
-                  docs/reports/data/confidence_graph_summary.json
+          git add docs/reports/latent_clusters.md \
+                  docs/reports/data/latent_clusters.parquet \
+                  docs/reports/data/latent_clusters_summary.json
           if git diff --cached --quiet; then
-            echo "No changes; report unchanged."
-            exit 0
+            echo "No changes."; exit 0
           fi
-          git commit -m "report: refresh confidence-aware graph (auto from build-confidence-graph.yml)"
+          git commit -m "report: refresh latent clusters (auto from build-latent-clusters.yml)"
           git pull --rebase origin main
           git push origin HEAD:main
