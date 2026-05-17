@@ -493,6 +493,17 @@ _ALLOWED_SCRIPTS = {
         "--reports-dir",
         "/data/reports/generated",
     ],
+    "build_calibration_benchmark": [
+        "scripts/build_calibration_benchmark.py",
+        "--matched-csv",
+        "/data/reports/generated/matched_dob_scored.csv",
+        "--out-metrics",
+        "/data/processed/calibration_metrics.parquet",
+        "--out-calibrator",
+        "/data/processed/erscore_calibrator.json",
+        "--out-summary",
+        "/data/processed/calibration_summary.json",
+    ],
     "build_discovery_lift": [
         "scripts/build_discovery_lift.py",
         "--person-table",
