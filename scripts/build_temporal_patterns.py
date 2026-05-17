@@ -34,13 +34,28 @@ log = logging.getLogger(__name__)
 
 
 def _resurrection_pairs(
-    df: pl.DataFrame, window_days: int = 730
+    df: pl.DataFrame, window_days: int = 730, max_addr_cardinality: int = 50
 ) -> pl.DataFrame:
     """Pairs of (dissolved_entity, fresh_entity) sharing normalized_address.
 
     `window_days` is the max gap between dissolution_date and the new
     entity's incorporation_date for the pair to count as a resurrection.
+
+    `max_addr_cardinality` filters out registered-office addresses with
+    more than N entities — Mossack-Fonseca-style formation agents would
+    otherwise Cartesian-product into millions of pairs that aren't
+    investigatively meaningful and OOM the join.
     """
+    # Pre-filter addresses with too many entities — they're registration-
+    # service hubs, not investigatively-relevant resurrections.
+    addr_counts = (
+        df.filter(pl.col("normalized_address").is_not_null())
+        .group_by("normalized_address")
+        .len()
+        .filter(pl.col("len") <= max_addr_cardinality)
+        .select("normalized_address")
+    )
+    df = df.join(addr_counts, on="normalized_address", how="inner")
     dissolved = (
         df.filter(
             pl.col("dissolution_date").is_not_null()
