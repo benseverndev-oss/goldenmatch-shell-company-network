@@ -76,6 +76,13 @@ Three layered operations, each shippable on its own:
 
 ## 4. Quantitative evaluation
 
+Three benchmark reports back the methodology, each refreshed by its own
+GH-Actions workflow:
+
+- [`discovery_lift.md`](../reports/discovery_lift.md) — tier-by-tier anchor counts (B1→B4).
+- [`baseline_comparison.md`](../reports/baseline_comparison.md) — comparison vs. tools an analyst might use today: ICIJ search, naive fuzzy match, analyst-time model.
+- [`calibration_benchmark.md`](../reports/calibration_benchmark.md) — PAV-isotonic calibration of the raw match score.
+
 ### 4.1 Discovery lift
 
 The first question a methodology paper has to answer: _does this beat lowercase-and-strip?_
@@ -93,7 +100,42 @@ The first question a methodology paper has to answer: _does this beat lowercase-
 
 **Honest caveat:** the graph-walk layer (B3 → B4) produces zero numerical anchor lift — B4 is a top-N sample of B3 enriched with linked-company / address / sanctions context. Its contribution is qualitative (dossier richness), not quantitative.
 
-### 4.2 ER score calibration
+### 4.2 Baseline comparison — vs. ICIJ search, naive fuzzy, analyst time
+
+[`baseline_comparison.md`](../reports/baseline_comparison.md) asks: "is the
+goldenmatch pipeline worth the complexity vs. tools an analyst could use
+today?"
+
+Three baselines on a 500-anchor sample of the B3 set:
+
+| Baseline | What it approximates | Reach |
+|---|---|---:|
+| **B5 ICIJ-search-equivalent** | Token-set-ratio fuzzy match against the local ICIJ name index (≥0.85). Proxies "journalist using ICIJ Offshore Leaks DB's search box." | 93% (465/500) |
+| **B6 Naive cross-source fuzzy** | Same fuzzy threshold across all 4 sources. Approximates "generic FuzzyWuzzy/dedupe-style tool without our normalize + suffix-strip pipeline." | **100% (500/500)** at 2+ sources; 58% (292/500) at 3+ sources |
+| **B7 Analyst review reduction** | Per-anchor wall-clock model: 4 manual UI queries + cross-reference vs. one dossier read. **Explicitly a model, not a measurement.** | **×2.7 faster** (256 hours → 96 hours over the full B3 population); 62.5% reduction |
+
+**Honest reading.** The fuzzy baseline hits 100% recall at 2+ sources — at
+threshold 0.85, token-set-ratio finds the same overlaps the goldenmatch
+pipeline does. The pipeline's contribution over naive fuzzy is **not
+recall**:
+
+- **Precision.** Fuzzy at 0.85 will match "Mark Taylor" to dozens of unrelated
+  people. The pipeline's `max_per_source ≤ 2` rare-name filter is what makes
+  the output triage-able rather than noise.
+- **Graph context.** The 2-hop ICIJ walk surfaces linked companies, addresses,
+  sanctions adjacency — fuzzy match returns just a list of names.
+- **Ranking.** The novelty score + auto-pin logic order the candidates;
+  fuzzy match outputs are unranked.
+- **Structural overlay.** ICIJ search by itself reaches 93% of names but
+  **0% of cross-source overlays** — ICIJ's UI cannot show that the same
+  name also appears in UK PSC / OS / GLEIF.
+
+The honest claim is: "the pipeline's value isn't a new ER algorithm; it's
+the *operationalization* — precision filter, graph walk, calibrated score,
+ranked output — that lets a single analyst run a dossier batch in 96 hours
+that would otherwise take 256 hours of single-source-UI clicks."
+
+### 4.3 ER score calibration
 
 The second question: _are the scores goldenmatch emits actually probabilities?_
 
@@ -146,7 +188,7 @@ This is the prototype of the kind of lead the methodology produces. It's not a P
 
 1. **Single-snapshot corpus.** We've ingested as-of a single date. Temporal evolution of shell networks (Phoenix Spree-style story-arc over years) is out of scope until the ingest is rerun at intervals.
 2. **Source asymmetry on the graph walk.** ICIJ has `icij_edges`; UK PSC and OS have no equivalent person→company relations parquet today. UK PSC and OS persons surface in dossiers as *stubs* — "appears in this source" — without expansion.
-3. **Name-collision risk.** Even rare 3-token names can be different people. The DOB-confirmed signal is a stronger filter than name-only; the calibration benchmark in §4.2 quantifies how much stronger.
+3. **Name-collision risk.** Even rare 3-token names can be different people. The DOB-confirmed signal is a stronger filter than name-only; the calibration benchmark in §4.3 quantifies how much stronger.
 4. **No document-level retrieval.** Aleph stores the actual leak PDFs and lets you full-text search them; this project stores only structured extractions. Document context is one click out, not in-pipeline.
 5. **No public UI.** The output is parquet files and Markdown reports. Not directly usable by non-engineer journalists today.
 6. **Enterprise CI policy blocks PR-based review of bot commits.** The auto-generated report refreshes direct-commit to `main`. Workable for a single-author research repo; would not be the right call for a multi-contributor compliance system.
@@ -178,7 +220,7 @@ Specs and plans for each component are committed alongside the code in `docs/sup
 | GLEIF L1+L2 ingest | ✗ | partial | ✓ |
 | UK PSC ingest with DOB extraction | ✗ | ✓ | ✓ |
 | Cross-source dedupe with confidence scoring | ✗ | ✗ | ✓ |
-| **Probability-calibrated match scores** | ✗ | ✗ | ✓ (§4.2) |
+| **Probability-calibrated match scores** | ✗ | ✗ | ✓ (§4.3) |
 | **Ranked discovery-novelty report** | ✗ | ✗ | ✓ (§4.1) |
 | Live document UI for journalists | ✓ | ✓ | ✗ |
 | Hosted, free, public | ✓ | ✓ | ✗ (single-author research) |
@@ -189,7 +231,7 @@ The project is positioned as a **layer** on top of what those two tools aggregat
 
 Five paths flagged from external review, ordered by cost × payoff:
 
-1. **Hand-labeled gold standard** for ER calibration. The DOB-based supervision in §4.2 works but is bound to a specific subset (OS↔persons). Producing 300-500 hand-labeled marginal pairs would unlock per-source-pair calibration and held-out evaluation.
+1. **Hand-labeled gold standard** for ER calibration. The DOB-based supervision in §4.3 works but is bound to a specific subset (OS↔persons). Producing 300-500 hand-labeled marginal pairs would unlock per-source-pair calibration and held-out evaluation.
 2. **Materialise UK PSC and OS person→company relations parquets.** Removes the source-asymmetry caveat from §6 and lets the graph walk produce equally rich dossiers for non-ICIJ-sourced persons.
 3. **Temporal snapshots.** Re-ingest the source dumps quarterly; track cluster-membership churn over time. Enables the kind of "shell-network evolution" story arc that Phoenix Spree-style investigations rely on.
 4. **Cross-jurisdiction beneficial-ownership reconstruction.** Given a leaf company, walk to the ultimate beneficial owner across multiple registries with confidence attached to each hop. A research-paper-sized commitment but addresses the compliance-research community directly.
