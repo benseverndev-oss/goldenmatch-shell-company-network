@@ -1,0 +1,86 @@
+{
+  "input_entities": 814344,
+  "resurrections": {
+    "window_days": 730,
+    "n_pairs": 34260,
+    "n_kept": 500,
+    "median_gap_days": 312,
+    "top_3": [
+      {
+        "old_source_id": "10164160",
+        "old_name": "SEFFARD OVERSEAS, S.A.",
+        "old_norm": "seffard overseas",
+        "addr": "rawlinson hunter s a geneva 34 rue del l athenee p o box 393 geneve 1211 12 geneva switzerland",
+        "old_juris": null,
+        "d_date": "1986-02-27",
+        "new_source_id": "10006287",
+        "new_name": "APADANA S.A.",
+        "new_norm": "apadana",
+        "new_juris": null,
+        "i_date": "1986-02-28",
+        "gap_days": 1
+      },
+      {
+        "old_source_id": "10000536",
+        "old_name": "ALTONA FASHION CORPORATION",
+        "old_norm": "altona fashion",
+        "addr": "sef societe fiduciaire s a galeries benjamin constant 1 case postale 7395 1002 lausanne switzerland",
+        "old_juris": null,
+        "d_date": "1990-01-04",
+        "new_source_id": "10006739",
+        "new_name": "NUBEC INVESTMENTS CORP.",
+        "new_norm": "nubec investments",
+        "new_juris": null,
+        "i_date": "1990-01-05",
+        "gap_days": 1
+      },
+      {
+        "old_source_id": "10005693",
+        "old_name": "LYRA ENTERPRISES LLC",
+        "old_norm": "lyra enterprises",
+        "addr": "menezes e abreu advogados rua arnolfo azevedo 160 01236 030 sao paulo sp brazil",
+        "old_juris": null,
+        "d_date": "2009-10-01",
+        "new_source_id": "10007399",
+        "new_name": "CONSTANCE OVERSEAS LLC",
+        "new_norm": "constance overseas",
+        "new_juris": null,
+        "i_date": "2009-10-02",
+        "gap_days": 1
+      }
+    ]
+  },
+  "bursts": {
+    "window_days": 30,
+    "min_count": 5,
+    "n_address_windows": 1189,
+    "n_kept": 500,
+    "largest_burst": 5,
+    "top_3_sizes": [
+      {
+        "normalized_address": "2 millewee l 7257 walferdange luxembourg city luxembourg",
+        "n_in_window": 5,
+        "span_days": 0,
+        "jurisdiction": "vg"
+      },
+      {
+        "normalized_address": "91 2 2nd floor wireless road lumpini pathumwan bangkok thailand 10330",
+        "n_in_window": 5,
+        "span_days": 0,
+        "jurisdiction": "vg"
+      },
+      {
+        "normalized_address": "alfaserve consultants limited 6 neoptolemos street p o box 28530 2080 nicosia cyprus rt bvi",
+        "n_in_window": 5,
+        "span_days": 0,
+        "jurisdiction": null
+      }
+    ]
+  },
+  "long_lived_anchors": {
+    "min_years": 15,
+    "n_anchors": 0,
+    "n_kept": 0,
+    "top_3": []
+  }
+}
