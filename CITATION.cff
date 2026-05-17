@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+title: "goldenmatch-shell-company-network"
+message: >-
+  If you use this software or methodology, please cite it as below.
+type: software
+authors:
+  - family-names: Severn
+    given-names: Ben
+    alias: benzsevern
+repository-code: "https://github.com/benzsevern/goldenmatch-shell-company-network"
+abstract: >-
+  A reproducible methodology for cross-source entity resolution on
+  shell-company corpora — ingests ICIJ Offshore Leaks, OpenSanctions,
+  UK Persons of Significant Control, and the GLEIF Level-1/Level-2 LEI
+  corpus into a unified person/company table, runs goldenmatch entity
+  resolution with probability-calibrated confidence scoring, and walks
+  the ICIJ relationship graph to surface registry-anchored offshore
+  networks. Quantified discovery lift over naive baselines and
+  isotonic-calibrated ER scores are reported as benchmarks.
+keywords:
+  - entity-resolution
+  - osint
+  - offshore-leaks
+  - shell-companies
+  - aml
+  - investigative-data-engineering
+  - probability-calibration
+license: Apache-2.0
+date-released: "2026-05-16"
+references:
+  - type: software
+    title: "ICIJ Offshore Leaks Database"
+    url: "https://offshoreleaks.icij.org/"
+  - type: software
+    title: "OCCRP Aleph"
+    url: "https://aleph.occrp.org/"
+  - type: software
+    title: "OpenSanctions"
+    url: "https://www.opensanctions.org/"
+  - type: software
+    title: "GLEIF Level-1 / Level-2 Golden Copy"
+    url: "https://www.gleif.org/en/lei-data/gleif-golden-copy"
