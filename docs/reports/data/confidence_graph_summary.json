@@ -28,15 +28,15 @@
   "per_threshold": {
     "0.50": {
       "n_communities": 44,
-      "largest_community_size": 3134,
+      "largest_community_size": 3124,
       "median_community_size": 12,
       "n_singletons": 0,
       "edges_retained": 23677,
       "isolated_nodes": 0
     },
     "0.70": {
-      "n_communities": 50,
-      "largest_community_size": 3134,
+      "n_communities": 49,
+      "largest_community_size": 3127,
       "median_community_size": 11,
       "n_singletons": 3,
       "edges_retained": 23644,
@@ -44,7 +44,7 @@
     },
     "0.90": {
       "n_communities": 53,
-      "largest_community_size": 3134,
+      "largest_community_size": 3124,
       "median_community_size": 11,
       "n_singletons": 3,
       "edges_retained": 23634,
@@ -58,8 +58,8 @@
       0.9
     ],
     "n_nodes_evaluated": 7888,
-    "mean_jaccard": 0.993,
-    "n_nodes_overlap_ge_0_5": 7823,
-    "fraction_overlap_ge_0_5": 0.992
+    "mean_jaccard": 0.991,
+    "n_nodes_overlap_ge_0_5": 7819,
+    "fraction_overlap_ge_0_5": 0.991
   }
 }

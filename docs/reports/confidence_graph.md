@@ -1,6 +1,6 @@
 # Confidence-aware graph reconstruction
 
-_Generated 2026-05-17 18:56 UTC from `processed/confidence_graph_edges.parquet`,
+_Generated 2026-05-17 19:03 UTC from `processed/confidence_graph_edges.parquet`,
 `processed/confidence_communities.parquet`, and
 `processed/confidence_graph_summary.json`. Companion to
 [`methodology.md` §6](../paper/methodology.md)._
@@ -62,14 +62,14 @@ aligned subgraph.
 
 | Edge kind | Credibility | Edges in subgraph |
 |---|---:|---:|
-| `officer_of` | 0.90 | 17,406 |
+| `officer_of` | 0.90 | 17,403 |
 | `registered_address` | 0.95 | 7,145 |
-| `intermediary_of` | 0.90 | 2,041 |
+| `intermediary_of` | 0.90 | 2,044 |
 | `similar` | 0.50 | 21 |
 | `same_name_as` | 0.50 | 13 |
 | `same_company_as` | 0.85 | 9 |
-| `same_as` | 0.95 | 2 |
 | `same_id_as` | 0.95 | 2 |
+| `same_as` | 0.95 | 2 |
 | `underlying` | 0.85 | 1 |
 
 
@@ -81,9 +81,9 @@ filtered graph.
 
 | Threshold | Edges retained | Communities | Largest | Median | Singletons |
 |---:|---:|---:|---:|---:|---:|
-| 0.50 | 23,677 | 44 | 3,134 | 12 | 0 |
-| 0.70 | 23,644 | 50 | 3,134 | 11 | 3 |
-| 0.90 | 23,634 | 53 | 3,134 | 11 | 3 |
+| 0.50 | 23,677 | 44 | 3,124 | 12 | 0 |
+| 0.70 | 23,644 | 49 | 3,127 | 11 | 3 |
+| 0.90 | 23,634 | 53 | 3,124 | 11 | 3 |
 
 
 ## Stability across thresholds
@@ -95,8 +95,8 @@ most-permissive threshold (0.50) and the most-strict threshold
 | Metric | Value |
 |---|---:|
 | Nodes evaluated | 7,888 |
-| Mean Jaccard overlap | **0.993** |
-| Nodes with overlap ≥ 0.5 | 7,823 (99.2%) |
+| Mean Jaccard overlap | **0.991** |
+| Nodes with overlap ≥ 0.5 | 7,819 (99.1%) |
 
 A mean Jaccard of 0.99 means **the community structure is
 highly stable to credibility-threshold changes**.
@@ -118,16 +118,16 @@ relevant, not just structurally large).
 
 | Community ID | Size | Seed members |
 |---:|---:|---:|
-| 30 | 3,134 | 0 |
-| 32 | 1,351 | 2 |
-| 29 | 892 | 0 |
-| 40 | 436 | 52 |
+| 31 | 3,124 | 0 |
+| 32 | 1,352 | 2 |
+| 29 | 896 | 0 |
+| 40 | 440 | 52 |
 | 41 | 421 | 5 |
-| 38 | 322 | 2 |
-| 44 | 229 | 5 |
-| 46 | 187 | 7 |
-| 39 | 159 | 3 |
-| 42 | 125 | 35 |
+| 30 | 322 | 2 |
+| 42 | 232 | 5 |
+| 43 | 183 | 7 |
+| 39 | 160 | 3 |
+| 45 | 127 | 35 |
 
 
 ## Anomaly-ranked communities at threshold 0.90
@@ -148,16 +148,16 @@ Top 10:
 
 | Rank | Community | Size | Seeds | Seed density | Isolation | Anomaly score |
 |---:|---:|---:|---:|---:|---:|---:|
-| 1 | 42 | 125 | 35 | 0.28 | 1.00 | 0.712 |
-| 2 | 7 | 4 | 2 | 0.50 | 1.00 | 0.655 |
+| 1 | 45 | 127 | 35 | 0.28 | 1.00 | 0.710 |
+| 2 | 21 | 4 | 2 | 0.50 | 1.00 | 0.655 |
 | 3 | 28 | 4 | 2 | 0.50 | 1.00 | 0.655 |
-| 4 | 19 | 4 | 2 | 0.50 | 1.00 | 0.655 |
-| 5 | 22 | 4 | 2 | 0.50 | 1.00 | 0.655 |
-| 6 | 23 | 4 | 2 | 0.50 | 1.00 | 0.655 |
-| 7 | 26 | 4 | 2 | 0.50 | 1.00 | 0.655 |
-| 8 | 40 | 436 | 52 | 0.12 | 0.99 | 0.644 |
-| 9 | 24 | 13 | 8 | 0.62 | 1.00 | 0.614 |
-| 10 | 48 | 6 | 3 | 0.50 | 1.00 | 0.613 |
+| 4 | 22 | 4 | 2 | 0.50 | 1.00 | 0.655 |
+| 5 | 19 | 4 | 2 | 0.50 | 1.00 | 0.655 |
+| 6 | 25 | 4 | 2 | 0.50 | 1.00 | 0.655 |
+| 7 | 8 | 4 | 2 | 0.50 | 1.00 | 0.655 |
+| 8 | 40 | 440 | 52 | 0.12 | 0.99 | 0.644 |
+| 9 | 23 | 13 | 8 | 0.62 | 1.00 | 0.614 |
+| 10 | 47 | 6 | 3 | 0.50 | 1.00 | 0.613 |
 
 The top-ranked community here is the lead-generation engine's graph-level recommendation: investigate **this cluster** because its structural signature (isolated + seed-dense + size-distinctive) is most unlike everything else in the subgraph.
 
@@ -171,23 +171,23 @@ compelling" indirect links the per-anchor dossier walks miss.
 
 | Metric | Value |
 |---|---:|
-| Indirect pairs surfaced | 5,032 |
-| Pairs with path probability ≥ 0.5 (strong) | 3,592 |
+| Indirect pairs surfaced | 8,287 |
+| Pairs with path probability ≥ 0.5 (strong) | 3,619 |
 
 ### Top 10 strongest indirect links
 
 | src_uid | dst_uid | Path probability |
 |---|---|---:|
-| `icij:55051181` | `icij:55051186` | **0.902** |
-| `icij:55051181` | `icij:55051281` | **0.902** |
-| `icij:55051181` | `icij:55081482` | **0.902** |
-| `icij:55051181` | `icij:55081116` | **0.902** |
-| `icij:55051181` | `icij:55053862` | **0.902** |
-| `icij:55051181` | `icij:55081490` | **0.902** |
-| `icij:55051181` | `icij:55051182` | **0.902** |
-| `icij:55023806` | `icij:55024976` | **0.902** |
-| `icij:55023806` | `icij:55025237` | **0.902** |
-| `icij:55023806` | `icij:55025414` | **0.902** |
+| `icij:55024977` | `icij:55025610` | **0.902** |
+| `icij:55050623` | `icij:55051186` | **0.902** |
+| `icij:55050623` | `icij:55051179` | **0.902** |
+| `icij:55050623` | `icij:55051181` | **0.902** |
+| `icij:55050623` | `icij:55051026` | **0.902** |
+| `icij:55050623` | `icij:55051281` | **0.902** |
+| `icij:55050623` | `icij:55081482` | **0.902** |
+| `icij:55050623` | `icij:55081116` | **0.902** |
+| `icij:55050623` | `icij:55050777` | **0.902** |
+| `icij:55050623` | `icij:55053862` | **0.902** |
 
 A path probability of 0.5 means the chain of edge credibilities between the two seeds multiplies out to 0.5 — strong enough that the pair is worth investigating as if it were a direct link, even though no single edge connects them. Lower values are weaker but still surface candidates a 1-hop search would miss.
 
