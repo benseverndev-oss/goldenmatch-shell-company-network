@@ -106,9 +106,13 @@ def main(
         help="rapidfuzz token-set-ratio threshold (0-100).",
     ),
     sample_size: int = typer.Option(
-        500,
+        200,
         "--sample-size",
-        help="Subsample of B3 anchors to evaluate (full B3 ~= 3,800; 500 is cheap).",
+        help=(
+            "Subsample of B3 anchors to evaluate. 200 finishes in ~13 min on "
+            "Railway against the full 4-source corpus; bump higher if you want "
+            "tighter confidence at the cost of wall-clock."
+        ),
     ),
     seed: int = typer.Option(42, "--seed"),
     verbose: bool = typer.Option(False, "--verbose", "-v"),
