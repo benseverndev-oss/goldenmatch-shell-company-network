@@ -1,0 +1,55 @@
+{
+  "sample_size": 500,
+  "b3_population": 3838,
+  "fuzzy_threshold": 85,
+  "perturbation_types": [
+    "suffix_mutation",
+    "honorific_insertion",
+    "transliteration",
+    "token_reorder_drop"
+  ],
+  "by_perturbation": [
+    {
+      "perturbation": "honorific_insertion",
+      "n": 500,
+      "b2_hits": 0,
+      "b6_hits": 499,
+      "b6_mean_score": 98.35,
+      "b2_recovery_rate": 0.0,
+      "b6_recovery_rate": 0.998
+    },
+    {
+      "perturbation": "suffix_mutation",
+      "n": 500,
+      "b2_hits": 401,
+      "b6_hits": 500,
+      "b6_mean_score": 100.0,
+      "b2_recovery_rate": 0.802,
+      "b6_recovery_rate": 1.0
+    },
+    {
+      "perturbation": "token_reorder_drop",
+      "n": 500,
+      "b2_hits": 436,
+      "b6_hits": 500,
+      "b6_mean_score": 100.0,
+      "b2_recovery_rate": 0.872,
+      "b6_recovery_rate": 1.0
+    },
+    {
+      "perturbation": "transliteration",
+      "n": 500,
+      "b2_hits": 12,
+      "b6_hits": 480,
+      "b6_mean_score": 92.434,
+      "b2_recovery_rate": 0.024,
+      "b6_recovery_rate": 0.96
+    }
+  ],
+  "overall": {
+    "n_perturbed_pairs": 2000,
+    "b2_recovery_rate": 0.4245,
+    "b6_recovery_rate": 0.9895
+  },
+  "adversary_model_notes": "Perturbations model what an adversary controls in the threat model documented in docs/paper/methodology.md \u00a71.5. Each perturbation represents one of: legal-form jurisdiction shopping (suffix_mutation), salutation inflation (honorific_insertion), transliteration variance across registries (transliteration), or name-form variants used to evade exact-match dedupe (token_reorder_drop)."
+}
