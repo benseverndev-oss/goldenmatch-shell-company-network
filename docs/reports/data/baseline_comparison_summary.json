@@ -1,0 +1,44 @@
+{
+  "sample_size": 500,
+  "b3_population": 3838,
+  "extrapolation_factor": 7.676,
+  "fuzzy_threshold": 85,
+  "tiers": {
+    "B5_icij_search_equivalent": {
+      "n_anchors_with_icij_match": 465,
+      "fraction_of_sample": 0.93,
+      "description": "Anchors where token-set-ratio >= 0.85 against ICIJ's local name index returns at least one record. Proxy for ICIJ Offshore Leaks Database's search-by-name."
+    },
+    "B6_naive_fuzzy_cross_source": {
+      "n_anchors_2_plus_sources": 500,
+      "n_anchors_3_plus_sources": 292,
+      "fraction_2plus_of_sample": 1.0,
+      "description": "Anchors that fuzzy-match (threshold 0.85) at least one row in 2+ source name indexes. The naive-fuzzy analog of B2's exact-after-normalize match."
+    }
+  },
+  "analyst_review_reduction": {
+    "model_assumptions": {
+      "per_manual_query_seconds": 30,
+      "per_cross_reference_seconds": 120,
+      "manual_sources": [
+        "ICIJ DB",
+        "Companies House",
+        "OpenSanctions",
+        "GLEIF"
+      ],
+      "per_pipeline_anchor_seconds": 90
+    },
+    "per_anchor_manual_seconds": 240,
+    "per_anchor_pipeline_seconds": 90,
+    "b3_population": 3838,
+    "n_dossiers_top_tier": 50,
+    "totals": {
+      "manual_seconds_b3": 921120,
+      "pipeline_seconds_b3": 345420,
+      "manual_hours_b3": 255.9,
+      "pipeline_hours_b3": 96.0,
+      "reduction_factor": 2.7,
+      "reduction_pct": 62.5
+    }
+  }
+}
