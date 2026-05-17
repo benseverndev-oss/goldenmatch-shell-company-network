@@ -1,0 +1,89 @@
+{
+  "total_communities": 10262,
+  "annotated_communities": 6606,
+  "top_n_written": 200,
+  "graph": {
+    "nodes": 513664,
+    "edges": 1072355,
+    "min_degree": 3,
+    "high_credibility_kinds": [
+      "intermediary_of",
+      "officer_of",
+      "registered_address",
+      "same_as",
+      "same_company_as",
+      "same_id_as",
+      "shareholder_of",
+      "underlying"
+    ]
+  },
+  "anomaly_score_weights": {
+    "jurisdiction_span": 0.3,
+    "sanctions_density": 0.25,
+    "size_sweet_spot": 0.2,
+    "intermediary_density": 0.15,
+    "address_density": 0.1
+  },
+  "top_5": [
+    {
+      "community_id": 1878,
+      "size": 78,
+      "n_jurisdictions": 3,
+      "jurisdictions": "pa;us;vg",
+      "n_sanctioned": 0,
+      "address_density": 0.855,
+      "intermediary_density": 0.0,
+      "officer_density": 0.145,
+      "anomaly_score": 0.4543
+    },
+    {
+      "community_id": 377,
+      "size": 115,
+      "n_jurisdictions": 2,
+      "jurisdictions": "cy;vg",
+      "n_sanctioned": 0,
+      "address_density": 0.0,
+      "intermediary_density": 1.0,
+      "officer_density": 0.0,
+      "anomaly_score": 0.444
+    },
+    {
+      "community_id": 3557,
+      "size": 107,
+      "n_jurisdictions": 2,
+      "jurisdictions": "hk;vg",
+      "n_sanctioned": 0,
+      "address_density": 0.028,
+      "intermediary_density": 0.935,
+      "officer_density": 0.037,
+      "anomaly_score": 0.4402
+    },
+    {
+      "community_id": 308,
+      "size": 64,
+      "n_jurisdictions": 2,
+      "jurisdictions": "uk;vg",
+      "n_sanctioned": 0,
+      "address_density": 0.093,
+      "intermediary_density": 0.68,
+      "officer_density": 0.227,
+      "anomaly_score": 0.4257
+    },
+    {
+      "community_id": 2762,
+      "size": 173,
+      "n_jurisdictions": 3,
+      "jurisdictions": "hk;mt;vg",
+      "n_sanctioned": 1,
+      "address_density": 0.13,
+      "intermediary_density": 0.502,
+      "officer_density": 0.364,
+      "anomaly_score": 0.4205
+    }
+  ],
+  "anomaly_score_distribution": {
+    "min": 0.2725,
+    "median": 0.31189999999999996,
+    "max": 0.4543
+  }
+}
