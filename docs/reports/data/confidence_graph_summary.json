@@ -1,0 +1,65 @@
+{
+  "subgraph": {
+    "n_seed_uids": 363,
+    "n_nodes": 7888,
+    "n_edges": 23677,
+    "hops": 2,
+    "max_nodes_cap": 8000
+  },
+  "edge_credibility_priors": {
+    "registered_address": 0.95,
+    "officer_of": 0.9,
+    "intermediary_of": 0.9,
+    "shareholder_of": 0.9,
+    "same_id_as": 0.95,
+    "same_as": 0.95,
+    "same_company_as": 0.85,
+    "underlying": 0.85,
+    "connected_to": 0.75,
+    "same_name_as": 0.5,
+    "similar": 0.5
+  },
+  "default_edge_credibility": 0.7,
+  "thresholds": [
+    0.5,
+    0.7,
+    0.9
+  ],
+  "per_threshold": {
+    "0.50": {
+      "n_communities": 44,
+      "largest_community_size": 3132,
+      "median_community_size": 12,
+      "n_singletons": 0,
+      "edges_retained": 23677,
+      "isolated_nodes": 0
+    },
+    "0.70": {
+      "n_communities": 50,
+      "largest_community_size": 3132,
+      "median_community_size": 11,
+      "n_singletons": 3,
+      "edges_retained": 23644,
+      "isolated_nodes": 3
+    },
+    "0.90": {
+      "n_communities": 53,
+      "largest_community_size": 3132,
+      "median_community_size": 11,
+      "n_singletons": 3,
+      "edges_retained": 23634,
+      "isolated_nodes": 3
+    }
+  },
+  "stability": {
+    "metric": "Jaccard overlap between community-membership at the most-permissive threshold and the most-strict threshold.",
+    "thresholds_compared": [
+      0.5,
+      0.9
+    ],
+    "n_nodes_evaluated": 7888,
+    "mean_jaccard": 0.993,
+    "n_nodes_overlap_ge_0_5": 7823,
+    "fraction_overlap_ge_0_5": 0.992
+  }
+}
