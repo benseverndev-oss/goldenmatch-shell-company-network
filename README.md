@@ -1,19 +1,89 @@
 # goldenmatch-shell-company-network
 
-A reproducible **case study** in using
-[GoldenMatch](https://pypi.org/project/goldenmatch/) to reconcile shell-company
-and offshore-entity records across public datasets, then reconstruct fragmented
-corporate-identity graphs from them.
+A reproducible investigative pipeline for offshore-leak corpora, with
+**quantified discovery-advantage benchmarks** against single-source
+search baselines.
 
-The repo is **scaffolding, ingestion, and two worked investigations**.
-Drop public bulk files into `data/raw/`, run a handful of scripts, and
-you'll get unified tables across sources, a GoldenMatch dedupe +
-list-match run, a NetworkX graph summary, and per-seed markdown
-investigation reports. Two case studies live alongside the code.
+Built on [GoldenMatch](https://pypi.org/project/goldenmatch/) for
+cross-source entity resolution, with ICIJ Offshore Leaks +
+OpenSanctions + GLEIF + UK PSC + UK disqualified-directors as inputs.
+The pipeline ingests, reconciles, builds a confidence-weighted graph,
+runs unsupervised structure mining, and produces named investigative
+candidates with per-entity novelty proofs.
 
-## Corpus & case studies
+**Start here:**
+[`docs/reports/discovery_advantage.md`](docs/reports/discovery_advantage.md)
+— the headline baseline-vs-pipeline benchmark. Every other report in
+the repo is evidence for or against the claims made there.
 
-Current corpus (after ICIJ + OpenSanctions ingest):
+## Headline result
+
+The pipeline matches or beats every operational baseline we measured,
+on every axis, on the full corpus:
+
+| Axis | Baseline | Pipeline | Δ |
+| --- | ---: | ---: | --- |
+| Multi-source anchors surfaced | 22,695 (naive casefold) | 25,247 (GoldenMatch normalize) | ↑ 11.2% |
+| Cross-source evidence on B3 sample | 465 (ICIJ search alone) | 500 (cross-source fuzzy) | ↑ 7.5% |
+| Analyst-hours to triage B3 | 255.9 (manual) | 96.0 (pipeline) | ↓ 62.5% |
+| Adversarial perturbation recovery | 0.42 (exact-after-normalize) | 0.99 (fuzzy token-set 85) | ↑ 133% |
+| Expected calibration error | 0.38 (raw ER score) | ~0 (PAV-calibrated) | ↓ 100% |
+| Brier score | 0.399 (raw) | 0.240 (calibrated) | ↓ 39.9% |
+
+Full provenance and per-axis methodology in
+[`discovery_advantage.md`](docs/reports/discovery_advantage.md).
+Per-entity walkthrough of 11 named candidates in
+[`top_candidates_walkthrough.md`](docs/reports/top_candidates_walkthrough.md).
+
+## Reports & benchmarks
+
+All reports are generated from Railway-side compute and committed to
+the repo. Each markdown report has a sibling JSON / parquet under
+[`docs/reports/data/`](docs/reports/data/) with the raw numbers.
+
+| Report | What it shows | Build |
+| --- | --- | --- |
+| [`discovery_advantage.md`](docs/reports/discovery_advantage.md) | Synthesis benchmark: baseline-vs-pipeline delta across 6 axes | `build_discovery_advantage` |
+| [`top_candidates_walkthrough.md`](docs/reports/top_candidates_walkthrough.md) | 11 named candidates with per-entity novelty proofs | `build_top_candidates_walkthrough` |
+| [`discovery_lift.md`](docs/reports/discovery_lift.md) | B1→B4 tier funnel: how many anchors each pipeline stage surfaces | `build_discovery_lift` |
+| [`baseline_comparison.md`](docs/reports/baseline_comparison.md) | ICIJ-search vs cross-source fuzzy + analyst-hour model | `build_baseline_comparison` |
+| [`adversarial_benchmark.md`](docs/reports/adversarial_benchmark.md) | B2 vs B6 recovery against 4 perturbation classes | `build_adversarial_benchmark` |
+| [`calibration_benchmark.md`](docs/reports/calibration_benchmark.md) | PAV calibration: raw vs calibrated Brier / ECE / log-loss | `build_calibration_benchmark` |
+| [`structure_benchmark.md`](docs/reports/structure_benchmark.md) | 6 non-obvious structural patterns (intermediary reuse, jurisdiction bridges, registry anchors, sanctions-adjacent closure, ownership convergence, anomalous communities) | `build_structure_benchmark` |
+| [`non_obviousness_ranking.md`](docs/reports/non_obviousness_ranking.md) | Per-anchor 5-factor non-obviousness score | `build_non_obviousness` |
+| [`latent_clusters.md`](docs/reports/latent_clusters.md) | Unsupervised Louvain community mining + anomaly scoring | `build_latent_clusters` |
+| [`temporal_patterns.md`](docs/reports/temporal_patterns.md) | Address-officer resurrections, incorporation bursts, long-lived anchors | `build_temporal_patterns` |
+| [`confidence_graph.md`](docs/reports/confidence_graph.md) | Credibility-weighted communities, contradiction-aware closure, review-priority ranking | `build_confidence_graph` |
+| [`join_novelty.md`](docs/reports/join_novelty.md) | Cross-source join novelty: rare-attribute joins absent from any single source | (built inline) |
+| [`exposes_candidates.md`](docs/reports/exposes_candidates.md) | Auto-generated candidate exposés from top-anomaly clusters | `build_exposes_candidates` |
+| [`failed_investigations.md`](docs/reports/failed_investigations.md) | Documented dead-ends (negative results) | (manual) |
+
+## Worked investigations
+
+Two case studies were the v1.0 deliverable and still hold up as the
+"this is what the pipeline does to a real seed" demonstration:
+
+- **Phoenix Spree Deutschland** — 9-member ICIJ cluster, 100% GLEIF
+  anchored.
+  [`notebooks/01_case_study.ipynb`](notebooks/01_case_study.ipynb) ·
+  [writeup](reports/case_studies/503264_phoenix_spree_deutschland.md).
+- **Epstein corporate-network seed review** — 28 sourced seeds. Headline
+  *Liquid Funding, Ltd.* (Bermuda, ICIJ Paradise Papers — Appleby) is
+  the single corroborated lead, with Jeffrey E Epstein listed as
+  director + chairman alongside Bear Stearns SVP Jeffrey M Lipman.
+  [`notebooks/02_epstein_case_study.ipynb`](notebooks/02_epstein_case_study.ipynb) ·
+  [findings](reports/investigations/epstein_followup_2_findings.md).
+
+Beyond these two, the **top-candidates walkthrough** auto-generates
+11 named candidates (shared intermediaries, cross-jurisdiction bridge
+officers, Louvain communities, non-obviousness-ranked rare officers)
+without requiring a hand-curated seed list — the unsupervised channels
+ask the pipeline to find investigation candidates the analyst didn't
+know to look for.
+
+## Corpus
+
+After ICIJ + OpenSanctions + GLEIF + UK PSC ingest:
 
 | Table | Rows |
 | --- | ---: |
@@ -22,44 +92,42 @@ Current corpus (after ICIJ + OpenSanctions ingest):
 | `address_entities.parquet` | **1,180,555** (ICIJ 702k + OS 479k) |
 | `uk_psc_dob.parquet` | **12,151,833** (UK Companies House PSC, DOB-only) |
 
-Two investigations have been run end-to-end:
-
-- **Phoenix Spree Deutschland** — 9-member ICIJ cluster, 100% GLEIF
-  anchored. Walkthrough:
-  [`notebooks/01_case_study.ipynb`](notebooks/01_case_study.ipynb)
-  · writeup:
-  [`reports/case_studies/503264_phoenix_spree_deutschland.md`](reports/case_studies/503264_phoenix_spree_deutschland.md).
-- **Epstein corporate-network seed review** — 28 sourced seeds (USVI
-  SAC, NYDFS, Senate Finance, JPMorgan litigation). Headline: *Liquid
-  Funding, Ltd.* (Bermuda, ICIJ Paradise Papers — Appleby) is the
-  single corroborated lead — Jeffrey E Epstein listed as director +
-  chairman, 2001-11-09 to 2007-03-30, alongside Bear Stearns SVP
-  Jeffrey M Lipman (FINRA CRD# 717915, Bear Stearns 1980–2008).
-  Notebook:
-  [`notebooks/02_epstein_case_study.ipynb`](notebooks/02_epstein_case_study.ipynb)
-  · findings:
-  [`reports/investigations/epstein_followup_2_findings.md`](reports/investigations/epstein_followup_2_findings.md).
-
 ## What this is — and isn't
 
-**Is:** investigative data engineering. We try to *connect* records that
-plausibly refer to the same legal entity across noisy public sources, and to
-surface graph structure (shared addresses, shared officers, parent/child
-chains) that a human investigator can then review.
+**Is:** investigative data engineering with **quantified, reproducible
+benchmarks** against operational baselines. We *connect* records that
+plausibly refer to the same legal entity across noisy public sources;
+we surface graph structure (shared addresses, shared officers, latent
+communities, jurisdiction bridges) that a human investigator can then
+review; and we measure how much of that surfacing is unreachable from
+single-source search alone.
 
-**Isn't:** an accusation engine. Presence in the ICIJ Offshore Leaks does not
-imply wrongdoing — many entities in that dataset are legitimate. Matches
-produced by GoldenMatch are *hypotheses*, not facts. Always review by hand.
-Always respect each source's licence and terms of service.
+**Isn't:**
+
+1. **An accusation engine.** Presence in ICIJ Offshore Leaks does not
+   imply wrongdoing — many entities are legitimate. Matches produced
+   by GoldenMatch are *hypotheses*, not facts. Always review by hand.
+2. **A journalist-confirmed novelty study.** Discovery advantage is
+   measured against operational baselines (ICIJ search, naive fuzzy
+   match, manual cross-reference) — not against a panel of investigative
+   journalists confirming which surfaced candidates are actually
+   exposé-worthy. That panel-review study is the documented v2 gap in
+   [`discovery_advantage.md`](docs/reports/discovery_advantage.md)
+   §"Analyst review outcomes".
+3. **A licence-bypass.** The datasets it ingests are governed by their
+   own licences and terms of use. Read them before redistributing
+   anything you derive.
 
 ## Data sources
 
 | Source | Role | Access | Notes |
 | --- | --- | --- | --- |
-| [ICIJ Offshore Leaks](https://offshoreleaks.icij.org/pages/database) | Primary entities + relationships | Manual CSV download | One bundle per leak; filename patterns vary across releases |
-| [OpenCorporates](https://api.opencorporates.com/) | Registry-anchored company records | API (key optional) | Polite pagination + on-disk response cache |
-| [GLEIF Golden Copy](https://www.gleif.org/en/lei-data/gleif-golden-copy) | Authoritative LEI records | Manual download | We parse JSON / JSONL today; XML is a TODO |
-| [OpenSanctions](https://www.opensanctions.org/datasets/) | Enrichment (sanctions, PEPs, registers) | Manual export | Not used as ground truth |
+| [ICIJ Offshore Leaks](https://offshoreleaks.icij.org/pages/database) | Primary entities + relationships | Manual CSV download | Multiple leak bundles (Panama, Paradise, Pandora, etc.) |
+| [OpenCorporates](https://api.opencorporates.com/) | Registry-anchored company records | API (key optional) | Polite pagination + on-disk cache |
+| [GLEIF Golden Copy](https://www.gleif.org/en/lei-data/gleif-golden-copy) | Authoritative LEI records | Manual download | Streaming JSONL parser (`ijson`); XML is TODO |
+| [OpenSanctions](https://www.opensanctions.org/datasets/) | Sanctions / PEPs / registers / enforcement | Manual export | Used as overlay, not ground truth |
+| [UK Companies House PSC](https://download.companieshouse.gov.uk/en_pscdata.html) | Persons with Significant Control | Daily bulk download | 12M+ rows, DOB-only after filtering |
+| [UK Disqualified Directors](https://download.companieshouse.gov.uk/en_output.html) | Banned company officers | Daily bulk download | Used as a regulatory-action signal |
 
 Full per-source fields, licensing, and caveats live in
 [`docs/data-sources.md`](docs/data-sources.md).
@@ -78,45 +146,46 @@ uv run pytest
 
 # 3. Ingest whichever sources you have
 uv run python scripts/ingest_icij.py
-uv run python scripts/ingest_opencorporates.py --query "Acme Holdings" --jurisdiction gb --limit 50
 uv run python scripts/ingest_gleif.py --input data/raw/gleif/sample.json
 uv run python scripts/ingest_opensanctions.py --input data/raw/opensanctions/entities.ftm.json
 
-# 4. Build the unified company table
+# 4. Build the unified tables
 uv run python scripts/build_candidate_tables.py
-
-# 5. Sanity-check the GoldenMatch config
-uv run python scripts/run_goldenmatch_smoke.py
-
-# 6. Run the real GoldenMatch dedupe pass (writes reports/generated/company_*)
-uv run python scripts/run_goldenmatch_full.py --what company
-
-# 7. Derive cheap seed labels, score the run, and build the graph
-uv run python scripts/derive_seed_labels.py
-uv run python scripts/eval_against_labels.py
-uv run python scripts/build_graph_smoke.py
-
-# 8. Address-cluster pass + persons table (optional, but cheap)
 uv run python scripts/build_address_table.py
-uv run python scripts/report_shared_addresses.py
 uv run python scripts/build_person_table.py
+
+# 5. Run GoldenMatch dedupe + list-match
+uv run python scripts/run_goldenmatch_full.py --what company
 uv run python scripts/run_goldenmatch_full.py --what address
 uv run python scripts/run_goldenmatch_full.py --what person
 
-# 9. Coverage report across everything in interim/ and processed/
-uv run python scripts/coverage_report.py
+# 6. Build the confidence-weighted graph + downstream benchmarks
+uv run python scripts/build_confidence_graph.py
+uv run python scripts/build_latent_clusters.py
+uv run python scripts/build_structure_benchmark.py
+uv run python scripts/build_non_obviousness.py
+uv run python scripts/build_temporal_patterns.py
+
+# 7. Synthesis report
+uv run python scripts/build_discovery_advantage.py
+uv run python scripts/render_discovery_advantage.py \
+    --summary data/processed/discovery_advantage_summary.json \
+    --out docs/reports/discovery_advantage.md
 ```
 
-If you have `just` installed, all of the above are also available as recipes:
-`just setup`, `just test`, `just ingest-icij`, `just smoke-graph`, etc.
+If you have `just` installed, all of the above are also available as
+recipes: `just setup`, `just test`, `just ingest-icij`, etc.
+
+For corpus-scale runs, **don't run any of the `build_*` scripts
+locally** — they OOM on a laptop. See § Running on Railway below.
 
 ## Running on Railway
 
-The full ICIJ + GLEIF dataset is too big to dedupe on a laptop (4.1M rows
-of unified company entities). The repo ships a small FastAPI control
-plane (`src/shellnet/job_server.py`) that wraps each pipeline stage as
-an HTTP endpoint and is deployable to Railway via the included
-`Dockerfile` + `railway.json`.
+The full ICIJ + GLEIF + OpenSanctions corpus is too big to dedupe and
+graph-walk on a laptop. The repo ships a FastAPI control plane
+(`src/shellnet/job_server.py`) that wraps each pipeline stage as an
+HTTP endpoint, deployable to Railway via the included `Dockerfile` +
+`railway.json`.
 
 Architecture:
 
@@ -124,7 +193,7 @@ Architecture:
 laptop  --POST /upload-zip-->  shellnet-job (FastAPI)
                                 |
                                 +-- /data           (Railway volume, 50 GB)
-                                +-- /unzip /ingest /build /match /publish ...
+                                +-- /unzip /ingest /build /match /publish /run-script
                                 |
                                 +-- DATABASE_URL --> Postgres (shellnet schema)
 ```
@@ -143,152 +212,153 @@ railway up --service shellnet-job
 railway domain --service shellnet-job
 ```
 
-A typical run end-to-end (`$URL` = the generated Railway domain,
-`$TOK` = your token):
+End-to-end ingest + dedupe + match against GLEIF (`$URL` = the
+generated Railway domain, `$TOK` = your token):
 
 ```bash
-# 1. Upload the ICIJ Offshore Leaks zip from your laptop
 SHELLNET_JOB_URL=$URL SHELLNET_JOB_TOKEN=$TOK \
   uv run python scripts/upload_icij.py full-oldb.LATEST.zip
 curl -X POST -H "Authorization: Bearer $TOK" "$URL/unzip"
 curl -X POST -H "Authorization: Bearer $TOK" "$URL/ingest?source=icij"
-
-# 2. Pull GLEIF + OpenSanctions inside the container
 curl -X POST -H "Authorization: Bearer $TOK" \
   "$URL/fetch-url?url=https://data.opensanctions.org/datasets/latest/us_ofac_sdn/entities.ftm.json&dest=raw/opensanctions/us_ofac_sdn.ftm.json"
 curl -X POST -H "Authorization: Bearer $TOK" "$URL/ingest?source=opensanctions"
-
-# (GLEIF: see docs/data-sources.md for the GLEIF API URL, then
-#  /fetch-url + /unzip-file + /ingest?source=gleif)
-
-# 3. Build the unified table, filter, dedupe, list-match, publish
 curl -X POST -H "Authorization: Bearer $TOK" "$URL/build?what=company"
-curl -X POST -H "Authorization: Bearer $TOK" \
-  "$URL/run-script?name=filter_company_no_gleif"
 curl -X POST -H "Authorization: Bearer $TOK" "$URL/match?what=company"
 curl -X POST -H "Authorization: Bearer $TOK" "$URL/publish?what=company"
-
-# 4. Cross-source: match ICIJ+OS deduped entities against GLEIF as a reference
-curl -X POST -H "Authorization: Bearer $TOK" \
-  "$URL/run-script?name=extract_gleif_unified"
-curl -X POST -H "Authorization: Bearer $TOK" \
-  "$URL/match-against?target=processed/company_entities.parquet&against=processed/gleif_unified.parquet&run_name=icij_os_vs_gleif"
-curl -X POST -H "Authorization: Bearer $TOK" \
-  "$URL/publish-list-match?run_name=icij_os_vs_gleif"
-curl -X POST -H "Authorization: Bearer $TOK" \
-  "$URL/run-script?name=review_matches"
-
-# Poll state any time
-curl -H "Authorization: Bearer $TOK" "$URL/status"
-curl -H "Authorization: Bearer $TOK" "$URL/logs/<stage>?tail=200"
 ```
 
-Results land in two places:
+### Reproducing the benchmarks
 
-- `/data/processed/` and `/data/reports/generated/` on the Railway volume
-  (parquet + CSV + markdown reports).
-- `shellnet.runs`, `shellnet.clusters`, `shellnet.same_as_pairs`, and
-  `shellnet.list_matches` in the project Postgres — query directly or
-  surface from the showcase frontend.
+Every report in the § Reports & benchmarks table has a corresponding
+GitHub Actions workflow that runs the build on Railway and commits the
+refreshed report back to `main`. To regenerate any single report:
 
-The full ICIJ + OpenSanctions dedupe at this scale fits in ~3 GB and runs
-in ~1 minute. The ICIJ+OS → GLEIF list-match runs in ~10 minutes on the
-default Railway Pro service (24 vCPU / 24 GB). Full pairwise dedupe over
-ICIJ + GLEIF + OpenSanctions (4.1M rows) does **not** fit at 24 GB —
-list-match is the supported shape at this scale.
+```bash
+gh workflow run build-discovery-advantage.yml
+gh workflow run build-top-candidates-walkthrough.yml
+gh workflow run build-structure-benchmark.yml
+gh workflow run build-confidence-graph.yml
+gh workflow run build-calibration-benchmark.yml
+gh workflow run build-adversarial-benchmark.yml
+gh workflow run build-discovery-lift.yml
+gh workflow run build-baseline-comparison.yml
+gh workflow run build-non-obviousness.yml
+gh workflow run build-latent-clusters.yml
+gh workflow run build-temporal-patterns.yml
+gh workflow run build-exposes-candidates.yml
+```
+
+Each workflow polls the Railway job to completion, downloads the
+artefact, renders the markdown, and commits with `git pull --rebase`
+before pushing to avoid the concurrent-workflow race.
+
+Full ICIJ + OpenSanctions dedupe at this scale fits in ~3 GB and runs
+in ~1 minute. The ICIJ+OS → GLEIF list-match runs in ~10 minutes on
+the default Railway Pro service (24 vCPU / 24 GB). Full pairwise
+dedupe over ICIJ + GLEIF + OpenSanctions (4.1M rows) does **not** fit
+at 24 GB — list-match is the supported shape at this scale.
 
 ## Directory layout
 
 ```
-configs/        GoldenMatch YAMLs and source manifests
-data/           Raw / interim / processed / sample data (git-ignored except .gitkeep)
-docs/           Source descriptions, methodology, roadmap
-notebooks/      Exploratory notebooks (kept lightweight; large outputs not committed)
-reports/        Generated reports (git-ignored except .gitkeep)
-scripts/        Thin Typer CLIs that wrap library code
-src/shellnet/   Library code: schemas, normalization, source adapters, matching, graph
-tests/          Pytest suite + tiny synthetic fixtures
-Dockerfile      Container image for the Railway job service
-railway.json    Railway deploy config (healthcheck path, restart policy)
+.github/workflows/  CI + Railway-triggered benchmark builds (build-*.yml)
+configs/            GoldenMatch YAMLs + source manifests
+data/               Raw / interim / processed / sample data (mostly git-ignored)
+docs/               Source descriptions, methodology, roadmap
+  docs/paper/       Methodology paper
+  docs/reports/     Generated benchmark reports (committed)
+notebooks/          Exploratory notebooks (case studies)
+reports/            Per-seed investigation writeups
+scripts/            Thin Typer CLIs that wrap library code
+  scripts/build_*.py    Benchmark builders (run on Railway)
+  scripts/render_*.py   Markdown renderers (run on GH Actions)
+src/shellnet/       Library code: schemas, normalization, source adapters, matching, graph
+tests/              Pytest suite + tiny synthetic fixtures
+Dockerfile          Container image for the Railway job service
+railway.json        Railway deploy config (healthcheck path, restart policy)
 ```
-
-## Configuration
-
-All secrets live in `.env` (see `.env.example`). Today the only relevant
-secret is `OPENCORPORATES_API_KEY`, which is *optional* — adapters work
-without it but at lower rate limits and with less data per record.
 
 ## Status
 
-**v1.0.0** — Phases 0–6 shipped on `main`. Full real-data ingest
-(ICIJ + GLEIF + OpenSanctions + UK PSC), 300 hand-labelled marginal
-pairs, v1 → v2 config sweep with band-weighted precision lift,
-centrality + Louvain on the cluster sub-graph, and two end-to-end
-case-study writeups. What works today:
+**v1.0** (case-study deliverable) — Phases 0–6 shipped: ingest, unified
+tables, matching + eval, address + person tables, graph analysis, two
+case-study writeups with full provenance.
 
-- All four source adapters parse fixture-shaped inputs to parquet, including
-  ICIJ officers and intermediaries.
-- A streaming GLEIF Golden Copy adapter
-  (`shellnet.sources.gleif_golden_copy`) for the multi-GB CDF JSON file —
-  the v1-API adapter OOMs on the real file, this one chunks via `ijson`
-  + per-batch parquet writes.
-- Three unified tables: `company_entities`, `address_entities`,
-  `person_entities`. Each gracefully handles missing sources.
-- Three GoldenMatch configs (`goldenmatch_company.yml`,
-  `goldenmatch_address.yml`, `goldenmatch_person.yml`). The company config
-  has been **tuned post-spot-check**: `token_sort` instead of
-  `jaro_winkler` on names + threshold raised to 0.92 to suppress
-  leading-token false positives. See `docs/roadmap.md` § Phase 2.
-- A FastAPI control plane (`src/shellnet/job_server.py`) deployable to
-  Railway via the included `Dockerfile` / `railway.json`. Each pipeline
-  stage is an endpoint (upload, fetch-url, unzip, ingest, build, match,
-  match-against, publish, run-script). See § Running on Railway below.
-- A Postgres writer (`src/shellnet/publish.py`) that persists dedupe runs
-  and list-match results into a `shellnet` schema.
-- `scripts/run_goldenmatch_full.py` shells out to the GoldenMatch CLI and
-  joins its cluster output back to our entity ids.
-- `scripts/generate_candidate_pairs.py` + `derive_seed_labels.py` +
-  `eval_against_labels.py` form a labelling + evaluation pipeline.
-- `scripts/build_address_table.py` + `report_shared_addresses.py` surface
-  shared-agent clusters as Markdown + parquet (top hit on the full ICIJ
-  ingest: Portcullis TrustNet Chambers hosts 33,858 entities).
-- `scripts/build_person_table.py` fuses ICIJ officers/intermediaries with
-  OpenSanctions Persons.
-- `scripts/filter_company_table.py` drops placeholder names, mega-blocks,
-  and optionally individual sources before matching.
-- `scripts/review_matches.py` produces a heuristic precision review of a
-  list-match run (identical / normalized_eq / jur_close / jur_loose /
-  low_overlap classes crosstabbed against score bands).
-- The graph smoke layers GoldenMatch `same_as` edges on top of source
-  relationships.
-- `scripts/coverage_report.py` writes per-column fill-rate tables for every
-  interim/processed parquet.
-- 60 pytest tests run end-to-end with no network.
+**Since v1.0** (benchmark-pipeline extensions, all generated on
+Railway and reproducible via GH Actions):
 
-**v1.0 is the case-study deliverable.** Phases 0–6 are shipped: ingest,
-unified tables, matching + eval, address + person tables, graph
-analysis, and two case-study writeups with full provenance. Items
-parked for v1.0 (full list in `docs/status.md` § Parked / future work):
+- **Discovery Advantage Report** — single-artifact synthesis of every
+  baseline-vs-pipeline measurement
+  ([`build_discovery_advantage`](scripts/build_discovery_advantage.py))
+- **Top-candidates walkthrough** — per-entity novelty proofs across 5
+  surfacing channels
+  ([`build_top_candidates_walkthrough`](scripts/build_top_candidates_walkthrough.py))
+- **Discovery lift** — B1→B4 tier funnel
+  ([`build_discovery_lift`](scripts/build_discovery_lift.py))
+- **Baseline comparison** — ICIJ-search vs cross-source recall +
+  analyst-hour model
+  ([`build_baseline_comparison`](scripts/build_baseline_comparison.py))
+- **Adversarial benchmark** — recovery against 4 perturbation classes
+  ([`build_adversarial_benchmark`](scripts/build_adversarial_benchmark.py))
+- **PAV calibration** — Brier / ECE / log-loss before vs after isotonic
+  regression
+  ([`build_calibration_benchmark`](scripts/build_calibration_benchmark.py))
+- **Structure benchmark** — 6 non-obvious structural patterns
+  ([`build_structure_benchmark`](scripts/build_structure_benchmark.py))
+- **Non-obviousness scoring** — 5-factor per-anchor composite
+  ([`build_non_obviousness`](scripts/build_non_obviousness.py))
+- **Latent-cluster mining** — Louvain communities + anomaly scoring on
+  ICIJ corpus
+  ([`build_latent_clusters`](scripts/build_latent_clusters.py))
+- **Temporal patterns** — address-officer resurrections, incorporation
+  bursts, long-lived anchors
+  ([`build_temporal_patterns`](scripts/build_temporal_patterns.py))
+- **Confidence-aware graph** — credibility-weighted communities with
+  multi-hop decay, contradiction-aware closure, review-priority
+  ranking
+  ([`build_confidence_graph`](scripts/build_confidence_graph.py))
+- **Methodology paper** — formal writeup of the matcher, calibration,
+  graph reasoning, and benchmark methodology
+  ([`docs/paper/methodology.md`](docs/paper/methodology.md))
 
-- OpenCorporates ingest — adapter ready, blocked on API key + curated
-  seed list.
-- Probabilistic matchkey + `negative_evidence` — labels exist (300
-  pairs); `negative_evidence` is blocked on an upstream goldenmatch
-  1.12.x polars schema bug in `match`.
-- Address dedupe at full scale — needs the mega-block filter applied
-  the same way as companies, or pre-stripped legal-form prefixes.
-- `normalize_person_name` — currently borrows the company normalizer.
-- More case studies — Phoenix Spree + Epstein are shipped; centrality
-  + community output should surface 1–2 more candidates.
-- GLEIF Golden Copy XML / ZIP — JSON / JSONL parsing is live; XML +
-  ZIP raise `NotImplementedError`.
+Items still parked (see [`docs/status.md`](docs/status.md) for the
+canonical list):
+
+- **Journalist panel-review study** — the v2 gap documented in
+  `discovery_advantage.md` §"Analyst review outcomes". Surfaced
+  candidates have no human-confirmed novelty label.
+- **OpenCorporates ingest** — adapter ready, blocked on API key +
+  curated seed list.
+- **Probabilistic matchkey + `negative_evidence`** — labels exist;
+  blocked on an upstream goldenmatch polars schema bug.
+- **GLEIF Golden Copy XML / ZIP** — JSON / JSONL parsing is live; XML
+  + ZIP raise `NotImplementedError`.
+- **Provenance-weighted edge priors** — current credibility priors are
+  per-`kind_raw`; a v2 would calibrate against the labelled marginal-
+  pair review set.
+
+## Configuration
+
+Secrets live in `.env` (see `.env.example`):
+
+- `OPENCORPORATES_API_KEY` (optional)
+- `SHELLNET_JOB_TOKEN` (required for Railway control-plane endpoints)
+- `SHELLNET_JOB_URL` (your Railway domain; also stored as a GH repo
+  variable for the build-* workflows)
+- `DATABASE_URL` (Postgres connection string for run / cluster / pair
+  persistence)
 
 ## Legal & ethical
 
 - This project is research code released under the MIT licence.
-- The **datasets** it ingests are governed by their own licences and terms of
-  use. Read them before redistributing anything you derive.
-- Do not publish identity-linked claims about specific people or companies
-  without independent review.
-- Do not scrape OpenCorporates aggressively. Use the API, set a key, respect
-  the rate limits.
+- The **datasets** it ingests are governed by their own licences and
+  terms of use. Read them before redistributing anything you derive.
+- Do not publish identity-linked claims about specific people or
+  companies without independent review.
+- Discovery-advantage numbers are measured against operational
+  baselines, not against journalist-confirmed exposés. See
+  [`discovery_advantage.md`](docs/reports/discovery_advantage.md)
+  §"Analyst review outcomes" for the explicit v2 gap.
+- Do not scrape OpenCorporates aggressively. Use the API, set a key,
+  respect the rate limits.
