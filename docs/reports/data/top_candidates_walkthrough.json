@@ -1,0 +1,268 @@
+{
+  "report": "top_candidates_walkthrough",
+  "n_candidates": 11,
+  "channels": [
+    "jurisdiction_bridge",
+    "louvain_anomaly_only",
+    "louvain_sanctions_adjacent",
+    "non_obviousness_rank",
+    "shared_agent_reuse"
+  ],
+  "candidates": [
+    {
+      "channel": "shared_agent_reuse",
+      "title": "Shared intermediary: CF INDUSTRIES (BARBADOS) SRL",
+      "uid": "icij:101300076",
+      "meta": {
+        "name": "CF INDUSTRIES (BARBADOS) SRL",
+        "jurisdiction": "Barbados",
+        "type": "entity",
+        "source_label": "Paradise Papers - Barbados corporate registry"
+      },
+      "metric": {
+        "n_clients": 5
+      },
+      "client_samples": [
+        "icij:135015260",
+        "icij:135029244",
+        "icij:135044324",
+        "icij:135047559",
+        "icij:130000006"
+      ],
+      "attestation": {
+        "opensanctions": 0,
+        "gleif": 0
+      },
+      "baseline_view": "ICIJ Offshore Leaks search for \"CF INDUSTRIES (BARBADOS) SRL\" returns the intermediary entity itself, but does not aggregate that this intermediary acts for 5 distinct officers across the leak corpus. OpenSanctions and GLEIF have no entry \u2014 this intermediary is not sanctioned and not LEI-registered, so single-source search filters it out as non-actionable.",
+      "pipeline_view": "The pipeline ranks this intermediary by client multiplicity (5 distinct officers), surfacing it as a shared-agent hub the single-source view cannot compute. Combined with the absence of sanctions/LEI registration, the structural pattern (reuse without formal-registry trace) is the investigative signal.",
+      "novelty_proof": "Structural aggregation across ICIJ edges. Single-source views are per-entity; the multiplicity count requires walking the edges, which no source's search UI exposes."
+    },
+    {
+      "channel": "shared_agent_reuse",
+      "title": "Shared intermediary: Rhombus No.2 Limited",
+      "uid": "icij:82019585",
+      "meta": {
+        "name": "Rhombus No.2 Limited",
+        "jurisdiction": "gg",
+        "type": "entity",
+        "source_label": "Paradise Papers - Appleby"
+      },
+      "metric": {
+        "n_clients": 4
+      },
+      "client_samples": [
+        "icij:80010696",
+        "icij:80043197",
+        "icij:80069418",
+        "icij:80109672"
+      ],
+      "attestation": {
+        "opensanctions": 0,
+        "gleif": 0
+      },
+      "baseline_view": "ICIJ Offshore Leaks search for \"Rhombus No.2 Limited\" returns the intermediary entity itself, but does not aggregate that this intermediary acts for 4 distinct officers across the leak corpus. OpenSanctions and GLEIF have no entry \u2014 this intermediary is not sanctioned and not LEI-registered, so single-source search filters it out as non-actionable.",
+      "pipeline_view": "The pipeline ranks this intermediary by client multiplicity (4 distinct officers), surfacing it as a shared-agent hub the single-source view cannot compute. Combined with the absence of sanctions/LEI registration, the structural pattern (reuse without formal-registry trace) is the investigative signal.",
+      "novelty_proof": "Structural aggregation across ICIJ edges. Single-source views are per-entity; the multiplicity count requires walking the edges, which no source's search UI exposes."
+    },
+    {
+      "channel": "shared_agent_reuse",
+      "title": "Shared intermediary: GULFSTREAM PETROLEUM SRL",
+      "uid": "icij:101300442",
+      "meta": {
+        "name": "GULFSTREAM PETROLEUM SRL",
+        "jurisdiction": "Barbados",
+        "type": "entity",
+        "source_label": "Paradise Papers - Barbados corporate registry"
+      },
+      "metric": {
+        "n_clients": 4
+      },
+      "client_samples": [
+        "icij:135031894",
+        "icij:135066503",
+        "icij:135089016",
+        "icij:130000012"
+      ],
+      "attestation": {
+        "opensanctions": 0,
+        "gleif": 0
+      },
+      "baseline_view": "ICIJ Offshore Leaks search for \"GULFSTREAM PETROLEUM SRL\" returns the intermediary entity itself, but does not aggregate that this intermediary acts for 4 distinct officers across the leak corpus. OpenSanctions and GLEIF have no entry \u2014 this intermediary is not sanctioned and not LEI-registered, so single-source search filters it out as non-actionable.",
+      "pipeline_view": "The pipeline ranks this intermediary by client multiplicity (4 distinct officers), surfacing it as a shared-agent hub the single-source view cannot compute. Combined with the absence of sanctions/LEI registration, the structural pattern (reuse without formal-registry trace) is the investigative signal.",
+      "novelty_proof": "Structural aggregation across ICIJ edges. Single-source views are per-entity; the multiplicity count requires walking the edges, which no source's search UI exposes."
+    },
+    {
+      "channel": "jurisdiction_bridge",
+      "title": "Bridge officer: Banks - Samuel Andrew (us \u2194 ky)",
+      "uid": "icij:80033141",
+      "meta": {
+        "name": "Banks - Samuel Andrew",
+        "jurisdiction": null,
+        "type": "officer",
+        "source_label": "Paradise Papers - Appleby"
+      },
+      "metric": {
+        "juris_a": "us",
+        "juris_b": "ky",
+        "company_a": "Paradigm USA Consulting Inc",
+        "company_b": "DM Holdings GP Limited"
+      },
+      "attestation": {
+        "opensanctions": 0,
+        "uk_psc": 0,
+        "uk_disqualified": 0
+      },
+      "baseline_view": "ICIJ search for \"Banks - Samuel Andrew\" returns the two companies separately \u2014 `Paradigm USA Consulting Inc` (us) and `DM Holdings GP Limited` (ky) \u2014 but does not flag the offshore-mainstream jurisdictional bridge as a structural pattern. UK PSC, UK disqualified-directors, and OpenSanctions would each be queried independently with no automatic correlation.",
+      "pipeline_view": "The pipeline flags this officer because two companies they control span an offshore venue (us) and a mainstream venue (ky). The bridge is the structural pattern, not the per-company filings.",
+      "novelty_proof": "Cross-jurisdiction pair detection requires (a) officer-deduplication across companies and (b) jurisdiction classification \u2014 neither is an out-of-the-box capability in any source's interface."
+    },
+    {
+      "channel": "jurisdiction_bridge",
+      "title": "Bridge officer: Pullen - Douglas H. (bm \u2194 us)",
+      "uid": "icij:80114736",
+      "meta": {
+        "name": "Pullen - Douglas H.",
+        "jurisdiction": "bm",
+        "type": "officer",
+        "source_label": "Paradise Papers - Appleby"
+      },
+      "metric": {
+        "juris_a": "bm",
+        "juris_b": "us",
+        "company_a": "North American Manufacturers Insurance Company Limited",
+        "company_b": "Numar Honduras, Ltd."
+      },
+      "attestation": {
+        "opensanctions": 0,
+        "uk_psc": 0,
+        "uk_disqualified": 0
+      },
+      "baseline_view": "ICIJ search for \"Pullen - Douglas H.\" returns the two companies separately \u2014 `North American Manufacturers Insurance Company Limited` (bm) and `Numar Honduras, Ltd.` (us) \u2014 but does not flag the offshore-mainstream jurisdictional bridge as a structural pattern. UK PSC, UK disqualified-directors, and OpenSanctions would each be queried independently with no automatic correlation.",
+      "pipeline_view": "The pipeline flags this officer because two companies they control span an offshore venue (bm) and a mainstream venue (us). The bridge is the structural pattern, not the per-company filings.",
+      "novelty_proof": "Cross-jurisdiction pair detection requires (a) officer-deduplication across companies and (b) jurisdiction classification \u2014 neither is an out-of-the-box capability in any source's interface."
+    },
+    {
+      "channel": "louvain_sanctions_adjacent",
+      "title": "Community #2762: 173-entity sanctions-adjacent cluster",
+      "uid": "community:2762",
+      "meta": {
+        "jurisdictions": "hk;mt;vg",
+        "n_sanctioned": 1
+      },
+      "metric": {
+        "community_id": 2762,
+        "size": 173,
+        "anomaly_score": 0.4205,
+        "jurisdictions": "hk;mt;vg",
+        "n_sanctioned": 1
+      },
+      "member_samples": [],
+      "baseline_view": "No source surfaces communities \u2014 none of ICIJ, OpenSanctions, GLEIF, UK PSC, or UK disqualified-directors expose graph-cluster structure. A journalist could only assemble this cluster by iteratively querying related entities one at a time. The cluster contains 1 sanctioned entity, so only that single entity would surface in OpenSanctions; the surrounding 172 entities would not.",
+      "pipeline_view": "Louvain community detection on credibility-weighted edges surfaces this 173-entity cluster spanning hk;mt;vg with anomaly score 0.420. The community structure is the investigative signal, not any single entity in it.",
+      "novelty_proof": "Unsupervised graph clustering produces a structural finding that has no direct analogue in any source. The community is fully synthesised by the pipeline."
+    },
+    {
+      "channel": "louvain_anomaly_only",
+      "title": "Community #1878: 78-entity pure-anomaly cluster",
+      "uid": "community:1878",
+      "meta": {
+        "jurisdictions": "pa;us;vg",
+        "n_sanctioned": 0
+      },
+      "metric": {
+        "community_id": 1878,
+        "size": 78,
+        "anomaly_score": 0.4543,
+        "jurisdictions": "pa;us;vg",
+        "n_sanctioned": 0
+      },
+      "member_samples": [],
+      "baseline_view": "No source surfaces communities \u2014 none of ICIJ, OpenSanctions, GLEIF, UK PSC, or UK disqualified-directors expose graph-cluster structure. A journalist could only assemble this cluster by iteratively querying related entities one at a time. No entity in the cluster is sanctioned, so OpenSanctions search returns nothing \u2014 the cluster is invisible to that lens entirely.",
+      "pipeline_view": "Louvain community detection on credibility-weighted edges surfaces this 78-entity cluster spanning pa;us;vg with anomaly score 0.454. The community structure is the investigative signal, not any single entity in it.",
+      "novelty_proof": "Unsupervised graph clustering produces a structural finding that has no direct analogue in any source. The community is fully synthesised by the pipeline."
+    },
+    {
+      "channel": "louvain_anomaly_only",
+      "title": "Community #377: 115-entity pure-anomaly cluster",
+      "uid": "community:377",
+      "meta": {
+        "jurisdictions": "cy;vg",
+        "n_sanctioned": 0
+      },
+      "metric": {
+        "community_id": 377,
+        "size": 115,
+        "anomaly_score": 0.444,
+        "jurisdictions": "cy;vg",
+        "n_sanctioned": 0
+      },
+      "member_samples": [],
+      "baseline_view": "No source surfaces communities \u2014 none of ICIJ, OpenSanctions, GLEIF, UK PSC, or UK disqualified-directors expose graph-cluster structure. A journalist could only assemble this cluster by iteratively querying related entities one at a time. No entity in the cluster is sanctioned, so OpenSanctions search returns nothing \u2014 the cluster is invisible to that lens entirely.",
+      "pipeline_view": "Louvain community detection on credibility-weighted edges surfaces this 115-entity cluster spanning cy;vg with anomaly score 0.444. The community structure is the investigative signal, not any single entity in it.",
+      "novelty_proof": "Unsupervised graph clustering produces a structural finding that has no direct analogue in any source. The community is fully synthesised by the pipeline."
+    },
+    {
+      "channel": "non_obviousness_rank",
+      "title": "Rare-officer anchor: philippe le gall",
+      "uid": "name:philippe le gall",
+      "meta": {},
+      "metric": {
+        "non_obviousness_score": 0.5332,
+        "rarity": 0.5735,
+        "graph_surprise": 1.0,
+        "pattern_uniqueness": 0.7778,
+        "jurisdiction_span": 1
+      },
+      "attestation": {
+        "opensanctions": 0,
+        "uk_psc": 0,
+        "uk_disqualified": 0
+      },
+      "baseline_view": "ICIJ search for \"philippe le gall\" returns the officer record(s). OpenSanctions, UK PSC, and UK disqualified-directors are queried separately; nothing in any single-source UI tells the journalist that this name carries an unusually high 5-factor non-obviousness signal (rarity 0.57, graph-surprise 1.00, pattern-uniqueness 0.78).",
+      "pipeline_view": "The non-obviousness scorer combines name-rarity, jurisdiction-span, graph-surprise, shared-intermediary, and pattern-uniqueness into one ranked score (here 0.533). This anchor is in the top-10 out of 50 scored anchors \u2014 without that composite, a journalist would have no reason to prioritise it.",
+      "novelty_proof": "Five orthogonal weak signals composed into one strong ranking. Each input signal is computable from a single source; the composition across sources is the pipeline's contribution."
+    },
+    {
+      "channel": "non_obviousness_rank",
+      "title": "Rare-officer anchor: javed ali khan",
+      "uid": "name:javed ali khan",
+      "meta": {},
+      "metric": {
+        "non_obviousness_score": 0.5109,
+        "rarity": 0.5735,
+        "graph_surprise": 1.0,
+        "pattern_uniqueness": 0.5556,
+        "jurisdiction_span": 1
+      },
+      "attestation": {
+        "opensanctions": 0,
+        "uk_psc": 0,
+        "uk_disqualified": 0
+      },
+      "baseline_view": "ICIJ search for \"javed ali khan\" returns the officer record(s). OpenSanctions, UK PSC, and UK disqualified-directors are queried separately; nothing in any single-source UI tells the journalist that this name carries an unusually high 5-factor non-obviousness signal (rarity 0.57, graph-surprise 1.00, pattern-uniqueness 0.56).",
+      "pipeline_view": "The non-obviousness scorer combines name-rarity, jurisdiction-span, graph-surprise, shared-intermediary, and pattern-uniqueness into one ranked score (here 0.511). This anchor is in the top-10 out of 50 scored anchors \u2014 without that composite, a journalist would have no reason to prioritise it.",
+      "novelty_proof": "Five orthogonal weak signals composed into one strong ranking. Each input signal is computable from a single source; the composition across sources is the pipeline's contribution."
+    },
+    {
+      "channel": "non_obviousness_rank",
+      "title": "Rare-officer anchor: john o connor",
+      "uid": "name:john o connor",
+      "meta": {},
+      "metric": {
+        "non_obviousness_score": 0.5079,
+        "rarity": 0.4893,
+        "graph_surprise": 1.0,
+        "pattern_uniqueness": 0.7778,
+        "jurisdiction_span": 1
+      },
+      "attestation": {
+        "opensanctions": 0,
+        "uk_psc": 0,
+        "uk_disqualified": 0
+      },
+      "baseline_view": "ICIJ search for \"john o connor\" returns the officer record(s). OpenSanctions, UK PSC, and UK disqualified-directors are queried separately; nothing in any single-source UI tells the journalist that this name carries an unusually high 5-factor non-obviousness signal (rarity 0.49, graph-surprise 1.00, pattern-uniqueness 0.78).",
+      "pipeline_view": "The non-obviousness scorer combines name-rarity, jurisdiction-span, graph-surprise, shared-intermediary, and pattern-uniqueness into one ranked score (here 0.508). This anchor is in the top-10 out of 50 scored anchors \u2014 without that composite, a journalist would have no reason to prioritise it.",
+      "novelty_proof": "Five orthogonal weak signals composed into one strong ranking. Each input signal is computable from a single source; the composition across sources is the pipeline's contribution."
+    }
+  ]
+}
