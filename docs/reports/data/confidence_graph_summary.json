@@ -20,6 +20,40 @@
     "similar": 0.5
   },
   "default_edge_credibility": 0.7,
+  "source_credibility_priors": {
+    "Panama Papers": 0.95,
+    "Paradise Papers - Appleby": 0.95,
+    "Paradise Papers - Bahamas corporate registry": 0.95,
+    "Paradise Papers - Barbados corporate registry": 0.95,
+    "Paradise Papers - Aruba corporate registry": 0.95,
+    "Paradise Papers - Cook Islands corporate registry": 0.95,
+    "Paradise Papers - Lebanon corporate registry": 0.95,
+    "Paradise Papers - Malta corporate registry": 0.95,
+    "Paradise Papers - Samoa corporate registry": 0.95,
+    "Pandora Papers": 0.92,
+    "Bahamas Leaks": 0.9,
+    "Offshore Leaks": 0.85,
+    "OpenSanctions": 0.98,
+    "GLEIF": 0.99,
+    "UK PSC": 0.95,
+    "UK disqualified": 0.95
+  },
+  "default_source_credibility": 0.85,
+  "contradiction_lambda": 0.5,
+  "uncertainty_propagation": {
+    "edge_credibility_formula": "cred(e) = cred_kind(kind_raw) \u00d7 cred_source(source_label)",
+    "path_propagation_formula": "P(connection | path) = \u220f_i cred(e_i)",
+    "cluster_confidence_formula": "conf(C) = mean_cred(C) \u00d7 (1 - \u03bb \u00b7 contradiction_density(C))",
+    "graph_entropy_formula": "H(G) = (1/|E|) \u00b7 \u03a3_e [-p log p - (1-p) log(1-p)]    (nats)",
+    "graph_total_entropy_nats": 11832.6494,
+    "graph_mean_entropy_per_edge_nats": 0.4998,
+    "graph_normalised_entropy": 0.721,
+    "graph_mean_edge_credibility": 0.7963,
+    "n_clusters_with_contradictions": 375,
+    "n_clusters_scored": 6933,
+    "mean_cluster_confidence": 0.0079,
+    "independence_assumption_note": "Path propagation assumes conditional independence of edges given underlying truth. This is conservative \u2014 real-world edges correlate, so the computed path probability is a lower bound on the true probability."
+  },
   "thresholds": [
     0.5,
     0.7,
@@ -27,12 +61,12 @@
   ],
   "per_threshold": {
     "0.50": {
-      "n_communities": 44,
+      "n_communities": 50,
       "largest_community_size": 3138,
-      "median_community_size": 12,
-      "n_singletons": 0,
-      "edges_retained": 23677,
-      "isolated_nodes": 0
+      "median_community_size": 11,
+      "n_singletons": 3,
+      "edges_retained": 23644,
+      "isolated_nodes": 3
     },
     "0.70": {
       "n_communities": 50,
@@ -43,12 +77,12 @@
       "isolated_nodes": 3
     },
     "0.90": {
-      "n_communities": 53,
-      "largest_community_size": 3138,
-      "median_community_size": 11,
-      "n_singletons": 3,
-      "edges_retained": 23634,
-      "isolated_nodes": 3
+      "n_communities": 6933,
+      "largest_community_size": 204,
+      "median_community_size": 1,
+      "n_singletons": 6854,
+      "edges_retained": 955,
+      "isolated_nodes": 6854
     }
   },
   "stability": {
@@ -58,8 +92,8 @@
       0.9
     ],
     "n_nodes_evaluated": 7888,
-    "mean_jaccard": 0.992,
-    "n_nodes_overlap_ge_0_5": 7821,
-    "fraction_overlap_ge_0_5": 0.992
+    "mean_jaccard": 0.073,
+    "n_nodes_overlap_ge_0_5": 485,
+    "fraction_overlap_ge_0_5": 0.061
   }
 }
