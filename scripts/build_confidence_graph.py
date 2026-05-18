@@ -63,13 +63,54 @@ _EDGE_KIND_CREDIBILITY: dict[str, float] = {
 }
 _DEFAULT_EDGE_KIND_CREDIBILITY = 0.70
 
+# Per-source credibility priors (multiplicative on top of kind priors). Different
+# leaks have different fidelity — Panama / Paradise are well-documented, Offshore
+# Leaks is the oldest and noisiest. Formal registries (GLEIF, OS, UK PSC) are
+# treated as highest-credibility. See docs/paper/uncertainty_propagation.md.
+_SOURCE_CREDIBILITY: dict[str, float] = {
+    "Panama Papers": 0.95,
+    "Paradise Papers - Appleby": 0.95,
+    "Paradise Papers - Bahamas corporate registry": 0.95,
+    "Paradise Papers - Barbados corporate registry": 0.95,
+    "Paradise Papers - Aruba corporate registry": 0.95,
+    "Paradise Papers - Cook Islands corporate registry": 0.95,
+    "Paradise Papers - Lebanon corporate registry": 0.95,
+    "Paradise Papers - Malta corporate registry": 0.95,
+    "Paradise Papers - Samoa corporate registry": 0.95,
+    "Pandora Papers": 0.92,
+    "Bahamas Leaks": 0.90,
+    "Offshore Leaks": 0.85,
+    "OpenSanctions": 0.98,
+    "GLEIF": 0.99,
+    "UK PSC": 0.95,
+    "UK disqualified": 0.95,
+}
+_DEFAULT_SOURCE_CREDIBILITY = 0.85
+
 _THRESHOLDS = (0.5, 0.7, 0.9)
+
+# Contradiction-penalty weight in cluster-confidence formula. Sensitivity
+# documented in docs/paper/uncertainty_propagation.md §3.
+_CONTRADICTION_LAMBDA = 0.5
 
 
 def _edge_credibility(kind: str | None) -> float:
     if not kind:
         return _DEFAULT_EDGE_KIND_CREDIBILITY
     return _EDGE_KIND_CREDIBILITY.get(kind, _DEFAULT_EDGE_KIND_CREDIBILITY)
+
+
+def _source_credibility(source_label: str | None) -> float:
+    if not source_label:
+        return _DEFAULT_SOURCE_CREDIBILITY
+    return _SOURCE_CREDIBILITY.get(source_label, _DEFAULT_SOURCE_CREDIBILITY)
+
+
+def _binary_entropy(p: float) -> float:
+    """Shannon entropy of a single Bernoulli edge with success-prob p."""
+    if p <= 0.0 or p >= 1.0:
+        return 0.0
+    return -(p * math.log(p) + (1 - p) * math.log(1 - p))
 
 
 def _build_subgraph(
@@ -180,17 +221,34 @@ def main(
     )
 
     log.info("scanning %s ...", edges_parquet)
-    all_edges = pl.scan_parquet(edges_parquet).select("src_node", "dst_node", "kind_raw").collect()
+    edge_cols = pl.scan_parquet(edges_parquet).collect_schema().names()
+    select_cols = ["src_node", "dst_node", "kind_raw"]
+    if "source_label" in edge_cols:
+        select_cols.append("source_label")
+    all_edges = pl.scan_parquet(edges_parquet).select(select_cols).collect()
     log.info("total edges in corpus: %d", all_edges.height)
 
     sub_edges = _build_subgraph(all_edges, seeds, hops=hops, max_nodes=max_nodes)
     log.info("subgraph edges: %d", sub_edges.height)
 
-    # Annotate edges with credibility weights.
+    # Annotate edges with provenance-weighted credibility:
+    #   cred(e) = cred_kind(kind_raw) × cred_source(source_label)
+    # Formal definition in docs/paper/uncertainty_propagation.md §1.
     sub_edges = sub_edges.with_columns(
         pl.col("kind_raw")
         .map_elements(_edge_credibility, return_dtype=pl.Float64)
-        .alias("credibility")
+        .alias("cred_kind")
+    )
+    if "source_label" in sub_edges.columns:
+        sub_edges = sub_edges.with_columns(
+            pl.col("source_label")
+            .map_elements(_source_credibility, return_dtype=pl.Float64)
+            .alias("cred_source")
+        )
+    else:
+        sub_edges = sub_edges.with_columns(pl.lit(_DEFAULT_SOURCE_CREDIBILITY).alias("cred_source"))
+    sub_edges = sub_edges.with_columns(
+        (pl.col("cred_kind") * pl.col("cred_source")).alias("credibility")
     )
     sub_edges.write_parquet(out_edges)
 
@@ -616,6 +674,89 @@ def main(
         100 * n_stable / n_total if n_total else 0,
     )
 
+    # Formal uncertainty propagation: contradiction-penalised cluster confidence
+    # + graph-level entropy. Definitions in docs/paper/uncertainty_propagation.md.
+    log.info("computing formal uncertainty-propagation metrics ...")
+
+    # 4. Contradiction-aware cluster confidence:
+    #    conf(C) = mean_cred(C) × (1 - λ · contradiction_density(C))
+    #    where contradiction_density(C) = |{nodes in C ∩ contradiction-touching}| / |C|.
+    contradiction_nodes: set[str] = set()
+    for row in contradictions_df.iter_rows(named=True):
+        contradiction_nodes.add(row["node_a"])
+        contradiction_nodes.add(row["node_b"])
+
+    cluster_confidence_rows: list[dict] = []
+    cid_to_members_strict: dict[int, set[str]] = {}
+    for node, cid in strict_member_to_cid.items():
+        cid_to_members_strict.setdefault(cid, set()).add(node)
+    for cid, members in cid_to_members_strict.items():
+        ws = cid_internal_weights.get(cid, [])
+        mean_cred = sum(ws) / len(ws) if ws else 0.0
+        n_contradicted = len(members & contradiction_nodes)
+        contradiction_density = n_contradicted / len(members) if members else 0.0
+        conf = mean_cred * (1.0 - _CONTRADICTION_LAMBDA * contradiction_density)
+        cluster_confidence_rows.append(
+            {
+                "community_id": cid,
+                "size": len(members),
+                "mean_edge_credibility": round(mean_cred, 4),
+                "n_contradiction_nodes": n_contradicted,
+                "contradiction_density": round(contradiction_density, 4),
+                "lambda": _CONTRADICTION_LAMBDA,
+                "cluster_confidence": round(conf, 4),
+            }
+        )
+    cluster_confidence_df = (
+        pl.DataFrame(cluster_confidence_rows).sort("cluster_confidence", descending=True)
+        if cluster_confidence_rows
+        else pl.DataFrame(
+            schema={
+                "community_id": pl.Int64,
+                "size": pl.Int64,
+                "mean_edge_credibility": pl.Float64,
+                "n_contradiction_nodes": pl.Int64,
+                "contradiction_density": pl.Float64,
+                "lambda": pl.Float64,
+                "cluster_confidence": pl.Float64,
+            }
+        )
+    )
+    cluster_confidence_df.write_parquet(
+        out_communities.parent / "confidence_cluster_scored.parquet"
+    )
+    log.info(
+        "cluster confidence (λ=%.2f): %d communities scored; mean=%.3f, n_penalised=%d",
+        _CONTRADICTION_LAMBDA,
+        cluster_confidence_df.height,
+        float(cluster_confidence_df.select(pl.col("cluster_confidence").mean()).item() or 0.0),
+        cluster_confidence_df.filter(pl.col("contradiction_density") > 0).height,
+    )
+
+    # 5. Graph-level uncertainty (Shannon entropy normalised by |E|, in nats):
+    #    H(G) = (1/|E|) · Σ_e [-p log p - (1-p) log(1-p)]
+    edge_credibilities = [float(d["weight"]) for _u, _v, d in g.edges(data=True)]
+    n_edges = len(edge_credibilities)
+    if n_edges > 0:
+        total_h = sum(_binary_entropy(p) for p in edge_credibilities)
+        mean_h = total_h / n_edges
+        mean_cred_global = sum(edge_credibilities) / n_edges
+        max_h = math.log(2.0)  # per-edge max entropy at p=0.5, in nats
+        normalised_h = mean_h / max_h
+    else:
+        total_h = 0.0
+        mean_h = 0.0
+        mean_cred_global = 0.0
+        normalised_h = 0.0
+
+    log.info(
+        "graph-level entropy: H_mean=%.4f nats (normalised %.3f), mean_credibility=%.3f over %d edges",
+        mean_h,
+        normalised_h,
+        mean_cred_global,
+        n_edges,
+    )
+
     summary: dict = {
         "subgraph": {
             "n_seed_uids": len(seeds),
@@ -626,6 +767,36 @@ def main(
         },
         "edge_credibility_priors": _EDGE_KIND_CREDIBILITY,
         "default_edge_credibility": _DEFAULT_EDGE_KIND_CREDIBILITY,
+        "source_credibility_priors": _SOURCE_CREDIBILITY,
+        "default_source_credibility": _DEFAULT_SOURCE_CREDIBILITY,
+        "contradiction_lambda": _CONTRADICTION_LAMBDA,
+        "uncertainty_propagation": {
+            "edge_credibility_formula": "cred(e) = cred_kind(kind_raw) × cred_source(source_label)",
+            "path_propagation_formula": "P(connection | path) = ∏_i cred(e_i)",
+            "cluster_confidence_formula": (
+                "conf(C) = mean_cred(C) × (1 - λ · contradiction_density(C))"
+            ),
+            "graph_entropy_formula": ("H(G) = (1/|E|) · Σ_e [-p log p - (1-p) log(1-p)]    (nats)"),
+            "graph_total_entropy_nats": round(total_h, 4),
+            "graph_mean_entropy_per_edge_nats": round(mean_h, 4),
+            "graph_normalised_entropy": round(normalised_h, 4),
+            "graph_mean_edge_credibility": round(mean_cred_global, 4),
+            "n_clusters_with_contradictions": int(
+                cluster_confidence_df.filter(pl.col("contradiction_density") > 0).height
+            ),
+            "n_clusters_scored": cluster_confidence_df.height,
+            "mean_cluster_confidence": round(
+                float(
+                    cluster_confidence_df.select(pl.col("cluster_confidence").mean()).item() or 0.0
+                ),
+                4,
+            ),
+            "independence_assumption_note": (
+                "Path propagation assumes conditional independence of edges given underlying "
+                "truth. This is conservative — real-world edges correlate, so the computed "
+                "path probability is a lower bound on the true probability."
+            ),
+        },
         "thresholds": list(_THRESHOLDS),
         "per_threshold": summaries,
         "stability": {

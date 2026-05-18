@@ -54,6 +54,7 @@ the repo. Each markdown report has a sibling JSON / parquet under
 | [`latent_clusters.md`](docs/reports/latent_clusters.md) | Unsupervised Louvain community mining + anomaly scoring | `build_latent_clusters` |
 | [`temporal_patterns.md`](docs/reports/temporal_patterns.md) | Address-officer resurrections, incorporation bursts, long-lived anchors | `build_temporal_patterns` |
 | [`confidence_graph.md`](docs/reports/confidence_graph.md) | Credibility-weighted communities, contradiction-aware closure, review-priority ranking | `build_confidence_graph` |
+| [`uncertainty_propagation.md`](docs/reports/uncertainty_propagation.md) | Formal uncertainty-propagation values (edge / path / cluster / graph) on the current corpus | `build_confidence_graph` |
 | [`join_novelty.md`](docs/reports/join_novelty.md) | Cross-source join novelty: rare-attribute joins absent from any single source | (built inline) |
 | [`exposes_candidates.md`](docs/reports/exposes_candidates.md) | Auto-generated candidate exposés from top-anomaly clusters | `build_exposes_candidates` |
 | [`failed_investigations.md`](docs/reports/failed_investigations.md) | Documented dead-ends (negative results) | (manual) |
@@ -321,6 +322,12 @@ Railway and reproducible via GH Actions):
 - **Methodology paper** — formal writeup of the matcher, calibration,
   graph reasoning, and benchmark methodology
   ([`docs/paper/methodology.md`](docs/paper/methodology.md))
+- **Formal uncertainty propagation** — provenance-weighted edge
+  credibility, path-probability decay, contradiction-penalised cluster
+  confidence, and graph-level Shannon entropy. Math in
+  [`docs/paper/uncertainty_propagation.md`](docs/paper/uncertainty_propagation.md);
+  values on the corpus in
+  [`docs/reports/uncertainty_propagation.md`](docs/reports/uncertainty_propagation.md).
 
 Items still parked (see [`docs/status.md`](docs/status.md) for the
 canonical list):
