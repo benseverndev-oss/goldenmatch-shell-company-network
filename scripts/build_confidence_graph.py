@@ -237,12 +237,14 @@ def main(
     sub_edges = sub_edges.with_columns(
         pl.col("kind_raw")
         .map_elements(_edge_credibility, return_dtype=pl.Float64)
+        .fill_null(_DEFAULT_EDGE_KIND_CREDIBILITY)
         .alias("cred_kind")
     )
     if "source_label" in sub_edges.columns:
         sub_edges = sub_edges.with_columns(
             pl.col("source_label")
             .map_elements(_source_credibility, return_dtype=pl.Float64)
+            .fill_null(_DEFAULT_SOURCE_CREDIBILITY)
             .alias("cred_source")
         )
     else:
