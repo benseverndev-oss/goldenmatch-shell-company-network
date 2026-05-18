@@ -45,6 +45,7 @@ the repo. Each markdown report has a sibling JSON / parquet under
 | --- | --- | --- |
 | [`discovery_advantage.md`](docs/reports/discovery_advantage.md) | Synthesis benchmark: baseline-vs-pipeline delta across 6 axes | `build_discovery_advantage` |
 | [`top_candidates_walkthrough.md`](docs/reports/top_candidates_walkthrough.md) | 11 named candidates with per-entity novelty proofs | `build_top_candidates_walkthrough` |
+| [`validation_queue.md`](docs/reports/validation_queue.md) | Top-20 clusters ranked for manual deep-validation (strange × confident × connected × underreported) | `build_validation_queue` |
 | [`discovery_lift.md`](docs/reports/discovery_lift.md) | B1→B4 tier funnel: how many anchors each pipeline stage surfaces | `build_discovery_lift` |
 | [`baseline_comparison.md`](docs/reports/baseline_comparison.md) | ICIJ-search vs cross-source fuzzy + analyst-hour model | `build_baseline_comparison` |
 | [`adversarial_benchmark.md`](docs/reports/adversarial_benchmark.md) | B2 vs B6 recovery against 4 perturbation classes | `build_adversarial_benchmark` |
@@ -328,6 +329,15 @@ Railway and reproducible via GH Actions):
   [`docs/paper/uncertainty_propagation.md`](docs/paper/uncertainty_propagation.md);
   values on the corpus in
   [`docs/reports/uncertainty_propagation.md`](docs/reports/uncertainty_propagation.md).
+- **Validation workflow** — four-step discovery pipeline closes with
+  human review:
+  [`build_validation_queue`](scripts/build_validation_queue.py) ranks
+  top-20 clusters on (strange × confident × connected × underreported);
+  [`docs/validation/template.md`](docs/validation/template.md) is the
+  per-cluster manual workbook;
+  [`docs/reports/publication_template.md`](docs/reports/publication_template.md)
+  is the post-validation publication skeleton. Manual validation
+  itself is explicitly not automated.
 
 Items still parked (see [`docs/status.md`](docs/status.md) for the
 canonical list):

@@ -1,0 +1,79 @@
+name: build validation queue (Railway-side compute)
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: build-validation-queue
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SHELLNET_JOB_URL: ${{ vars.SHELLNET_JOB_URL }}
+      SHELLNET_JOB_TOKEN: ${{ secrets.SHELLNET_JOB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+      - run: uv sync --frozen --no-dev
+      - run: curl -fsS "$SHELLNET_JOB_URL/healthz"
+      - name: Trigger build_validation_queue
+        run: |
+          set -euo pipefail
+          curl -fsS -X POST -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+            "$SHELLNET_JOB_URL/run-script?name=build_validation_queue"
+          echo
+      - name: Poll until complete
+        run: |
+          set -euo pipefail
+          stage="script_build_validation_queue"
+          done=false
+          for _ in $(seq 1 360); do
+            sleep 5
+            s=$(curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" "$SHELLNET_JOB_URL/status" \
+                | python -c "import sys,json; d=json.load(sys.stdin); print(d['stages'].get('$stage',{}).get('status','?'))")
+            echo "  $stage: $s"
+            case "$s" in
+              completed) done=true; break ;;
+              failed)
+                curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+                  "$SHELLNET_JOB_URL/logs/$stage?tail=120" || true
+                exit 1 ;;
+            esac
+          done
+          if [ "$done" != "true" ]; then echo "::error::poll timed out"; exit 1; fi
+      - name: Download artifacts
+        run: |
+          set -euo pipefail
+          mkdir -p data/processed docs/reports/data
+          for p in processed/validation_queue.parquet \
+                   processed/validation_queue_summary.json; do
+            curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+              "$SHELLNET_JOB_URL/download?path=$p" -o "data/$p"
+            cp "data/$p" "docs/reports/data/$(basename $p)"
+          done
+      - name: Render markdown
+        run: |
+          uv run python scripts/render_validation_queue.py \
+            --queue docs/reports/data/validation_queue.parquet \
+            --summary docs/reports/data/validation_queue_summary.json \
+            --out docs/reports/validation_queue.md
+      - name: Commit + push to main
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/reports/validation_queue.md \
+                  docs/reports/data/validation_queue.parquet \
+                  docs/reports/data/validation_queue_summary.json
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git commit -m "report: refresh validation queue (auto from build-validation-queue.yml)"
+          git pull --rebase origin main
+          git push origin HEAD:main
