@@ -111,7 +111,7 @@ it's "ICIJ search cannot answer these structural questions at all."
             if st["top_5"]:
                 body += "Top addresses:\n\n| Address | Companies | Distinct officers |\n|---|---:|---:|\n"
                 for r in st["top_5"]:
-                    addr = (r.get('normalized_address') or '—')[:80]
+                    addr = (r.get("normalized_address") or "—")[:80]
                     body += f"| `{addr}` | {int(r['n_companies'])} | {int(r['n_distinct_officers'])} |\n"
                 body += "\n"
         elif k == "S6_anomalous_communities":

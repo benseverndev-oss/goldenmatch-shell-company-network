@@ -146,24 +146,28 @@ def _render_one(
         sub = rows.filter(pl.col("person_source") == src)
         n_ents = sub.select("person_entity_uid").unique().height
         body.append(f"### {src} ({n_ents} {'entity' if n_ents == 1 else 'entities'})")
-        for r in sub.select(["person_name", "person_entity_uid", "person_country"]).unique().to_dicts():
+        for r in (
+            sub.select(["person_name", "person_entity_uid", "person_country"]).unique().to_dicts()
+        ):
             body.append(
                 f"- {r['person_name']} — `{r['person_entity_uid']}` — country: {r['person_country'] or '—'}"
             )
         if src == "icij" and expanded.height > 0:
             body.append("")
             body.append("**Linked companies (ICIJ 2-hop walk):**")
-            for c in expanded.select(
-                ["company_name", "company_jurisdiction", "company_normalized_address"]
-            ).unique().to_dicts():
+            for c in (
+                expanded.select(
+                    ["company_name", "company_jurisdiction", "company_normalized_address"]
+                )
+                .unique()
+                .to_dicts()
+            ):
                 body.append(
                     f"- {c['company_name']} ({c['company_jurisdiction'] or '—'}) — "
                     f"address: `{(c['company_normalized_address'] or '—')[:80]}`"
                 )
         elif src in ("uk_psc", "opensanctions"):
-            body.append(
-                f"  _(stub only — no person→company relations parquet for {src} in v1)_"
-            )
+            body.append(f"  _(stub only — no person→company relations parquet for {src} in v1)_")
         body.append("")
 
     body.extend(
@@ -181,7 +185,7 @@ def _render_one(
         [
             "## Reproduce",
             "",
-            f"- `processed/rare_officer_dossiers.parquet`, filter `rare_name == \"{rare_name}\"`",
+            f'- `processed/rare_officer_dossiers.parquet`, filter `rare_name == "{rare_name}"`',
             "- Search ran via `scripts/search_dossier_freshness.py` on " + now.split(" ")[0],
         ]
     )
@@ -221,7 +225,9 @@ def main(
             .unique()
             .height
         )
-        hits = searches.get(rare_name, {"general": [], "offshore": [], "localized": [], "dominant_jurisdiction": ""})
+        hits = searches.get(
+            rare_name, {"general": [], "offshore": [], "localized": [], "dominant_jurisdiction": ""}
+        )
         n_general = len(hits.get("general") or [])
         n_offshore = len(hits.get("offshore") or [])
         n_localized = len(hits.get("localized") or [])
@@ -338,7 +344,9 @@ def main(
         idx.append("")
         idx.append("## Orphaned dossiers")
         idx.append("")
-        idx.append("_These dossiers were rendered by a previous run but fell out of the current top-N._")
+        idx.append(
+            "_These dossiers were rendered by a previous run but fell out of the current top-N._"
+        )
         idx.append("")
         for slug in orphans:
             idx.append(f"- [`{slug}`](dossiers/{slug}.md)")

@@ -78,28 +78,24 @@ def main(
     )
     # Group by (source, name) first → small in memory regardless of corpus size.
     per_source = (
-        base.group_by(["source", "normalized_name"])
-        .agg(pl.len().alias("n_entities"))
-        .collect()
+        base.group_by(["source", "normalized_name"]).agg(pl.len().alias("n_entities")).collect()
     )
     log.info("per-source-name pairs: %d", per_source.height)
 
     # Pivot wide so each name carries one count per source.
     wide = per_source.pivot(values="n_entities", index="normalized_name", on="source").fill_null(0)
     source_cols = [c for c in wide.columns if c != "normalized_name"]
-    log.info("pivot wide: %d names across %d sources (%s)", wide.height, len(source_cols), source_cols)
+    log.info(
+        "pivot wide: %d names across %d sources (%s)", wide.height, len(source_cols), source_cols
+    )
 
     # n_sources = how many source columns are > 0.
-    n_sources = pl.sum_horizontal(
-        [(pl.col(c) > 0).cast(pl.Int32) for c in source_cols]
-    ).alias("n_sources")
+    n_sources = pl.sum_horizontal([(pl.col(c) > 0).cast(pl.Int32) for c in source_cols]).alias(
+        "n_sources"
+    )
     total = pl.sum_horizontal([pl.col(c) for c in source_cols]).alias("total_entities")
-    max_per_source = (
-        pl.max_horizontal([pl.col(c) for c in source_cols]).alias("max_per_source")
-    )
-    n_tokens = (
-        pl.col("normalized_name").str.split(" ").list.len().alias("n_tokens")
-    )
+    max_per_source = pl.max_horizontal([pl.col(c) for c in source_cols]).alias("max_per_source")
+    n_tokens = pl.col("normalized_name").str.split(" ").list.len().alias("n_tokens")
 
     enriched = wide.with_columns(n_sources, total, max_per_source, n_tokens)
 

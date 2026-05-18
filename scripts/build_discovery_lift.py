@@ -35,9 +35,7 @@ def _naive_normalize(s: str | None) -> str:
     return " ".join(s.lower().strip().split())
 
 
-def _per_source_counts(
-    df: pl.DataFrame, name_col: str
-) -> pl.DataFrame:
+def _per_source_counts(df: pl.DataFrame, name_col: str) -> pl.DataFrame:
     """Aggregate per (source, normalized_name) → row count. Returns wide-form."""
     per = (
         df.filter(pl.col(name_col).is_not_null() & (pl.col(name_col).str.len_chars() > 0))
@@ -88,9 +86,7 @@ def main(
     # B1: naive case-fold pairwise
     log.info("B1: naive case-fold normalization ...")
     b1_base = base.with_columns(
-        pl.col("name")
-        .map_elements(_naive_normalize, return_dtype=pl.Utf8)
-        .alias("name_b1")
+        pl.col("name").map_elements(_naive_normalize, return_dtype=pl.Utf8).alias("name_b1")
     ).filter(pl.col("name_b1").str.len_chars() > 0)
     b1_wide = _per_source_counts(b1_base, "name_b1")
     b1_multi = b1_wide.filter(pl.col("n_sources") >= 2)
@@ -99,9 +95,7 @@ def main(
     # B2: goldenmatch-normalized
     log.info("B2: goldenmatch normalize_company_name ...")
     b2_base = base.with_columns(
-        pl.col("name")
-        .map_elements(normalize_company_name, return_dtype=pl.Utf8)
-        .alias("name_b2")
+        pl.col("name").map_elements(normalize_company_name, return_dtype=pl.Utf8).alias("name_b2")
     ).filter(pl.col("name_b2").str.len_chars() > 0)
     b2_wide = _per_source_counts(b2_base, "name_b2")
     b2_multi = b2_wide.filter(pl.col("n_sources") >= 2)
@@ -109,53 +103,52 @@ def main(
 
     # B3: rare-filter applied
     b3 = b2_multi.filter(
-        (pl.col("max_per_source") <= 2)
-        & (pl.col("n_tokens") >= 3)
-        & (pl.col("n_sources") >= 2)
+        (pl.col("max_per_source") <= 2) & (pl.col("n_tokens") >= 3) & (pl.col("n_sources") >= 2)
     )
     log.info("B3 rare-filtered anchors: %d", b3.height)
 
     # B4: dossier pipeline — seeds that actually became dossiers
     dossier_seeds = (
-        pl.read_parquet(dossier_parquet)
-        .select(pl.col("rare_name").alias("name_b2"))
-        .unique()
+        pl.read_parquet(dossier_parquet).select(pl.col("rare_name").alias("name_b2")).unique()
     )
     b4 = dossier_seeds.join(b3, on="name_b2", how="left")
     log.info("B4 dossier seeds: %d (all should be subset of B3)", b4.height)
 
     # Per-anchor signal: from the dossier parquet, did the seed get any linked
     # companies OR any sanctions adjacency?
-    d_with_signal = pl.read_parquet(dossier_parquet).filter(
-        pl.col("company_entity_uid").is_not_null()
-    ).select(pl.col("rare_name").alias("name_b2")).unique()
-    d_sanc = pl.read_parquet(dossier_parquet).filter(
-        pl.col("sanction_datasets").is_not_null()
-    ).select(pl.col("rare_name").alias("name_b2")).unique()
+    d_with_signal = (
+        pl.read_parquet(dossier_parquet)
+        .filter(pl.col("company_entity_uid").is_not_null())
+        .select(pl.col("rare_name").alias("name_b2"))
+        .unique()
+    )
+    d_sanc = (
+        pl.read_parquet(dossier_parquet)
+        .filter(pl.col("sanction_datasets").is_not_null())
+        .select(pl.col("rare_name").alias("name_b2"))
+        .unique()
+    )
 
     # Build the union table: one row per name across all tiers.
     # B1 uses its own name col; we need to map naive→goldenmatch via the
     # base table so we can align. For each base row we have both name_b1
     # and name_b2 (different normalizations of the same original).
-    b1_to_b2 = b2_base.with_columns(
-        pl.col("name")
-        .map_elements(_naive_normalize, return_dtype=pl.Utf8)
-        .alias("name_b1"),
-    ).select("name_b1", "name_b2").unique()
+    b1_to_b2 = (
+        b2_base.with_columns(
+            pl.col("name").map_elements(_naive_normalize, return_dtype=pl.Utf8).alias("name_b1"),
+        )
+        .select("name_b1", "name_b2")
+        .unique()
+    )
 
     # Anchors reachable at each tier, keyed on canonical name_b2 where possible.
     # IMPORTANT: reachable_b2 means "name is multi-source at B2", NOT "name
     # exists in b2_wide" — every name exists in the wide pivot. Use b2_multi.
-    reach = (
-        b2_multi.select(pl.col("name_b2"))
-        .with_columns(pl.lit(True).alias("reachable_b2"))
-    )
+    reach = b2_multi.select(pl.col("name_b2")).with_columns(pl.lit(True).alias("reachable_b2"))
     # B1 reachability: take b1_multi names → join to b1_to_b2 to get name_b2.
     b1_in_b2 = (
         b1_to_b2.join(
-            b1_multi.select(pl.col("name_b1")).with_columns(
-                pl.lit(True).alias("reachable_b1")
-            ),
+            b1_multi.select(pl.col("name_b1")).with_columns(pl.lit(True).alias("reachable_b1")),
             on="name_b1",
             how="inner",
         )

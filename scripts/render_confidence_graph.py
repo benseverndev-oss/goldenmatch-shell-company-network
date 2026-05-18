@@ -84,9 +84,7 @@ def main(
         pl.read_parquet(contradictions_path) if contradictions_path.exists() else None
     )
     review_path = edges.parent / "confidence_review_priority.parquet"
-    review_df: pl.DataFrame | None = (
-        pl.read_parquet(review_path) if review_path.exists() else None
-    )
+    review_df: pl.DataFrame | None = pl.read_parquet(review_path) if review_path.exists() else None
 
     sub = s["subgraph"]
     stab = s["stability"]
@@ -146,9 +144,7 @@ aligned subgraph.
         "similar": "ICIJ vague relation, weakest",
     }
     for kind, cred in s["edge_credibility_priors"].items():
-        body += (
-            f"| `{kind}` | {cred:.2f} | {kind_descriptions.get(kind, '—')} |\n"
-        )
+        body += f"| `{kind}` | {cred:.2f} | {kind_descriptions.get(kind, '—')} |\n"
     body += (
         f"| _(default for unknown kinds)_ | {s['default_edge_credibility']:.2f} | _Fallback_ |\n"
     )
@@ -196,7 +192,7 @@ most-permissive threshold ({stab["thresholds_compared"][0]:.2f}) and the most-st
 |---|---:|
 | Nodes evaluated | {stab["n_nodes_evaluated"]:,} |
 | Mean Jaccard overlap | **{stab["mean_jaccard"]:.3f}** |
-| Nodes with overlap ≥ 0.5 | {stab["n_nodes_overlap_ge_0_5"]:,} ({stab["fraction_overlap_ge_0_5"]*100:.1f}%) |
+| Nodes with overlap ≥ 0.5 | {stab["n_nodes_overlap_ge_0_5"]:,} ({stab["fraction_overlap_ge_0_5"] * 100:.1f}%) |
 
 A mean Jaccard of {stab["mean_jaccard"]:.2f} means **the community structure is
 {("highly stable" if stab["mean_jaccard"] >= 0.9 else "moderately stable" if stab["mean_jaccard"] >= 0.7 else "unstable")} to credibility-threshold changes**.
@@ -221,9 +217,7 @@ relevant, not just structurally large).
 """
 
     for r in top_communities.iter_rows(named=True):
-        body += (
-            f"| {int(r['community_id'])} | {int(r['size']):,} | {int(r['n_seeds'])} |\n"
-        )
+        body += f"| {int(r['community_id'])} | {int(r['size']):,} | {int(r['n_seeds'])} |\n"
 
     if anomaly_df is not None and anomaly_df.height > 0:
         body += f"""

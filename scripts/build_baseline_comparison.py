@@ -140,8 +140,7 @@ def main(
     # Per-source name indexes.
     log.info("scanning %s ...", person_table)
     base = pl.scan_parquet(person_table).filter(
-        pl.col("normalized_name").is_not_null()
-        & (pl.col("normalized_name").str.len_chars() > 0)
+        pl.col("normalized_name").is_not_null() & (pl.col("normalized_name").str.len_chars() > 0)
     )
     by_source: dict[str, list[str]] = {}
     for src in ("icij", "uk_psc", "opensanctions", "gleif"):
@@ -192,12 +191,7 @@ def main(
 
     # Dossier tier (B4) — anchor count to also surface in the model.
     if dossier_parquet.exists():
-        n_dossiers = (
-            pl.read_parquet(dossier_parquet)
-            .select("rare_name")
-            .unique()
-            .height
-        )
+        n_dossiers = pl.read_parquet(dossier_parquet).select("rare_name").unique().height
     else:
         n_dossiers = 0
 
@@ -248,14 +242,10 @@ def main(
                 "pipeline_seconds_b3": int(pipeline_secs_total),
                 "manual_hours_b3": round(manual_secs_total / 3600, 1),
                 "pipeline_hours_b3": round(pipeline_secs_total / 3600, 1),
-                "reduction_factor": round(
-                    manual_secs_total / pipeline_secs_total, 1
-                )
+                "reduction_factor": round(manual_secs_total / pipeline_secs_total, 1)
                 if pipeline_secs_total
                 else 0,
-                "reduction_pct": round(
-                    (1 - pipeline_secs_total / manual_secs_total) * 100, 1
-                )
+                "reduction_pct": round((1 - pipeline_secs_total / manual_secs_total) * 100, 1)
                 if manual_secs_total
                 else 0,
             },

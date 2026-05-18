@@ -70,9 +70,7 @@ _HIGH_CREDIBILITY_KINDS = frozenset(
 )
 
 
-def _build_filtered_graph(
-    edges_parquet: Path, min_degree: int
-) -> tuple[nx.Graph, pl.DataFrame]:
+def _build_filtered_graph(edges_parquet: Path, min_degree: int) -> tuple[nx.Graph, pl.DataFrame]:
     """Load, filter, build a degree-thresholded undirected graph.
 
     Returns the graph plus the filtered edge DataFrame for downstream
@@ -93,9 +91,7 @@ def _build_filtered_graph(
         degrees[r["src_node"]] = degrees.get(r["src_node"], 0) + 1
         degrees[r["dst_node"]] = degrees.get(r["dst_node"], 0) + 1
     keep = {n for n, d in degrees.items() if d >= min_degree}
-    log.info(
-        "kept %d / %d nodes at degree >= %d", len(keep), len(degrees), min_degree
-    )
+    log.info("kept %d / %d nodes at degree >= %d", len(keep), len(degrees), min_degree)
 
     edges = edges.filter(
         pl.col("src_node").is_in(list(keep)) & pl.col("dst_node").is_in(list(keep))

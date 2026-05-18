@@ -35,9 +35,7 @@ def _maybe_read(p: Path) -> pl.DataFrame | None:
     return pl.read_parquet(p)
 
 
-def _entity_lookup(
-    entities: pl.DataFrame, officers: pl.DataFrame | None, uid: str
-) -> dict:
+def _entity_lookup(entities: pl.DataFrame, officers: pl.DataFrame | None, uid: str) -> dict:
     """Resolve `icij:NNN` -> {name, jurisdiction, type} from entities or officers."""
     if not uid.startswith("icij:"):
         return {"name": uid, "jurisdiction": None, "type": None}
@@ -101,9 +99,7 @@ def main(
     os_persons: Path = typer.Option(
         PROCESSED_DIR / "os_sanctioned_persons.parquet", "--os-persons"
     ),
-    gleif_parquet: Path = typer.Option(
-        INTERIM_DIR / "gleif_l2_relationships.parquet", "--gleif"
-    ),
+    gleif_parquet: Path = typer.Option(INTERIM_DIR / "gleif_l2_relationships.parquet", "--gleif"),
     uk_psc_parquet: Path = typer.Option(PROCESSED_DIR / "uk_psc_dob.parquet", "--uk-psc"),
     uk_disq_parquet: Path = typer.Option(
         INTERIM_DIR / "uk_disqualified_directors.parquet", "--uk-disq"
@@ -172,7 +168,7 @@ def main(
                 "client_samples": client_names[:5],
                 "attestation": _attestation(name, sources_company),
                 "baseline_view": (
-                    f"ICIJ Offshore Leaks search for \"{name}\" returns the intermediary "
+                    f'ICIJ Offshore Leaks search for "{name}" returns the intermediary '
                     f"entity itself, but does not aggregate that this intermediary acts for "
                     f"{clients} distinct officers across the leak corpus. OpenSanctions and "
                     f"GLEIF have no entry — this intermediary is not sanctioned and not "
@@ -216,7 +212,7 @@ def main(
                 },
                 "attestation": _attestation(officer["name"], sources_person),
                 "baseline_view": (
-                    f"ICIJ search for \"{officer['name']}\" returns the two companies "
+                    f'ICIJ search for "{officer["name"]}" returns the two companies '
                     f"separately — `{co_a['name']}` ({r['juris_a']}) and `{co_b['name']}` "
                     f"({r['juris_b']}) — but does not flag the offshore-mainstream "
                     f"jurisdictional bridge as a structural pattern. UK PSC, UK "
@@ -254,10 +250,7 @@ def main(
         # Sample members
         members = []
         if latent is not None and "community_id" in latent.columns:
-            mem_df = (
-                latent.filter(pl.col("community_id") == cid)
-                .head(20)
-            )
+            mem_df = latent.filter(pl.col("community_id") == cid).head(20)
             for mr in mem_df.iter_rows(named=True):
                 muid = mr.get("node_uid") or mr.get("uid") or ""
                 if muid:
@@ -325,7 +318,7 @@ def main(
                 },
                 "attestation": _attestation(name, sources_person),
                 "baseline_view": (
-                    f"ICIJ search for \"{name}\" returns the officer record(s). "
+                    f'ICIJ search for "{name}" returns the officer record(s). '
                     f"OpenSanctions, UK PSC, and UK disqualified-directors are queried "
                     f"separately; nothing in any single-source UI tells the journalist "
                     f"that this name carries an unusually high 5-factor non-obviousness "

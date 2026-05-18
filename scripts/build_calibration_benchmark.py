@@ -107,7 +107,9 @@ def _log_loss(scores: list[float], labels: list[int]) -> float:
     return total / len(scores)
 
 
-def _ece(scores: list[float], labels: list[int], n_bins: int = 10) -> tuple[float, list[dict[str, Any]]]:
+def _ece(
+    scores: list[float], labels: list[int], n_bins: int = 10
+) -> tuple[float, list[dict[str, Any]]]:
     """Expected calibration error + per-bin stats for the reliability table."""
     bins: list[dict[str, Any]] = [
         {"lo": i / n_bins, "hi": (i + 1) / n_bins, "n": 0, "sum_s": 0.0, "sum_y": 0}
@@ -129,9 +131,7 @@ def _ece(scores: list[float], labels: list[int], n_bins: int = 10) -> tuple[floa
         frac_pos = b["sum_y"] / b["n"]
         weight = b["n"] / n_total
         ece += weight * abs(mean_score - frac_pos)
-        out.append(
-            {**b, "mean_score": mean_score, "frac_positive": frac_pos, "weight": weight}
-        )
+        out.append({**b, "mean_score": mean_score, "frac_positive": frac_pos, "weight": weight})
     return ece, out
 
 
@@ -218,12 +218,8 @@ def main(
     cal_ll = _log_loss(cal_scores, labels)
     cal_ece, cal_bins = _ece(cal_scores, labels, n_bins=n_bins)
 
-    log.info(
-        "raw  : brier=%.4f log_loss=%.4f ece=%.4f", raw_brier, raw_ll, raw_ece
-    )
-    log.info(
-        "cal  : brier=%.4f log_loss=%.4f ece=%.4f", cal_brier, cal_ll, cal_ece
-    )
+    log.info("raw  : brier=%.4f log_loss=%.4f ece=%.4f", raw_brier, raw_ll, raw_ece)
+    log.info("cal  : brier=%.4f log_loss=%.4f ece=%.4f", cal_brier, cal_ll, cal_ece)
 
     # Reliability stats — both raw and calibrated, for the markdown table.
     metrics_rows = []
@@ -247,9 +243,7 @@ def main(
         json.dumps(
             {
                 "kind": "pav_isotonic",
-                "checkpoints": [
-                    {"max_score": s, "calibrated_prob": p} for s, p in checkpoints
-                ],
+                "checkpoints": [{"max_score": s, "calibrated_prob": p} for s, p in checkpoints],
             },
             indent=2,
         ),
@@ -263,9 +257,7 @@ def main(
         "raw": {"brier": raw_brier, "log_loss": raw_ll, "ece": raw_ece},
         "calibrated": {"brier": cal_brier, "log_loss": cal_ll, "ece": cal_ece},
         "improvement": {
-            "brier_pct": (
-                (raw_brier - cal_brier) / raw_brier * 100 if raw_brier > 0 else 0
-            ),
+            "brier_pct": ((raw_brier - cal_brier) / raw_brier * 100 if raw_brier > 0 else 0),
             "log_loss_pct": (raw_ll - cal_ll) / raw_ll * 100 if raw_ll > 0 else 0,
             "ece_pct": (raw_ece - cal_ece) / raw_ece * 100 if raw_ece > 0 else 0,
         },

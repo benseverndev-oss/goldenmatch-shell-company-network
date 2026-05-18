@@ -126,12 +126,9 @@ def _disqualified_overlaps(disq_overlap_parquet: Path) -> pl.DataFrame:
     if not disq_overlap_parquet.exists():
         return pl.DataFrame()
     raw = pl.read_parquet(disq_overlap_parquet)
-    return (
-        raw.filter(pl.col("source").is_in(["icij", "gleif"]))
-        .with_columns(
-            pl.lit("disqualified_overlap").alias("kind"),
-            pl.lit(2).alias("n_sources"),
-        )
+    return raw.filter(pl.col("source").is_in(["icij", "gleif"])).with_columns(
+        pl.lit("disqualified_overlap").alias("kind"),
+        pl.lit(2).alias("n_sources"),
     )
 
 
@@ -281,9 +278,7 @@ def _summary(company: pl.DataFrame, persons: pl.DataFrame) -> dict[str, object]:
     return {
         "company_triples": {
             "n_rows": int(company.height),
-            "distinct_leis": (
-                int(company.select("lei").unique().height) if company.height else 0
-            ),
+            "distinct_leis": (int(company.select("lei").unique().height) if company.height else 0),
             "distinct_icij_uids": (
                 int(company.select("icij_uid").unique().height) if company.height else 0
             ),
@@ -296,9 +291,7 @@ def _summary(company: pl.DataFrame, persons: pl.DataFrame) -> dict[str, object]:
                 else 0
             ),
             "with_disqualified_director_overlap": (
-                int(company.filter(pl.col("uk_disqualified_match")).height)
-                if company.height
-                else 0
+                int(company.filter(pl.col("uk_disqualified_match")).height) if company.height else 0
             ),
             "jurisdiction_distribution": (
                 company.group_by("icij_jurisdiction").len().sort("len", descending=True).to_dicts()
@@ -317,9 +310,7 @@ def _summary(company: pl.DataFrame, persons: pl.DataFrame) -> dict[str, object]:
                 else 0
             ),
             "with_disqualified_director_overlap": (
-                int(persons.filter(pl.col("uk_disqualified_match")).height)
-                if persons.height
-                else 0
+                int(persons.filter(pl.col("uk_disqualified_match")).height) if persons.height else 0
             ),
         },
     }

@@ -69,9 +69,7 @@ def _struct1_latent_intermediary_reuse(edges: pl.DataFrame, min_clients: int = 3
     }
 
 
-def _struct2_unexpected_jurisdiction_bridges(
-    edges: pl.DataFrame, entities: pl.DataFrame
-) -> dict:
+def _struct2_unexpected_jurisdiction_bridges(edges: pl.DataFrame, entities: pl.DataFrame) -> dict:
     officer_edges = edges.filter(pl.col("kind_raw") == "officer_of")
     if officer_edges.height == 0:
         return {"n_detected": 0, "top_5": []}
@@ -86,13 +84,13 @@ def _struct2_unexpected_jurisdiction_bridges(
         .explode("c")
         .rename({"c": "company_a"})
     )
-    pairs = pairs.join(
-        pairs.rename({"company_a": "company_b"}), on="src_node", how="inner"
-    ).filter(pl.col("company_a") < pl.col("company_b"))
+    pairs = pairs.join(pairs.rename({"company_a": "company_b"}), on="src_node", how="inner").filter(
+        pl.col("company_a") < pl.col("company_b")
+    )
 
-    ent = entities.with_columns(
-        (pl.lit("icij:") + pl.col("source_id")).alias("entity_uid")
-    ).select("entity_uid", pl.col("jurisdiction").alias("juris"))
+    ent = entities.with_columns((pl.lit("icij:") + pl.col("source_id")).alias("entity_uid")).select(
+        "entity_uid", pl.col("jurisdiction").alias("juris")
+    )
     pairs = (
         pairs.join(
             ent.rename({"entity_uid": "company_a", "juris": "juris_a"}),
@@ -105,8 +103,14 @@ def _struct2_unexpected_jurisdiction_bridges(
             how="left",
         )
         .filter(
-            ((pl.col("juris_a").is_in(list(_HIGH_RISK_OFFSHORE))) & (pl.col("juris_b").is_in(list(_MAINSTREAM_VENUES))))
-            | ((pl.col("juris_b").is_in(list(_HIGH_RISK_OFFSHORE))) & (pl.col("juris_a").is_in(list(_MAINSTREAM_VENUES))))
+            (
+                (pl.col("juris_a").is_in(list(_HIGH_RISK_OFFSHORE)))
+                & (pl.col("juris_b").is_in(list(_MAINSTREAM_VENUES)))
+            )
+            | (
+                (pl.col("juris_b").is_in(list(_HIGH_RISK_OFFSHORE)))
+                & (pl.col("juris_a").is_in(list(_MAINSTREAM_VENUES)))
+            )
         )
         .unique(subset=["company_a", "company_b"])
     )
@@ -120,16 +124,14 @@ def _struct3_hidden_registry_anchors(matched_csv: Path) -> dict:
     if not matched_csv.exists():
         return {"n_detected": 0, "top_5": []}
     df = pl.read_csv(matched_csv, ignore_errors=True, infer_schema_length=500)
-    icij_to_gleif = df.filter(
-        (pl.col("target_source") == "icij") & pl.col("ref_lei").is_not_null()
-    )
+    icij_to_gleif = df.filter((pl.col("target_source") == "icij") & pl.col("ref_lei").is_not_null())
     return {
         "n_detected": int(icij_to_gleif.height),
         "distinct_icij_uids": int(icij_to_gleif.select("target_entity_uid").unique().height),
         "distinct_leis": int(icij_to_gleif.select("ref_lei").unique().height),
-        "top_5": icij_to_gleif.select(
-            "target_name", "target_jurisdiction", "ref_name", "ref_lei"
-        ).head(5).to_dicts(),
+        "top_5": icij_to_gleif.select("target_name", "target_jurisdiction", "ref_name", "ref_lei")
+        .head(5)
+        .to_dicts(),
     }
 
 
@@ -137,9 +139,7 @@ def _struct4_sanctions_adjacent_closure(latent_parquet: Path) -> dict:
     if not latent_parquet.exists():
         return {"n_detected": 0, "top_5": []}
     df = pl.read_parquet(latent_parquet)
-    flagged = df.filter(pl.col("n_sanctioned") >= 1).sort(
-        "anomaly_score", descending=True
-    )
+    flagged = df.filter(pl.col("n_sanctioned") >= 1).sort("anomaly_score", descending=True)
     return {
         "n_detected": int(flagged.height),
         "top_5": flagged.head(5).to_dicts(),
@@ -270,8 +270,12 @@ def main(
         "baseline_reachability": baselines,
         "totals": {
             "total_pipeline_structures": (
-                s1["n_detected"] + s2["n_detected"] + s3["n_detected"]
-                + s4["n_detected"] + s5["n_detected"] + s6["n_detected"]
+                s1["n_detected"]
+                + s2["n_detected"]
+                + s3["n_detected"]
+                + s4["n_detected"]
+                + s5["n_detected"]
+                + s6["n_detected"]
             ),
         },
     }

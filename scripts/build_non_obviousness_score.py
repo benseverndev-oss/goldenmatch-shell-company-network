@@ -44,10 +44,7 @@ log = logging.getLogger(__name__)
 def _compute_corpus_name_frequencies(person_table: Path) -> dict[str, int]:
     """How many times does each normalized_name appear in person_entities?"""
     df = (
-        pl.scan_parquet(person_table)
-        .group_by("normalized_name")
-        .agg(pl.len().alias("n"))
-        .collect()
+        pl.scan_parquet(person_table).group_by("normalized_name").agg(pl.len().alias("n")).collect()
     )
     return {row["normalized_name"]: row["n"] for row in df.iter_rows(named=True)}
 
@@ -166,9 +163,7 @@ def main(
     log.info("scanning edges adjacent to %d ICIJ seeds ...", len(seed_uids))
     adj_edges = (
         pl.scan_parquet(edges_parquet)
-        .filter(
-            pl.col("src_node").is_in(seed_uids) | pl.col("dst_node").is_in(seed_uids)
-        )
+        .filter(pl.col("src_node").is_in(seed_uids) | pl.col("dst_node").is_in(seed_uids))
         .collect()
     )
     log.info("seed-adjacent edges: %d", adj_edges.height)
@@ -204,9 +199,7 @@ def main(
     def _local_density(uid: str) -> float:
         if uid not in seed_uids:
             return 0.0
-        local = adj_edges.filter(
-            (pl.col("src_node") == uid) | (pl.col("dst_node") == uid)
-        )
+        local = adj_edges.filter((pl.col("src_node") == uid) | (pl.col("dst_node") == uid))
         n_edges = local.height
         # Unique neighbours.
         neighbours = set(local.select("src_node").to_series().to_list()) | set(

@@ -163,7 +163,10 @@ seed-driven pipeline didn't ask for.
         for r in no.get("top_10", [])[:5]:
             factors = r.get("top_factors") or r.get("factor_breakdown") or ""
             if isinstance(factors, dict):
-                factors = ", ".join(f"{k}={v:.2f}" if isinstance(v, float) else f"{k}={v}" for k, v in list(factors.items())[:3])
+                factors = ", ".join(
+                    f"{k}={v:.2f}" if isinstance(v, float) else f"{k}={v}"
+                    for k, v in list(factors.items())[:3]
+                )
             body += f"| `{r.get('anchor_uid', '—')}` | {_fmt(r.get('score'))} | {factors} |\n"
         body += "\n"
 

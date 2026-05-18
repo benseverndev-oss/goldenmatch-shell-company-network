@@ -35,9 +35,7 @@ def _attest_row(att: dict | None) -> str:
 @app.command()
 def main(
     summary: Path = typer.Option(..., "--summary"),
-    out: Path = typer.Option(
-        Path("docs/reports/top_candidates_walkthrough.md"), "--out"
-    ),
+    out: Path = typer.Option(Path("docs/reports/top_candidates_walkthrough.md"), "--out"),
 ) -> None:
     s = json.loads(summary.read_text(encoding="utf-8"))
     now = datetime.now(UTC).strftime("%Y-%m-%d %H:%M UTC")

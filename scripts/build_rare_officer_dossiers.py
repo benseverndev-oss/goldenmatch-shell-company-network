@@ -115,9 +115,7 @@ def _expanded_icij_rows(
 
     edges = (
         pl.scan_parquet(icij_edges)
-        .filter(
-            pl.col("src_node").is_in(seed_uids) | pl.col("dst_node").is_in(seed_uids)
-        )
+        .filter(pl.col("src_node").is_in(seed_uids) | pl.col("dst_node").is_in(seed_uids))
         .collect()
     )
 
@@ -146,9 +144,7 @@ def _expanded_icij_rows(
     # max_edges_per_seed for honesty.
     degree_per_seed = pairs.group_by("seed_uid").agg(pl.len().alias("degree"))
     pairs = pairs.join(degree_per_seed, on="seed_uid", how="left")
-    capped = pairs.with_columns(
-        (pl.col("degree") > max_edges_per_seed).alias("degree_capped")
-    )
+    capped = pairs.with_columns((pl.col("degree") > max_edges_per_seed).alias("degree_capped"))
     capped = (
         capped.sort(["seed_uid", "linked_uid"])
         .group_by("seed_uid", maintain_order=True)
@@ -190,9 +186,9 @@ def _expanded_icij_rows(
         .otherwise(None)
         .alias("_os_key")
     )
-    companies = companies.join(
-        overlay, left_on="_os_key", right_on="os_id", how="left"
-    ).drop("_os_key", "company_source_id")
+    companies = companies.join(overlay, left_on="_os_key", right_on="os_id", how="left").drop(
+        "_os_key", "company_source_id"
+    )
     companies = companies.with_columns(
         pl.when(pl.col("sanction_datasets").is_not_null())
         .then(pl.lit("os_id"))
@@ -204,55 +200,64 @@ def _expanded_icij_rows(
     # Match against both `caption` AND every alias in `names` (the overlay's
     # ;-separated alias list). Aliases catch the common transliteration
     # variants OS carries (e.g. Cyrillic/Latin name pairs).
-    overlay_name_lookup = overlay_raw.with_columns(
-        pl.col("names").str.split(";").alias("_aliases"),
-    ).explode("_aliases").with_columns(
-        pl.col("_aliases").str.strip_chars()
-        .map_elements(normalize_company_name, return_dtype=pl.Utf8)
-        .alias("_norm_alias"),
-    ).filter(pl.col("_norm_alias").str.len_chars() > 0)
-    overlay_name_lookup = overlay_name_lookup.group_by("_norm_alias").agg(
-        pl.col("datasets").first().alias("sanction_datasets_name"),
-        pl.col("n_datasets").first().alias("n_sanction_datasets_name"),
-    ).rename({"_norm_alias": "_norm_caption"})
+    overlay_name_lookup = (
+        overlay_raw.with_columns(
+            pl.col("names").str.split(";").alias("_aliases"),
+        )
+        .explode("_aliases")
+        .with_columns(
+            pl.col("_aliases")
+            .str.strip_chars()
+            .map_elements(normalize_company_name, return_dtype=pl.Utf8)
+            .alias("_norm_alias"),
+        )
+        .filter(pl.col("_norm_alias").str.len_chars() > 0)
+    )
+    overlay_name_lookup = (
+        overlay_name_lookup.group_by("_norm_alias")
+        .agg(
+            pl.col("datasets").first().alias("sanction_datasets_name"),
+            pl.col("n_datasets").first().alias("n_sanction_datasets_name"),
+        )
+        .rename({"_norm_alias": "_norm_caption"})
+    )
     companies = companies.with_columns(
         pl.when(pl.col("sanction_datasets").is_null())
-        .then(
-            pl.col("company_name").map_elements(
-                normalize_company_name, return_dtype=pl.Utf8
-            )
-        )
+        .then(pl.col("company_name").map_elements(normalize_company_name, return_dtype=pl.Utf8))
         .otherwise(None)
         .alias("_name_key")
-    ).filter(
-        pl.col("_name_key").is_null() | (pl.col("_name_key").str.len_chars() > 0)
+    ).filter(pl.col("_name_key").is_null() | (pl.col("_name_key").str.len_chars() > 0))
+    companies = (
+        companies.join(
+            overlay_name_lookup, left_on="_name_key", right_on="_norm_caption", how="left"
+        )
+        .with_columns(
+            pl.coalesce(pl.col("sanction_datasets"), pl.col("sanction_datasets_name")).alias(
+                "sanction_datasets"
+            ),
+            pl.coalesce(pl.col("n_sanction_datasets"), pl.col("n_sanction_datasets_name")).alias(
+                "n_sanction_datasets"
+            ),
+            pl.when(pl.col("sanction_match_kind") == "os_id")
+            .then(pl.lit("os_id"))
+            .when(pl.col("sanction_datasets_name").is_not_null())
+            .then(pl.lit("name"))
+            .otherwise(None)
+            .alias("sanction_match_kind"),
+        )
+        .drop("sanction_datasets_name", "n_sanction_datasets_name", "_name_key")
     )
-    companies = companies.join(
-        overlay_name_lookup, left_on="_name_key", right_on="_norm_caption", how="left"
-    ).with_columns(
-        pl.coalesce(pl.col("sanction_datasets"), pl.col("sanction_datasets_name")).alias("sanction_datasets"),
-        pl.coalesce(pl.col("n_sanction_datasets"), pl.col("n_sanction_datasets_name")).alias("n_sanction_datasets"),
-        pl.when(pl.col("sanction_match_kind") == "os_id")
-        .then(pl.lit("os_id"))
-        .when(pl.col("sanction_datasets_name").is_not_null())
-        .then(pl.lit("name"))
-        .otherwise(None)
-        .alias("sanction_match_kind"),
-    ).drop("sanction_datasets_name", "n_sanction_datasets_name", "_name_key")
 
     # Join companies onto the (seed, linked) pairs.
-    expanded = (
-        capped.rename({"linked_uid": "company_entity_uid"})
-        .join(companies, on="company_entity_uid", how="inner")
+    expanded = capped.rename({"linked_uid": "company_entity_uid"}).join(
+        companies, on="company_entity_uid", how="inner"
     )
 
     # Co-officers: other persons sharing an edge with this company.
     company_uids = expanded.select("company_entity_uid").to_series().to_list()
     co_edges = (
         pl.scan_parquet(icij_edges)
-        .filter(
-            pl.col("src_node").is_in(company_uids) | pl.col("dst_node").is_in(company_uids)
-        )
+        .filter(pl.col("src_node").is_in(company_uids) | pl.col("dst_node").is_in(company_uids))
         .collect()
     )
     co_pairs = pl.concat(
@@ -384,7 +389,9 @@ def main(
     log.info("total dossier rows: %d", all_rows.height)
     all_rows.write_parquet(out)
     typer.echo(f"Wrote: {out}")
-    typer.echo(f"  {all_rows.height} total rows ({stubs.height} stubs + {expanded.height} icij-expanded) across {seeds.height} seed names")
+    typer.echo(
+        f"  {all_rows.height} total rows ({stubs.height} stubs + {expanded.height} icij-expanded) across {seeds.height} seed names"
+    )
 
 
 if __name__ == "__main__":

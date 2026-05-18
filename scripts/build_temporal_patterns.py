@@ -84,7 +84,9 @@ def _resurrection_pairs(
             & (pl.col("normalized_address").str.len_chars() > 0)
         )
         .with_columns(
-            pl.col("incorporation_date").str.to_date(format="%d-%b-%Y", strict=False).alias("i_date")
+            pl.col("incorporation_date")
+            .str.to_date(format="%d-%b-%Y", strict=False)
+            .alias("i_date")
         )
         .filter(pl.col("i_date").is_not_null())
         .select(
@@ -119,7 +121,9 @@ def _burst_incorporations(
             & (pl.col("normalized_address").str.len_chars() > 0)
         )
         .with_columns(
-            pl.col("incorporation_date").str.to_date(format="%d-%b-%Y", strict=False).alias("i_date")
+            pl.col("incorporation_date")
+            .str.to_date(format="%d-%b-%Y", strict=False)
+            .alias("i_date")
         )
         .filter(pl.col("i_date").is_not_null())
         .select("source_id", "name", "normalized_address", "jurisdiction", "i_date")
@@ -130,10 +134,7 @@ def _burst_incorporations(
     # check. We use a per-address shift via `over`.
     per_addr = base.sort(["normalized_address", "i_date"])
     per_addr = per_addr.with_columns(
-        pl.col("i_date")
-        .shift(-(min_count - 1))
-        .over("normalized_address")
-        .alias("date_at_plus_n"),
+        pl.col("i_date").shift(-(min_count - 1)).over("normalized_address").alias("date_at_plus_n"),
     )
     per_addr = per_addr.filter(pl.col("date_at_plus_n").is_not_null()).with_columns(
         (pl.col("date_at_plus_n") - pl.col("i_date")).dt.total_days().alias("span_days")
@@ -159,9 +160,7 @@ def _burst_incorporations(
     return bursts
 
 
-def _long_lived_anchors(
-    df: pl.DataFrame, min_years: int = 15
-) -> pl.DataFrame:
+def _long_lived_anchors(df: pl.DataFrame, min_years: int = 15) -> pl.DataFrame:
     """Entities incorporated > min_years ago with no dissolution date.
 
     Cross-referenced with the addresses hosting many recent incorporations.
@@ -173,10 +172,15 @@ def _long_lived_anchors(
             & (pl.col("incorporation_date").str.len_chars() > 0)
             & pl.col("normalized_address").is_not_null()
             & (pl.col("normalized_address").str.len_chars() > 0)
-            & (pl.col("dissolution_date").is_null() | (pl.col("dissolution_date").str.len_chars() == 0))
+            & (
+                pl.col("dissolution_date").is_null()
+                | (pl.col("dissolution_date").str.len_chars() == 0)
+            )
         )
         .with_columns(
-            pl.col("incorporation_date").str.to_date(format="%d-%b-%Y", strict=False).alias("i_date")
+            pl.col("incorporation_date")
+            .str.to_date(format="%d-%b-%Y", strict=False)
+            .alias("i_date")
         )
         .filter(pl.col("i_date").is_not_null() & (pl.col("i_date").dt.year() < threshold_year))
     )
@@ -184,11 +188,12 @@ def _long_lived_anchors(
     # at each address.
     recent_activity = (
         df.filter(
-            pl.col("incorporation_date").is_not_null()
-            & pl.col("normalized_address").is_not_null()
+            pl.col("incorporation_date").is_not_null() & pl.col("normalized_address").is_not_null()
         )
         .with_columns(
-            pl.col("incorporation_date").str.to_date(format="%d-%b-%Y", strict=False).alias("i_date")
+            pl.col("incorporation_date")
+            .str.to_date(format="%d-%b-%Y", strict=False)
+            .alias("i_date")
         )
         .filter(pl.col("i_date").is_not_null() & (pl.col("i_date").dt.year() >= 2020))
         .group_by("normalized_address")
@@ -252,9 +257,7 @@ def main(
     resurrections.head(top_n).write_parquet(out_resurrections)
 
     log.info("computing burst incorporations ...")
-    bursts = _burst_incorporations(
-        df, window_days=burst_window_days, min_count=burst_min_count
-    )
+    bursts = _burst_incorporations(df, window_days=burst_window_days, min_count=burst_min_count)
     log.info("burst incorporations: %d", bursts.height)
     bursts.head(top_n).write_parquet(out_bursts)
 
@@ -270,9 +273,7 @@ def main(
             "n_pairs": int(resurrections.height),
             "n_kept": int(min(resurrections.height, top_n)),
             "median_gap_days": (
-                int(resurrections["gap_days"].median() or 0)
-                if resurrections.height
-                else None
+                int(resurrections["gap_days"].median() or 0) if resurrections.height else None
             ),
             "top_3": resurrections.head(3).to_dicts(),
         },
@@ -281,9 +282,7 @@ def main(
             "min_count": burst_min_count,
             "n_address_windows": int(bursts.height),
             "n_kept": int(min(bursts.height, top_n)),
-            "largest_burst": (
-                int(bursts["n_in_window"].max() or 0) if bursts.height else 0
-            ),
+            "largest_burst": (int(bursts["n_in_window"].max() or 0) if bursts.height else 0),
             "top_3_sizes": (
                 bursts.head(3)
                 .select(["normalized_address", "n_in_window", "span_days", "jurisdiction"])

@@ -50,9 +50,7 @@ def _bin_table(bins: list[dict], kind: str) -> str:
 def main(
     metrics: Path = typer.Option(..., "--metrics", help="calibration_metrics.parquet"),
     summary: Path = typer.Option(..., "--summary", help="calibration_summary.json"),
-    out: Path = typer.Option(
-        Path("docs/reports/calibration_benchmark.md"), "--out"
-    ),
+    out: Path = typer.Option(Path("docs/reports/calibration_benchmark.md"), "--out"),
 ) -> None:
     df = pl.read_parquet(metrics)
     s = json.loads(summary.read_text(encoding="utf-8"))

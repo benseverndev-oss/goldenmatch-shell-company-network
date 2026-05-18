@@ -71,8 +71,8 @@ Companion to [`baseline_comparison.md`](baseline_comparison.md) and
         ptype = r["perturbation"]
         body += (
             f"| **{ptype}** | {descriptions.get(ptype, '')} | "
-            f"`{_bar(10, r['b2_recovery_rate'])}` {r['b2_recovery_rate']*100:.1f}% | "
-            f"`{_bar(10, r['b6_recovery_rate'])}` {r['b6_recovery_rate']*100:.1f}% | "
+            f"`{_bar(10, r['b2_recovery_rate'])}` {r['b2_recovery_rate'] * 100:.1f}% | "
+            f"`{_bar(10, r['b6_recovery_rate'])}` {r['b6_recovery_rate'] * 100:.1f}% | "
             f"{r['b6_mean_score']:.1f} |\n"
         )
 
@@ -82,7 +82,7 @@ Companion to [`baseline_comparison.md`](baseline_comparison.md) and
 move. Lower B6 = even fuzzy match fails. The honest interpretation:
 
 - The pipeline's normalize layer is **a partial defense, not a complete one**.
-  It defeats suffix mutation (~{int(sorted_perts[-1]['b2_recovery_rate']*100) if sorted_perts[-1]['b2_recovery_rate'] > 0.5 else int(next(p for p in sorted_perts if p['perturbation'] == 'suffix_mutation')['b2_recovery_rate']*100)}% recovery) by design, but **fails completely against
+  It defeats suffix mutation (~{int(sorted_perts[-1]["b2_recovery_rate"] * 100) if sorted_perts[-1]["b2_recovery_rate"] > 0.5 else int(next(p for p in sorted_perts if p["perturbation"] == "suffix_mutation")["b2_recovery_rate"] * 100)}% recovery) by design, but **fails completely against
   honorific insertion** (the source-table `normalize_company_name`
   doesn't strip "Mr"/"Ms"/"Dr"; honorific stripping is only done at
   render time in the dossier pipeline, which means the rare-officer
@@ -90,8 +90,8 @@ move. Lower B6 = even fuzzy match fails. The honest interpretation:
   as separate keys).
 - **Transliteration is the strongest adversarial move.** With character-level
   substitutions matching real slavic/arabic transliteration variance,
-  the normalize layer recovers only {next(p for p in sorted_perts if p['perturbation'] == 'transliteration')['b2_recovery_rate']*100:.0f}% of cases. Fuzzy at threshold 85
-  catches most ({next(p for p in sorted_perts if p['perturbation'] == 'transliteration')['b6_recovery_rate']*100:.0f}%) but at the cost of high false-positive risk
+  the normalize layer recovers only {next(p for p in sorted_perts if p["perturbation"] == "transliteration")["b2_recovery_rate"] * 100:.0f}% of cases. Fuzzy at threshold 85
+  catches most ({next(p for p in sorted_perts if p["perturbation"] == "transliteration")["b6_recovery_rate"] * 100:.0f}%) but at the cost of high false-positive risk
   on common names.
 - **B6 fuzzy match is robust to ~all perturbations** at threshold 85, but
   that robustness is a double-edged sword. The same threshold that survives

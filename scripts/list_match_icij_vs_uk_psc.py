@@ -82,8 +82,7 @@ def main(
     log.info("wrote %d ICIJ ref persons -> %s", icij_ref.height, ref_path)
 
     psc_target = df.filter(
-        (pl.col("source") == "uk_psc")
-        & pl.col("country").is_in(list(HIGH_SIGNAL_COUNTRIES))
+        (pl.col("source") == "uk_psc") & pl.col("country").is_in(list(HIGH_SIGNAL_COUNTRIES))
     ).select(keep_cols)
     tgt_path = out_dir / "uk_psc_foreign_for_icij_match.parquet"
     psc_target.write_parquet(tgt_path)

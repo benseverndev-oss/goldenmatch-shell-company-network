@@ -74,7 +74,11 @@ def _render_person_table(df: pl.DataFrame, *, limit: int = 50) -> str:
         out.append(
             "| {os_name} | {psc_name_sample} | {psc_dob} | {psc_country} | {psc_seats} | {sanction_datasets} | {name_score:.3f} |".format(
                 **{
-                    k: ("" if v is None else (v if isinstance(v, float) else str(v).replace("|", "\\|")))
+                    k: (
+                        ""
+                        if v is None
+                        else (v if isinstance(v, float) else str(v).replace("|", "\\|"))
+                    )
                     for k, v in r.items()
                 }
             )
@@ -167,7 +171,10 @@ def main(
 
     cs = s["company_triples"]
     ps = s["dob_confirmed_pairs"]
-    ips = s.get("icij_psc_pairs", {"n_rows": 0, "distinct_psc_uids": 0, "distinct_icij_uids": 0, "country_distribution": []})
+    ips = s.get(
+        "icij_psc_pairs",
+        {"n_rows": 0, "distinct_psc_uids": 0, "distinct_icij_uids": 0, "country_distribution": []},
+    )
     rop = s.get("rare_officer_overlaps", {"n_rows": 0, "by_n_sources": []})
     dxr = s.get("disqualified_overlaps", {"n_rows": 0, "by_source": []})
 

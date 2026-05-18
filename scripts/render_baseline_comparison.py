@@ -32,9 +32,7 @@ def main(
     a_model = a["model_assumptions"]
 
     # Per-anchor distribution for the fuzzy histogram in the report.
-    src_dist = (
-        df.group_by("b6_n_sources_fuzzy").len().sort("b6_n_sources_fuzzy")
-    ).to_dicts()
+    src_dist = (df.group_by("b6_n_sources_fuzzy").len().sort("b6_n_sources_fuzzy")).to_dicts()
 
     body = f"""# Baseline comparison — vs ICIJ search, naive fuzzy, and analyst time
 
@@ -60,8 +58,8 @@ might actually use today**._
 
 | Metric | Value |
 |---|---:|
-| Anchors with ≥1 ICIJ fuzzy match | **{b5["n_anchors_with_icij_match"]:,}** of {s["sample_size"]:,} ({b5["fraction_of_sample"]*100:.1f}%) |
-| Anchors invisible to ICIJ search | **{s["sample_size"] - b5["n_anchors_with_icij_match"]:,}** ({(1 - b5["fraction_of_sample"])*100:.1f}%) |
+| Anchors with ≥1 ICIJ fuzzy match | **{b5["n_anchors_with_icij_match"]:,}** of {s["sample_size"]:,} ({b5["fraction_of_sample"] * 100:.1f}%) |
+| Anchors invisible to ICIJ search | **{s["sample_size"] - b5["n_anchors_with_icij_match"]:,}** ({(1 - b5["fraction_of_sample"]) * 100:.1f}%) |
 
 **Structural finding:** even when ICIJ search returns a record for the
 name, it cannot show the journalist that the same name also appears in UK
@@ -77,7 +75,7 @@ ICIJ search alone, regardless of fuzzy-match success.
 
 | Metric | Value |
 |---|---:|
-| Anchors fuzzy-matched in ≥2 sources | **{b6["n_anchors_2_plus_sources"]:,}** ({b6["fraction_2plus_of_sample"]*100:.1f}%) |
+| Anchors fuzzy-matched in ≥2 sources | **{b6["n_anchors_2_plus_sources"]:,}** ({b6["fraction_2plus_of_sample"] * 100:.1f}%) |
 | Anchors fuzzy-matched in ≥3 sources | {b6["n_anchors_3_plus_sources"]:,} |
 
 Per-source-count distribution of the sample:
@@ -92,8 +90,8 @@ Per-source-count distribution of the sample:
     body += f"""
 
 **Reading**: at threshold {s["fuzzy_threshold"]}/100, naive fuzzy recovers
-{b6["fraction_2plus_of_sample"]*100:.1f}% of B3's cross-source overlaps. The remaining
-{100 - b6["fraction_2plus_of_sample"]*100:.1f}% require the legal-suffix-strip / ASCII-fold
+{b6["fraction_2plus_of_sample"] * 100:.1f}% of B3's cross-source overlaps. The remaining
+{100 - b6["fraction_2plus_of_sample"] * 100:.1f}% require the legal-suffix-strip / ASCII-fold
 pipeline of B2 (see `discovery_lift.md`). The fuzzy baseline also produces
 false-positive hits not counted here — token-set-ratio at 0.85 will match
 "Mark Taylor" to dozens of unrelated entities. The discovery-lift report
@@ -147,8 +145,8 @@ manual workload is {a["n_dossiers_top_tier"] * a["per_anchor_manual_seconds"] / 
 | Question | discovery_lift answers | this report answers |
 |---|---|---|
 | Does the normalize layer rescue recall? | Yes, +11% (B1→B2). | — |
-| What's the overlap with a fuzzy-dedupe tool? | — | {b6["fraction_2plus_of_sample"]*100:.0f}% of B3 reachable by naive fuzzy. |
-| What about a journalist using ICIJ DB? | — | {b5["fraction_of_sample"]*100:.0f}% of B3 surfaces in ICIJ search, but 0% with the cross-source overlay. |
+| What's the overlap with a fuzzy-dedupe tool? | — | {b6["fraction_2plus_of_sample"] * 100:.0f}% of B3 reachable by naive fuzzy. |
+| What about a journalist using ICIJ DB? | — | {b5["fraction_of_sample"] * 100:.0f}% of B3 surfaces in ICIJ search, but 0% with the cross-source overlay. |
 | How much human time is saved? | — | ~{a_total["reduction_pct"]}% reduction at scale; ×{a_total["reduction_factor"]} faster per anchor. |
 
 ## Reproduce

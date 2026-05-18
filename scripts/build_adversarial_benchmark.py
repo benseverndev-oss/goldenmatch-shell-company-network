@@ -48,16 +48,31 @@ log = logging.getLogger(__name__)
 # --- perturbation primitives ------------------------------------------------
 
 _SUFFIXES = [
-    "ltd", "limited", "llc", "inc", "incorporated",
-    "corp", "corporation", "plc", "holdings", "group", "co",
+    "ltd",
+    "limited",
+    "llc",
+    "inc",
+    "incorporated",
+    "corp",
+    "corporation",
+    "plc",
+    "holdings",
+    "group",
+    "co",
 ]
 _HONORIFICS = ["mr", "ms", "mrs", "dr", "sheikh", "sir", "prof"]
 
 # Character-level substitutions modelling transliteration variance.
 # Apply at most 2 substitutions per name to avoid mangling beyond recognition.
 _TRANSLIT_SUBS: list[tuple[str, str]] = [
-    ("kh", "h"), ("ts", "z"), ("sh", "sch"), ("ee", "ie"),
-    ("y", "i"), ("v", "w"), ("ph", "f"), ("ck", "k"),
+    ("kh", "h"),
+    ("ts", "z"),
+    ("sh", "sch"),
+    ("ee", "ie"),
+    ("y", "i"),
+    ("v", "w"),
+    ("ph", "f"),
+    ("ck", "k"),
     ("oo", "u"),
 ]
 
@@ -228,12 +243,8 @@ def main(
         "by_perturbation": by_pert.to_dicts(),
         "overall": {
             "n_perturbed_pairs": int(df.height),
-            "b2_recovery_rate": (
-                int(df["b2_recovers"].sum()) / df.height if df.height else 0.0
-            ),
-            "b6_recovery_rate": (
-                int(df["b6_recovers"].sum()) / df.height if df.height else 0.0
-            ),
+            "b2_recovery_rate": (int(df["b2_recovers"].sum()) / df.height if df.height else 0.0),
+            "b6_recovery_rate": (int(df["b6_recovers"].sum()) / df.height if df.height else 0.0),
         },
         "adversary_model_notes": (
             "Perturbations model what an adversary controls in the threat model "

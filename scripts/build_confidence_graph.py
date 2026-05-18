@@ -85,8 +85,7 @@ def _build_subgraph(
         if len(visited) >= max_nodes:
             break
         adjacent = edges.filter(
-            pl.col("src_node").is_in(list(frontier))
-            | pl.col("dst_node").is_in(list(frontier))
+            pl.col("src_node").is_in(list(frontier)) | pl.col("dst_node").is_in(list(frontier))
         )
         next_frontier = (
             set(adjacent.select("src_node").to_series().to_list())
@@ -181,9 +180,7 @@ def main(
     )
 
     log.info("scanning %s ...", edges_parquet)
-    all_edges = pl.scan_parquet(edges_parquet).select(
-        "src_node", "dst_node", "kind_raw"
-    ).collect()
+    all_edges = pl.scan_parquet(edges_parquet).select("src_node", "dst_node", "kind_raw").collect()
     log.info("total edges in corpus: %d", all_edges.height)
 
     sub_edges = _build_subgraph(all_edges, seeds, hops=hops, max_nodes=max_nodes)
@@ -203,13 +200,9 @@ def main(
         if g.has_edge(row["src_node"], row["dst_node"]):
             # If parallel edges with different kinds exist, keep the max credibility.
             existing = g[row["src_node"]][row["dst_node"]]["weight"]
-            g[row["src_node"]][row["dst_node"]]["weight"] = max(
-                existing, row["credibility"]
-            )
+            g[row["src_node"]][row["dst_node"]]["weight"] = max(existing, row["credibility"])
         else:
-            g.add_edge(
-                row["src_node"], row["dst_node"], weight=row["credibility"]
-            )
+            g.add_edge(row["src_node"], row["dst_node"], weight=row["credibility"])
 
     log.info("graph: %d nodes, %d edges", g.number_of_nodes(), g.number_of_edges())
 
@@ -217,9 +210,7 @@ def main(
     rows: list[dict] = []
     summaries: dict[str, dict] = {}
     for thresh in _THRESHOLDS:
-        g_t = nx.Graph(
-            (u, v, d) for u, v, d in g.edges(data=True) if d["weight"] >= thresh
-        )
+        g_t = nx.Graph((u, v, d) for u, v, d in g.edges(data=True) if d["weight"] >= thresh)
         # Include the isolated nodes too (so node-set is consistent across thresholds).
         for n in g.nodes():
             if n not in g_t:
@@ -318,19 +309,13 @@ def main(
     anomaly_rows = []
     for r in per_community.iter_rows(named=True):
         cid = r["community_id"]
-        size_dev = (
-            abs(float(r["log_size"]) - median_log_size) / max(median_log_size, 1.0)
-        )
+        size_dev = abs(float(r["log_size"]) - median_log_size) / max(median_log_size, 1.0)
         isolation = isolation_per_cid.get(cid, 0.0)
         seed_density = float(r["seed_density"])
         # Weights chosen to favour communities that combine investigative
         # alignment (seed density) with structural distinctiveness (isolation +
         # size deviation).
-        anomaly_score = (
-            0.40 * seed_density
-            + 0.35 * isolation
-            + 0.25 * min(size_dev, 1.0)
-        )
+        anomaly_score = 0.40 * seed_density + 0.35 * isolation + 0.25 * min(size_dev, 1.0)
         anomaly_rows.append(
             {
                 "community_id": cid,
@@ -343,9 +328,7 @@ def main(
             }
         )
     anomaly_df = pl.DataFrame(anomaly_rows).sort("anomaly_score", descending=True)
-    anomaly_df.write_parquet(
-        out_communities.parent / "confidence_community_anomalies.parquet"
-    )
+    anomaly_df.write_parquet(out_communities.parent / "confidence_community_anomalies.parquet")
 
     # --- Confidence-aware reasoning extensions ----------------------------
     # 1. Per-community confidence aggregate: mean credibility of the
@@ -364,9 +347,7 @@ def main(
     # 1. Per-community confidence aggregate.
     strict_member_to_cid = {
         row["node_uid"]: row["community_id"]
-        for row in communities_df.filter(pl.col("threshold") == strictest).iter_rows(
-            named=True
-        )
+        for row in communities_df.filter(pl.col("threshold") == strictest).iter_rows(named=True)
     }
     cid_internal_weights: dict[int, list[float]] = {}
     for u, v, d in g.edges(data=True):
@@ -398,9 +379,7 @@ def main(
             }
         )
     )
-    confidence_df.write_parquet(
-        out_communities.parent / "confidence_community_aggregates.parquet"
-    )
+    confidence_df.write_parquet(out_communities.parent / "confidence_community_aggregates.parquet")
     log.info(
         "community confidence aggregates: %d communities scored",
         confidence_df.height,
@@ -463,9 +442,7 @@ def main(
             }
         )
     )
-    contradictions_df.write_parquet(
-        out_communities.parent / "confidence_contradictions.parquet"
-    )
+    contradictions_df.write_parquet(out_communities.parent / "confidence_contradictions.parquet")
     log.info("contradictions detected: %d", contradictions_df.height)
 
     # 3. Review-priority ranking: edges in the 0.4-0.7 credibility "gray zone"
@@ -491,9 +468,7 @@ def main(
             continue
         # Priority = uncertainty × investigative_impact.
         uncertainty = 1.0 - abs(w - 0.575) / 0.175  # 1 at 0.575 midpoint, 0 at edges
-        impact = (u_contradict + v_contradict) / 10 + (
-            1 if u in seeds or v in seeds else 0
-        )
+        impact = (u_contradict + v_contradict) / 10 + (1 if u in seeds or v in seeds else 0)
         review_rows.append(
             {
                 "node_a": u,
@@ -518,9 +493,7 @@ def main(
             }
         )
     )
-    review_df.write_parquet(
-        out_communities.parent / "confidence_review_priority.parquet"
-    )
+    review_df.write_parquet(out_communities.parent / "confidence_review_priority.parquet")
     log.info("review-priority edges (gray-zone + contradiction-touching): %d", review_df.height)
 
     # Multi-hop confidence decay: for each pair of dossier-anchor seeds that
@@ -565,8 +538,7 @@ def main(
             log.info("  decay: %d / %d seeds processed", i + 1, len(seed_list))
 
     indirect_df = (
-        pl.DataFrame(indirect_rows)
-        .sort("path_probability", descending=True)
+        pl.DataFrame(indirect_rows).sort("path_probability", descending=True)
         if indirect_rows
         else pl.DataFrame(
             schema={
@@ -576,9 +548,7 @@ def main(
             }
         )
     )
-    indirect_df.write_parquet(
-        out_communities.parent / "confidence_indirect_links.parquet"
-    )
+    indirect_df.write_parquet(out_communities.parent / "confidence_indirect_links.parquet")
     log.info(
         "indirect links (≥0.05 path probability): %d",
         indirect_df.height,
@@ -667,9 +637,7 @@ def main(
             "n_nodes_evaluated": int(n_total),
             "mean_jaccard": round(mean_jaccard, 3),
             "n_nodes_overlap_ge_0_5": int(n_stable),
-            "fraction_overlap_ge_0_5": (
-                round(n_stable / n_total, 3) if n_total else 0
-            ),
+            "fraction_overlap_ge_0_5": (round(n_stable / n_total, 3) if n_total else 0),
         },
     }
     out_summary.write_text(json.dumps(summary, indent=2), encoding="utf-8")

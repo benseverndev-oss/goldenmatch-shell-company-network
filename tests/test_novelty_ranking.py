@@ -15,9 +15,12 @@ def test_zero_hits_localized_ran_yields_baseline_floor() -> None:
     # No web hits at all (localized RAN with 0 hits), no shell density:
     # max from web terms (0.40 + 0.25 + 0.15 = 0.80)
     score = novelty_score(
-        hits_general=0, hits_offshore=0,
-        hits_localized=0, localized_ran=True,
-        n_linked_companies=0, n_jurisdictions=0,
+        hits_general=0,
+        hits_offshore=0,
+        hits_localized=0,
+        localized_ran=True,
+        n_linked_companies=0,
+        n_jurisdictions=0,
     )
     assert score == pytest.approx(0.80, abs=1e-6)
 
@@ -26,9 +29,12 @@ def test_localized_skipped_does_not_grant_bonus() -> None:
     # No dominant jurisdiction → localized query SKIPPED.
     # The 0.15 term must NOT apply (was the bug spotted in review pass 2).
     score = novelty_score(
-        hits_general=0, hits_offshore=0,
-        hits_localized=0, localized_ran=False,
-        n_linked_companies=0, n_jurisdictions=0,
+        hits_general=0,
+        hits_offshore=0,
+        hits_localized=0,
+        localized_ran=False,
+        n_linked_companies=0,
+        n_jurisdictions=0,
     )
     assert score == pytest.approx(0.65, abs=1e-6)  # 0.40 + 0.25 + 0
 
@@ -36,9 +42,12 @@ def test_localized_skipped_does_not_grant_bonus() -> None:
 def test_full_hits_full_density_yields_density_only() -> None:
     # Saturated web hits cancel the web bonus; only density terms contribute
     score = novelty_score(
-        hits_general=10, hits_offshore=5,
-        hits_localized=3, localized_ran=True,
-        n_linked_companies=5, n_jurisdictions=3,
+        hits_general=10,
+        hits_offshore=5,
+        hits_localized=3,
+        localized_ran=True,
+        n_linked_companies=5,
+        n_jurisdictions=3,
     )
     # 0 + 0 + 0 + 0.10 + 0.10
     assert score == pytest.approx(0.20, abs=1e-6)
@@ -52,28 +61,48 @@ def test_localized_zero_hits_when_run_breaks_to_full_bonus() -> None:
 
 
 def test_score_bounded_zero_to_one() -> None:
-    assert 0.0 <= novelty_score(
-        hits_general=0, hits_offshore=0,
-        hits_localized=0, localized_ran=True,
-        n_linked_companies=0, n_jurisdictions=0,
-    ) <= 1.0
-    assert 0.0 <= novelty_score(
-        hits_general=100, hits_offshore=100,
-        hits_localized=100, localized_ran=True,
-        n_linked_companies=100, n_jurisdictions=100,
-    ) <= 1.0
+    assert (
+        0.0
+        <= novelty_score(
+            hits_general=0,
+            hits_offshore=0,
+            hits_localized=0,
+            localized_ran=True,
+            n_linked_companies=0,
+            n_jurisdictions=0,
+        )
+        <= 1.0
+    )
+    assert (
+        0.0
+        <= novelty_score(
+            hits_general=100,
+            hits_offshore=100,
+            hits_localized=100,
+            localized_ran=True,
+            n_linked_companies=100,
+            n_jurisdictions=100,
+        )
+        <= 1.0
+    )
 
 
 def test_density_bonus_caps() -> None:
     s5 = novelty_score(
-        hits_general=10, hits_offshore=5,
-        hits_localized=3, localized_ran=True,
-        n_linked_companies=5, n_jurisdictions=0,
+        hits_general=10,
+        hits_offshore=5,
+        hits_localized=3,
+        localized_ran=True,
+        n_linked_companies=5,
+        n_jurisdictions=0,
     )
     s20 = novelty_score(
-        hits_general=10, hits_offshore=5,
-        hits_localized=3, localized_ran=True,
-        n_linked_companies=20, n_jurisdictions=0,
+        hits_general=10,
+        hits_offshore=5,
+        hits_localized=3,
+        localized_ran=True,
+        n_linked_companies=20,
+        n_jurisdictions=0,
     )
     assert s5 == s20
 

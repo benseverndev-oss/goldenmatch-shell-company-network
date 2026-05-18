@@ -115,7 +115,9 @@ def main(
 
     # 2. ICIJ-search-equivalent vs cross-source recall on B3 sample.
     icij_search = _safe(baseline, "tiers", "B5_icij_search_equivalent", "n_anchors_with_icij_match")
-    naive_fuzzy = _safe(baseline, "tiers", "B6_naive_fuzzy_cross_source", "n_anchors_2_plus_sources")
+    naive_fuzzy = _safe(
+        baseline, "tiers", "B6_naive_fuzzy_cross_source", "n_anchors_2_plus_sources"
+    )
     sample = _safe(baseline, "sample_size")
     if icij_search is not None and naive_fuzzy is not None and sample:
         deltas.append(
@@ -219,9 +221,7 @@ def main(
                 {
                     "id": k,
                     "n_detected": int(st.get("n_detected", 0)),
-                    "icij_reachable": structure.get("baseline_reachability", {}).get(
-                        k[:2], "—"
-                    ),
+                    "icij_reachable": structure.get("baseline_reachability", {}).get(k[:2], "—"),
                 }
             )
 
@@ -285,7 +285,9 @@ def main(
                 "(b) novel-vs-known, (c) actionable-vs-noise."
             ),
             "operational_proxies_available": {
-                "structure_benchmark_total": _safe(structure, "totals", "total_pipeline_structures"),
+                "structure_benchmark_total": _safe(
+                    structure, "totals", "total_pipeline_structures"
+                ),
                 "non_obviousness_anchors": _safe(non_obvious, "n_anchors"),
                 "marginal_pair_review_labels": _safe(calibration, "n_positives"),
             },
