@@ -1,0 +1,27 @@
+{
+  "report": "validation_queue",
+  "weighting": {
+    "alpha": 1.2,
+    "beta": 1.0,
+    "gamma": 0.7,
+    "delta": 1.3
+  },
+  "formula": "priority = (strange ^ \u03b1) \u00d7 (confident ^ \u03b2) \u00d7 (connected ^ \u03b3) \u00d7 (underreported ^ \u03b4)",
+  "scope_note": "Drawn from the dossier-anchored confidence subgraph (2-hop around 363 dossier seeds, ~7-8k nodes). This is more analytically rigorous than corpus-wide because it has the full uncertainty-propagation stack computed (mean_edge_credibility, contradiction_density, cluster_confidence). A v2 covering the full 3.3M-edge corpus would require running confidence-graph scoring at corpus scale, which is parked.",
+  "n_communities_eligible": 35,
+  "top_n": 20,
+  "max_cluster_size": 204,
+  "attestation_pools": {
+    "OpenSanctions": 116542,
+    "GLEIF": 0,
+    "UK_PSC": 0,
+    "UK_disqualified": 222,
+    "union": 116764
+  },
+  "priority_distribution": {
+    "max": 0.562259,
+    "p95": 0.492747,
+    "median": 0.246093,
+    "min": 0.095372
+  }
+}
