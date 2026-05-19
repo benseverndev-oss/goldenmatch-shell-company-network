@@ -1,0 +1,4 @@
+company_name,normalized_company_name,theme,matched_keywords,confidence,needs_manual_review
+SANTHILL LIMITED,santhill,unknown,,0.00,true
+icij:58042501,icij 58042501,unknown,,0.00,true
+AB YACHTING LTD,ab yachting,yachting / charter / vessel,yacht;yachting,0.30,true

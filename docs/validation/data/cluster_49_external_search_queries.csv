@@ -1,0 +1,33 @@
+target_type,target_name,query,purpose,priority
+person,peter kevin perry,"""peter kevin perry"" (PEP OR beneficial owner OR UBO)",PEP/UBO,high
+person,peter kevin perry,"""peter kevin perry"" (lawsuit OR claim OR litigation)",litigation,high
+person,peter kevin perry,"""peter kevin perry"" -site:linkedin.com -site:facebook.com",media,high
+person,peter kevin perry,"""peter kevin perry"" director OR officer",registry filings,high
+person,peter kevin perry,"""peter kevin perry"" (sanction OR OFAC OR OFSI)",sanctions,high
+company,AB YACHTING LTD,"""AB YACHTING LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,AB YACHTING LTD,"""AB YACHTING LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,AB YACHTING LTD,"""AB YACHTING LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,AB YACHTING LTD,"""AB YACHTING LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,AB YACHTING LTD,"""AB YACHTING LTD"" (tender OR contract OR procurement)",procurement,medium
+company,AB YACHTING LTD,"""AB YACHTING LTD"" (property OR real estate OR land registry)",property,medium
+company,AB YACHTING LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt AB YACHTING LTD,registry filing,medium
+company,AB YACHTING LTD,"""AB YACHTING LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,AB YACHTING LTD,"""AB YACHTING LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,SANTHILL LIMITED,"""SANTHILL LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,SANTHILL LIMITED,"""SANTHILL LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,SANTHILL LIMITED,"""SANTHILL LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,SANTHILL LIMITED,"""SANTHILL LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,SANTHILL LIMITED,"""SANTHILL LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,SANTHILL LIMITED,"""SANTHILL LIMITED"" (property OR real estate OR land registry)",property,medium
+company,SANTHILL LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt SANTHILL LIMITED,registry filing,medium
+company,SANTHILL LIMITED,"""SANTHILL LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,SANTHILL LIMITED,"""SANTHILL LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,icij:58042501,"""icij:58042501"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,icij:58042501,"""icij:58042501"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,icij:58042501,"""icij:58042501"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,icij:58042501,"""icij:58042501"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,icij:58042501,"""icij:58042501"" (tender OR contract OR procurement)",procurement,medium
+company,icij:58042501,"""icij:58042501"" (property OR real estate OR land registry)",property,medium
+company,icij:58042501,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt icij:58042501,registry filing,medium
+company,icij:58042501,"""icij:58042501"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,icij:58042501,"""icij:58042501"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium

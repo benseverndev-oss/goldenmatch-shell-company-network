@@ -1,0 +1,4 @@
+company_name,normalized_company_name,in_community,in_person_dossier,match_type,confidence,source_record_ids,notes
+AB YACHTING LTD,ab yachting,true,false,community_only,1.00,icij:55081330,in cluster but not in person dossier
+icij:58042501,icij 58042501,true,false,community_only,1.00,icij:58042501,in cluster but not in person dossier
+SANTHILL LIMITED,santhill,true,false,community_only,1.00,icij:55049793,in cluster but not in person dossier
