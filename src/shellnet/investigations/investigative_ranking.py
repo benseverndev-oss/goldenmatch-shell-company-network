@@ -203,6 +203,12 @@ def rank_clusters_by_investigative_value(
                 "dormant_but_connected": pl.Float64,
                 "shell_reuse": pl.Float64,
                 "investigative_score": pl.Float64,
+                "n_anomalies": pl.Int64,
+                "n_high_severity_anomalies": pl.Int64,
+                "top_anomaly_kind": pl.String,
+                "n_edges_incident": pl.Int64,
+                "n_leak_labels": pl.Int64,
+                "n_sources": pl.Int64,
                 "top_intermediary": pl.String,
                 "top_address": pl.String,
                 "top_officer": pl.String,
@@ -217,6 +223,10 @@ def rank_clusters_by_investigative_value(
         officers_df=officers_df,
         intermediaries_df=intermediaries_df,
     )
+
+    # Late import — anomalies pulls dataclasses from this module under
+    # TYPE_CHECKING, so the runtime import lands here.
+    from shellnet.investigations.anomalies import detect_all
 
     rows: list[dict[str, Any]] = []
     for cid, uids in cluster_members.items():
@@ -234,9 +244,29 @@ def rank_clusters_by_investigative_value(
             sanctions_anchors=sanctions,
             centrality=cent,
         )
+        flags = detect_all(
+            members,
+            intermediaries=inters,
+            addresses=addrs,
+            officers=offs,
+            centrality=cent,
+            edges_df=edges_df,
+        )
+        n_high = sum(1 for fl in flags if fl.severity == "high")
+        top_anomaly_kind = flags[0].kind if flags else ""
+
         leaks: set[str] = set()
         for repeat in (*inters, *addrs, *offs):
             leaks.update(repeat.leak_labels)
+
+        # Edge-density signal: edges incident to any cluster member in the
+        # full edges_df. Computed cheaply once per cluster.
+        n_edges = 0
+        if edges_df is not None and edges_df.height:
+            n_edges = edges_df.filter(
+                pl.col("src_node").is_in(uids) | pl.col("dst_node").is_in(uids)
+            ).height
+
         rows.append(
             {
                 "cluster_id": int(cid),
@@ -254,6 +284,12 @@ def rank_clusters_by_investigative_value(
                 "dormant_but_connected": f.dormant_but_connected,
                 "shell_reuse": f.shell_reuse,
                 "investigative_score": f.total,
+                "n_anomalies": len(flags),
+                "n_high_severity_anomalies": n_high,
+                "top_anomaly_kind": top_anomaly_kind,
+                "n_edges_incident": n_edges,
+                "n_leak_labels": len(leaks),
+                "n_sources": len({m.source for m in members}),
                 "top_intermediary": ((inters[0].name or inters[0].node)[:60] if inters else ""),
                 "top_address": ((addrs[0].text or addrs[0].node)[:80] if addrs else ""),
                 "top_officer": ((offs[0].name or offs[0].node)[:60] if offs else ""),

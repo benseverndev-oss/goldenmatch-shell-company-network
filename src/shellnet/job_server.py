@@ -396,6 +396,8 @@ _ALLOWED_SCRIPTS = {
         "/data/reports/generated",
     ],
     "bundle_evidence": ["scripts/bundle_evidence.py"],
+    "rank_by_attention": ["scripts/rank_by_attention.py"],
+    "replay_graph": ["scripts/replay_graph.py"],
     "extract_subclusters": ["scripts/extract_subclusters.py"],
     "rank_by_investigative_value": ["scripts/rank_by_investigative_value.py"],
     "rank_by_investigative_value_with_join": [
