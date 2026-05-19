@@ -874,6 +874,38 @@ def trigger_run_validation_pack(
     return {"ok": True, "queued": stage, "out_dir": out_dir}
 
 
+@app.post("/run-ftm-export", dependencies=[Depends(_auth)])
+def trigger_run_ftm_export(
+    bg: BackgroundTasks,
+    community_id: int,
+    person: str,
+) -> dict[str, Any]:
+    """Export an existing validation pack to FollowTheMoney ndjson.
+
+    Output lands at ``/data/validation_packs/cluster_<id>/data/cluster_<id>_ftm.json``.
+    """
+
+    if community_id < 0 or community_id > 1_000_000:
+        raise HTTPException(400, "community_id out of range")
+    if not _PERSON_NAME_RE.match(person):
+        raise HTTPException(400, "person must match ^[A-Za-z][A-Za-z .'-]{1,80}$")
+
+    pack_dir = f"/data/validation_packs/cluster_{community_id}"
+    args = [
+        "scripts/export_validation_pack_ftm.py",
+        "--community-id",
+        str(community_id),
+        "--person",
+        person,
+        "--pack-dir",
+        pack_dir,
+    ]
+    stage = f"script_ftm_export_cluster_{community_id}"
+    _require_idle(stage)
+    bg.add_task(_do_script, stage, ["python", *args])
+    return {"ok": True, "queued": stage, "pack_dir": pack_dir}
+
+
 @app.post("/run-corroboration", dependencies=[Depends(_auth)])
 def trigger_run_corroboration(
     bg: BackgroundTasks,
