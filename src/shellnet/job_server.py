@@ -383,6 +383,18 @@ _ALLOWED_SCRIPTS = {
     "inspect_edges": ["scripts/_inspect_edges.py"],
     "provenance_503264": ["scripts/provenance_report.py", "503264"],
     "centrality": ["scripts/compute_centrality.py"],
+    "explain_cluster": ["scripts/explain_cluster.py"],
+    "explain_top_clusters": [
+        "scripts/explain_cluster.py",
+        "--top-from-rank",
+        "20",
+        "--rank-parquet",
+        "/data/reports/generated/cluster_ranking.parquet",
+        "--centrality-parquet",
+        "/data/processed/cluster_centrality.parquet",
+        "--out-dir",
+        "/data/reports/generated",
+    ],
     "list_match_os_sanctions_vs_icij": [
         "scripts/list_match_os_sanctions_vs_icij.py",
         "--out-dir",
