@@ -1,0 +1,33 @@
+target_type,target_name,query,purpose,priority
+person,nils peter grut,"""nils peter grut"" (PEP OR beneficial owner OR UBO)",PEP/UBO,high
+person,nils peter grut,"""nils peter grut"" (lawsuit OR claim OR litigation)",litigation,high
+person,nils peter grut,"""nils peter grut"" -site:linkedin.com -site:facebook.com",media,high
+person,nils peter grut,"""nils peter grut"" director OR officer",registry filings,high
+person,nils peter grut,"""nils peter grut"" (sanction OR OFAC OR OFSI)",sanctions,high
+company,H.R.MARITIME INTERNATIONAL LIMITED,"""H.R.MARITIME INTERNATIONAL LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,H.R.MARITIME INTERNATIONAL LIMITED,"""H.R.MARITIME INTERNATIONAL LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,H.R.MARITIME INTERNATIONAL LIMITED,"""H.R.MARITIME INTERNATIONAL LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,H.R.MARITIME INTERNATIONAL LIMITED,"""H.R.MARITIME INTERNATIONAL LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,H.R.MARITIME INTERNATIONAL LIMITED,"""H.R.MARITIME INTERNATIONAL LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,H.R.MARITIME INTERNATIONAL LIMITED,"""H.R.MARITIME INTERNATIONAL LIMITED"" (property OR real estate OR land registry)",property,medium
+company,H.R.MARITIME INTERNATIONAL LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt H.R.MARITIME INTERNATIONAL LIMITED,registry filing,medium
+company,H.R.MARITIME INTERNATIONAL LIMITED,"""H.R.MARITIME INTERNATIONAL LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,H.R.MARITIME INTERNATIONAL LIMITED,"""H.R.MARITIME INTERNATIONAL LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,PSP HOLDING LIMITED,"""PSP HOLDING LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,PSP HOLDING LIMITED,"""PSP HOLDING LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,PSP HOLDING LIMITED,"""PSP HOLDING LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,PSP HOLDING LIMITED,"""PSP HOLDING LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,PSP HOLDING LIMITED,"""PSP HOLDING LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,PSP HOLDING LIMITED,"""PSP HOLDING LIMITED"" (property OR real estate OR land registry)",property,medium
+company,PSP HOLDING LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt PSP HOLDING LIMITED,registry filing,medium
+company,PSP HOLDING LIMITED,"""PSP HOLDING LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,PSP HOLDING LIMITED,"""PSP HOLDING LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,icij:58058200,"""icij:58058200"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,icij:58058200,"""icij:58058200"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,icij:58058200,"""icij:58058200"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,icij:58058200,"""icij:58058200"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,icij:58058200,"""icij:58058200"" (tender OR contract OR procurement)",procurement,medium
+company,icij:58058200,"""icij:58058200"" (property OR real estate OR land registry)",property,medium
+company,icij:58058200,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt icij:58058200,registry filing,medium
+company,icij:58058200,"""icij:58058200"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,icij:58058200,"""icij:58058200"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium

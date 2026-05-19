@@ -1,0 +1,103 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.7333333333333333,
+    "community_id": 60,
+    "isolation": 1.0,
+    "n_seeds": 1,
+    "seed_density": 0.3333333333333333,
+    "size": 3,
+    "size_deviation": 1.0986122886681098
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 60,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 3
+  },
+  "community_id": 60,
+  "generated_at": "2026-05-19 17:14:24 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": "mt",
+      "name": "PSP HOLDING LIMITED",
+      "seed": false,
+      "uid": "icij:55057986"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "H.R.MARITIME INTERNATIONAL LIMITED",
+      "seed": true,
+      "uid": "icij:55055270"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58058200",
+      "seed": false,
+      "uid": "icij:58058200"
+    }
+  ],
+  "n_members": 3,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.667,
+    "anomaly_score": 0.7333333333333333,
+    "cluster_size": 3,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 1,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 2,
+    "officer_reuse_rate": 0.667,
+    "top_theme": "unknown",
+    "top_theme_share": 0.667,
+    "underreportedness": 1.0
+  },
+  "person": "nils peter grut",
+  "person_normalized": "nils peter grut",
+  "person_uids": [
+    "icij:56065757",
+    "icij:56068063"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.7333,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 60,
+    "connectedness": 0.2066,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "PSP HOLDING LIMITED",
+      "H.R.MARITIME INTERNATIONAL LIMITED",
+      "icij:58058200"
+    ],
+    "member_uids_sample": [
+      "icij:55057986",
+      "icij:55055270",
+      "icij:58058200"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.206238,
+    "size": 3,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "country field missing in ICIJ persons rows.",
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address."
+    ],
+    "supporting": [
+      "2 ICIJ uids share normalized name `nils peter grut` (icij:56065757, icij:56068063)."
+    ]
+  },
+  "threshold": 0.9,
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/nils-peter-grut.md \u2014 using parquet only."
+  ]
+}
