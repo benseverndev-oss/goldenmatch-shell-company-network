@@ -1,0 +1,13 @@
+company_name,normalized_company_name,theme,matched_keywords,confidence,needs_manual_review
+VERUM VICTUM HOLDINGS LIMITED,verum victum holdings,investment / holding / capital,holding,0.30,true
+BIELEFELD PROPERTIES LIMITED,bielefeld properties,property / real estate,propert,0.30,true
+BRAINTREE PROPERTIES LIMITED,braintree properties,property / real estate,propert,0.30,true
+IPROPERTY LIMITED,iproperty,property / real estate,propert,0.30,true
+CONFIANCE MALTA SERVICES LIMITED,confiance malta services,services / administration,services;service,0.30,true
+HARBOUR CORPORATE MALTA LIMITED,harbour corporate malta,services / administration,corporate,0.30,true
+ABBEYGLEN LIMITED,abbeyglen,unknown,,0.00,true
+IPM (MALTA) LIMITED,ipm malta,unknown,,0.00,true
+MARLBOROUGH T ADVISORY LIMITED,marlborough t advisory,unknown,,0.00,true
+MKI MALTA LIMITED,mki malta,unknown,,0.00,true
+RIGHT IMAGE LIMITED,right image,unknown,,0.00,true
+icij:58003720,icij 58003720,unknown,,0.00,true

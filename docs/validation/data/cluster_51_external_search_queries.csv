@@ -1,0 +1,114 @@
+target_type,target_name,query,purpose,priority
+person,david james mason,"""david james mason"" (PEP OR beneficial owner OR UBO)",PEP/UBO,high
+person,david james mason,"""david james mason"" (lawsuit OR claim OR litigation)",litigation,high
+person,david james mason,"""david james mason"" -site:linkedin.com -site:facebook.com",media,high
+person,david james mason,"""david james mason"" director OR officer",registry filings,high
+person,david james mason,"""david james mason"" (sanction OR OFAC OR OFSI)",sanctions,high
+company,ABBEYGLEN LIMITED,"""ABBEYGLEN LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,ABBEYGLEN LIMITED,"""ABBEYGLEN LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,ABBEYGLEN LIMITED,"""ABBEYGLEN LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,ABBEYGLEN LIMITED,"""ABBEYGLEN LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,ABBEYGLEN LIMITED,"""ABBEYGLEN LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,ABBEYGLEN LIMITED,"""ABBEYGLEN LIMITED"" (property OR real estate OR land registry)",property,medium
+company,ABBEYGLEN LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt ABBEYGLEN LIMITED,registry filing,medium
+company,ABBEYGLEN LIMITED,"""ABBEYGLEN LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,ABBEYGLEN LIMITED,"""ABBEYGLEN LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,BIELEFELD PROPERTIES LIMITED,"""BIELEFELD PROPERTIES LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,BIELEFELD PROPERTIES LIMITED,"""BIELEFELD PROPERTIES LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,BIELEFELD PROPERTIES LIMITED,"""BIELEFELD PROPERTIES LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,BIELEFELD PROPERTIES LIMITED,"""BIELEFELD PROPERTIES LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,BIELEFELD PROPERTIES LIMITED,"""BIELEFELD PROPERTIES LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,BIELEFELD PROPERTIES LIMITED,"""BIELEFELD PROPERTIES LIMITED"" (property OR real estate OR land registry)",property,medium
+company,BIELEFELD PROPERTIES LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt BIELEFELD PROPERTIES LIMITED,registry filing,medium
+company,BIELEFELD PROPERTIES LIMITED,"""BIELEFELD PROPERTIES LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,BIELEFELD PROPERTIES LIMITED,"""BIELEFELD PROPERTIES LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,BRAINTREE PROPERTIES LIMITED,"""BRAINTREE PROPERTIES LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,BRAINTREE PROPERTIES LIMITED,"""BRAINTREE PROPERTIES LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,BRAINTREE PROPERTIES LIMITED,"""BRAINTREE PROPERTIES LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,BRAINTREE PROPERTIES LIMITED,"""BRAINTREE PROPERTIES LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,BRAINTREE PROPERTIES LIMITED,"""BRAINTREE PROPERTIES LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,BRAINTREE PROPERTIES LIMITED,"""BRAINTREE PROPERTIES LIMITED"" (property OR real estate OR land registry)",property,medium
+company,BRAINTREE PROPERTIES LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt BRAINTREE PROPERTIES LIMITED,registry filing,medium
+company,BRAINTREE PROPERTIES LIMITED,"""BRAINTREE PROPERTIES LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,BRAINTREE PROPERTIES LIMITED,"""BRAINTREE PROPERTIES LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,CONFIANCE MALTA SERVICES LIMITED,"""CONFIANCE MALTA SERVICES LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,CONFIANCE MALTA SERVICES LIMITED,"""CONFIANCE MALTA SERVICES LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,CONFIANCE MALTA SERVICES LIMITED,"""CONFIANCE MALTA SERVICES LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,CONFIANCE MALTA SERVICES LIMITED,"""CONFIANCE MALTA SERVICES LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,CONFIANCE MALTA SERVICES LIMITED,"""CONFIANCE MALTA SERVICES LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,CONFIANCE MALTA SERVICES LIMITED,"""CONFIANCE MALTA SERVICES LIMITED"" (property OR real estate OR land registry)",property,medium
+company,CONFIANCE MALTA SERVICES LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt CONFIANCE MALTA SERVICES LIMITED,registry filing,medium
+company,CONFIANCE MALTA SERVICES LIMITED,"""CONFIANCE MALTA SERVICES LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,CONFIANCE MALTA SERVICES LIMITED,"""CONFIANCE MALTA SERVICES LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,HARBOUR CORPORATE MALTA LIMITED,"""HARBOUR CORPORATE MALTA LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,HARBOUR CORPORATE MALTA LIMITED,"""HARBOUR CORPORATE MALTA LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,HARBOUR CORPORATE MALTA LIMITED,"""HARBOUR CORPORATE MALTA LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,HARBOUR CORPORATE MALTA LIMITED,"""HARBOUR CORPORATE MALTA LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,HARBOUR CORPORATE MALTA LIMITED,"""HARBOUR CORPORATE MALTA LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,HARBOUR CORPORATE MALTA LIMITED,"""HARBOUR CORPORATE MALTA LIMITED"" (property OR real estate OR land registry)",property,medium
+company,HARBOUR CORPORATE MALTA LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt HARBOUR CORPORATE MALTA LIMITED,registry filing,medium
+company,HARBOUR CORPORATE MALTA LIMITED,"""HARBOUR CORPORATE MALTA LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,HARBOUR CORPORATE MALTA LIMITED,"""HARBOUR CORPORATE MALTA LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,IPM (MALTA) LIMITED,"""IPM (MALTA) LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,IPM (MALTA) LIMITED,"""IPM (MALTA) LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,IPM (MALTA) LIMITED,"""IPM (MALTA) LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,IPM (MALTA) LIMITED,"""IPM (MALTA) LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,IPM (MALTA) LIMITED,"""IPM (MALTA) LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,IPM (MALTA) LIMITED,"""IPM (MALTA) LIMITED"" (property OR real estate OR land registry)",property,medium
+company,IPM (MALTA) LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt IPM (MALTA) LIMITED,registry filing,medium
+company,IPM (MALTA) LIMITED,"""IPM (MALTA) LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,IPM (MALTA) LIMITED,"""IPM (MALTA) LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,IPROPERTY LIMITED,"""IPROPERTY LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,IPROPERTY LIMITED,"""IPROPERTY LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,IPROPERTY LIMITED,"""IPROPERTY LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,IPROPERTY LIMITED,"""IPROPERTY LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,IPROPERTY LIMITED,"""IPROPERTY LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,IPROPERTY LIMITED,"""IPROPERTY LIMITED"" (property OR real estate OR land registry)",property,medium
+company,IPROPERTY LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt IPROPERTY LIMITED,registry filing,medium
+company,IPROPERTY LIMITED,"""IPROPERTY LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,IPROPERTY LIMITED,"""IPROPERTY LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,MARLBOROUGH T ADVISORY LIMITED,"""MARLBOROUGH T ADVISORY LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,MARLBOROUGH T ADVISORY LIMITED,"""MARLBOROUGH T ADVISORY LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,MARLBOROUGH T ADVISORY LIMITED,"""MARLBOROUGH T ADVISORY LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,MARLBOROUGH T ADVISORY LIMITED,"""MARLBOROUGH T ADVISORY LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,MARLBOROUGH T ADVISORY LIMITED,"""MARLBOROUGH T ADVISORY LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,MARLBOROUGH T ADVISORY LIMITED,"""MARLBOROUGH T ADVISORY LIMITED"" (property OR real estate OR land registry)",property,medium
+company,MARLBOROUGH T ADVISORY LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt MARLBOROUGH T ADVISORY LIMITED,registry filing,medium
+company,MARLBOROUGH T ADVISORY LIMITED,"""MARLBOROUGH T ADVISORY LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,MARLBOROUGH T ADVISORY LIMITED,"""MARLBOROUGH T ADVISORY LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,MKI MALTA LIMITED,"""MKI MALTA LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,MKI MALTA LIMITED,"""MKI MALTA LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,MKI MALTA LIMITED,"""MKI MALTA LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,MKI MALTA LIMITED,"""MKI MALTA LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,MKI MALTA LIMITED,"""MKI MALTA LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,MKI MALTA LIMITED,"""MKI MALTA LIMITED"" (property OR real estate OR land registry)",property,medium
+company,MKI MALTA LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt MKI MALTA LIMITED,registry filing,medium
+company,MKI MALTA LIMITED,"""MKI MALTA LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,MKI MALTA LIMITED,"""MKI MALTA LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,RIGHT IMAGE LIMITED,"""RIGHT IMAGE LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,RIGHT IMAGE LIMITED,"""RIGHT IMAGE LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,RIGHT IMAGE LIMITED,"""RIGHT IMAGE LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,RIGHT IMAGE LIMITED,"""RIGHT IMAGE LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,RIGHT IMAGE LIMITED,"""RIGHT IMAGE LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,RIGHT IMAGE LIMITED,"""RIGHT IMAGE LIMITED"" (property OR real estate OR land registry)",property,medium
+company,RIGHT IMAGE LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt RIGHT IMAGE LIMITED,registry filing,medium
+company,RIGHT IMAGE LIMITED,"""RIGHT IMAGE LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,RIGHT IMAGE LIMITED,"""RIGHT IMAGE LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,VERUM VICTUM HOLDINGS LIMITED,"""VERUM VICTUM HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,VERUM VICTUM HOLDINGS LIMITED,"""VERUM VICTUM HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,VERUM VICTUM HOLDINGS LIMITED,"""VERUM VICTUM HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,VERUM VICTUM HOLDINGS LIMITED,"""VERUM VICTUM HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,VERUM VICTUM HOLDINGS LIMITED,"""VERUM VICTUM HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,VERUM VICTUM HOLDINGS LIMITED,"""VERUM VICTUM HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,VERUM VICTUM HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt VERUM VICTUM HOLDINGS LIMITED,registry filing,medium
+company,VERUM VICTUM HOLDINGS LIMITED,"""VERUM VICTUM HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,VERUM VICTUM HOLDINGS LIMITED,"""VERUM VICTUM HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,icij:58003720,"""icij:58003720"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,icij:58003720,"""icij:58003720"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,icij:58003720,"""icij:58003720"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,icij:58003720,"""icij:58003720"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,icij:58003720,"""icij:58003720"" (tender OR contract OR procurement)",procurement,medium
+company,icij:58003720,"""icij:58003720"" (property OR real estate OR land registry)",property,medium
+company,icij:58003720,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt icij:58003720,registry filing,medium
+company,icij:58003720,"""icij:58003720"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,icij:58003720,"""icij:58003720"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium

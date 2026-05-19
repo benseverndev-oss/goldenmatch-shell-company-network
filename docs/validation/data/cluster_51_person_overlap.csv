@@ -1,0 +1,13 @@
+company_name,normalized_company_name,in_community,in_person_dossier,match_type,confidence,source_record_ids,notes
+ABBEYGLEN LIMITED,abbeyglen,true,false,community_only,1.00,icij:55061260,in cluster but not in person dossier
+BIELEFELD PROPERTIES LIMITED,bielefeld properties,true,false,community_only,1.00,icij:55058948,in cluster but not in person dossier
+BRAINTREE PROPERTIES LIMITED,braintree properties,true,false,community_only,1.00,icij:55062091,in cluster but not in person dossier
+CONFIANCE MALTA SERVICES LIMITED,confiance malta services,true,false,community_only,1.00,icij:55056785,in cluster but not in person dossier
+HARBOUR CORPORATE MALTA LIMITED,harbour corporate malta,true,false,community_only,1.00,icij:55058628,in cluster but not in person dossier
+icij:58003720,icij 58003720,true,false,community_only,1.00,icij:58003720,in cluster but not in person dossier
+IPM (MALTA) LIMITED,ipm malta,true,false,community_only,1.00,icij:55061905,in cluster but not in person dossier
+IPROPERTY LIMITED,iproperty,true,false,community_only,1.00,icij:55060679,in cluster but not in person dossier
+MARLBOROUGH T ADVISORY LIMITED,marlborough t advisory,true,false,community_only,1.00,icij:55051037,in cluster but not in person dossier
+MKI MALTA LIMITED,mki malta,true,false,community_only,1.00,icij:55060343,in cluster but not in person dossier
+RIGHT IMAGE LIMITED,right image,true,false,community_only,1.00,icij:55060150,in cluster but not in person dossier
+VERUM VICTUM HOLDINGS LIMITED,verum victum holdings,true,false,community_only,1.00,icij:55056831,in cluster but not in person dossier

@@ -1,0 +1,169 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.7,
+    "community_id": 51,
+    "isolation": 1.0,
+    "n_seeds": 3,
+    "seed_density": 0.25,
+    "size": 12,
+    "size_deviation": 2.4849066497880004
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 51,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 12
+  },
+  "community_id": 51,
+  "generated_at": "2026-05-19 16:48:46 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": "mt",
+      "name": "BRAINTREE PROPERTIES LIMITED",
+      "seed": true,
+      "uid": "icij:55062091"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ABBEYGLEN LIMITED",
+      "seed": true,
+      "uid": "icij:55061260"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "RIGHT IMAGE LIMITED",
+      "seed": false,
+      "uid": "icij:55060150"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "HARBOUR CORPORATE MALTA LIMITED",
+      "seed": false,
+      "uid": "icij:55058628"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "IPROPERTY LIMITED",
+      "seed": false,
+      "uid": "icij:55060679"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "IPM (MALTA) LIMITED",
+      "seed": false,
+      "uid": "icij:55061905"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CONFIANCE MALTA SERVICES LIMITED",
+      "seed": false,
+      "uid": "icij:55056785"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MARLBOROUGH T ADVISORY LIMITED",
+      "seed": false,
+      "uid": "icij:55051037"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MKI MALTA LIMITED",
+      "seed": false,
+      "uid": "icij:55060343"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "BIELEFELD PROPERTIES LIMITED",
+      "seed": true,
+      "uid": "icij:55058948"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "VERUM VICTUM HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55056831"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58003720",
+      "seed": false,
+      "uid": "icij:58003720"
+    }
+  ],
+  "n_members": 12,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.917,
+    "anomaly_score": 0.7,
+    "cluster_size": 12,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 1,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 6,
+    "officer_reuse_rate": 0.917,
+    "top_theme": "unknown",
+    "top_theme_share": 0.5,
+    "underreportedness": 1.0
+  },
+  "person": "david james mason",
+  "person_normalized": "david james mason",
+  "person_uids": [
+    "icij:56026496"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.7,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 51,
+    "connectedness": 0.4673,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "BRAINTREE PROPERTIES LIMITED",
+      "ABBEYGLEN LIMITED",
+      "RIGHT IMAGE LIMITED",
+      "HARBOUR CORPORATE MALTA LIMITED",
+      "IPROPERTY LIMITED",
+      "IPM (MALTA) LIMITED",
+      "CONFIANCE MALTA SERVICES LIMITED",
+      "MARLBOROUGH T ADVISORY LIMITED",
+      "MKI MALTA LIMITED",
+      "BIELEFELD PROPERTIES LIMITED"
+    ],
+    "member_uids_sample": [
+      "icij:55062091",
+      "icij:55061260",
+      "icij:55060150",
+      "icij:55058628",
+      "icij:55060679",
+      "icij:55061905",
+      "icij:55056785",
+      "icij:55051037",
+      "icij:55060343",
+      "icij:55058948"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.345343,
+    "size": 12,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "only one or zero ICIJ uids \u2014 cannot test same-person consistency.",
+      "country field missing in ICIJ persons rows.",
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address."
+    ],
+    "supporting": []
+  },
+  "threshold": 0.9,
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/david-james-mason.md \u2014 using parquet only."
+  ]
+}
