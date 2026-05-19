@@ -874,6 +874,49 @@ def trigger_run_validation_pack(
     return {"ok": True, "queued": stage, "out_dir": out_dir}
 
 
+@app.post("/run-corroboration", dependencies=[Depends(_auth)])
+def trigger_run_corroboration(
+    bg: BackgroundTasks,
+    community_id: int,
+    person: str,
+    run_external_search: bool = True,
+    max_queries: int = 60,
+) -> dict[str, Any]:
+    """Second-stage corroboration for an existing validation pack.
+
+    Reads the pack at ``/data/validation_packs/cluster_<id>/`` and writes
+    research brief + timeline + narratives + ledgers back into the same
+    directory. External search via Tavily requires ``TAVILY_API_KEY``
+    in the Railway env.
+    """
+
+    if community_id < 0 or community_id > 1_000_000:
+        raise HTTPException(400, "community_id out of range")
+    if not _PERSON_NAME_RE.match(person):
+        raise HTTPException(400, "person must match ^[A-Za-z][A-Za-z .'-]{1,80}$")
+    if max_queries < 0 or max_queries > 500:
+        raise HTTPException(400, "max_queries must be in [0, 500]")
+
+    pack_dir = f"/data/validation_packs/cluster_{community_id}"
+    args = [
+        "scripts/corroborate_validation_pack.py",
+        "--community-id",
+        str(community_id),
+        "--person",
+        person,
+        "--pack-dir",
+        pack_dir,
+        "--max-queries",
+        str(max_queries),
+    ]
+    if run_external_search:
+        args.append("--run-external-search")
+    stage = f"script_corroborate_cluster_{community_id}"
+    _require_idle(stage)
+    bg.add_task(_do_script, stage, ["python", *args])
+    return {"ok": True, "queued": stage, "pack_dir": pack_dir}
+
+
 def _do_unzip_file(stage: str, path: Path) -> None:
     started = _now()
     _mark(stage, status="running", started_at=started, path=str(path))
