@@ -1,229 +1,4 @@
 target_type,target_name,query,purpose,priority
-company,AWEIGH YACHTING LTD,"""AWEIGH YACHTING LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,AWEIGH YACHTING LTD,"""AWEIGH YACHTING LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,AWEIGH YACHTING LTD,"""AWEIGH YACHTING LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,AWEIGH YACHTING LTD,"""AWEIGH YACHTING LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,AWEIGH YACHTING LTD,"""AWEIGH YACHTING LTD"" (tender OR contract OR procurement)",procurement,high
-company,AWEIGH YACHTING LTD,"""AWEIGH YACHTING LTD"" (property OR real estate OR land registry)",property,high
-company,AWEIGH YACHTING LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt AWEIGH YACHTING LTD,registry filing,high
-company,AWEIGH YACHTING LTD,"""AWEIGH YACHTING LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,AWEIGH YACHTING LTD,"""AWEIGH YACHTING LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,B.M.D GLOBAL PROJECTS LTD,"""B.M.D GLOBAL PROJECTS LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,B.M.D GLOBAL PROJECTS LTD,"""B.M.D GLOBAL PROJECTS LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,B.M.D GLOBAL PROJECTS LTD,"""B.M.D GLOBAL PROJECTS LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,B.M.D GLOBAL PROJECTS LTD,"""B.M.D GLOBAL PROJECTS LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,B.M.D GLOBAL PROJECTS LTD,"""B.M.D GLOBAL PROJECTS LTD"" (tender OR contract OR procurement)",procurement,high
-company,B.M.D GLOBAL PROJECTS LTD,"""B.M.D GLOBAL PROJECTS LTD"" (property OR real estate OR land registry)",property,high
-company,B.M.D GLOBAL PROJECTS LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt B.M.D GLOBAL PROJECTS LTD,registry filing,high
-company,B.M.D GLOBAL PROJECTS LTD,"""B.M.D GLOBAL PROJECTS LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,B.M.D GLOBAL PROJECTS LTD,"""B.M.D GLOBAL PROJECTS LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,BALFOURI HOLDINGS LIMITED,"""BALFOURI HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,BALFOURI HOLDINGS LIMITED,"""BALFOURI HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,BALFOURI HOLDINGS LIMITED,"""BALFOURI HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,BALFOURI HOLDINGS LIMITED,"""BALFOURI HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,BALFOURI HOLDINGS LIMITED,"""BALFOURI HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,high
-company,BALFOURI HOLDINGS LIMITED,"""BALFOURI HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,high
-company,BALFOURI HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt BALFOURI HOLDINGS LIMITED,registry filing,high
-company,BALFOURI HOLDINGS LIMITED,"""BALFOURI HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,BALFOURI HOLDINGS LIMITED,"""BALFOURI HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,Bavarica Holdings Limited,"""Bavarica Holdings Limited"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,Bavarica Holdings Limited,"""Bavarica Holdings Limited"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,Bavarica Holdings Limited,"""Bavarica Holdings Limited"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,Bavarica Holdings Limited,"""Bavarica Holdings Limited"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,Bavarica Holdings Limited,"""Bavarica Holdings Limited"" (tender OR contract OR procurement)",procurement,high
-company,Bavarica Holdings Limited,"""Bavarica Holdings Limited"" (property OR real estate OR land registry)",property,high
-company,Bavarica Holdings Limited,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt Bavarica Holdings Limited,registry filing,high
-company,Bavarica Holdings Limited,"""Bavarica Holdings Limited"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,Bavarica Holdings Limited,"""Bavarica Holdings Limited"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,CENTRAL SERVICES LTD,"""CENTRAL SERVICES LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,CENTRAL SERVICES LTD,"""CENTRAL SERVICES LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,CENTRAL SERVICES LTD,"""CENTRAL SERVICES LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,CENTRAL SERVICES LTD,"""CENTRAL SERVICES LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,CENTRAL SERVICES LTD,"""CENTRAL SERVICES LTD"" (tender OR contract OR procurement)",procurement,high
-company,CENTRAL SERVICES LTD,"""CENTRAL SERVICES LTD"" (property OR real estate OR land registry)",property,high
-company,CENTRAL SERVICES LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt CENTRAL SERVICES LTD,registry filing,high
-company,CENTRAL SERVICES LTD,"""CENTRAL SERVICES LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,CENTRAL SERVICES LTD,"""CENTRAL SERVICES LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,CHOICE FOR YOU LTD,"""CHOICE FOR YOU LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,CHOICE FOR YOU LTD,"""CHOICE FOR YOU LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,CHOICE FOR YOU LTD,"""CHOICE FOR YOU LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,CHOICE FOR YOU LTD,"""CHOICE FOR YOU LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,CHOICE FOR YOU LTD,"""CHOICE FOR YOU LTD"" (tender OR contract OR procurement)",procurement,high
-company,CHOICE FOR YOU LTD,"""CHOICE FOR YOU LTD"" (property OR real estate OR land registry)",property,high
-company,CHOICE FOR YOU LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt CHOICE FOR YOU LTD,registry filing,high
-company,CHOICE FOR YOU LTD,"""CHOICE FOR YOU LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,CHOICE FOR YOU LTD,"""CHOICE FOR YOU LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,CUDDY LTD,"""CUDDY LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,CUDDY LTD,"""CUDDY LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,CUDDY LTD,"""CUDDY LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,CUDDY LTD,"""CUDDY LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,CUDDY LTD,"""CUDDY LTD"" (tender OR contract OR procurement)",procurement,high
-company,CUDDY LTD,"""CUDDY LTD"" (property OR real estate OR land registry)",property,high
-company,CUDDY LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt CUDDY LTD,registry filing,high
-company,CUDDY LTD,"""CUDDY LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,CUDDY LTD,"""CUDDY LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,DABNEY HOLDINGS LIMITED,"""DABNEY HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,DABNEY HOLDINGS LIMITED,"""DABNEY HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,DABNEY HOLDINGS LIMITED,"""DABNEY HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,DABNEY HOLDINGS LIMITED,"""DABNEY HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,DABNEY HOLDINGS LIMITED,"""DABNEY HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,high
-company,DABNEY HOLDINGS LIMITED,"""DABNEY HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,high
-company,DABNEY HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt DABNEY HOLDINGS LIMITED,registry filing,high
-company,DABNEY HOLDINGS LIMITED,"""DABNEY HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,DABNEY HOLDINGS LIMITED,"""DABNEY HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,DAIKON INVESTMENTS LIMITED,"""DAIKON INVESTMENTS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,DAIKON INVESTMENTS LIMITED,"""DAIKON INVESTMENTS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,DAIKON INVESTMENTS LIMITED,"""DAIKON INVESTMENTS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,DAIKON INVESTMENTS LIMITED,"""DAIKON INVESTMENTS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,DAIKON INVESTMENTS LIMITED,"""DAIKON INVESTMENTS LIMITED"" (tender OR contract OR procurement)",procurement,high
-company,DAIKON INVESTMENTS LIMITED,"""DAIKON INVESTMENTS LIMITED"" (property OR real estate OR land registry)",property,high
-company,DAIKON INVESTMENTS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt DAIKON INVESTMENTS LIMITED,registry filing,high
-company,DAIKON INVESTMENTS LIMITED,"""DAIKON INVESTMENTS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,DAIKON INVESTMENTS LIMITED,"""DAIKON INVESTMENTS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,FCL MALTA LTD,"""FCL MALTA LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,FCL MALTA LTD,"""FCL MALTA LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,FCL MALTA LTD,"""FCL MALTA LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,FCL MALTA LTD,"""FCL MALTA LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,FCL MALTA LTD,"""FCL MALTA LTD"" (tender OR contract OR procurement)",procurement,high
-company,FCL MALTA LTD,"""FCL MALTA LTD"" (property OR real estate OR land registry)",property,high
-company,FCL MALTA LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt FCL MALTA LTD,registry filing,high
-company,FCL MALTA LTD,"""FCL MALTA LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,FCL MALTA LTD,"""FCL MALTA LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,Hordoth Holdings Limited,"""Hordoth Holdings Limited"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,Hordoth Holdings Limited,"""Hordoth Holdings Limited"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,Hordoth Holdings Limited,"""Hordoth Holdings Limited"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,Hordoth Holdings Limited,"""Hordoth Holdings Limited"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,Hordoth Holdings Limited,"""Hordoth Holdings Limited"" (tender OR contract OR procurement)",procurement,high
-company,Hordoth Holdings Limited,"""Hordoth Holdings Limited"" (property OR real estate OR land registry)",property,high
-company,Hordoth Holdings Limited,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt Hordoth Holdings Limited,registry filing,high
-company,Hordoth Holdings Limited,"""Hordoth Holdings Limited"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,Hordoth Holdings Limited,"""Hordoth Holdings Limited"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,IKARUS YACHTING LTD,"""IKARUS YACHTING LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,IKARUS YACHTING LTD,"""IKARUS YACHTING LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,IKARUS YACHTING LTD,"""IKARUS YACHTING LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,IKARUS YACHTING LTD,"""IKARUS YACHTING LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,IKARUS YACHTING LTD,"""IKARUS YACHTING LTD"" (tender OR contract OR procurement)",procurement,high
-company,IKARUS YACHTING LTD,"""IKARUS YACHTING LTD"" (property OR real estate OR land registry)",property,high
-company,IKARUS YACHTING LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt IKARUS YACHTING LTD,registry filing,high
-company,IKARUS YACHTING LTD,"""IKARUS YACHTING LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,IKARUS YACHTING LTD,"""IKARUS YACHTING LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,JAVVOS HOLDINGS LIMITED,"""JAVVOS HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,JAVVOS HOLDINGS LIMITED,"""JAVVOS HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,JAVVOS HOLDINGS LIMITED,"""JAVVOS HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,JAVVOS HOLDINGS LIMITED,"""JAVVOS HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,JAVVOS HOLDINGS LIMITED,"""JAVVOS HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,high
-company,JAVVOS HOLDINGS LIMITED,"""JAVVOS HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,high
-company,JAVVOS HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt JAVVOS HOLDINGS LIMITED,registry filing,high
-company,JAVVOS HOLDINGS LIMITED,"""JAVVOS HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,JAVVOS HOLDINGS LIMITED,"""JAVVOS HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,JAZMANIA HOLDINGS LIMITED,"""JAZMANIA HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,JAZMANIA HOLDINGS LIMITED,"""JAZMANIA HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,JAZMANIA HOLDINGS LIMITED,"""JAZMANIA HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,JAZMANIA HOLDINGS LIMITED,"""JAZMANIA HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,JAZMANIA HOLDINGS LIMITED,"""JAZMANIA HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,high
-company,JAZMANIA HOLDINGS LIMITED,"""JAZMANIA HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,high
-company,JAZMANIA HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt JAZMANIA HOLDINGS LIMITED,registry filing,high
-company,JAZMANIA HOLDINGS LIMITED,"""JAZMANIA HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,JAZMANIA HOLDINGS LIMITED,"""JAZMANIA HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,JEDIEL HOLDINGS LIMITED,"""JEDIEL HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,JEDIEL HOLDINGS LIMITED,"""JEDIEL HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,JEDIEL HOLDINGS LIMITED,"""JEDIEL HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,JEDIEL HOLDINGS LIMITED,"""JEDIEL HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,JEDIEL HOLDINGS LIMITED,"""JEDIEL HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,high
-company,JEDIEL HOLDINGS LIMITED,"""JEDIEL HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,high
-company,JEDIEL HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt JEDIEL HOLDINGS LIMITED,registry filing,high
-company,JEDIEL HOLDINGS LIMITED,"""JEDIEL HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,JEDIEL HOLDINGS LIMITED,"""JEDIEL HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,JOBIZ HOLDINGS LIMITED,"""JOBIZ HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,JOBIZ HOLDINGS LIMITED,"""JOBIZ HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,JOBIZ HOLDINGS LIMITED,"""JOBIZ HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,JOBIZ HOLDINGS LIMITED,"""JOBIZ HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,JOBIZ HOLDINGS LIMITED,"""JOBIZ HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,high
-company,JOBIZ HOLDINGS LIMITED,"""JOBIZ HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,high
-company,JOBIZ HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt JOBIZ HOLDINGS LIMITED,registry filing,high
-company,JOBIZ HOLDINGS LIMITED,"""JOBIZ HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,JOBIZ HOLDINGS LIMITED,"""JOBIZ HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,MAYFAIR CAPITAL LTD,"""MAYFAIR CAPITAL LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,MAYFAIR CAPITAL LTD,"""MAYFAIR CAPITAL LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,MAYFAIR CAPITAL LTD,"""MAYFAIR CAPITAL LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,MAYFAIR CAPITAL LTD,"""MAYFAIR CAPITAL LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,MAYFAIR CAPITAL LTD,"""MAYFAIR CAPITAL LTD"" (tender OR contract OR procurement)",procurement,high
-company,MAYFAIR CAPITAL LTD,"""MAYFAIR CAPITAL LTD"" (property OR real estate OR land registry)",property,high
-company,MAYFAIR CAPITAL LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt MAYFAIR CAPITAL LTD,registry filing,high
-company,MAYFAIR CAPITAL LTD,"""MAYFAIR CAPITAL LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,MAYFAIR CAPITAL LTD,"""MAYFAIR CAPITAL LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,MIRAGE CHARTERS LTD,"""MIRAGE CHARTERS LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,MIRAGE CHARTERS LTD,"""MIRAGE CHARTERS LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,MIRAGE CHARTERS LTD,"""MIRAGE CHARTERS LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,MIRAGE CHARTERS LTD,"""MIRAGE CHARTERS LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,MIRAGE CHARTERS LTD,"""MIRAGE CHARTERS LTD"" (tender OR contract OR procurement)",procurement,high
-company,MIRAGE CHARTERS LTD,"""MIRAGE CHARTERS LTD"" (property OR real estate OR land registry)",property,high
-company,MIRAGE CHARTERS LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt MIRAGE CHARTERS LTD,registry filing,high
-company,MIRAGE CHARTERS LTD,"""MIRAGE CHARTERS LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,MIRAGE CHARTERS LTD,"""MIRAGE CHARTERS LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,NAPELLUS INVESTMENTS LIMITED,"""NAPELLUS INVESTMENTS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,NAPELLUS INVESTMENTS LIMITED,"""NAPELLUS INVESTMENTS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,NAPELLUS INVESTMENTS LIMITED,"""NAPELLUS INVESTMENTS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,NAPELLUS INVESTMENTS LIMITED,"""NAPELLUS INVESTMENTS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,NAPELLUS INVESTMENTS LIMITED,"""NAPELLUS INVESTMENTS LIMITED"" (tender OR contract OR procurement)",procurement,high
-company,NAPELLUS INVESTMENTS LIMITED,"""NAPELLUS INVESTMENTS LIMITED"" (property OR real estate OR land registry)",property,high
-company,NAPELLUS INVESTMENTS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt NAPELLUS INVESTMENTS LIMITED,registry filing,high
-company,NAPELLUS INVESTMENTS LIMITED,"""NAPELLUS INVESTMENTS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,NAPELLUS INVESTMENTS LIMITED,"""NAPELLUS INVESTMENTS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,PAKINYA HOLDINGS LIMITED,"""PAKINYA HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,PAKINYA HOLDINGS LIMITED,"""PAKINYA HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,PAKINYA HOLDINGS LIMITED,"""PAKINYA HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,PAKINYA HOLDINGS LIMITED,"""PAKINYA HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,PAKINYA HOLDINGS LIMITED,"""PAKINYA HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,high
-company,PAKINYA HOLDINGS LIMITED,"""PAKINYA HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,high
-company,PAKINYA HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt PAKINYA HOLDINGS LIMITED,registry filing,high
-company,PAKINYA HOLDINGS LIMITED,"""PAKINYA HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,PAKINYA HOLDINGS LIMITED,"""PAKINYA HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,PICK ME LTD,"""PICK ME LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,PICK ME LTD,"""PICK ME LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,PICK ME LTD,"""PICK ME LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,PICK ME LTD,"""PICK ME LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,PICK ME LTD,"""PICK ME LTD"" (tender OR contract OR procurement)",procurement,high
-company,PICK ME LTD,"""PICK ME LTD"" (property OR real estate OR land registry)",property,high
-company,PICK ME LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt PICK ME LTD,registry filing,high
-company,PICK ME LTD,"""PICK ME LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,PICK ME LTD,"""PICK ME LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,Prism Lights Ltd.,"""Prism Lights Ltd."" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,Prism Lights Ltd.,"""Prism Lights Ltd."" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,Prism Lights Ltd.,"""Prism Lights Ltd."" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,Prism Lights Ltd.,"""Prism Lights Ltd."" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,Prism Lights Ltd.,"""Prism Lights Ltd."" (tender OR contract OR procurement)",procurement,high
-company,Prism Lights Ltd.,"""Prism Lights Ltd."" (property OR real estate OR land registry)",property,high
-company,Prism Lights Ltd.,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt Prism Lights Ltd.,registry filing,high
-company,Prism Lights Ltd.,"""Prism Lights Ltd."" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,Prism Lights Ltd.,"""Prism Lights Ltd."" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,RAN 4 LIMITED,"""RAN 4 LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,RAN 4 LIMITED,"""RAN 4 LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,RAN 4 LIMITED,"""RAN 4 LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,RAN 4 LIMITED,"""RAN 4 LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,RAN 4 LIMITED,"""RAN 4 LIMITED"" (tender OR contract OR procurement)",procurement,high
-company,RAN 4 LIMITED,"""RAN 4 LIMITED"" (property OR real estate OR land registry)",property,high
-company,RAN 4 LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt RAN 4 LIMITED,registry filing,high
-company,RAN 4 LIMITED,"""RAN 4 LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,RAN 4 LIMITED,"""RAN 4 LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,SENTORUM LIMITED,"""SENTORUM LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,SENTORUM LIMITED,"""SENTORUM LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,SENTORUM LIMITED,"""SENTORUM LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,SENTORUM LIMITED,"""SENTORUM LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,SENTORUM LIMITED,"""SENTORUM LIMITED"" (tender OR contract OR procurement)",procurement,high
-company,SENTORUM LIMITED,"""SENTORUM LIMITED"" (property OR real estate OR land registry)",property,high
-company,SENTORUM LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt SENTORUM LIMITED,registry filing,high
-company,SENTORUM LIMITED,"""SENTORUM LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,SENTORUM LIMITED,"""SENTORUM LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
-company,TASI HOLDINGS LIMITED,"""TASI HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,high
-company,TASI HOLDINGS LIMITED,"""TASI HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,high
-company,TASI HOLDINGS LIMITED,"""TASI HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,high
-company,TASI HOLDINGS LIMITED,"""TASI HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,high
-company,TASI HOLDINGS LIMITED,"""TASI HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,high
-company,TASI HOLDINGS LIMITED,"""TASI HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,high
-company,TASI HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt TASI HOLDINGS LIMITED,registry filing,high
-company,TASI HOLDINGS LIMITED,"""TASI HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,high
-company,TASI HOLDINGS LIMITED,"""TASI HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,high
 person,peter kevin perry,"""peter kevin perry"" (PEP OR beneficial owner OR UBO)",PEP/UBO,high
 person,peter kevin perry,"""peter kevin perry"" (lawsuit OR claim OR litigation)",litigation,high
 person,peter kevin perry,"""peter kevin perry"" -site:linkedin.com -site:facebook.com",media,high
@@ -256,6 +31,33 @@ company,ARGOSY EUROPE LIMITED,"""ARGOSY EUROPE LIMITED"" (property OR real estat
 company,ARGOSY EUROPE LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt ARGOSY EUROPE LIMITED,registry filing,medium
 company,ARGOSY EUROPE LIMITED,"""ARGOSY EUROPE LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
 company,ARGOSY EUROPE LIMITED,"""ARGOSY EUROPE LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,AWEIGH YACHTING LTD,"""AWEIGH YACHTING LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,AWEIGH YACHTING LTD,"""AWEIGH YACHTING LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,AWEIGH YACHTING LTD,"""AWEIGH YACHTING LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,AWEIGH YACHTING LTD,"""AWEIGH YACHTING LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,AWEIGH YACHTING LTD,"""AWEIGH YACHTING LTD"" (tender OR contract OR procurement)",procurement,medium
+company,AWEIGH YACHTING LTD,"""AWEIGH YACHTING LTD"" (property OR real estate OR land registry)",property,medium
+company,AWEIGH YACHTING LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt AWEIGH YACHTING LTD,registry filing,medium
+company,AWEIGH YACHTING LTD,"""AWEIGH YACHTING LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,AWEIGH YACHTING LTD,"""AWEIGH YACHTING LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,B.M.D GLOBAL PROJECTS LTD,"""B.M.D GLOBAL PROJECTS LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,B.M.D GLOBAL PROJECTS LTD,"""B.M.D GLOBAL PROJECTS LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,B.M.D GLOBAL PROJECTS LTD,"""B.M.D GLOBAL PROJECTS LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,B.M.D GLOBAL PROJECTS LTD,"""B.M.D GLOBAL PROJECTS LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,B.M.D GLOBAL PROJECTS LTD,"""B.M.D GLOBAL PROJECTS LTD"" (tender OR contract OR procurement)",procurement,medium
+company,B.M.D GLOBAL PROJECTS LTD,"""B.M.D GLOBAL PROJECTS LTD"" (property OR real estate OR land registry)",property,medium
+company,B.M.D GLOBAL PROJECTS LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt B.M.D GLOBAL PROJECTS LTD,registry filing,medium
+company,B.M.D GLOBAL PROJECTS LTD,"""B.M.D GLOBAL PROJECTS LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,B.M.D GLOBAL PROJECTS LTD,"""B.M.D GLOBAL PROJECTS LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,BALFOURI HOLDINGS LIMITED,"""BALFOURI HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,BALFOURI HOLDINGS LIMITED,"""BALFOURI HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,BALFOURI HOLDINGS LIMITED,"""BALFOURI HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,BALFOURI HOLDINGS LIMITED,"""BALFOURI HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,BALFOURI HOLDINGS LIMITED,"""BALFOURI HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,BALFOURI HOLDINGS LIMITED,"""BALFOURI HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,BALFOURI HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt BALFOURI HOLDINGS LIMITED,registry filing,medium
+company,BALFOURI HOLDINGS LIMITED,"""BALFOURI HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,BALFOURI HOLDINGS LIMITED,"""BALFOURI HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
 company,BELLEVILLE LTD,"""BELLEVILLE LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
 company,BELLEVILLE LTD,"""BELLEVILLE LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
 company,BELLEVILLE LTD,"""BELLEVILLE LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
@@ -265,6 +67,15 @@ company,BELLEVILLE LTD,"""BELLEVILLE LTD"" (property OR real estate OR land regi
 company,BELLEVILLE LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt BELLEVILLE LTD,registry filing,medium
 company,BELLEVILLE LTD,"""BELLEVILLE LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
 company,BELLEVILLE LTD,"""BELLEVILLE LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,Bavarica Holdings Limited,"""Bavarica Holdings Limited"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,Bavarica Holdings Limited,"""Bavarica Holdings Limited"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,Bavarica Holdings Limited,"""Bavarica Holdings Limited"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,Bavarica Holdings Limited,"""Bavarica Holdings Limited"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,Bavarica Holdings Limited,"""Bavarica Holdings Limited"" (tender OR contract OR procurement)",procurement,medium
+company,Bavarica Holdings Limited,"""Bavarica Holdings Limited"" (property OR real estate OR land registry)",property,medium
+company,Bavarica Holdings Limited,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt Bavarica Holdings Limited,registry filing,medium
+company,Bavarica Holdings Limited,"""Bavarica Holdings Limited"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,Bavarica Holdings Limited,"""Bavarica Holdings Limited"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
 company,CAPE MAY LTD,"""CAPE MAY LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
 company,CAPE MAY LTD,"""CAPE MAY LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
 company,CAPE MAY LTD,"""CAPE MAY LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
@@ -283,6 +94,24 @@ company,CCTH HOLDINGS LTD,"""CCTH HOLDINGS LTD"" (property OR real estate OR lan
 company,CCTH HOLDINGS LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt CCTH HOLDINGS LTD,registry filing,medium
 company,CCTH HOLDINGS LTD,"""CCTH HOLDINGS LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
 company,CCTH HOLDINGS LTD,"""CCTH HOLDINGS LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,CENTRAL SERVICES LTD,"""CENTRAL SERVICES LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,CENTRAL SERVICES LTD,"""CENTRAL SERVICES LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,CENTRAL SERVICES LTD,"""CENTRAL SERVICES LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,CENTRAL SERVICES LTD,"""CENTRAL SERVICES LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,CENTRAL SERVICES LTD,"""CENTRAL SERVICES LTD"" (tender OR contract OR procurement)",procurement,medium
+company,CENTRAL SERVICES LTD,"""CENTRAL SERVICES LTD"" (property OR real estate OR land registry)",property,medium
+company,CENTRAL SERVICES LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt CENTRAL SERVICES LTD,registry filing,medium
+company,CENTRAL SERVICES LTD,"""CENTRAL SERVICES LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,CENTRAL SERVICES LTD,"""CENTRAL SERVICES LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,CHOICE FOR YOU LTD,"""CHOICE FOR YOU LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,CHOICE FOR YOU LTD,"""CHOICE FOR YOU LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,CHOICE FOR YOU LTD,"""CHOICE FOR YOU LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,CHOICE FOR YOU LTD,"""CHOICE FOR YOU LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,CHOICE FOR YOU LTD,"""CHOICE FOR YOU LTD"" (tender OR contract OR procurement)",procurement,medium
+company,CHOICE FOR YOU LTD,"""CHOICE FOR YOU LTD"" (property OR real estate OR land registry)",property,medium
+company,CHOICE FOR YOU LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt CHOICE FOR YOU LTD,registry filing,medium
+company,CHOICE FOR YOU LTD,"""CHOICE FOR YOU LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,CHOICE FOR YOU LTD,"""CHOICE FOR YOU LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
 company,CRIUS LTD,"""CRIUS LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
 company,CRIUS LTD,"""CRIUS LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
 company,CRIUS LTD,"""CRIUS LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
@@ -292,6 +121,15 @@ company,CRIUS LTD,"""CRIUS LTD"" (property OR real estate OR land registry)",pro
 company,CRIUS LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt CRIUS LTD,registry filing,medium
 company,CRIUS LTD,"""CRIUS LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
 company,CRIUS LTD,"""CRIUS LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,CUDDY LTD,"""CUDDY LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,CUDDY LTD,"""CUDDY LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,CUDDY LTD,"""CUDDY LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,CUDDY LTD,"""CUDDY LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,CUDDY LTD,"""CUDDY LTD"" (tender OR contract OR procurement)",procurement,medium
+company,CUDDY LTD,"""CUDDY LTD"" (property OR real estate OR land registry)",property,medium
+company,CUDDY LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt CUDDY LTD,registry filing,medium
+company,CUDDY LTD,"""CUDDY LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,CUDDY LTD,"""CUDDY LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
 company,Crowd Shout Holdings Ltd.,"""Crowd Shout Holdings Ltd."" (director OR officer OR shareholder OR UBO)",directors/officers,medium
 company,Crowd Shout Holdings Ltd.,"""Crowd Shout Holdings Ltd."" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
 company,Crowd Shout Holdings Ltd.,"""Crowd Shout Holdings Ltd."" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
@@ -310,6 +148,24 @@ company,D AND R HOLDINGS LIMITED,"""D AND R HOLDINGS LIMITED"" (property OR real
 company,D AND R HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt D AND R HOLDINGS LIMITED,registry filing,medium
 company,D AND R HOLDINGS LIMITED,"""D AND R HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
 company,D AND R HOLDINGS LIMITED,"""D AND R HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,DABNEY HOLDINGS LIMITED,"""DABNEY HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,DABNEY HOLDINGS LIMITED,"""DABNEY HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,DABNEY HOLDINGS LIMITED,"""DABNEY HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,DABNEY HOLDINGS LIMITED,"""DABNEY HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,DABNEY HOLDINGS LIMITED,"""DABNEY HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,DABNEY HOLDINGS LIMITED,"""DABNEY HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,DABNEY HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt DABNEY HOLDINGS LIMITED,registry filing,medium
+company,DABNEY HOLDINGS LIMITED,"""DABNEY HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,DABNEY HOLDINGS LIMITED,"""DABNEY HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,DAIKON INVESTMENTS LIMITED,"""DAIKON INVESTMENTS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,DAIKON INVESTMENTS LIMITED,"""DAIKON INVESTMENTS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,DAIKON INVESTMENTS LIMITED,"""DAIKON INVESTMENTS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,DAIKON INVESTMENTS LIMITED,"""DAIKON INVESTMENTS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,DAIKON INVESTMENTS LIMITED,"""DAIKON INVESTMENTS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,DAIKON INVESTMENTS LIMITED,"""DAIKON INVESTMENTS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,DAIKON INVESTMENTS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt DAIKON INVESTMENTS LIMITED,registry filing,medium
+company,DAIKON INVESTMENTS LIMITED,"""DAIKON INVESTMENTS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,DAIKON INVESTMENTS LIMITED,"""DAIKON INVESTMENTS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
 company,DIONE HOLDINGS LTD,"""DIONE HOLDINGS LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
 company,DIONE HOLDINGS LTD,"""DIONE HOLDINGS LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
 company,DIONE HOLDINGS LTD,"""DIONE HOLDINGS LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
@@ -373,6 +229,15 @@ company,EMBLA LTD,"""EMBLA LTD"" (property OR real estate OR land registry)",pro
 company,EMBLA LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt EMBLA LTD,registry filing,medium
 company,EMBLA LTD,"""EMBLA LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
 company,EMBLA LTD,"""EMBLA LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,FCL MALTA LTD,"""FCL MALTA LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,FCL MALTA LTD,"""FCL MALTA LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,FCL MALTA LTD,"""FCL MALTA LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,FCL MALTA LTD,"""FCL MALTA LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,FCL MALTA LTD,"""FCL MALTA LTD"" (tender OR contract OR procurement)",procurement,medium
+company,FCL MALTA LTD,"""FCL MALTA LTD"" (property OR real estate OR land registry)",property,medium
+company,FCL MALTA LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt FCL MALTA LTD,registry filing,medium
+company,FCL MALTA LTD,"""FCL MALTA LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,FCL MALTA LTD,"""FCL MALTA LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
 company,GALE HOLDINGS LTD,"""GALE HOLDINGS LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
 company,GALE HOLDINGS LTD,"""GALE HOLDINGS LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
 company,GALE HOLDINGS LTD,"""GALE HOLDINGS LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
@@ -409,6 +274,24 @@ company,HERNE HOLDINGS LTD,"""HERNE HOLDINGS LTD"" (property OR real estate OR l
 company,HERNE HOLDINGS LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt HERNE HOLDINGS LTD,registry filing,medium
 company,HERNE HOLDINGS LTD,"""HERNE HOLDINGS LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
 company,HERNE HOLDINGS LTD,"""HERNE HOLDINGS LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,Hordoth Holdings Limited,"""Hordoth Holdings Limited"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,Hordoth Holdings Limited,"""Hordoth Holdings Limited"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,Hordoth Holdings Limited,"""Hordoth Holdings Limited"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,Hordoth Holdings Limited,"""Hordoth Holdings Limited"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,Hordoth Holdings Limited,"""Hordoth Holdings Limited"" (tender OR contract OR procurement)",procurement,medium
+company,Hordoth Holdings Limited,"""Hordoth Holdings Limited"" (property OR real estate OR land registry)",property,medium
+company,Hordoth Holdings Limited,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt Hordoth Holdings Limited,registry filing,medium
+company,Hordoth Holdings Limited,"""Hordoth Holdings Limited"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,Hordoth Holdings Limited,"""Hordoth Holdings Limited"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,IKARUS YACHTING LTD,"""IKARUS YACHTING LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,IKARUS YACHTING LTD,"""IKARUS YACHTING LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,IKARUS YACHTING LTD,"""IKARUS YACHTING LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,IKARUS YACHTING LTD,"""IKARUS YACHTING LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,IKARUS YACHTING LTD,"""IKARUS YACHTING LTD"" (tender OR contract OR procurement)",procurement,medium
+company,IKARUS YACHTING LTD,"""IKARUS YACHTING LTD"" (property OR real estate OR land registry)",property,medium
+company,IKARUS YACHTING LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt IKARUS YACHTING LTD,registry filing,medium
+company,IKARUS YACHTING LTD,"""IKARUS YACHTING LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,IKARUS YACHTING LTD,"""IKARUS YACHTING LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
 company,INSTAPARK HOLDINGS LTD,"""INSTAPARK HOLDINGS LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
 company,INSTAPARK HOLDINGS LTD,"""INSTAPARK HOLDINGS LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
 company,INSTAPARK HOLDINGS LTD,"""INSTAPARK HOLDINGS LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
@@ -436,6 +319,42 @@ company,INTEGRATED-CAPABILITIES LTD,"""INTEGRATED-CAPABILITIES LTD"" (property O
 company,INTEGRATED-CAPABILITIES LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt INTEGRATED-CAPABILITIES LTD,registry filing,medium
 company,INTEGRATED-CAPABILITIES LTD,"""INTEGRATED-CAPABILITIES LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
 company,INTEGRATED-CAPABILITIES LTD,"""INTEGRATED-CAPABILITIES LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,JAVVOS HOLDINGS LIMITED,"""JAVVOS HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,JAVVOS HOLDINGS LIMITED,"""JAVVOS HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,JAVVOS HOLDINGS LIMITED,"""JAVVOS HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,JAVVOS HOLDINGS LIMITED,"""JAVVOS HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,JAVVOS HOLDINGS LIMITED,"""JAVVOS HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,JAVVOS HOLDINGS LIMITED,"""JAVVOS HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,JAVVOS HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt JAVVOS HOLDINGS LIMITED,registry filing,medium
+company,JAVVOS HOLDINGS LIMITED,"""JAVVOS HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,JAVVOS HOLDINGS LIMITED,"""JAVVOS HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,JAZMANIA HOLDINGS LIMITED,"""JAZMANIA HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,JAZMANIA HOLDINGS LIMITED,"""JAZMANIA HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,JAZMANIA HOLDINGS LIMITED,"""JAZMANIA HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,JAZMANIA HOLDINGS LIMITED,"""JAZMANIA HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,JAZMANIA HOLDINGS LIMITED,"""JAZMANIA HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,JAZMANIA HOLDINGS LIMITED,"""JAZMANIA HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,JAZMANIA HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt JAZMANIA HOLDINGS LIMITED,registry filing,medium
+company,JAZMANIA HOLDINGS LIMITED,"""JAZMANIA HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,JAZMANIA HOLDINGS LIMITED,"""JAZMANIA HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,JEDIEL HOLDINGS LIMITED,"""JEDIEL HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,JEDIEL HOLDINGS LIMITED,"""JEDIEL HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,JEDIEL HOLDINGS LIMITED,"""JEDIEL HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,JEDIEL HOLDINGS LIMITED,"""JEDIEL HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,JEDIEL HOLDINGS LIMITED,"""JEDIEL HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,JEDIEL HOLDINGS LIMITED,"""JEDIEL HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,JEDIEL HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt JEDIEL HOLDINGS LIMITED,registry filing,medium
+company,JEDIEL HOLDINGS LIMITED,"""JEDIEL HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,JEDIEL HOLDINGS LIMITED,"""JEDIEL HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,JOBIZ HOLDINGS LIMITED,"""JOBIZ HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,JOBIZ HOLDINGS LIMITED,"""JOBIZ HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,JOBIZ HOLDINGS LIMITED,"""JOBIZ HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,JOBIZ HOLDINGS LIMITED,"""JOBIZ HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,JOBIZ HOLDINGS LIMITED,"""JOBIZ HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,JOBIZ HOLDINGS LIMITED,"""JOBIZ HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,JOBIZ HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt JOBIZ HOLDINGS LIMITED,registry filing,medium
+company,JOBIZ HOLDINGS LIMITED,"""JOBIZ HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,JOBIZ HOLDINGS LIMITED,"""JOBIZ HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
 company,JOHANSSON MEDIA LTD.,"""JOHANSSON MEDIA LTD."" (director OR officer OR shareholder OR UBO)",directors/officers,medium
 company,JOHANSSON MEDIA LTD.,"""JOHANSSON MEDIA LTD."" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
 company,JOHANSSON MEDIA LTD.,"""JOHANSSON MEDIA LTD."" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
@@ -481,6 +400,15 @@ company,MARLIN YACHTING LTD,"""MARLIN YACHTING LTD"" (property OR real estate OR
 company,MARLIN YACHTING LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt MARLIN YACHTING LTD,registry filing,medium
 company,MARLIN YACHTING LTD,"""MARLIN YACHTING LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
 company,MARLIN YACHTING LTD,"""MARLIN YACHTING LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,MAYFAIR CAPITAL LTD,"""MAYFAIR CAPITAL LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,MAYFAIR CAPITAL LTD,"""MAYFAIR CAPITAL LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,MAYFAIR CAPITAL LTD,"""MAYFAIR CAPITAL LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,MAYFAIR CAPITAL LTD,"""MAYFAIR CAPITAL LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,MAYFAIR CAPITAL LTD,"""MAYFAIR CAPITAL LTD"" (tender OR contract OR procurement)",procurement,medium
+company,MAYFAIR CAPITAL LTD,"""MAYFAIR CAPITAL LTD"" (property OR real estate OR land registry)",property,medium
+company,MAYFAIR CAPITAL LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt MAYFAIR CAPITAL LTD,registry filing,medium
+company,MAYFAIR CAPITAL LTD,"""MAYFAIR CAPITAL LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,MAYFAIR CAPITAL LTD,"""MAYFAIR CAPITAL LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
 company,MILA INVESTMENT HOLDINGS LTD,"""MILA INVESTMENT HOLDINGS LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
 company,MILA INVESTMENT HOLDINGS LTD,"""MILA INVESTMENT HOLDINGS LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
 company,MILA INVESTMENT HOLDINGS LTD,"""MILA INVESTMENT HOLDINGS LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
@@ -490,6 +418,24 @@ company,MILA INVESTMENT HOLDINGS LTD,"""MILA INVESTMENT HOLDINGS LTD"" (property
 company,MILA INVESTMENT HOLDINGS LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt MILA INVESTMENT HOLDINGS LTD,registry filing,medium
 company,MILA INVESTMENT HOLDINGS LTD,"""MILA INVESTMENT HOLDINGS LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
 company,MILA INVESTMENT HOLDINGS LTD,"""MILA INVESTMENT HOLDINGS LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,MIRAGE CHARTERS LTD,"""MIRAGE CHARTERS LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,MIRAGE CHARTERS LTD,"""MIRAGE CHARTERS LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,MIRAGE CHARTERS LTD,"""MIRAGE CHARTERS LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,MIRAGE CHARTERS LTD,"""MIRAGE CHARTERS LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,MIRAGE CHARTERS LTD,"""MIRAGE CHARTERS LTD"" (tender OR contract OR procurement)",procurement,medium
+company,MIRAGE CHARTERS LTD,"""MIRAGE CHARTERS LTD"" (property OR real estate OR land registry)",property,medium
+company,MIRAGE CHARTERS LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt MIRAGE CHARTERS LTD,registry filing,medium
+company,MIRAGE CHARTERS LTD,"""MIRAGE CHARTERS LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,MIRAGE CHARTERS LTD,"""MIRAGE CHARTERS LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,NAPELLUS INVESTMENTS LIMITED,"""NAPELLUS INVESTMENTS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,NAPELLUS INVESTMENTS LIMITED,"""NAPELLUS INVESTMENTS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,NAPELLUS INVESTMENTS LIMITED,"""NAPELLUS INVESTMENTS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,NAPELLUS INVESTMENTS LIMITED,"""NAPELLUS INVESTMENTS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,NAPELLUS INVESTMENTS LIMITED,"""NAPELLUS INVESTMENTS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,NAPELLUS INVESTMENTS LIMITED,"""NAPELLUS INVESTMENTS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,NAPELLUS INVESTMENTS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt NAPELLUS INVESTMENTS LIMITED,registry filing,medium
+company,NAPELLUS INVESTMENTS LIMITED,"""NAPELLUS INVESTMENTS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,NAPELLUS INVESTMENTS LIMITED,"""NAPELLUS INVESTMENTS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
 company,NETLEADS HOLDINGS LTD,"""NETLEADS HOLDINGS LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
 company,NETLEADS HOLDINGS LTD,"""NETLEADS HOLDINGS LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
 company,NETLEADS HOLDINGS LTD,"""NETLEADS HOLDINGS LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
@@ -508,6 +454,15 @@ company,NG HOLDINGS LTD,"""NG HOLDINGS LTD"" (property OR real estate OR land re
 company,NG HOLDINGS LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt NG HOLDINGS LTD,registry filing,medium
 company,NG HOLDINGS LTD,"""NG HOLDINGS LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
 company,NG HOLDINGS LTD,"""NG HOLDINGS LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,PAKINYA HOLDINGS LIMITED,"""PAKINYA HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,PAKINYA HOLDINGS LIMITED,"""PAKINYA HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,PAKINYA HOLDINGS LIMITED,"""PAKINYA HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,PAKINYA HOLDINGS LIMITED,"""PAKINYA HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,PAKINYA HOLDINGS LIMITED,"""PAKINYA HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,PAKINYA HOLDINGS LIMITED,"""PAKINYA HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,PAKINYA HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt PAKINYA HOLDINGS LIMITED,registry filing,medium
+company,PAKINYA HOLDINGS LIMITED,"""PAKINYA HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,PAKINYA HOLDINGS LIMITED,"""PAKINYA HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
 company,PALPATINE INDUSTRIES LTD,"""PALPATINE INDUSTRIES LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
 company,PALPATINE INDUSTRIES LTD,"""PALPATINE INDUSTRIES LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
 company,PALPATINE INDUSTRIES LTD,"""PALPATINE INDUSTRIES LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
@@ -526,6 +481,15 @@ company,PETHERTON MARINE LTD,"""PETHERTON MARINE LTD"" (property OR real estate 
 company,PETHERTON MARINE LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt PETHERTON MARINE LTD,registry filing,medium
 company,PETHERTON MARINE LTD,"""PETHERTON MARINE LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
 company,PETHERTON MARINE LTD,"""PETHERTON MARINE LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,PICK ME LTD,"""PICK ME LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,PICK ME LTD,"""PICK ME LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,PICK ME LTD,"""PICK ME LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,PICK ME LTD,"""PICK ME LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,PICK ME LTD,"""PICK ME LTD"" (tender OR contract OR procurement)",procurement,medium
+company,PICK ME LTD,"""PICK ME LTD"" (property OR real estate OR land registry)",property,medium
+company,PICK ME LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt PICK ME LTD,registry filing,medium
+company,PICK ME LTD,"""PICK ME LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,PICK ME LTD,"""PICK ME LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
 company,PRIMARY GLOBAL NET LTD,"""PRIMARY GLOBAL NET LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
 company,PRIMARY GLOBAL NET LTD,"""PRIMARY GLOBAL NET LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
 company,PRIMARY GLOBAL NET LTD,"""PRIMARY GLOBAL NET LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
@@ -544,6 +508,24 @@ company,PROBUTEC (MALTA) LTD,"""PROBUTEC (MALTA) LTD"" (property OR real estate 
 company,PROBUTEC (MALTA) LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt PROBUTEC (MALTA) LTD,registry filing,medium
 company,PROBUTEC (MALTA) LTD,"""PROBUTEC (MALTA) LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
 company,PROBUTEC (MALTA) LTD,"""PROBUTEC (MALTA) LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,Prism Lights Ltd.,"""Prism Lights Ltd."" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,Prism Lights Ltd.,"""Prism Lights Ltd."" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,Prism Lights Ltd.,"""Prism Lights Ltd."" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,Prism Lights Ltd.,"""Prism Lights Ltd."" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,Prism Lights Ltd.,"""Prism Lights Ltd."" (tender OR contract OR procurement)",procurement,medium
+company,Prism Lights Ltd.,"""Prism Lights Ltd."" (property OR real estate OR land registry)",property,medium
+company,Prism Lights Ltd.,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt Prism Lights Ltd.,registry filing,medium
+company,Prism Lights Ltd.,"""Prism Lights Ltd."" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,Prism Lights Ltd.,"""Prism Lights Ltd."" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,RAN 4 LIMITED,"""RAN 4 LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,RAN 4 LIMITED,"""RAN 4 LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,RAN 4 LIMITED,"""RAN 4 LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,RAN 4 LIMITED,"""RAN 4 LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,RAN 4 LIMITED,"""RAN 4 LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,RAN 4 LIMITED,"""RAN 4 LIMITED"" (property OR real estate OR land registry)",property,medium
+company,RAN 4 LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt RAN 4 LIMITED,registry filing,medium
+company,RAN 4 LIMITED,"""RAN 4 LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,RAN 4 LIMITED,"""RAN 4 LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
 company,RESOURCE TECHNOLOGY LTD,"""RESOURCE TECHNOLOGY LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
 company,RESOURCE TECHNOLOGY LTD,"""RESOURCE TECHNOLOGY LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
 company,RESOURCE TECHNOLOGY LTD,"""RESOURCE TECHNOLOGY LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
@@ -562,6 +544,15 @@ company,SEABREEZE YACHTING LTD,"""SEABREEZE YACHTING LTD"" (property OR real est
 company,SEABREEZE YACHTING LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt SEABREEZE YACHTING LTD,registry filing,medium
 company,SEABREEZE YACHTING LTD,"""SEABREEZE YACHTING LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
 company,SEABREEZE YACHTING LTD,"""SEABREEZE YACHTING LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,SENTORUM LIMITED,"""SENTORUM LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,SENTORUM LIMITED,"""SENTORUM LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,SENTORUM LIMITED,"""SENTORUM LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,SENTORUM LIMITED,"""SENTORUM LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,SENTORUM LIMITED,"""SENTORUM LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,SENTORUM LIMITED,"""SENTORUM LIMITED"" (property OR real estate OR land registry)",property,medium
+company,SENTORUM LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt SENTORUM LIMITED,registry filing,medium
+company,SENTORUM LIMITED,"""SENTORUM LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,SENTORUM LIMITED,"""SENTORUM LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
 company,SIDECAR HOLDINGS LTD,"""SIDECAR HOLDINGS LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
 company,SIDECAR HOLDINGS LTD,"""SIDECAR HOLDINGS LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
 company,SIDECAR HOLDINGS LTD,"""SIDECAR HOLDINGS LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
@@ -589,6 +580,15 @@ company,SONNYS MIE LTD.,"""SONNYS MIE LTD."" (property OR real estate OR land re
 company,SONNYS MIE LTD.,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt SONNYS MIE LTD.,registry filing,medium
 company,SONNYS MIE LTD.,"""SONNYS MIE LTD."" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
 company,SONNYS MIE LTD.,"""SONNYS MIE LTD."" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,TASI HOLDINGS LIMITED,"""TASI HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,TASI HOLDINGS LIMITED,"""TASI HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,TASI HOLDINGS LIMITED,"""TASI HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,TASI HOLDINGS LIMITED,"""TASI HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,TASI HOLDINGS LIMITED,"""TASI HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,TASI HOLDINGS LIMITED,"""TASI HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,TASI HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt TASI HOLDINGS LIMITED,registry filing,medium
+company,TASI HOLDINGS LIMITED,"""TASI HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,TASI HOLDINGS LIMITED,"""TASI HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
 company,VERA YACHTING LTD,"""VERA YACHTING LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
 company,VERA YACHTING LTD,"""VERA YACHTING LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
 company,VERA YACHTING LTD,"""VERA YACHTING LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium

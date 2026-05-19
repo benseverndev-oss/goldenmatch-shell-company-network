@@ -6,9 +6,12 @@ Machine-generated. **Human review required.** Not an accusation or finding of wr
 ## Investigation target
 - Community ID: **47**
 - Human anchor: **peter kevin perry**
-- Generated at: 2026-05-19 14:58:36 UTC
+- Generated at: 2026-05-19 16:43:36 UTC
 - Script: `scripts/build_validation_pack.py`
 - Threshold: 0.9
+
+### Data gaps / warnings
+- ⚠️ dossier file not found at /app/docs/reports/dossiers/peter-kevin-perry.md — using parquet only.
 
 ## Machine-generated triage summary
 | Metric | Value |
@@ -61,53 +64,29 @@ See `docs/reports/validation_queue.md` for the full ranking context.
 _Total cluster size: 67_
 
 ## peter kevin perry dossier summary
-```
-# peter kevin perry
-
-**Sources:** 2 (uk_psc, icij)  •  **Linked companies:** 28  •  **Jurisdictions:** mt  •  **Novelty score:** 0.93  •  📌 **auto-pinned (no web mentions + multi-shell)**  •  ⚠️ degree-capped (partial picture)
-
-## Linked entities by source
-```
-- Dossier linked companies (parsed): **26**
-- ICIJ uids resolved to this name: **2**: icij:56056803, icij:56056705
+_(no dossier file)_
 
 ## Company overlap table
 | Company | Normalized | In cluster? | In dossier? | Match type | Conf |
 | --- | --- | --- | --- | --- | --- |
-| AWEIGH YACHTING LTD | aweigh yachting | true | true | exact_normalized | 0.90 |
-| BALFOURI HOLDINGS LIMITED | balfouri holdings | true | true | exact_normalized | 0.90 |
-| Bavarica Holdings Limited | bavarica holdings | true | true | exact_normalized | 0.90 |
-| B.M.D GLOBAL PROJECTS LTD | bmd global projects | true | true | exact_normalized | 0.90 |
-| CENTRAL SERVICES LTD | central services | true | true | exact_normalized | 0.90 |
-| CHOICE FOR YOU LTD | choice for you | true | true | exact_normalized | 0.90 |
-| CUDDY LTD | cuddy | true | true | exact_normalized | 0.90 |
-| DABNEY HOLDINGS LIMITED | dabney holdings | true | true | exact_normalized | 0.90 |
-| DAIKON INVESTMENTS LIMITED | daikon investments | true | true | exact_normalized | 0.90 |
-| FCL MALTA LTD | fcl malta | true | true | exact_normalized | 0.90 |
-| Hordoth Holdings Limited | hordoth holdings | true | true | exact_normalized | 0.90 |
-| IKARUS YACHTING LTD | ikarus yachting | true | true | exact_normalized | 0.90 |
-| JAVVOS HOLDINGS LIMITED | javvos holdings | true | true | exact_normalized | 0.90 |
-| JAZMANIA HOLDINGS LIMITED | jazmania holdings | true | true | exact_normalized | 0.90 |
-| JEDIEL HOLDINGS LIMITED | jediel holdings | true | true | exact_normalized | 0.90 |
-| JOBIZ HOLDINGS LIMITED | jobiz holdings | true | true | exact_normalized | 0.90 |
-| MAYFAIR CAPITAL LTD | mayfair capital | true | true | exact_normalized | 0.90 |
-| MIRAGE CHARTERS LTD | mirage charters | true | true | exact_normalized | 0.90 |
-| NAPELLUS INVESTMENTS LIMITED | napellus investments | true | true | exact_normalized | 0.90 |
-| PAKINYA HOLDINGS LIMITED | pakinya holdings | true | true | exact_normalized | 0.90 |
-| PICK ME LTD | pick me | true | true | exact_normalized | 0.90 |
-| Prism Lights Ltd. | prism lights | true | true | exact_normalized | 0.90 |
-| RAN 4 LIMITED | ran 4 | true | true | exact_normalized | 0.90 |
-| SENTORUM LIMITED | sentorum | true | true | exact_normalized | 0.90 |
-| TASI HOLDINGS LIMITED | tasi holdings | true | true | exact_normalized | 0.90 |
 | AIR SEVEN YACHTING LTD | air seven yachting | true | false | community_only | 1.00 |
 | AMARYLIS HOLDINGS LTD | amarylis holdings | true | false | community_only | 1.00 |
 | ARGOSY EUROPE LIMITED | argosy europe | true | false | community_only | 1.00 |
+| AWEIGH YACHTING LTD | aweigh yachting | true | false | community_only | 1.00 |
+| BALFOURI HOLDINGS LIMITED | balfouri holdings | true | false | community_only | 1.00 |
+| Bavarica Holdings Limited | bavarica holdings | true | false | community_only | 1.00 |
 | BELLEVILLE LTD | belleville | true | false | community_only | 1.00 |
+| B.M.D GLOBAL PROJECTS LTD | bmd global projects | true | false | community_only | 1.00 |
 | CAPE MAY LTD | cape may | true | false | community_only | 1.00 |
 | CCTH HOLDINGS LTD | ccth holdings | true | false | community_only | 1.00 |
+| CENTRAL SERVICES LTD | central services | true | false | community_only | 1.00 |
+| CHOICE FOR YOU LTD | choice for you | true | false | community_only | 1.00 |
 | CRIUS LTD | crius | true | false | community_only | 1.00 |
 | Crowd Shout Holdings Ltd. | crowd shout holdings | true | false | community_only | 1.00 |
+| CUDDY LTD | cuddy | true | false | community_only | 1.00 |
 | D AND R HOLDINGS LIMITED | d and r holdings | true | false | community_only | 1.00 |
+| DABNEY HOLDINGS LIMITED | dabney holdings | true | false | community_only | 1.00 |
+| DAIKON INVESTMENTS LIMITED | daikon investments | true | false | community_only | 1.00 |
 | Deleni Trading Ltd. | deleni trading | true | false | community_only | 1.00 |
 | Desert Fox Ltd. | desert fox | true | false | community_only | 1.00 |
 | DIONE HOLDINGS LTD | dione holdings | true | false | community_only | 1.00 |
@@ -115,17 +94,33 @@ _Total cluster size: 67_
 | DUCK HOLDINGS LTD | duck holdings | true | false | community_only | 1.00 |
 | DVUS HOLDINGS LTD | dvus holdings | true | false | community_only | 1.00 |
 | EMBLA LTD | embla | true | false | community_only | 1.00 |
+| FCL MALTA LTD | fcl malta | true | false | community_only | 1.00 |
 | GALE HOLDINGS LTD | gale holdings | true | false | community_only | 1.00 |
 | GLADIUS LTD (MALTA BRANCH) | gladius ltd malta branch | true | false | community_only | 1.00 |
 | HELLENE LTD | hellene | true | false | community_only | 1.00 |
 | HERNE HOLDINGS LTD | herne holdings | true | false | community_only | 1.00 |
+| Hordoth Holdings Limited | hordoth holdings | true | false | community_only | 1.00 |
 | icij:58034946 | icij 58034946 | true | false | community_only | 1.00 |
+| IKARUS YACHTING LTD | ikarus yachting | true | false | community_only | 1.00 |
 | INSTAPARK HOLDINGS LTD | instapark holdings | true | false | community_only | 1.00 |
 | INTEGRATED-CAPABILITIES LTD | integrated capabilities | true | false | community_only | 1.00 |
 | INTEGRATED-CAPABILITIES (MALTA) LTD | integrated capabilities malta | true | false | community_only | 1.00 |
+| JAVVOS HOLDINGS LIMITED | javvos holdings | true | false | community_only | 1.00 |
+| JAZMANIA HOLDINGS LIMITED | jazmania holdings | true | false | community_only | 1.00 |
+| JEDIEL HOLDINGS LIMITED | jediel holdings | true | false | community_only | 1.00 |
+| JOBIZ HOLDINGS LIMITED | jobiz holdings | true | false | community_only | 1.00 |
 | JOHANSSON MEDIA LTD. | johansson media | true | false | community_only | 1.00 |
+| KALINA LTD (MALTA BRANCH) | kalina ltd malta branch | true | false | community_only | 1.00 |
+| LARSTON LTD | larston | true | false | community_only | 1.00 |
+| LPD HOLDINGS LTD | lpd holdings | true | false | community_only | 1.00 |
+| MARLIN YACHTING LTD | marlin yachting | true | false | community_only | 1.00 |
+| MAYFAIR CAPITAL LTD | mayfair capital | true | false | community_only | 1.00 |
+| MILA INVESTMENT HOLDINGS LTD | mila investment holdings | true | false | community_only | 1.00 |
+| MIRAGE CHARTERS LTD | mirage charters | true | false | community_only | 1.00 |
+| NAPELLUS INVESTMENTS LIMITED | napellus investments | true | false | community_only | 1.00 |
+| NETLEADS HOLDINGS LTD | netleads holdings | true | false | community_only | 1.00 |
 
-_Exact normalized-name overlap: **25** companies. Full CSV: `data/cluster_47_person_overlap.csv`._
+_Exact normalized-name overlap: **0** companies. Full CSV: `data/cluster_47_person_overlap.csv`._
 
 ## Person-company role evidence
 | Company | Relationship | Role | Leak |
@@ -223,7 +218,6 @@ No external search has been run automatically (no safe abstraction wired). The r
 - country field missing in ICIJ persons rows.
 - date-of-birth not available in icij_persons; cannot compare DOB.
 - no canonical home-address field for persons; cannot compare residential address.
-- dossier reports 0 web mentions — no third-party corroboration online.
 
 ## Ordinary vs unusual analysis
 | Indicator | Value | Interpretation |

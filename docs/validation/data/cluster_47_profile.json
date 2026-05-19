@@ -18,7 +18,7 @@
     "size": 67
   },
   "community_id": 47,
-  "generated_at": "2026-05-19 14:58:36 UTC",
+  "generated_at": "2026-05-19 16:43:36 UTC",
   "members_sample": [
     {
       "jurisdiction": "mt",
@@ -386,13 +386,14 @@
     "missing": [
       "country field missing in ICIJ persons rows.",
       "date-of-birth not available in icij_persons; cannot compare DOB.",
-      "no canonical home-address field for persons; cannot compare residential address.",
-      "dossier reports 0 web mentions \u2014 no third-party corroboration online."
+      "no canonical home-address field for persons; cannot compare residential address."
     ],
     "supporting": [
       "2 ICIJ uids share normalized name `peter kevin perry` (icij:56056803, icij:56056705)."
     ]
   },
   "threshold": 0.9,
-  "warnings": []
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/peter-kevin-perry.md \u2014 using parquet only."
+  ]
 }
