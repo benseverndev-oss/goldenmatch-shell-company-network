@@ -1,0 +1,189 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.6266666666666667,
+    "community_id": 69,
+    "isolation": 1.0,
+    "n_seeds": 1,
+    "seed_density": 0.06666666666666667,
+    "size": 15,
+    "size_deviation": 2.70805020110221
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 69,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 15
+  },
+  "community_id": 69,
+  "generated_at": "2026-05-19 17:13:46 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": "mt",
+      "name": "AVIOS HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55026995"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58007511",
+      "seed": false,
+      "uid": "icij:58007511"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "AGHINAGH LIMITED",
+      "seed": false,
+      "uid": "icij:55042773"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "NUDE ESTATES MALTA LIMITED",
+      "seed": true,
+      "uid": "icij:55033616"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Agate International Finance Limited",
+      "seed": false,
+      "uid": "icij:55028786"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ABBIS INVESTMENTS LIMITED",
+      "seed": false,
+      "uid": "icij:55079794"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "AVIOS LIMITED",
+      "seed": false,
+      "uid": "icij:55027010"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Agate Holdings Limited",
+      "seed": false,
+      "uid": "icij:55028701"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MEDITERRANEAN TEXTILES LIMITED",
+      "seed": false,
+      "uid": "icij:55018612"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "FITZCARRALDO LIMITED",
+      "seed": false,
+      "uid": "icij:55036034"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "VILLA NAUTIC LIMITED",
+      "seed": false,
+      "uid": "icij:55032649"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Gerency Limited",
+      "seed": false,
+      "uid": "icij:55046470"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SPS MALTA LIMITED",
+      "seed": false,
+      "uid": "icij:55010456"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "TARGA DEVELOPMENT LIMITED",
+      "seed": false,
+      "uid": "icij:55002514"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SPS PACIFIC LIMITED",
+      "seed": false,
+      "uid": "icij:55010466"
+    }
+  ],
+  "n_members": 15,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.933,
+    "anomaly_score": 0.6266666666666667,
+    "cluster_size": 15,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 1,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 12,
+    "officer_reuse_rate": 0.933,
+    "top_theme": "unknown",
+    "top_theme_share": 0.667,
+    "underreportedness": 1.0
+  },
+  "person": "patrick gerard mckillen",
+  "person_normalized": "patrick gerard mckillen",
+  "person_uids": [
+    "icij:56102109",
+    "icij:56098034"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.6267,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 69,
+    "connectedness": 0.5092,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "AVIOS HOLDINGS LIMITED",
+      "icij:58007511",
+      "AGHINAGH LIMITED",
+      "NUDE ESTATES MALTA LIMITED",
+      "Agate International Finance Limited",
+      "ABBIS INVESTMENTS LIMITED",
+      "AVIOS LIMITED",
+      "Agate Holdings Limited",
+      "MEDITERRANEAN TEXTILES LIMITED",
+      "FITZCARRALDO LIMITED"
+    ],
+    "member_uids_sample": [
+      "icij:55026995",
+      "icij:58007511",
+      "icij:55042773",
+      "icij:55033616",
+      "icij:55028786",
+      "icij:55079794",
+      "icij:55027010",
+      "icij:55028701",
+      "icij:55018612",
+      "icij:55036034"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.321159,
+    "size": 15,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address."
+    ],
+    "supporting": [
+      "2 ICIJ uids share normalized name `patrick gerard mckillen` (icij:56102109, icij:56098034).",
+      "All ICIJ rows report the same country: ie."
+    ]
+  },
+  "threshold": 0.9,
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/patrick-gerard-mckillen.md \u2014 using parquet only."
+  ]
+}

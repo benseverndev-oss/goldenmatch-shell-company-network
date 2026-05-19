@@ -1,0 +1,13 @@
+officer_name,n_linked_companies,linked_companies,roles,source_label,confidence
+BERNARD ZAMMIT,9,AGHINAGH LIMITED;AVIOS HOLDINGS LIMITED;AVIOS LIMITED;Agate Holdings Limited;Agate International Finance Limited;FITZCARRALDO LIMITED;Gerency Limited;SPS MALTA LIMITED;SPS PACIFIC LIMITED,director of;judicial representative of;legal representative of;liquidator of;secretary of,Paradise Papers - Malta corporate registry,0.85
+ANTONIO GRECH,7,ABBIS INVESTMENTS LIMITED;AGHINAGH LIMITED;Gerency Limited;MEDITERRANEAN TEXTILES LIMITED;NUDE ESTATES MALTA LIMITED;TARGA DEVELOPMENT LIMITED;VILLA NAUTIC LIMITED,liquidator of,Paradise Papers - Malta corporate registry,0.85
+PRICEWATERHOUSECOOPERS,7,ABBIS INVESTMENTS LIMITED;FITZCARRALDO LIMITED;Gerency Limited;MEDITERRANEAN TEXTILES LIMITED;NUDE ESTATES MALTA LIMITED;TARGA DEVELOPMENT LIMITED;VILLA NAUTIC LIMITED,auditor of,Paradise Papers - Malta corporate registry,0.85
+ABACUS HOLDINGS LIMITED,4,AVIOS HOLDINGS LIMITED;AVIOS LIMITED;FITZCARRALDO LIMITED;MEDITERRANEAN TEXTILES LIMITED,director of;judicial representative of;legal representative of;shareholder of,Paradise Papers - Malta corporate registry,0.85
+EDWARD GATT,4,AVIOS HOLDINGS LIMITED;AVIOS LIMITED;SPS MALTA LIMITED;SPS PACIFIC LIMITED,liquidator of,Paradise Papers - Malta corporate registry,0.85
+CHRISTOPHER GALEA,3,AVIOS HOLDINGS LIMITED;AVIOS LIMITED;MEDITERRANEAN TEXTILES LIMITED,secretary of,Paradise Papers - Malta corporate registry,0.85
+C.I.C. OPERATIONS AB,2,AVIOS HOLDINGS LIMITED;AVIOS LIMITED,shareholder of,Paradise Papers - Malta corporate registry,0.85
+DAVID VAN OPPEN,2,Agate Holdings Limited;Agate International Finance Limited,director of;judicial representative of;legal representative of;secretary of;shareholder of,Paradise Papers - Malta corporate registry,0.85
+KPMG,2,Agate Holdings Limited;Agate International Finance Limited,auditor of,Paradise Papers - Malta corporate registry,0.85
+KWONG HON KWAN,2,Agate Holdings Limited;Agate International Finance Limited,director of;judicial representative of;legal representative of,Paradise Papers - Malta corporate registry,0.85
+SPS INTERNATIONAL INVESTMENT COMPANY,2,SPS MALTA LIMITED;SPS PACIFIC LIMITED,shareholder of,Paradise Papers - Malta corporate registry,0.85
+WILLIAM DEAN LARSSON,2,SPS MALTA LIMITED;SPS PACIFIC LIMITED,director of;judicial representative of;legal representative of,Paradise Papers - Malta corporate registry,0.85

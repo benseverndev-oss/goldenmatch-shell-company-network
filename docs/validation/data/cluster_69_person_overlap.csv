@@ -1,0 +1,16 @@
+company_name,normalized_company_name,in_community,in_person_dossier,match_type,confidence,source_record_ids,notes
+ABBIS INVESTMENTS LIMITED,abbis investments,true,false,community_only,1.00,icij:55079794,in cluster but not in person dossier
+Agate Holdings Limited,agate holdings,true,false,community_only,1.00,icij:55028701,in cluster but not in person dossier
+Agate International Finance Limited,agate international finance,true,false,community_only,1.00,icij:55028786,in cluster but not in person dossier
+AGHINAGH LIMITED,aghinagh,true,false,community_only,1.00,icij:55042773,in cluster but not in person dossier
+AVIOS LIMITED,avios,true,false,community_only,1.00,icij:55027010,in cluster but not in person dossier
+AVIOS HOLDINGS LIMITED,avios holdings,true,false,community_only,1.00,icij:55026995,in cluster but not in person dossier
+FITZCARRALDO LIMITED,fitzcarraldo,true,false,community_only,1.00,icij:55036034,in cluster but not in person dossier
+Gerency Limited,gerency,true,false,community_only,1.00,icij:55046470,in cluster but not in person dossier
+icij:58007511,icij 58007511,true,false,community_only,1.00,icij:58007511,in cluster but not in person dossier
+MEDITERRANEAN TEXTILES LIMITED,mediterranean textiles,true,false,community_only,1.00,icij:55018612,in cluster but not in person dossier
+NUDE ESTATES MALTA LIMITED,nude estates malta,true,false,community_only,1.00,icij:55033616,in cluster but not in person dossier
+SPS MALTA LIMITED,sps malta,true,false,community_only,1.00,icij:55010456,in cluster but not in person dossier
+SPS PACIFIC LIMITED,sps pacific,true,false,community_only,1.00,icij:55010466,in cluster but not in person dossier
+TARGA DEVELOPMENT LIMITED,targa development,true,false,community_only,1.00,icij:55002514,in cluster but not in person dossier
+VILLA NAUTIC LIMITED,villa nautic,true,false,community_only,1.00,icij:55032649,in cluster but not in person dossier

@@ -1,0 +1,141 @@
+target_type,target_name,query,purpose,priority
+person,patrick gerard mckillen,"""patrick gerard mckillen"" (PEP OR beneficial owner OR UBO)",PEP/UBO,high
+person,patrick gerard mckillen,"""patrick gerard mckillen"" (lawsuit OR claim OR litigation)",litigation,high
+person,patrick gerard mckillen,"""patrick gerard mckillen"" -site:linkedin.com -site:facebook.com",media,high
+person,patrick gerard mckillen,"""patrick gerard mckillen"" director OR officer",registry filings,high
+person,patrick gerard mckillen,"""patrick gerard mckillen"" (sanction OR OFAC OR OFSI)",sanctions,high
+company,ABBIS INVESTMENTS LIMITED,"""ABBIS INVESTMENTS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,ABBIS INVESTMENTS LIMITED,"""ABBIS INVESTMENTS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,ABBIS INVESTMENTS LIMITED,"""ABBIS INVESTMENTS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,ABBIS INVESTMENTS LIMITED,"""ABBIS INVESTMENTS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,ABBIS INVESTMENTS LIMITED,"""ABBIS INVESTMENTS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,ABBIS INVESTMENTS LIMITED,"""ABBIS INVESTMENTS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,ABBIS INVESTMENTS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt ABBIS INVESTMENTS LIMITED,registry filing,medium
+company,ABBIS INVESTMENTS LIMITED,"""ABBIS INVESTMENTS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,ABBIS INVESTMENTS LIMITED,"""ABBIS INVESTMENTS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,AGHINAGH LIMITED,"""AGHINAGH LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,AGHINAGH LIMITED,"""AGHINAGH LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,AGHINAGH LIMITED,"""AGHINAGH LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,AGHINAGH LIMITED,"""AGHINAGH LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,AGHINAGH LIMITED,"""AGHINAGH LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,AGHINAGH LIMITED,"""AGHINAGH LIMITED"" (property OR real estate OR land registry)",property,medium
+company,AGHINAGH LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt AGHINAGH LIMITED,registry filing,medium
+company,AGHINAGH LIMITED,"""AGHINAGH LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,AGHINAGH LIMITED,"""AGHINAGH LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,AVIOS HOLDINGS LIMITED,"""AVIOS HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,AVIOS HOLDINGS LIMITED,"""AVIOS HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,AVIOS HOLDINGS LIMITED,"""AVIOS HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,AVIOS HOLDINGS LIMITED,"""AVIOS HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,AVIOS HOLDINGS LIMITED,"""AVIOS HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,AVIOS HOLDINGS LIMITED,"""AVIOS HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,AVIOS HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt AVIOS HOLDINGS LIMITED,registry filing,medium
+company,AVIOS HOLDINGS LIMITED,"""AVIOS HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,AVIOS HOLDINGS LIMITED,"""AVIOS HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,AVIOS LIMITED,"""AVIOS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,AVIOS LIMITED,"""AVIOS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,AVIOS LIMITED,"""AVIOS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,AVIOS LIMITED,"""AVIOS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,AVIOS LIMITED,"""AVIOS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,AVIOS LIMITED,"""AVIOS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,AVIOS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt AVIOS LIMITED,registry filing,medium
+company,AVIOS LIMITED,"""AVIOS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,AVIOS LIMITED,"""AVIOS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,Agate Holdings Limited,"""Agate Holdings Limited"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,Agate Holdings Limited,"""Agate Holdings Limited"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,Agate Holdings Limited,"""Agate Holdings Limited"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,Agate Holdings Limited,"""Agate Holdings Limited"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,Agate Holdings Limited,"""Agate Holdings Limited"" (tender OR contract OR procurement)",procurement,medium
+company,Agate Holdings Limited,"""Agate Holdings Limited"" (property OR real estate OR land registry)",property,medium
+company,Agate Holdings Limited,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt Agate Holdings Limited,registry filing,medium
+company,Agate Holdings Limited,"""Agate Holdings Limited"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,Agate Holdings Limited,"""Agate Holdings Limited"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,Agate International Finance Limited,"""Agate International Finance Limited"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,Agate International Finance Limited,"""Agate International Finance Limited"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,Agate International Finance Limited,"""Agate International Finance Limited"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,Agate International Finance Limited,"""Agate International Finance Limited"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,Agate International Finance Limited,"""Agate International Finance Limited"" (tender OR contract OR procurement)",procurement,medium
+company,Agate International Finance Limited,"""Agate International Finance Limited"" (property OR real estate OR land registry)",property,medium
+company,Agate International Finance Limited,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt Agate International Finance Limited,registry filing,medium
+company,Agate International Finance Limited,"""Agate International Finance Limited"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,Agate International Finance Limited,"""Agate International Finance Limited"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,FITZCARRALDO LIMITED,"""FITZCARRALDO LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,FITZCARRALDO LIMITED,"""FITZCARRALDO LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,FITZCARRALDO LIMITED,"""FITZCARRALDO LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,FITZCARRALDO LIMITED,"""FITZCARRALDO LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,FITZCARRALDO LIMITED,"""FITZCARRALDO LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,FITZCARRALDO LIMITED,"""FITZCARRALDO LIMITED"" (property OR real estate OR land registry)",property,medium
+company,FITZCARRALDO LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt FITZCARRALDO LIMITED,registry filing,medium
+company,FITZCARRALDO LIMITED,"""FITZCARRALDO LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,FITZCARRALDO LIMITED,"""FITZCARRALDO LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,Gerency Limited,"""Gerency Limited"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,Gerency Limited,"""Gerency Limited"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,Gerency Limited,"""Gerency Limited"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,Gerency Limited,"""Gerency Limited"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,Gerency Limited,"""Gerency Limited"" (tender OR contract OR procurement)",procurement,medium
+company,Gerency Limited,"""Gerency Limited"" (property OR real estate OR land registry)",property,medium
+company,Gerency Limited,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt Gerency Limited,registry filing,medium
+company,Gerency Limited,"""Gerency Limited"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,Gerency Limited,"""Gerency Limited"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,MEDITERRANEAN TEXTILES LIMITED,"""MEDITERRANEAN TEXTILES LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,MEDITERRANEAN TEXTILES LIMITED,"""MEDITERRANEAN TEXTILES LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,MEDITERRANEAN TEXTILES LIMITED,"""MEDITERRANEAN TEXTILES LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,MEDITERRANEAN TEXTILES LIMITED,"""MEDITERRANEAN TEXTILES LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,MEDITERRANEAN TEXTILES LIMITED,"""MEDITERRANEAN TEXTILES LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,MEDITERRANEAN TEXTILES LIMITED,"""MEDITERRANEAN TEXTILES LIMITED"" (property OR real estate OR land registry)",property,medium
+company,MEDITERRANEAN TEXTILES LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt MEDITERRANEAN TEXTILES LIMITED,registry filing,medium
+company,MEDITERRANEAN TEXTILES LIMITED,"""MEDITERRANEAN TEXTILES LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,MEDITERRANEAN TEXTILES LIMITED,"""MEDITERRANEAN TEXTILES LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,NUDE ESTATES MALTA LIMITED,"""NUDE ESTATES MALTA LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,NUDE ESTATES MALTA LIMITED,"""NUDE ESTATES MALTA LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,NUDE ESTATES MALTA LIMITED,"""NUDE ESTATES MALTA LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,NUDE ESTATES MALTA LIMITED,"""NUDE ESTATES MALTA LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,NUDE ESTATES MALTA LIMITED,"""NUDE ESTATES MALTA LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,NUDE ESTATES MALTA LIMITED,"""NUDE ESTATES MALTA LIMITED"" (property OR real estate OR land registry)",property,medium
+company,NUDE ESTATES MALTA LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt NUDE ESTATES MALTA LIMITED,registry filing,medium
+company,NUDE ESTATES MALTA LIMITED,"""NUDE ESTATES MALTA LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,NUDE ESTATES MALTA LIMITED,"""NUDE ESTATES MALTA LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,SPS MALTA LIMITED,"""SPS MALTA LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,SPS MALTA LIMITED,"""SPS MALTA LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,SPS MALTA LIMITED,"""SPS MALTA LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,SPS MALTA LIMITED,"""SPS MALTA LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,SPS MALTA LIMITED,"""SPS MALTA LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,SPS MALTA LIMITED,"""SPS MALTA LIMITED"" (property OR real estate OR land registry)",property,medium
+company,SPS MALTA LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt SPS MALTA LIMITED,registry filing,medium
+company,SPS MALTA LIMITED,"""SPS MALTA LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,SPS MALTA LIMITED,"""SPS MALTA LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,SPS PACIFIC LIMITED,"""SPS PACIFIC LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,SPS PACIFIC LIMITED,"""SPS PACIFIC LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,SPS PACIFIC LIMITED,"""SPS PACIFIC LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,SPS PACIFIC LIMITED,"""SPS PACIFIC LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,SPS PACIFIC LIMITED,"""SPS PACIFIC LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,SPS PACIFIC LIMITED,"""SPS PACIFIC LIMITED"" (property OR real estate OR land registry)",property,medium
+company,SPS PACIFIC LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt SPS PACIFIC LIMITED,registry filing,medium
+company,SPS PACIFIC LIMITED,"""SPS PACIFIC LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,SPS PACIFIC LIMITED,"""SPS PACIFIC LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,TARGA DEVELOPMENT LIMITED,"""TARGA DEVELOPMENT LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,TARGA DEVELOPMENT LIMITED,"""TARGA DEVELOPMENT LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,TARGA DEVELOPMENT LIMITED,"""TARGA DEVELOPMENT LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,TARGA DEVELOPMENT LIMITED,"""TARGA DEVELOPMENT LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,TARGA DEVELOPMENT LIMITED,"""TARGA DEVELOPMENT LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,TARGA DEVELOPMENT LIMITED,"""TARGA DEVELOPMENT LIMITED"" (property OR real estate OR land registry)",property,medium
+company,TARGA DEVELOPMENT LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt TARGA DEVELOPMENT LIMITED,registry filing,medium
+company,TARGA DEVELOPMENT LIMITED,"""TARGA DEVELOPMENT LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,TARGA DEVELOPMENT LIMITED,"""TARGA DEVELOPMENT LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,VILLA NAUTIC LIMITED,"""VILLA NAUTIC LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,VILLA NAUTIC LIMITED,"""VILLA NAUTIC LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,VILLA NAUTIC LIMITED,"""VILLA NAUTIC LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,VILLA NAUTIC LIMITED,"""VILLA NAUTIC LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,VILLA NAUTIC LIMITED,"""VILLA NAUTIC LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,VILLA NAUTIC LIMITED,"""VILLA NAUTIC LIMITED"" (property OR real estate OR land registry)",property,medium
+company,VILLA NAUTIC LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt VILLA NAUTIC LIMITED,registry filing,medium
+company,VILLA NAUTIC LIMITED,"""VILLA NAUTIC LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,VILLA NAUTIC LIMITED,"""VILLA NAUTIC LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,icij:58007511,"""icij:58007511"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,icij:58007511,"""icij:58007511"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,icij:58007511,"""icij:58007511"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,icij:58007511,"""icij:58007511"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,icij:58007511,"""icij:58007511"" (tender OR contract OR procurement)",procurement,medium
+company,icij:58007511,"""icij:58007511"" (property OR real estate OR land registry)",property,medium
+company,icij:58007511,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt icij:58007511,registry filing,medium
+company,icij:58007511,"""icij:58007511"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,icij:58007511,"""icij:58007511"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium

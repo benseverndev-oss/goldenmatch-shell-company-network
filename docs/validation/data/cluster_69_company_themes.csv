@@ -1,0 +1,16 @@
+company_name,normalized_company_name,theme,matched_keywords,confidence,needs_manual_review
+ABBIS INVESTMENTS LIMITED,abbis investments,investment / holding / capital,invest,0.30,true
+AVIOS HOLDINGS LIMITED,avios holdings,investment / holding / capital,holding,0.30,true
+Agate Holdings Limited,agate holdings,investment / holding / capital,holding,0.30,true
+Agate International Finance Limited,agate international finance,investment / holding / capital,finance,0.30,true
+NUDE ESTATES MALTA LIMITED,nude estates malta,property / real estate,estate,0.30,true
+AGHINAGH LIMITED,aghinagh,unknown,,0.00,true
+AVIOS LIMITED,avios,unknown,,0.00,true
+FITZCARRALDO LIMITED,fitzcarraldo,unknown,,0.00,true
+Gerency Limited,gerency,unknown,,0.00,true
+MEDITERRANEAN TEXTILES LIMITED,mediterranean textiles,unknown,,0.00,true
+SPS MALTA LIMITED,sps malta,unknown,,0.00,true
+SPS PACIFIC LIMITED,sps pacific,unknown,,0.00,true
+TARGA DEVELOPMENT LIMITED,targa development,unknown,,0.00,true
+VILLA NAUTIC LIMITED,villa nautic,unknown,,0.00,true
+icij:58007511,icij 58007511,unknown,,0.00,true
