@@ -395,6 +395,16 @@ _ALLOWED_SCRIPTS = {
         "--out-dir",
         "/data/reports/generated",
     ],
+    "rank_by_investigative_value": ["scripts/rank_by_investigative_value.py"],
+    "rank_by_investigative_value_with_join": [
+        "scripts/rank_by_investigative_value.py",
+        "--rank-parquet",
+        "/data/reports/generated/cluster_ranking.parquet",
+        "--centrality-parquet",
+        "/data/processed/cluster_centrality.parquet",
+        "--out-md",
+        "/data/reports/generated/cluster_investigative_ranking.md",
+    ],
     "list_match_os_sanctions_vs_icij": [
         "scripts/list_match_os_sanctions_vs_icij.py",
         "--out-dir",

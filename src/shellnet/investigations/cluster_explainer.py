@@ -743,13 +743,16 @@ def score_investigative_value(
         f"{connected_dormant} shared-feature edge(s) touch them"
     )
 
-    # --- shell reuse: a shared address or intermediary that also has high
-    #     global degree (it's a known hub serving many other entities).
+    # --- shell reuse: a shared intermediary, address, or officer that also
+    #     has high global degree (it's a known hub serving many entities —
+    #     classic nominee-director / corporate-services-firm signal).
     reuse_max = 0
-    for repeat in (*intermediaries, *addresses):
+    for repeat in (*intermediaries, *addresses, *officers):
         reuse_max = max(reuse_max, repeat.n_global_edges)
     shell_reuse = _clamp01(reuse_max / max(reuse_threshold * 4, 1))
-    notes["shell_reuse"] = f"top shared intermediary/address has {reuse_max} edges in the corpus"
+    notes["shell_reuse"] = (
+        f"top shared intermediary/address/officer has {reuse_max} edges in the corpus"
+    )
 
     total = (
         intermediary_rarity
