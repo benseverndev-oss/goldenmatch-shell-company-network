@@ -13,6 +13,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 import shutil
 import subprocess
 import time
@@ -558,23 +559,9 @@ _ALLOWED_SCRIPTS = {
         "--out-summary",
         "/data/processed/temporal_patterns_summary.json",
     ],
-    "build_validation_pack_cluster_47": [
-        "scripts/build_validation_pack.py",
-        "--community-id",
-        "47",
-        "--person",
-        "peter kevin perry",
-        "--reports-data-dir",
-        "/data/processed",
-        "--interim-dir",
-        "/data/interim",
-        "--processed-dir",
-        "/data/processed",
-        "--dossiers-dir",
-        "/app/docs/reports/dossiers",
-        "--out-dir",
-        "/data/validation_packs/cluster_47",
-    ],
+    # Validation pack is driven via the parameterized /run-validation-pack
+    # endpoint instead of an allowlist entry — it takes (community_id, person)
+    # at request time so any cluster from the queue can be profiled.
     "build_validation_queue": [
         "scripts/build_validation_queue.py",
         "--cluster-scored",
@@ -802,6 +789,62 @@ def trigger_run_script(bg: BackgroundTasks, name: str) -> dict[str, Any]:
     _require_idle(stage)
     bg.add_task(_do_script, stage, ["python", *_ALLOWED_SCRIPTS[name]])
     return {"ok": True, "queued": stage}
+
+
+# Strict whitelist for the parameterized /run-validation-pack endpoint:
+# community_id must be a non-negative int, and person is a name that
+# contains only letters / spaces / hyphens / apostrophes / periods.
+# This avoids shell injection without depending on the subprocess call
+# (we already pass argv as a list, so there's no shell, but defense in
+# depth on a public-facing endpoint is cheap).
+_PERSON_NAME_RE = re.compile(r"^[A-Za-z][A-Za-z .'\-]{1,80}$")
+
+
+@app.post("/run-validation-pack", dependencies=[Depends(_auth)])
+def trigger_run_validation_pack(
+    bg: BackgroundTasks,
+    community_id: int,
+    person: str,
+    threshold: float = 0.9,
+) -> dict[str, Any]:
+    """Run scripts/build_validation_pack.py for an arbitrary (cluster, person)
+    pair.
+
+    Outputs land under ``/data/validation_packs/cluster_<id>/`` on the
+    Railway volume; the GitHub workflow downloads them and commits to main.
+    """
+
+    if community_id < 0 or community_id > 1_000_000:
+        raise HTTPException(400, "community_id out of range")
+    if not _PERSON_NAME_RE.match(person):
+        raise HTTPException(400, "person must match ^[A-Za-z][A-Za-z .'-]{1,80}$")
+    if not (0.0 <= threshold <= 1.0):
+        raise HTTPException(400, "threshold must be in [0.0, 1.0]")
+
+    out_dir = f"/data/validation_packs/cluster_{community_id}"
+    args = [
+        "scripts/build_validation_pack.py",
+        "--community-id",
+        str(community_id),
+        "--person",
+        person,
+        "--threshold",
+        str(threshold),
+        "--reports-data-dir",
+        "/data/processed",
+        "--interim-dir",
+        "/data/interim",
+        "--processed-dir",
+        "/data/processed",
+        "--dossiers-dir",
+        "/app/docs/reports/dossiers",
+        "--out-dir",
+        out_dir,
+    ]
+    stage = f"script_build_validation_pack_cluster_{community_id}"
+    _require_idle(stage)
+    bg.add_task(_do_script, stage, ["python", *args])
+    return {"ok": True, "queued": stage, "out_dir": out_dir}
 
 
 def _do_unzip_file(stage: str, path: Path) -> None:

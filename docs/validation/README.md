@@ -25,16 +25,27 @@ Recurring infrastructure is a starting point, not an indictment.
 
 ## Generating a pack
 
-**Canonical (Railway-side compute)** — matches `build_validation_queue`:
+**Canonical (Railway-side compute)** — matches `build_validation_queue`.
+The workflow is parameterized, so any cluster from the queue can be
+profiled without code changes:
 
 ```bash
-gh workflow run build-validation-pack.yml
+gh workflow run build-validation-pack.yml \
+    -f community_id=47 \
+    -f person="peter kevin perry"
 ```
 
-Triggers the `build_validation_pack_cluster_47` allowlist entry on the
-Railway job server, downloads the artefacts, and auto-commits them to
-`main`. This is the path the project conventions ask for (`CLAUDE.md`:
-"all heavy compute runs on Railway").
+The workflow POSTs to `/run-validation-pack?community_id=...&person=...`
+on the Railway job server, polls `/status`, downloads the artefacts to
+`docs/validation/cluster_<id>.md` + `docs/validation/data/cluster_<id>_*`,
+and auto-commits to `main`. This is the path the project conventions
+ask for (`CLAUDE.md`: "all heavy compute runs on Railway").
+
+Inputs:
+
+- `community_id` — required positive integer (e.g. `47`, `38`, `40`).
+- `person` — required name, regex `^[A-Za-z][A-Za-z .'-]{1,80}$`.
+- `threshold` — optional, defaults to `0.9`.
 
 **Local fallback** — for analyst-machine ad-hoc runs against a small
 working copy of the parquets. Heavy on a laptop because `icij_edges`
