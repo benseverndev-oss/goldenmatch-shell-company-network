@@ -187,6 +187,7 @@ class ClusterExplanation:
     sources_present: list[str]
     suggested_targets: list[str]
     discovery_delta: Any = None  # DiscoveryDelta, populated by build_explanation
+    timeline: Any = None  # Timeline, populated by build_explanation
 
 
 # ---------------------------------------------------------------------------
@@ -836,6 +837,7 @@ def build_explanation(
     sources_present = sorted({m.source for m in members})
 
     from shellnet.investigations.discovery_delta import build_discovery_delta
+    from shellnet.investigations.temporal import build_timeline
 
     delta = build_discovery_delta(
         members,
@@ -847,6 +849,14 @@ def build_explanation(
         centrality=centrality,
         sources_present=sources_present,
         leaks_present=sorted(leaks),
+    )
+
+    timeline = build_timeline(
+        members,
+        edges_df=edges_df,
+        intermediaries=intermediaries,
+        addresses=addresses,
+        officers=officers,
     )
 
     return ClusterExplanation(
@@ -865,6 +875,7 @@ def build_explanation(
         sources_present=sources_present,
         suggested_targets=suggested,
         discovery_delta=delta,
+        timeline=timeline,
     )
 
 
@@ -1087,6 +1098,13 @@ def render_explanation_markdown(
                     s=f"{float(a['score']):.3f}" if a.get("score") is not None else "?",
                 )
             )
+        lines.append("")
+
+    # ----- Timeline -----
+    if expl.timeline is not None:
+        from shellnet.investigations.temporal import render_timeline_markdown
+
+        lines.append(render_timeline_markdown(expl.timeline))
         lines.append("")
 
     # ----- Anomalies -----
