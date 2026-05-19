@@ -1,0 +1,20 @@
+company_name,normalized_company_name,in_community,in_person_dossier,match_type,confidence,source_record_ids,notes
+AESIR HOLDINGS LIMITED,aesir holdings,true,false,community_only,1.00,icij:55041908,in cluster but not in person dossier
+Aragon Finance Limited,aragon finance,true,false,community_only,1.00,icij:55034583,in cluster but not in person dossier
+BAGUNU FINANCE LIMITED,bagunu finance,true,false,community_only,1.00,icij:55041912,in cluster but not in person dossier
+Bodog Music (Europe) Limited,bodog music europe,true,false,community_only,1.00,icij:55031139,in cluster but not in person dossier
+BROMPTON FINANCE LIMITED,brompton finance,true,false,community_only,1.00,icij:55038672,in cluster but not in person dossier
+Cochrane Finance Limited,cochrane finance,true,false,community_only,1.00,icij:55041910,in cluster but not in person dossier
+COSMO (MALTA) LIMITED,cosmo malta,true,false,community_only,1.00,icij:55040688,in cluster but not in person dossier
+ESSER FINANCE LIMITED,esser finance,true,false,community_only,1.00,icij:55037146,in cluster but not in person dossier
+icij:58045699,icij 58045699,true,false,community_only,1.00,icij:58045699,in cluster but not in person dossier
+Kiel Finance Limited,kiel finance,true,false,community_only,1.00,icij:55037148,in cluster but not in person dossier
+LYON FINANCE LIMITED,lyon finance,true,false,community_only,1.00,icij:55034582,in cluster but not in person dossier
+MAGELLAN FINANCE LIMITED,magellan finance,true,false,community_only,1.00,icij:55041911,in cluster but not in person dossier
+MILBURN FINANCE LIMITED,milburn finance,true,false,community_only,1.00,icij:55038673,in cluster but not in person dossier
+Nelson Finance Limited,nelson finance,true,false,community_only,1.00,icij:55041914,in cluster but not in person dossier
+POLO FINANCE LIMITED,polo finance,true,false,community_only,1.00,icij:55041915,in cluster but not in person dossier
+ROMAR FINANCE LIMITED,romar finance,true,false,community_only,1.00,icij:55041916,in cluster but not in person dossier
+SAVOY FINANCE LIMITED,savoy finance,true,false,community_only,1.00,icij:55034584,in cluster but not in person dossier
+STRATHAM FINANCE LIMITED,stratham finance,true,false,community_only,1.00,icij:55022086,in cluster but not in person dossier
+Sutherland Finance Limited,sutherland finance,true,false,community_only,1.00,icij:55030232,in cluster but not in person dossier

@@ -1,0 +1,177 @@
+target_type,target_name,query,purpose,priority
+person,calvin edward ayre,"""calvin edward ayre"" (PEP OR beneficial owner OR UBO)",PEP/UBO,high
+person,calvin edward ayre,"""calvin edward ayre"" (lawsuit OR claim OR litigation)",litigation,high
+person,calvin edward ayre,"""calvin edward ayre"" -site:linkedin.com -site:facebook.com",media,high
+person,calvin edward ayre,"""calvin edward ayre"" director OR officer",registry filings,high
+person,calvin edward ayre,"""calvin edward ayre"" (sanction OR OFAC OR OFSI)",sanctions,high
+company,AESIR HOLDINGS LIMITED,"""AESIR HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,AESIR HOLDINGS LIMITED,"""AESIR HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,AESIR HOLDINGS LIMITED,"""AESIR HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,AESIR HOLDINGS LIMITED,"""AESIR HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,AESIR HOLDINGS LIMITED,"""AESIR HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,AESIR HOLDINGS LIMITED,"""AESIR HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,AESIR HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt AESIR HOLDINGS LIMITED,registry filing,medium
+company,AESIR HOLDINGS LIMITED,"""AESIR HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,AESIR HOLDINGS LIMITED,"""AESIR HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,Aragon Finance Limited,"""Aragon Finance Limited"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,Aragon Finance Limited,"""Aragon Finance Limited"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,Aragon Finance Limited,"""Aragon Finance Limited"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,Aragon Finance Limited,"""Aragon Finance Limited"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,Aragon Finance Limited,"""Aragon Finance Limited"" (tender OR contract OR procurement)",procurement,medium
+company,Aragon Finance Limited,"""Aragon Finance Limited"" (property OR real estate OR land registry)",property,medium
+company,Aragon Finance Limited,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt Aragon Finance Limited,registry filing,medium
+company,Aragon Finance Limited,"""Aragon Finance Limited"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,Aragon Finance Limited,"""Aragon Finance Limited"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,BAGUNU FINANCE LIMITED,"""BAGUNU FINANCE LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,BAGUNU FINANCE LIMITED,"""BAGUNU FINANCE LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,BAGUNU FINANCE LIMITED,"""BAGUNU FINANCE LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,BAGUNU FINANCE LIMITED,"""BAGUNU FINANCE LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,BAGUNU FINANCE LIMITED,"""BAGUNU FINANCE LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,BAGUNU FINANCE LIMITED,"""BAGUNU FINANCE LIMITED"" (property OR real estate OR land registry)",property,medium
+company,BAGUNU FINANCE LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt BAGUNU FINANCE LIMITED,registry filing,medium
+company,BAGUNU FINANCE LIMITED,"""BAGUNU FINANCE LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,BAGUNU FINANCE LIMITED,"""BAGUNU FINANCE LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,BROMPTON FINANCE LIMITED,"""BROMPTON FINANCE LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,BROMPTON FINANCE LIMITED,"""BROMPTON FINANCE LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,BROMPTON FINANCE LIMITED,"""BROMPTON FINANCE LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,BROMPTON FINANCE LIMITED,"""BROMPTON FINANCE LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,BROMPTON FINANCE LIMITED,"""BROMPTON FINANCE LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,BROMPTON FINANCE LIMITED,"""BROMPTON FINANCE LIMITED"" (property OR real estate OR land registry)",property,medium
+company,BROMPTON FINANCE LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt BROMPTON FINANCE LIMITED,registry filing,medium
+company,BROMPTON FINANCE LIMITED,"""BROMPTON FINANCE LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,BROMPTON FINANCE LIMITED,"""BROMPTON FINANCE LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,Bodog Music (Europe) Limited,"""Bodog Music (Europe) Limited"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,Bodog Music (Europe) Limited,"""Bodog Music (Europe) Limited"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,Bodog Music (Europe) Limited,"""Bodog Music (Europe) Limited"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,Bodog Music (Europe) Limited,"""Bodog Music (Europe) Limited"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,Bodog Music (Europe) Limited,"""Bodog Music (Europe) Limited"" (tender OR contract OR procurement)",procurement,medium
+company,Bodog Music (Europe) Limited,"""Bodog Music (Europe) Limited"" (property OR real estate OR land registry)",property,medium
+company,Bodog Music (Europe) Limited,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt Bodog Music (Europe) Limited,registry filing,medium
+company,Bodog Music (Europe) Limited,"""Bodog Music (Europe) Limited"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,Bodog Music (Europe) Limited,"""Bodog Music (Europe) Limited"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,COSMO (MALTA) LIMITED,"""COSMO (MALTA) LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,COSMO (MALTA) LIMITED,"""COSMO (MALTA) LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,COSMO (MALTA) LIMITED,"""COSMO (MALTA) LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,COSMO (MALTA) LIMITED,"""COSMO (MALTA) LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,COSMO (MALTA) LIMITED,"""COSMO (MALTA) LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,COSMO (MALTA) LIMITED,"""COSMO (MALTA) LIMITED"" (property OR real estate OR land registry)",property,medium
+company,COSMO (MALTA) LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt COSMO (MALTA) LIMITED,registry filing,medium
+company,COSMO (MALTA) LIMITED,"""COSMO (MALTA) LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,COSMO (MALTA) LIMITED,"""COSMO (MALTA) LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,Cochrane Finance Limited,"""Cochrane Finance Limited"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,Cochrane Finance Limited,"""Cochrane Finance Limited"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,Cochrane Finance Limited,"""Cochrane Finance Limited"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,Cochrane Finance Limited,"""Cochrane Finance Limited"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,Cochrane Finance Limited,"""Cochrane Finance Limited"" (tender OR contract OR procurement)",procurement,medium
+company,Cochrane Finance Limited,"""Cochrane Finance Limited"" (property OR real estate OR land registry)",property,medium
+company,Cochrane Finance Limited,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt Cochrane Finance Limited,registry filing,medium
+company,Cochrane Finance Limited,"""Cochrane Finance Limited"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,Cochrane Finance Limited,"""Cochrane Finance Limited"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,ESSER FINANCE LIMITED,"""ESSER FINANCE LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,ESSER FINANCE LIMITED,"""ESSER FINANCE LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,ESSER FINANCE LIMITED,"""ESSER FINANCE LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,ESSER FINANCE LIMITED,"""ESSER FINANCE LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,ESSER FINANCE LIMITED,"""ESSER FINANCE LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,ESSER FINANCE LIMITED,"""ESSER FINANCE LIMITED"" (property OR real estate OR land registry)",property,medium
+company,ESSER FINANCE LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt ESSER FINANCE LIMITED,registry filing,medium
+company,ESSER FINANCE LIMITED,"""ESSER FINANCE LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,ESSER FINANCE LIMITED,"""ESSER FINANCE LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,Kiel Finance Limited,"""Kiel Finance Limited"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,Kiel Finance Limited,"""Kiel Finance Limited"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,Kiel Finance Limited,"""Kiel Finance Limited"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,Kiel Finance Limited,"""Kiel Finance Limited"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,Kiel Finance Limited,"""Kiel Finance Limited"" (tender OR contract OR procurement)",procurement,medium
+company,Kiel Finance Limited,"""Kiel Finance Limited"" (property OR real estate OR land registry)",property,medium
+company,Kiel Finance Limited,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt Kiel Finance Limited,registry filing,medium
+company,Kiel Finance Limited,"""Kiel Finance Limited"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,Kiel Finance Limited,"""Kiel Finance Limited"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,LYON FINANCE LIMITED,"""LYON FINANCE LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,LYON FINANCE LIMITED,"""LYON FINANCE LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,LYON FINANCE LIMITED,"""LYON FINANCE LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,LYON FINANCE LIMITED,"""LYON FINANCE LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,LYON FINANCE LIMITED,"""LYON FINANCE LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,LYON FINANCE LIMITED,"""LYON FINANCE LIMITED"" (property OR real estate OR land registry)",property,medium
+company,LYON FINANCE LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt LYON FINANCE LIMITED,registry filing,medium
+company,LYON FINANCE LIMITED,"""LYON FINANCE LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,LYON FINANCE LIMITED,"""LYON FINANCE LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,MAGELLAN FINANCE LIMITED,"""MAGELLAN FINANCE LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,MAGELLAN FINANCE LIMITED,"""MAGELLAN FINANCE LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,MAGELLAN FINANCE LIMITED,"""MAGELLAN FINANCE LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,MAGELLAN FINANCE LIMITED,"""MAGELLAN FINANCE LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,MAGELLAN FINANCE LIMITED,"""MAGELLAN FINANCE LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,MAGELLAN FINANCE LIMITED,"""MAGELLAN FINANCE LIMITED"" (property OR real estate OR land registry)",property,medium
+company,MAGELLAN FINANCE LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt MAGELLAN FINANCE LIMITED,registry filing,medium
+company,MAGELLAN FINANCE LIMITED,"""MAGELLAN FINANCE LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,MAGELLAN FINANCE LIMITED,"""MAGELLAN FINANCE LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,MILBURN FINANCE LIMITED,"""MILBURN FINANCE LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,MILBURN FINANCE LIMITED,"""MILBURN FINANCE LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,MILBURN FINANCE LIMITED,"""MILBURN FINANCE LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,MILBURN FINANCE LIMITED,"""MILBURN FINANCE LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,MILBURN FINANCE LIMITED,"""MILBURN FINANCE LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,MILBURN FINANCE LIMITED,"""MILBURN FINANCE LIMITED"" (property OR real estate OR land registry)",property,medium
+company,MILBURN FINANCE LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt MILBURN FINANCE LIMITED,registry filing,medium
+company,MILBURN FINANCE LIMITED,"""MILBURN FINANCE LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,MILBURN FINANCE LIMITED,"""MILBURN FINANCE LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,Nelson Finance Limited,"""Nelson Finance Limited"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,Nelson Finance Limited,"""Nelson Finance Limited"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,Nelson Finance Limited,"""Nelson Finance Limited"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,Nelson Finance Limited,"""Nelson Finance Limited"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,Nelson Finance Limited,"""Nelson Finance Limited"" (tender OR contract OR procurement)",procurement,medium
+company,Nelson Finance Limited,"""Nelson Finance Limited"" (property OR real estate OR land registry)",property,medium
+company,Nelson Finance Limited,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt Nelson Finance Limited,registry filing,medium
+company,Nelson Finance Limited,"""Nelson Finance Limited"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,Nelson Finance Limited,"""Nelson Finance Limited"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,POLO FINANCE LIMITED,"""POLO FINANCE LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,POLO FINANCE LIMITED,"""POLO FINANCE LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,POLO FINANCE LIMITED,"""POLO FINANCE LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,POLO FINANCE LIMITED,"""POLO FINANCE LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,POLO FINANCE LIMITED,"""POLO FINANCE LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,POLO FINANCE LIMITED,"""POLO FINANCE LIMITED"" (property OR real estate OR land registry)",property,medium
+company,POLO FINANCE LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt POLO FINANCE LIMITED,registry filing,medium
+company,POLO FINANCE LIMITED,"""POLO FINANCE LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,POLO FINANCE LIMITED,"""POLO FINANCE LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,ROMAR FINANCE LIMITED,"""ROMAR FINANCE LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,ROMAR FINANCE LIMITED,"""ROMAR FINANCE LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,ROMAR FINANCE LIMITED,"""ROMAR FINANCE LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,ROMAR FINANCE LIMITED,"""ROMAR FINANCE LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,ROMAR FINANCE LIMITED,"""ROMAR FINANCE LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,ROMAR FINANCE LIMITED,"""ROMAR FINANCE LIMITED"" (property OR real estate OR land registry)",property,medium
+company,ROMAR FINANCE LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt ROMAR FINANCE LIMITED,registry filing,medium
+company,ROMAR FINANCE LIMITED,"""ROMAR FINANCE LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,ROMAR FINANCE LIMITED,"""ROMAR FINANCE LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,SAVOY FINANCE LIMITED,"""SAVOY FINANCE LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,SAVOY FINANCE LIMITED,"""SAVOY FINANCE LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,SAVOY FINANCE LIMITED,"""SAVOY FINANCE LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,SAVOY FINANCE LIMITED,"""SAVOY FINANCE LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,SAVOY FINANCE LIMITED,"""SAVOY FINANCE LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,SAVOY FINANCE LIMITED,"""SAVOY FINANCE LIMITED"" (property OR real estate OR land registry)",property,medium
+company,SAVOY FINANCE LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt SAVOY FINANCE LIMITED,registry filing,medium
+company,SAVOY FINANCE LIMITED,"""SAVOY FINANCE LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,SAVOY FINANCE LIMITED,"""SAVOY FINANCE LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,STRATHAM FINANCE LIMITED,"""STRATHAM FINANCE LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,STRATHAM FINANCE LIMITED,"""STRATHAM FINANCE LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,STRATHAM FINANCE LIMITED,"""STRATHAM FINANCE LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,STRATHAM FINANCE LIMITED,"""STRATHAM FINANCE LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,STRATHAM FINANCE LIMITED,"""STRATHAM FINANCE LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,STRATHAM FINANCE LIMITED,"""STRATHAM FINANCE LIMITED"" (property OR real estate OR land registry)",property,medium
+company,STRATHAM FINANCE LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt STRATHAM FINANCE LIMITED,registry filing,medium
+company,STRATHAM FINANCE LIMITED,"""STRATHAM FINANCE LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,STRATHAM FINANCE LIMITED,"""STRATHAM FINANCE LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,Sutherland Finance Limited,"""Sutherland Finance Limited"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,Sutherland Finance Limited,"""Sutherland Finance Limited"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,Sutherland Finance Limited,"""Sutherland Finance Limited"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,Sutherland Finance Limited,"""Sutherland Finance Limited"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,Sutherland Finance Limited,"""Sutherland Finance Limited"" (tender OR contract OR procurement)",procurement,medium
+company,Sutherland Finance Limited,"""Sutherland Finance Limited"" (property OR real estate OR land registry)",property,medium
+company,Sutherland Finance Limited,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt Sutherland Finance Limited,registry filing,medium
+company,Sutherland Finance Limited,"""Sutherland Finance Limited"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,Sutherland Finance Limited,"""Sutherland Finance Limited"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,icij:58045699,"""icij:58045699"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,icij:58045699,"""icij:58045699"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,icij:58045699,"""icij:58045699"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,icij:58045699,"""icij:58045699"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,icij:58045699,"""icij:58045699"" (tender OR contract OR procurement)",procurement,medium
+company,icij:58045699,"""icij:58045699"" (property OR real estate OR land registry)",property,medium
+company,icij:58045699,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt icij:58045699,registry filing,medium
+company,icij:58045699,"""icij:58045699"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,icij:58045699,"""icij:58045699"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium

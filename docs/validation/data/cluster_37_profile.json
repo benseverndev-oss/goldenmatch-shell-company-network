@@ -1,0 +1,213 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.6631578947368421,
+    "community_id": 37,
+    "isolation": 1.0,
+    "n_seeds": 3,
+    "seed_density": 0.15789473684210525,
+    "size": 19,
+    "size_deviation": 2.9444389791664403
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 37,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 19
+  },
+  "community_id": 37,
+  "generated_at": "2026-05-19 16:48:44 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": "mt",
+      "name": "LYON FINANCE LIMITED",
+      "seed": false,
+      "uid": "icij:55034582"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Bodog Music (Europe) Limited",
+      "seed": true,
+      "uid": "icij:55031139"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ROMAR FINANCE LIMITED",
+      "seed": false,
+      "uid": "icij:55041916"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Aragon Finance Limited",
+      "seed": false,
+      "uid": "icij:55034583"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Kiel Finance Limited",
+      "seed": false,
+      "uid": "icij:55037148"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "STRATHAM FINANCE LIMITED",
+      "seed": true,
+      "uid": "icij:55022086"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "COSMO (MALTA) LIMITED",
+      "seed": false,
+      "uid": "icij:55040688"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ESSER FINANCE LIMITED",
+      "seed": false,
+      "uid": "icij:55037146"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Nelson Finance Limited",
+      "seed": false,
+      "uid": "icij:55041914"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SAVOY FINANCE LIMITED",
+      "seed": false,
+      "uid": "icij:55034584"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "POLO FINANCE LIMITED",
+      "seed": false,
+      "uid": "icij:55041915"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Cochrane Finance Limited",
+      "seed": false,
+      "uid": "icij:55041910"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "BAGUNU FINANCE LIMITED",
+      "seed": false,
+      "uid": "icij:55041912"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58045699",
+      "seed": false,
+      "uid": "icij:58045699"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "AESIR HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55041908"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MILBURN FINANCE LIMITED",
+      "seed": false,
+      "uid": "icij:55038673"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MAGELLAN FINANCE LIMITED",
+      "seed": false,
+      "uid": "icij:55041911"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Sutherland Finance Limited",
+      "seed": true,
+      "uid": "icij:55030232"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "BROMPTON FINANCE LIMITED",
+      "seed": false,
+      "uid": "icij:55038672"
+    }
+  ],
+  "n_members": 19,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.947,
+    "anomaly_score": 0.6631578947368421,
+    "cluster_size": 19,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 1,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 7,
+    "officer_reuse_rate": 0.947,
+    "top_theme": "investment / holding / capital",
+    "top_theme_share": 0.842,
+    "underreportedness": 1.0
+  },
+  "person": "calvin edward ayre",
+  "person_normalized": "calvin edward ayre",
+  "person_uids": [
+    "icij:56077208",
+    "icij:56077577"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.6632,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 37,
+    "connectedness": 0.5537,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "LYON FINANCE LIMITED",
+      "Bodog Music (Europe) Limited",
+      "ROMAR FINANCE LIMITED",
+      "Aragon Finance Limited",
+      "Kiel Finance Limited",
+      "STRATHAM FINANCE LIMITED",
+      "COSMO (MALTA) LIMITED",
+      "ESSER FINANCE LIMITED",
+      "Nelson Finance Limited",
+      "SAVOY FINANCE LIMITED"
+    ],
+    "member_uids_sample": [
+      "icij:55034582",
+      "icij:55031139",
+      "icij:55041916",
+      "icij:55034583",
+      "icij:55037148",
+      "icij:55022086",
+      "icij:55040688",
+      "icij:55037146",
+      "icij:55041914",
+      "icij:55034584"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.364467,
+    "size": 19,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "country field missing in ICIJ persons rows.",
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address."
+    ],
+    "supporting": [
+      "2 ICIJ uids share normalized name `calvin edward ayre` (icij:56077208, icij:56077577)."
+    ]
+  },
+  "threshold": 0.9,
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/calvin-edward-ayre.md \u2014 using parquet only."
+  ]
+}

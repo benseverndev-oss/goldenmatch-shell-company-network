@@ -1,0 +1,7 @@
+person_name,person_record_id,company_name,company_record_id,relationship_type,role,start_date,end_date,source,leak,confidence,notes
+calvin edward ayre,icij:56077577,STRATHAM FINANCE LIMITED,icij:55022086,officer_of,shareholder of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+calvin edward ayre,icij:56077208,Sutherland Finance Limited,icij:55030232,officer_of,director of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+calvin edward ayre,icij:56077208,Sutherland Finance Limited,icij:55030232,officer_of,judicial representative of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+calvin edward ayre,icij:56077208,Sutherland Finance Limited,icij:55030232,officer_of,legal representative of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+calvin edward ayre,icij:56077208,Sutherland Finance Limited,icij:55030232,officer_of,shareholder of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+calvin edward ayre,icij:56077208,Bodog Music (Europe) Limited,icij:55031139,officer_of,shareholder of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
