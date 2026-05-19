@@ -1,0 +1,51 @@
+company_name,uid,graph_degree,n_web_hits,max_hit_score,underreported_score,reason
+MAYFAIR CAPITAL LTD,icij:55049444,11,0,0.0,1.0,high graph degree + no web presence
+VERA YACHTING LTD,icij:55057631,11,0,0.0,1.0,high graph degree + no web presence
+CUDDY LTD,icij:55050088,11,0,0.0,1.0,high graph degree + no web presence
+MIRAGE CHARTERS LTD,icij:55051281,11,0,0.0,1.0,high graph degree + no web presence
+DIONE HOLDINGS LTD,icij:55051774,11,0,0.0,1.0,high graph degree + no web presence
+EMBLA LTD,icij:55054932,10,0,0.0,0.909,high graph degree + no web presence
+NG HOLDINGS LTD,icij:55054632,10,0,0.0,0.909,high graph degree + no web presence
+PAKINYA HOLDINGS LIMITED,icij:55049695,10,0,0.0,0.909,high graph degree + no web presence
+TASI HOLDINGS LIMITED,icij:55049698,10,0,0.0,0.909,high graph degree + no web presence
+FCL MALTA LTD,icij:55050777,10,0,0.0,0.909,high graph degree + no web presence
+DABNEY HOLDINGS LIMITED,icij:55049696,10,0,0.0,0.909,high graph degree + no web presence
+JAVVOS HOLDINGS LIMITED,icij:55049789,10,0,0.0,0.909,high graph degree + no web presence
+INTEGRATED-CAPABILITIES (MALTA) LTD,icij:55044834,10,0,0.0,0.909,high graph degree + no web presence
+SEABREEZE YACHTING LTD,icij:55051782,10,0,0.0,0.909,high graph degree + no web presence
+RESOURCE TECHNOLOGY LTD,icij:55051787,10,0,0.0,0.909,high graph degree + no web presence
+LPD HOLDINGS LTD,icij:55055770,10,0,0.0,0.909,high graph degree + no web presence
+Desert Fox Ltd.,icij:55052215,10,0,0.0,0.909,high graph degree + no web presence
+Prism Lights Ltd.,icij:55046675,9,0,0.0,0.818,high graph degree + no web presence
+Crowd Shout Holdings Ltd.,icij:55052200,9,0,0.0,0.818,high graph degree + no web presence
+JAZMANIA HOLDINGS LIMITED,icij:55049210,9,0,0.0,0.818,high graph degree + no web presence
+DVUS HOLDINGS LTD,icij:55057131,9,0,0.0,0.818,high graph degree + no web presence
+PICK ME LTD,icij:55050623,9,0,0.0,0.818,high graph degree + no web presence
+JEDIEL HOLDINGS LIMITED,icij:55049699,9,0,0.0,0.818,high graph degree + no web presence
+NAPELLUS INVESTMENTS LIMITED,icij:55051181,9,0,0.0,0.818,high graph degree + no web presence
+SMOOTH SAILING LTD,icij:55058021,9,0,0.0,0.818,high graph degree + no web presence
+CENTRAL SERVICES LTD,icij:55050026,9,0,0.0,0.818,high graph degree + no web presence
+RAN 4 LIMITED,icij:55045477,9,0,0.0,0.818,high graph degree + no web presence
+PROBUTEC (MALTA) LTD,icij:55054014,9,0,0.0,0.818,high graph degree + no web presence
+Bavarica Holdings Limited,icij:55051186,9,0,0.0,0.818,high graph degree + no web presence
+SENTORUM LIMITED,icij:55051179,9,0,0.0,0.818,high graph degree + no web presence
+CCTH HOLDINGS LTD,icij:55057037,9,0,0.0,0.818,high graph degree + no web presence
+INTEGRATED-CAPABILITIES LTD,icij:55081116,8,0,0.0,0.727,high graph degree + no web presence
+DAIKON INVESTMENTS LIMITED,icij:55053862,8,0,0.0,0.727,high graph degree + no web presence
+MARLIN YACHTING LTD,icij:55081288,8,0,0.0,0.727,high graph degree + no web presence
+DRIPPING WET LTD,icij:55069461,8,0,0.0,0.727,high graph degree + no web presence
+PALPATINE INDUSTRIES LTD,icij:55065685,7,0,0.0,0.636,high graph degree + no web presence
+INSTAPARK HOLDINGS LTD,icij:55069631,7,0,0.0,0.636,high graph degree + no web presence
+CRIUS LTD,icij:55051778,7,0,0.0,0.636,high graph degree + no web presence
+NETLEADS HOLDINGS LTD,icij:55053169,7,0,0.0,0.636,high graph degree + no web presence
+DUCK HOLDINGS LTD,icij:55057137,7,0,0.0,0.636,high graph degree + no web presence
+PRIMARY GLOBAL NET LTD,icij:55055974,7,0,0.0,0.636,high graph degree + no web presence
+KALINA LTD (MALTA BRANCH),icij:55081491,4,0,0.0,0.364,high graph degree + no web presence
+Deleni Trading Ltd.,icij:55046171,4,0,0.0,0.364,high graph degree + no web presence
+MILA INVESTMENT HOLDINGS LTD,icij:55081490,4,0,0.0,0.364,high graph degree + no web presence
+AWEIGH YACHTING LTD,icij:55046957,10,40,1.0,0.0,well-attested
+BALFOURI HOLDINGS LIMITED,icij:55051182,9,40,1.0,0.0,well-attested
+ARGOSY EUROPE LIMITED,icij:55066237,3,40,1.0,0.0,well-attested
+B.M.D GLOBAL PROJECTS LTD,icij:55045531,9,40,1.0,0.0,well-attested
+BELLEVILLE LTD,icij:55081280,3,5,1.0,0.0,well-attested
+AMARYLIS HOLDINGS LTD,icij:55054634,11,40,1.0,0.0,well-attested
