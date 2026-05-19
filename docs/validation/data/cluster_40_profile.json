@@ -1,0 +1,399 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.6869565217391305,
+    "community_id": 40,
+    "isolation": 1.0,
+    "n_seeds": 35,
+    "seed_density": 0.21739130434782608,
+    "size": 161,
+    "size_deviation": 5.081404364984463
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 40,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 161
+  },
+  "community_id": 40,
+  "generated_at": "2026-05-19 16:47:57 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": "mt",
+      "name": "HARTSWOOD INVESTMENTS LIMITED",
+      "seed": true,
+      "uid": "icij:55025262"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "KIBLA INVESTMENTS LIMITED",
+      "seed": false,
+      "uid": "icij:55072714"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "AUROUS INVESTMENTS LIMITED",
+      "seed": true,
+      "uid": "icij:55025149"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SAINT GEORGE DREDGING LIMITED",
+      "seed": false,
+      "uid": "icij:55041012"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SORBIT LIMITED",
+      "seed": false,
+      "uid": "icij:55027727"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SATIVA PROPERTIES LIMITED",
+      "seed": true,
+      "uid": "icij:55022588"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SABENA LIMITED",
+      "seed": false,
+      "uid": "icij:55027846"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SERRATA PROPERTIES LIMITED",
+      "seed": true,
+      "uid": "icij:55022387"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CLONARD INVESTMENTS LIMITED",
+      "seed": false,
+      "uid": "icij:55025927"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "NORTHERN SKIES LIMITED",
+      "seed": false,
+      "uid": "icij:55054184"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SHORTIA PROPERTY LIMITED",
+      "seed": true,
+      "uid": "icij:55024943"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "TAMARA HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55028019"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "NORWEGIAN MASCOT LIMITED",
+      "seed": true,
+      "uid": "icij:55024979"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ROXSPUR LIMITED",
+      "seed": true,
+      "uid": "icij:55024997"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "TABOR PROPERTIES LIMITED",
+      "seed": true,
+      "uid": "icij:55025187"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MAXDA LIMITED",
+      "seed": false,
+      "uid": "icij:55049636"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CAPSIS LIMITED",
+      "seed": false,
+      "uid": "icij:55026745"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "RESOURCE EUROPE LIMITED",
+      "seed": false,
+      "uid": "icij:55047260"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "TANTEC LIMITED",
+      "seed": false,
+      "uid": "icij:55028034"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "FURL HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55026050"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ITSKATES LIMITED",
+      "seed": false,
+      "uid": "icij:55026672"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "KRYTEN INVESTMENTS LIMITED",
+      "seed": false,
+      "uid": "icij:55025525"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "FOUDROYANT LIMITED",
+      "seed": false,
+      "uid": "icij:55048607"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MOON LIMITED",
+      "seed": false,
+      "uid": "icij:55028107"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SPOT LIMITED",
+      "seed": false,
+      "uid": "icij:55027276"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "RIVERSHIP MARITIME LIMITED",
+      "seed": false,
+      "uid": "icij:55068605"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SUBER PROPERTIES LIMITED",
+      "seed": true,
+      "uid": "icij:55022653"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SANWEST HOLDINGS LIMITED",
+      "seed": true,
+      "uid": "icij:55024808"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CROSSWELL HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55025930"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MINDORO LIMITED",
+      "seed": false,
+      "uid": "icij:55036756"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ADAMUS PROPERTIES LIMITED",
+      "seed": false,
+      "uid": "icij:55034234"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "NORTHERN STAR LIMITED",
+      "seed": false,
+      "uid": "icij:55046735"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SERICEA PROPERTIES LIMITED",
+      "seed": true,
+      "uid": "icij:55022390"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "GLOREN PROPERTIES LIMITED",
+      "seed": false,
+      "uid": "icij:55025449"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ACER PROPERTIES LIMITED",
+      "seed": true,
+      "uid": "icij:55025296"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "LORD NELSON CRUISING LTD.",
+      "seed": false,
+      "uid": "icij:55054297"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58099488",
+      "seed": false,
+      "uid": "icij:58099488"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Amberley Holdings Limited",
+      "seed": false,
+      "uid": "icij:55033530"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ARIA PROPERTIES LIMITED",
+      "seed": true,
+      "uid": "icij:55023329"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "BIOCORP SERVICE COMPANY LIMITED",
+      "seed": true,
+      "uid": "icij:55024940"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ENVIRO HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55025521"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PROTEA PLACE LIMITED",
+      "seed": false,
+      "uid": "icij:55027797"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PASALRIO LIMITED",
+      "seed": false,
+      "uid": "icij:55035984"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SANDBRIDGE LIMITED",
+      "seed": false,
+      "uid": "icij:55025450"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "JCS HOLMAN LIMITED",
+      "seed": true,
+      "uid": "icij:55024238"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "GINLURE HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55025415"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "BAYBIRD CONSULTANTS LIMITED",
+      "seed": true,
+      "uid": "icij:55025414"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "TARMON PROPERTIES LIMITED",
+      "seed": false,
+      "uid": "icij:55027941"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "VALSUAN INVESTMENTS LIMITED",
+      "seed": false,
+      "uid": "icij:55025489"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "JANSHA LIMITED",
+      "seed": false,
+      "uid": "icij:55025420"
+    }
+  ],
+  "n_members": 161,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.994,
+    "anomaly_score": 0.6869565217391305,
+    "cluster_size": 161,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 1,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 30,
+    "officer_reuse_rate": 0.994,
+    "top_theme": "unknown",
+    "top_theme_share": 0.435,
+    "underreportedness": 1.0
+  },
+  "person": "tracy jane pozo",
+  "person_normalized": "tracy jane pozo",
+  "person_uids": [
+    "icij:56055864",
+    "icij:56055924"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.687,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 40,
+    "connectedness": 0.9555,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "HARTSWOOD INVESTMENTS LIMITED",
+      "KIBLA INVESTMENTS LIMITED",
+      "AUROUS INVESTMENTS LIMITED",
+      "SAINT GEORGE DREDGING LIMITED",
+      "SORBIT LIMITED",
+      "SATIVA PROPERTIES LIMITED",
+      "SABENA LIMITED",
+      "SERRATA PROPERTIES LIMITED",
+      "CLONARD INVESTMENTS LIMITED",
+      "NORTHERN SKIES LIMITED"
+    ],
+    "member_uids_sample": [
+      "icij:55025262",
+      "icij:55072714",
+      "icij:55025149",
+      "icij:55041012",
+      "icij:55027727",
+      "icij:55022588",
+      "icij:55027846",
+      "icij:55022387",
+      "icij:55025927",
+      "icij:55054184"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.557083,
+    "size": 161,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "country field missing in ICIJ persons rows.",
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address."
+    ],
+    "supporting": [
+      "2 ICIJ uids share normalized name `tracy jane pozo` (icij:56055864, icij:56055924)."
+    ]
+  },
+  "threshold": 0.9,
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/tracy-jane-pozo.md \u2014 using parquet only."
+  ]
+}

@@ -1,0 +1,162 @@
+company_name,normalized_company_name,theme,matched_keywords,confidence,needs_manual_review
+AMYL INVESTMENTS LIMITED,amyl investments,investment / holding / capital,invest,0.30,true
+ANANDA HOLDINGS LIMITED,ananda holdings,investment / holding / capital,holding,0.30,true
+ANWELL HOLDINGS LIMITED,anwell holdings,investment / holding / capital,holding,0.30,true
+ARDBEG INVESTMENTS LIMITED,ardbeg investments,investment / holding / capital,invest,0.30,true
+ASIA PROPERTY CAPITAL LIMITED,asia property capital,investment / holding / capital,capital,0.30,true
+AUROUS INVESTMENTS LIMITED,aurous investments,investment / holding / capital,invest,0.30,true
+Amberley Holdings Limited,amberley holdings,investment / holding / capital,holding,0.30,true
+BEJA HOLDINGS LIMITED,beja holdings,investment / holding / capital,holding,0.30,true
+BELOMBRE CAPITAL LIMITED,belombre capital,investment / holding / capital,capital,0.30,true
+BLACKMAN INVESTMENTS LIMITED,blackman investments,investment / holding / capital,invest,0.30,true
+CAMEROON INVESTMENTS LIMITED,cameroon investments,investment / holding / capital,invest,0.30,true
+CLONARD INVESTMENTS LIMITED,clonard investments,investment / holding / capital,invest,0.30,true
+CROSSWELL HOLDINGS LIMITED,crosswell holdings,investment / holding / capital,holding,0.30,true
+DEKIN INVESTMENTS LIMITED,dekin investments,investment / holding / capital,invest,0.30,true
+DELAMERE INVESTMENTS LIMITED,delamere investments,investment / holding / capital,invest,0.30,true
+ELEGAN HOLDINGS LIMITED,elegan holdings,investment / holding / capital,holding,0.30,true
+ENVIRO HOLDINGS LIMITED,enviro holdings,investment / holding / capital,holding,0.30,true
+FANBURG HOLDINGS LIMITED,fanburg holdings,investment / holding / capital,holding,0.30,true
+FLOREN INVESTMENTS LIMITED,floren investments,investment / holding / capital,invest,0.30,true
+FORTIFIED INVESTMENTS LIMITED,fortified investments,investment / holding / capital,invest,0.30,true
+FURL HOLDINGS LIMITED,furl holdings,investment / holding / capital,holding,0.30,true
+GINLURE HOLDINGS LIMITED,ginlure holdings,investment / holding / capital,holding,0.30,true
+HARBET HOLDINGS LIMITED,harbet holdings,investment / holding / capital,holding,0.30,true
+HARTSWOOD INVESTMENTS LIMITED,hartswood investments,investment / holding / capital,invest,0.30,true
+KEER PROPERTY INVESTMENT LIMITED,keer property investment,investment / holding / capital,invest,0.30,true
+KIBLA INVESTMENTS LIMITED,kibla investments,investment / holding / capital,invest,0.30,true
+KRYTEN INVESTMENTS LIMITED,kryten investments,investment / holding / capital,invest,0.30,true
+LEXUS HOLDINGS LIMITED,lexus holdings,investment / holding / capital,holding,0.30,true
+LUCAYAN INVESTMENTS LIMITED,lucayan investments,investment / holding / capital,invest,0.30,true
+MARYVALE INVESTMENT COMPANY LIMITED,maryvale investment company,investment / holding / capital,invest,0.30,true
+MOLONEY INVESTMENTS LIMITED,moloney investments,investment / holding / capital,invest,0.30,true
+NITE HOLDINGS LIMITED,nite holdings,investment / holding / capital,holding,0.30,true
+PARMAR INVESTMENTS LIMITED,parmar investments,investment / holding / capital,invest,0.30,true
+PERICLES TRADE AND INVESTMENTS LIMITED,pericles trade and investments,investment / holding / capital,invest,0.30,true
+PETTIT PROPERTY HOLDINGS LIMITED,pettit property holdings,investment / holding / capital,holding,0.30,true
+RANDALL TRADING AND CONSULTANCY LIMITED,randall trading and consultancy,investment / holding / capital,trading,0.30,true
+ROOTIC INVESTMENTS LIMITED,rootic investments,investment / holding / capital,invest,0.30,true
+RULANDER INVESTMENTS LIMITED,rulander investments,investment / holding / capital,invest,0.30,true
+SAINT HOLDINGS LIMITED,saint holdings,investment / holding / capital,holding,0.30,true
+SANWEST HOLDINGS LIMITED,sanwest holdings,investment / holding / capital,holding,0.30,true
+SCOPAS HOLDINGS LIMITED,scopas holdings,investment / holding / capital,holding,0.30,true
+SUTTON INVESTMENTS LIMITED,sutton investments,investment / holding / capital,invest,0.30,true
+TAMARA HOLDINGS LIMITED,tamara holdings,investment / holding / capital,holding,0.30,true
+THRIFT HOLDINGS LIMITED,thrift holdings,investment / holding / capital,holding,0.30,true
+UNIBLUE SYSTEMS HOLDINGS LIMITED,uniblue systems holdings,investment / holding / capital,holding,0.30,true
+VALSUAN INVESTMENTS LIMITED,valsuan investments,investment / holding / capital,invest,0.30,true
+VIRTUAL INVESTMENTS LIMITED,virtual investments,investment / holding / capital,invest,0.30,true
+ACACIA PROPERTIES LIMITED,acacia properties,property / real estate,propert,0.30,true
+ACER PROPERTIES LIMITED,acer properties,property / real estate,propert,0.30,true
+ADAMUS PROPERTIES LIMITED,adamus properties,property / real estate,propert,0.30,true
+ANTARCTICA PROPERTIES LIMITED,antarctica properties,property / real estate,propert,0.30,true
+ARIA PROPERTIES LIMITED,aria properties,property / real estate,propert,0.30,true
+ARIZONICA PROPERTIES LIMITED,arizonica properties,property / real estate,propert,0.30,true
+DANISCO PROPERTIES LIMITED,danisco properties,property / real estate,propert,0.30,true
+DASA PROPERTIES LIMITED,dasa properties,property / real estate,propert,0.30,true
+DELLA PROPERTIES LIMITED,della properties,property / real estate,propert,0.30,true
+DUFFERIN PROPERTY DEVELOPMENTS LIMITED,dufferin property developments,property / real estate,propert;developments,0.30,true
+FANTAIL ESTATES LIMITED,fantail estates,property / real estate,estate,0.30,true
+GLOREN PROPERTIES LIMITED,gloren properties,property / real estate,propert,0.30,true
+GROVE PROPERTIES LIMITED,grove properties,property / real estate,propert,0.30,true
+JORDAN PROPERTIES LIMITED,jordan properties,property / real estate,propert,0.30,true
+KNOLEDALE PROPERTIES LIMITED,knoledale properties,property / real estate,propert,0.30,true
+MARYLEBONE PROPERTY LIMITED,marylebone property,property / real estate,propert,0.30,true
+MAYGAN PROPERTIES LIMITED,maygan properties,property / real estate,propert,0.30,true
+MEDBLUE PROPERTIES LIMITED,medblue properties,property / real estate,propert,0.30,true
+MYLAND LIMITED,myland,property / real estate,land,0.30,true
+PENTYRE PROPERTIES LIMITED,pentyre properties,property / real estate,propert,0.30,true
+SAPIUM PROPERTIES LIMITED,sapium properties,property / real estate,propert,0.30,true
+SATIVA PROPERTIES LIMITED,sativa properties,property / real estate,propert,0.30,true
+SCOPULINA PROPERTIES LIMITED,scopulina properties,property / real estate,propert,0.30,true
+SERICEA PROPERTIES LIMITED,sericea properties,property / real estate,propert,0.30,true
+SERRATA PROPERTIES LIMITED,serrata properties,property / real estate,propert,0.30,true
+SHORTIA PROPERTY LIMITED,shortia property,property / real estate,propert,0.30,true
+STAPLETON PROPERTIES LIMITED,stapleton properties,property / real estate,propert,0.30,true
+SUBER PROPERTIES LIMITED,suber properties,property / real estate,propert,0.30,true
+TABOR PROPERTIES LIMITED,tabor properties,property / real estate,propert,0.30,true
+TALOMA PROPERTIES LIMITED,taloma properties,property / real estate,propert,0.30,true
+TARMON PROPERTIES LIMITED,tarmon properties,property / real estate,propert,0.30,true
+TERIN PROPERTY LIMITED,terin property,property / real estate,propert,0.30,true
+THORNBURY PROPERTY LIMITED,thornbury property,property / real estate,propert,0.30,true
+AVORIAZ SERVICE COMPANY LIMITED,avoriaz service company,services / administration,service,0.30,true
+BIOCORP SERVICE COMPANY LIMITED,biocorp service company,services / administration,service,0.30,true
+CAMILLE SERVICE COMPANY LIMITED,camille service company,services / administration,service,0.30,true
+CHERRYGROVE SERVICES LIMITED,cherrygrove services,services / administration,services;service,0.30,true
+Lebres Services Limited,lebres services,services / administration,services;service,0.30,true
+MYRIADE SERVICE COMPANY LIMITED,myriade service company,services / administration,service,0.30,true
+SOVEREIGN PENSION SERVICES LIMITED,sovereign pension services,services / administration,services;service,0.30,true
+TC TRAINING & CONSULTING LIMITED,tc training consulting,services / administration,consulting,0.30,true
+BONNEY TECHNOLOGIES LIMITED,bonney technologies,tech / digital,tech,0.30,true
+SAINT GEORGE DREDGING LIMITED,saint george dredging,tech / digital,ai,0.30,true
+ABURY LIMITED,abury,unknown,,0.00,true
+ACE (MALTA) LIMITED,ace malta,unknown,,0.00,true
+AMY LIMITED,amy,unknown,,0.00,true
+ARABIS 95 LIMITED,arabis 95,unknown,,0.00,true
+AUSTEN BAY LIMITED,austen bay,unknown,,0.00,true
+BAYBIRD CONSULTANTS LIMITED,baybird consultants,unknown,,0.00,true
+BELFARE LIMITED,belfare,unknown,,0.00,true
+BRODESSA LIMITED,brodessa,unknown,,0.00,true
+CAPSIS LIMITED,capsis,unknown,,0.00,true
+CASA CONIGLIO LIMITED,casa coniglio,unknown,,0.00,true
+CHAGOS LIMITED,chagos,unknown,,0.00,true
+CHINEWOOD LIMITED,chinewood,unknown,,0.00,true
+CRANTOR LIMITED,crantor,unknown,,0.00,true
+DYGARN LIMITED,dygarn,unknown,,0.00,true
+ELLWAY CONSULTANTS LIMITED,ellway consultants,unknown,,0.00,true
+FONTON LIMITED,fonton,unknown,,0.00,true
+FORBES LIMITED,forbes,unknown,,0.00,true
+FOUDROYANT LIMITED,foudroyant,unknown,,0.00,true
+HAPPY RANCHO LIMITED,happy rancho,unknown,,0.00,true
+HESWAY LIMITED,hesway,unknown,,0.00,true
+ITSKATES LIMITED,itskates,unknown,,0.00,true
+JACK TAR LIMITED,jack tar,unknown,,0.00,true
+JANSHA LIMITED,jansha,unknown,,0.00,true
+JCS HOLMAN LIMITED,jcs holman,unknown,,0.00,true
+JKC LEISURE LIMITED,jkc leisure,unknown,,0.00,true
+LAZARD LIMITED,lazard,unknown,,0.00,true
+LENANE (INTERNATIONAL) LIMITED,lenane international,unknown,,0.00,true
+LORD NELSON CRUISING LTD.,lord nelson cruising,unknown,,0.00,true
+MACKEN CONSULTANTS LIMITED,macken consultants,unknown,,0.00,true
+MANING (GUERNSEY) LIMITED,maning guernsey,unknown,,0.00,true
+MARKET COMMUNICATIONS LIMITED,market communications,unknown,,0.00,true
+MARSH DEVELOPMENT LIMITED,marsh development,unknown,,0.00,true
+MAXDA LIMITED,maxda,unknown,,0.00,true
+MEDRA LIMITED,medra,unknown,,0.00,true
+MINDORO LIMITED,mindoro,unknown,,0.00,true
+MOON LIMITED,moon,unknown,,0.00,true
+MOSTON OVERSEAS LIMITED,moston overseas,unknown,,0.00,true
+Mediterranean Chemical Limited,mediterranean chemical,unknown,,0.00,true
+NORTHERN SKIES LIMITED,northern skies,unknown,,0.00,true
+NORTHERN STAR LIMITED,northern star,unknown,,0.00,true
+NORWEGIAN MASCOT LIMITED,norwegian mascot,unknown,,0.00,true
+NUMIDA LIMITED,numida,unknown,,0.00,true
+OLDCASTLE LIMITED,oldcastle,unknown,,0.00,true
+PARCENER LIMITED,parcener,unknown,,0.00,true
+PASALRIO LIMITED,pasalrio,unknown,,0.00,true
+PLAYA INTERSEAS LIMITED,playa interseas,unknown,,0.00,true
+PROTEA PLACE LIMITED,protea place,unknown,,0.00,true
+RAGUSA LIMITED,ragusa,unknown,,0.00,true
+RAPOSA LIMITED,raposa,unknown,,0.00,true
+RESOURCE EUROPE LIMITED,resource europe,unknown,,0.00,true
+RIVERSHIP MARITIME LIMITED,rivership maritime,unknown,,0.00,true
+ROXSPUR LIMITED,roxspur,unknown,,0.00,true
+RUBY BAY LIMITED,ruby bay,unknown,,0.00,true
+SABENA LIMITED,sabena,unknown,,0.00,true
+SANDBRIDGE LIMITED,sandbridge,unknown,,0.00,true
+SCENIC LIMITED,scenic,unknown,,0.00,true
+SDT (MALTA) LIMITED,sdt malta,unknown,,0.00,true
+SEAHOUSE LIMITED,seahouse,unknown,,0.00,true
+SORBIT LIMITED,sorbit,unknown,,0.00,true
+SPOT LIMITED,spot,unknown,,0.00,true
+STATNOM LIMITED,statnom,unknown,,0.00,true
+SUCA LIMITED,suca,unknown,,0.00,true
+SUNSHINE CONSULTANTS LIMITED,sunshine consultants,unknown,,0.00,true
+Sandakan Limited,sandakan,unknown,,0.00,true
+TANTEC LIMITED,tantec,unknown,,0.00,true
+TENNIS LIMITED,tennis,unknown,,0.00,true
+TRAMSPOR LIMITED,tramspor,unknown,,0.00,true
+WHARLEY HALL LIMITED,wharley hall,unknown,,0.00,true
+WOODLYN RESOURCES LIMITED,woodlyn resources,unknown,,0.00,true
+icij:58099488,icij 58099488,unknown,,0.00,true
+JAGANAR SHIPPING LIMITED,jaganar shipping,yachting / charter / vessel,shipping,0.30,true
