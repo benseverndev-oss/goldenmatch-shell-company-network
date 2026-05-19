@@ -1,0 +1,363 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.6363636363636364,
+    "community_id": 39,
+    "isolation": 1.0,
+    "n_seeds": 4,
+    "seed_density": 0.09090909090909091,
+    "size": 44,
+    "size_deviation": 3.784189633918261
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 39,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 44
+  },
+  "community_id": 39,
+  "generated_at": "2026-05-19 16:48:28 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": "mt",
+      "name": "LINDA PROPERTIES LIMITED",
+      "seed": false,
+      "uid": "icij:55025388"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "EVERIA CONSULTING LIMITED",
+      "seed": false,
+      "uid": "icij:55070099"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "FLEXUS LIMITED",
+      "seed": true,
+      "uid": "icij:55064573"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "RF MANAGEMENT LIMITED",
+      "seed": false,
+      "uid": "icij:55060100"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CLEAR WATER HOLDING LIMITED",
+      "seed": false,
+      "uid": "icij:55050035"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PRINCESS MANAGEMENT LIMITED",
+      "seed": false,
+      "uid": "icij:55041322"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PARK & FLY DEVELOPMENTS LIMITED",
+      "seed": true,
+      "uid": "icij:55058292"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SYNERIUM HOLDING LIMITED",
+      "seed": false,
+      "uid": "icij:55069204"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "AMUSNET GAMING LIMITED",
+      "seed": false,
+      "uid": "icij:55053630"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "IVESTA HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55037725"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "RF INVESTMENTS LIMITED",
+      "seed": false,
+      "uid": "icij:55060099"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "DIGIBIZZ LIMITED",
+      "seed": false,
+      "uid": "icij:55077249"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58057700",
+      "seed": false,
+      "uid": "icij:58057700"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SUPERINVEST LIMITED",
+      "seed": false,
+      "uid": "icij:55055685"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "GESTO HOLDING LIMITED",
+      "seed": false,
+      "uid": "icij:55056970"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "BALOO LIMITED",
+      "seed": false,
+      "uid": "icij:55018776"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MGI FINCONSULT LIMITED",
+      "seed": false,
+      "uid": "icij:55008274"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "HSBO LIMITED",
+      "seed": false,
+      "uid": "icij:55071086"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MGI PROSOFT LIMITED",
+      "seed": false,
+      "uid": "icij:55001060"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "HCW LIMITED",
+      "seed": false,
+      "uid": "icij:55070907"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "UDDEN HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55069333"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ENERGEASE LIMITED",
+      "seed": true,
+      "uid": "icij:55072014"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Split Eights Limited",
+      "seed": false,
+      "uid": "icij:55031932"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "BWISE CONSULTING LIMITED",
+      "seed": false,
+      "uid": "icij:55059348"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "NINA GAMING LIMITED",
+      "seed": false,
+      "uid": "icij:55070097"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "GLOBAL HOLDING LIMITED",
+      "seed": false,
+      "uid": "icij:55057373"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MIKE DRAGON LIMITED",
+      "seed": false,
+      "uid": "icij:55048888"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "GESTO ENERGY AFRICA LIMITED",
+      "seed": false,
+      "uid": "icij:55056971"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MEDITERRANEAN OIL & GAS CONSULTING LIMITED",
+      "seed": false,
+      "uid": "icij:55055519"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "HFR HOLDING LIMITED",
+      "seed": false,
+      "uid": "icij:55041321"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PSP PRODUCTION LIMITED",
+      "seed": false,
+      "uid": "icij:55057987"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PSI BINGO LTD",
+      "seed": false,
+      "uid": "icij:55032122"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MIDALEI AGRICULTURE ADVISORS LIMITED",
+      "seed": false,
+      "uid": "icij:55074378"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MIKE DIGGER LIMITED",
+      "seed": false,
+      "uid": "icij:55048886"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PSI HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55031926"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MILESTONE CAPITAL PARTNERS LIMITED",
+      "seed": true,
+      "uid": "icij:55075807"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PENSIVE TECHNOLOGY LIMITED",
+      "seed": false,
+      "uid": "icij:55048946"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "STO LIMITED",
+      "seed": false,
+      "uid": "icij:55071170"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MIILLIIONS LIMITED",
+      "seed": false,
+      "uid": "icij:55050024"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ECOSKILL LOGISTICS LIMITED",
+      "seed": false,
+      "uid": "icij:55039050"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MGI FIDUCIARY SERVICES LIMITED",
+      "seed": false,
+      "uid": "icij:55031903"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "TRON HOLDING LIMITED",
+      "seed": false,
+      "uid": "icij:55048944"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "GLOBAL ENGINEERING & CONSTRUCTION LIMITED",
+      "seed": false,
+      "uid": "icij:55057375"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "KWD - KENARIA WORLD DEVELOPMENT LIMITED",
+      "seed": false,
+      "uid": "icij:55071850"
+    }
+  ],
+  "n_members": 44,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.977,
+    "anomaly_score": 0.6363636363636364,
+    "cluster_size": 44,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 1,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 21,
+    "officer_reuse_rate": 0.955,
+    "top_theme": "unknown",
+    "top_theme_share": 0.455,
+    "underreportedness": 1.0
+  },
+  "person": "nils peter grut",
+  "person_normalized": "nils peter grut",
+  "person_uids": [
+    "icij:56065757",
+    "icij:56068063"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.6364,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 39,
+    "connectedness": 0.7116,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "LINDA PROPERTIES LIMITED",
+      "EVERIA CONSULTING LIMITED",
+      "FLEXUS LIMITED",
+      "RF MANAGEMENT LIMITED",
+      "CLEAR WATER HOLDING LIMITED",
+      "PRINCESS MANAGEMENT LIMITED",
+      "PARK & FLY DEVELOPMENTS LIMITED",
+      "SYNERIUM HOLDING LIMITED",
+      "AMUSNET GAMING LIMITED",
+      "IVESTA HOLDINGS LIMITED"
+    ],
+    "member_uids_sample": [
+      "icij:55025388",
+      "icij:55070099",
+      "icij:55064573",
+      "icij:55060100",
+      "icij:55050035",
+      "icij:55041322",
+      "icij:55058292",
+      "icij:55069204",
+      "icij:55053630",
+      "icij:55037725"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.41347,
+    "size": 44,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "country field missing in ICIJ persons rows.",
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address."
+    ],
+    "supporting": [
+      "2 ICIJ uids share normalized name `nils peter grut` (icij:56065757, icij:56068063)."
+    ]
+  },
+  "threshold": 0.9,
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/nils-peter-grut.md \u2014 using parquet only."
+  ]
+}

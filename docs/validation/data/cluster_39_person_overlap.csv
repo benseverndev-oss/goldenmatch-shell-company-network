@@ -1,0 +1,45 @@
+company_name,normalized_company_name,in_community,in_person_dossier,match_type,confidence,source_record_ids,notes
+AMUSNET GAMING LIMITED,amusnet gaming,true,false,community_only,1.00,icij:55053630,in cluster but not in person dossier
+BALOO LIMITED,baloo,true,false,community_only,1.00,icij:55018776,in cluster but not in person dossier
+BWISE CONSULTING LIMITED,bwise consulting,true,false,community_only,1.00,icij:55059348,in cluster but not in person dossier
+CLEAR WATER HOLDING LIMITED,clear water holding,true,false,community_only,1.00,icij:55050035,in cluster but not in person dossier
+DIGIBIZZ LIMITED,digibizz,true,false,community_only,1.00,icij:55077249,in cluster but not in person dossier
+ECOSKILL LOGISTICS LIMITED,ecoskill logistics,true,false,community_only,1.00,icij:55039050,in cluster but not in person dossier
+ENERGEASE LIMITED,energease,true,false,community_only,1.00,icij:55072014,in cluster but not in person dossier
+EVERIA CONSULTING LIMITED,everia consulting,true,false,community_only,1.00,icij:55070099,in cluster but not in person dossier
+FLEXUS LIMITED,flexus,true,false,community_only,1.00,icij:55064573,in cluster but not in person dossier
+GESTO ENERGY AFRICA LIMITED,gesto energy africa,true,false,community_only,1.00,icij:55056971,in cluster but not in person dossier
+GESTO HOLDING LIMITED,gesto holding,true,false,community_only,1.00,icij:55056970,in cluster but not in person dossier
+GLOBAL ENGINEERING & CONSTRUCTION LIMITED,global engineering construction,true,false,community_only,1.00,icij:55057375,in cluster but not in person dossier
+GLOBAL HOLDING LIMITED,global holding,true,false,community_only,1.00,icij:55057373,in cluster but not in person dossier
+HCW LIMITED,hcw,true,false,community_only,1.00,icij:55070907,in cluster but not in person dossier
+HFR HOLDING LIMITED,hfr holding,true,false,community_only,1.00,icij:55041321,in cluster but not in person dossier
+HSBO LIMITED,hsbo,true,false,community_only,1.00,icij:55071086,in cluster but not in person dossier
+icij:58057700,icij 58057700,true,false,community_only,1.00,icij:58057700,in cluster but not in person dossier
+IVESTA HOLDINGS LIMITED,ivesta holdings,true,false,community_only,1.00,icij:55037725,in cluster but not in person dossier
+KWD - KENARIA WORLD DEVELOPMENT LIMITED,kwd kenaria world development,true,false,community_only,1.00,icij:55071850,in cluster but not in person dossier
+LINDA PROPERTIES LIMITED,linda properties,true,false,community_only,1.00,icij:55025388,in cluster but not in person dossier
+MEDITERRANEAN OIL & GAS CONSULTING LIMITED,mediterranean oil gas consulting,true,false,community_only,1.00,icij:55055519,in cluster but not in person dossier
+MGI FIDUCIARY SERVICES LIMITED,mgi fiduciary services,true,false,community_only,1.00,icij:55031903,in cluster but not in person dossier
+MGI FINCONSULT LIMITED,mgi finconsult,true,false,community_only,1.00,icij:55008274,in cluster but not in person dossier
+MGI PROSOFT LIMITED,mgi prosoft,true,false,community_only,1.00,icij:55001060,in cluster but not in person dossier
+MIDALEI AGRICULTURE ADVISORS LIMITED,midalei agriculture advisors,true,false,community_only,1.00,icij:55074378,in cluster but not in person dossier
+MIILLIIONS LIMITED,miilliions,true,false,community_only,1.00,icij:55050024,in cluster but not in person dossier
+MIKE DIGGER LIMITED,mike digger,true,false,community_only,1.00,icij:55048886,in cluster but not in person dossier
+MIKE DRAGON LIMITED,mike dragon,true,false,community_only,1.00,icij:55048888,in cluster but not in person dossier
+MILESTONE CAPITAL PARTNERS LIMITED,milestone capital partners,true,false,community_only,1.00,icij:55075807,in cluster but not in person dossier
+NINA GAMING LIMITED,nina gaming,true,false,community_only,1.00,icij:55070097,in cluster but not in person dossier
+PARK & FLY DEVELOPMENTS LIMITED,park fly developments,true,false,community_only,1.00,icij:55058292,in cluster but not in person dossier
+PENSIVE TECHNOLOGY LIMITED,pensive technology,true,false,community_only,1.00,icij:55048946,in cluster but not in person dossier
+PRINCESS MANAGEMENT LIMITED,princess management,true,false,community_only,1.00,icij:55041322,in cluster but not in person dossier
+PSI BINGO LTD,psi bingo,true,false,community_only,1.00,icij:55032122,in cluster but not in person dossier
+PSI HOLDINGS LTD,psi holdings,true,false,community_only,1.00,icij:55031926,in cluster but not in person dossier
+PSP PRODUCTION LIMITED,psp production,true,false,community_only,1.00,icij:55057987,in cluster but not in person dossier
+RF INVESTMENTS LIMITED,rf investments,true,false,community_only,1.00,icij:55060099,in cluster but not in person dossier
+RF MANAGEMENT LIMITED,rf management,true,false,community_only,1.00,icij:55060100,in cluster but not in person dossier
+Split Eights Limited,split eights,true,false,community_only,1.00,icij:55031932,in cluster but not in person dossier
+STO LIMITED,sto,true,false,community_only,1.00,icij:55071170,in cluster but not in person dossier
+SUPERINVEST LIMITED,superinvest,true,false,community_only,1.00,icij:55055685,in cluster but not in person dossier
+SYNERIUM HOLDING LIMITED,synerium holding,true,false,community_only,1.00,icij:55069204,in cluster but not in person dossier
+TRON HOLDING LIMITED,tron holding,true,false,community_only,1.00,icij:55048944,in cluster but not in person dossier
+UDDEN HOLDINGS LIMITED,udden holdings,true,false,community_only,1.00,icij:55069333,in cluster but not in person dossier

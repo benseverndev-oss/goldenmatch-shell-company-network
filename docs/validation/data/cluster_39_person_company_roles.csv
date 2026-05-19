@@ -1,0 +1,13 @@
+person_name,person_record_id,company_name,company_record_id,relationship_type,role,start_date,end_date,source,leak,confidence,notes
+nils peter grut,icij:56065757,PARK & FLY DEVELOPMENTS LIMITED,icij:55058292,officer_of,director of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+nils peter grut,icij:56065757,PARK & FLY DEVELOPMENTS LIMITED,icij:55058292,officer_of,judicial representative of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+nils peter grut,icij:56065757,PARK & FLY DEVELOPMENTS LIMITED,icij:55058292,officer_of,legal representative of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+nils peter grut,icij:56065757,PARK & FLY DEVELOPMENTS LIMITED,icij:55058292,officer_of,shareholder of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+nils peter grut,icij:56068063,ENERGEASE LIMITED,icij:55072014,officer_of,director of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+nils peter grut,icij:56068063,ENERGEASE LIMITED,icij:55072014,officer_of,judicial representative of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+nils peter grut,icij:56068063,ENERGEASE LIMITED,icij:55072014,officer_of,legal representative of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+nils peter grut,icij:56068063,ENERGEASE LIMITED,icij:55072014,officer_of,shareholder of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+nils peter grut,icij:56068063,MILESTONE CAPITAL PARTNERS LIMITED,icij:55075807,officer_of,director of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+nils peter grut,icij:56068063,MILESTONE CAPITAL PARTNERS LIMITED,icij:55075807,officer_of,judicial representative of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+nils peter grut,icij:56068063,MILESTONE CAPITAL PARTNERS LIMITED,icij:55075807,officer_of,legal representative of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+nils peter grut,icij:56068063,MILESTONE CAPITAL PARTNERS LIMITED,icij:55075807,officer_of,shareholder of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
