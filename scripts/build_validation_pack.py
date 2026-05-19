@@ -248,13 +248,22 @@ def load_context(
     *,
     threshold: float = DEFAULT_THRESHOLD,
     repo_root: Path = PROJECT_ROOT,
+    reports_data_dir: Path | None = None,
+    interim_dir: Path | None = None,
+    processed_dir: Path | None = None,
+    dossiers_dir: Path | None = None,
 ) -> PackContext:
-    """Load every input the builder needs, tolerating missing files."""
+    """Load every input the builder needs, tolerating missing files.
 
-    reports_data = repo_root / "docs" / "reports" / "data"
-    interim_dir = repo_root / "data" / "interim"
-    processed_dir = repo_root / "data" / "processed"
-    dossiers_dir = repo_root / "docs" / "reports" / "dossiers"
+    Source-data directories can be overridden independently. The Railway
+    job-server passes ``/data/...`` paths; locally they default to the
+    repo-relative ``data/`` and ``docs/reports/`` layout.
+    """
+
+    reports_data = reports_data_dir or (repo_root / "docs" / "reports" / "data")
+    interim_dir = interim_dir or (repo_root / "data" / "interim")
+    processed_dir = processed_dir or (repo_root / "data" / "processed")
+    dossiers_dir = dossiers_dir or (repo_root / "docs" / "reports" / "dossiers")
 
     communities = _read_optional_parquet(reports_data / "confidence_communities.parquet")
     if communities is None or communities.is_empty():
@@ -1308,13 +1317,26 @@ def build_pack(
     repo_root: Path = PROJECT_ROOT,
     out_dir: Path | None = None,
     run_external_search: bool = False,
+    reports_data_dir: Path | None = None,
+    interim_dir: Path | None = None,
+    processed_dir: Path | None = None,
+    dossiers_dir: Path | None = None,
 ) -> dict[str, Path]:
     """Build the validation pack. Returns a dict of {kind: path_written}.
 
     Idempotent and deterministic given the same source parquets.
     """
 
-    ctx = load_context(community_id, person, threshold=threshold, repo_root=repo_root)
+    ctx = load_context(
+        community_id,
+        person,
+        threshold=threshold,
+        repo_root=repo_root,
+        reports_data_dir=reports_data_dir,
+        interim_dir=interim_dir,
+        processed_dir=processed_dir,
+        dossiers_dir=dossiers_dir,
+    )
     members = resolve_members(ctx)
 
     overlap = compute_overlap(ctx, members)
@@ -1424,6 +1446,34 @@ def main(argv: list[str] | None = None) -> int:
         default=None,
         help="override the output directory (default: docs/validation/)",
     )
+    p.add_argument(
+        "--reports-data-dir",
+        type=Path,
+        default=None,
+        help="directory holding confidence_* and validation_queue parquets "
+        "(default: docs/reports/data/). On Railway pass /data/processed/.",
+    )
+    p.add_argument(
+        "--interim-dir",
+        type=Path,
+        default=None,
+        help="directory holding icij_* interim parquets (default: data/interim/). "
+        "On Railway pass /data/interim/.",
+    )
+    p.add_argument(
+        "--processed-dir",
+        type=Path,
+        default=None,
+        help="directory holding icij_persons.parquet (default: data/processed/). "
+        "On Railway pass /data/processed/.",
+    )
+    p.add_argument(
+        "--dossiers-dir",
+        type=Path,
+        default=None,
+        help="directory holding person dossier markdown files "
+        "(default: docs/reports/dossiers/).",
+    )
     p.add_argument("-v", "--verbose", action="store_true")
     args = p.parse_args(argv)
 
@@ -1438,6 +1488,10 @@ def main(argv: list[str] | None = None) -> int:
         threshold=args.threshold,
         out_dir=args.out_dir,
         run_external_search=args.run_external_search,
+        reports_data_dir=args.reports_data_dir,
+        interim_dir=args.interim_dir,
+        processed_dir=args.processed_dir,
+        dossiers_dir=args.dossiers_dir,
     )
 
     print("Generated:")

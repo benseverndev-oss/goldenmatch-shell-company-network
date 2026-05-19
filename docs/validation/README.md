@@ -25,6 +25,21 @@ Recurring infrastructure is a starting point, not an indictment.
 
 ## Generating a pack
 
+**Canonical (Railway-side compute)** — matches `build_validation_queue`:
+
+```bash
+gh workflow run build-validation-pack.yml
+```
+
+Triggers the `build_validation_pack_cluster_47` allowlist entry on the
+Railway job server, downloads the artefacts, and auto-commits them to
+`main`. This is the path the project conventions ask for (`CLAUDE.md`:
+"all heavy compute runs on Railway").
+
+**Local fallback** — for analyst-machine ad-hoc runs against a small
+working copy of the parquets. Heavy on a laptop because `icij_edges`
+is 3.3M rows:
+
 ```bash
 uv run python scripts/build_validation_pack.py \
     --community-id 47 \
@@ -50,6 +65,10 @@ Flags:
   search abstraction. Currently a no-op (queries are still written to
   CSV for manual execution).
 - `--out-dir <path>` — override the output directory; useful for tests.
+- `--reports-data-dir`, `--interim-dir`, `--processed-dir`,
+  `--dossiers-dir` — override the source-data directories. The Railway
+  job-server entry passes `/data/processed/`, `/data/interim/`,
+  `/data/processed/`, and `/app/docs/reports/dossiers/` respectively.
 
 The script degrades gracefully when optional source tables are
 missing: it writes an empty CSV (with headers) and adds a warning to
