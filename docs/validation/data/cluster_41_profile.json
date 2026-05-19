@@ -1,0 +1,399 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.6073619631901841,
+    "community_id": 41,
+    "isolation": 1.0,
+    "n_seeds": 3,
+    "seed_density": 0.018404907975460124,
+    "size": 163,
+    "size_deviation": 5.093750200806762
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 41,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 163
+  },
+  "community_id": 41,
+  "generated_at": "2026-05-19 16:48:10 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": "mt",
+      "name": "PEREGON TRADING LIMITED",
+      "seed": false,
+      "uid": "icij:55030555"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "HAAGSE POORT (HOLDINGS)(MALTA) PLC",
+      "seed": true,
+      "uid": "icij:55032288"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "FTFIP A320 (Paris) LIMITED",
+      "seed": false,
+      "uid": "icij:55052436"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "KANTARA ECLIPSE 1 LTD",
+      "seed": false,
+      "uid": "icij:55052064"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Sea Capital Holding Malta Limited",
+      "seed": false,
+      "uid": "icij:55050477"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "TROY CAPITAL III LIMITED",
+      "seed": false,
+      "uid": "icij:55048461"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MENA JIF HOLDCO I LIMITED",
+      "seed": false,
+      "uid": "icij:55044886"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Frogmore Capital Limited",
+      "seed": false,
+      "uid": "icij:55034322"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ARCTICMED HOLDING LIMITED",
+      "seed": false,
+      "uid": "icij:55040364"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "EUROPEAN CONVERGENCE DEVELOPMENT (MALTA) LIMITED",
+      "seed": false,
+      "uid": "icij:55032728"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "London Five Limited",
+      "seed": false,
+      "uid": "icij:55038207"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "FALCON TRADING LTD",
+      "seed": false,
+      "uid": "icij:55049039"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "LONDON FIVE HOLDING LIMITED",
+      "seed": false,
+      "uid": "icij:55038206"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "OBERGURGL Limited",
+      "seed": false,
+      "uid": "icij:55045823"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MAPERI LIMITED",
+      "seed": false,
+      "uid": "icij:55040363"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SRF III Limited",
+      "seed": false,
+      "uid": "icij:55040708"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "LBC TANK TERMINALS MALTA LTD",
+      "seed": false,
+      "uid": "icij:55034615"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "BULLS AIRCRAFT LEASING (MALTA) LIMITED",
+      "seed": false,
+      "uid": "icij:55044396"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CITADEL CAPITAL PARTNERS LTD",
+      "seed": false,
+      "uid": "icij:55040108"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "STERLING GRACE EUROPE LIMITED",
+      "seed": false,
+      "uid": "icij:55062072"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SINALOA AIRCRAFT LEASING LIMITED",
+      "seed": false,
+      "uid": "icij:55036779"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Sky Holdings Limited",
+      "seed": false,
+      "uid": "icij:55030115"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "RADEGAST LIMITED",
+      "seed": false,
+      "uid": "icij:55040594"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ORACAP FAR EAST LIMITED",
+      "seed": false,
+      "uid": "icij:55035838"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "OSIRIS CORPORATE SERVICES LIMITED",
+      "seed": false,
+      "uid": "icij:55043447"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58025383",
+      "seed": false,
+      "uid": "icij:58025383"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "OSIRIS HOLDING LIMITED",
+      "seed": false,
+      "uid": "icij:55029062"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "NYMGO MALTA LIMITED",
+      "seed": false,
+      "uid": "icij:55048109"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "TROY CAPITAL II LIMITED",
+      "seed": false,
+      "uid": "icij:55039341"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MORRETINO LIMITED",
+      "seed": false,
+      "uid": "icij:55080584"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "FELLDOWN INVESTMENTS LIMITED",
+      "seed": false,
+      "uid": "icij:55037968"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "FTFIP A330 Limited",
+      "seed": false,
+      "uid": "icij:55051698"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Alchemy Parts (Malta) Limited",
+      "seed": false,
+      "uid": "icij:55048217"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CANADA SQUARE (MALTA) P.L.C.",
+      "seed": false,
+      "uid": "icij:55035802"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "EUROMEDIC INTERNATIONAL LIMITED",
+      "seed": false,
+      "uid": "icij:55017696"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SRF I LIMITED",
+      "seed": false,
+      "uid": "icij:55035220"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "TROY CAPITAL LIMITED",
+      "seed": false,
+      "uid": "icij:55029575"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "NORTH COLONNADE (HOLDINGS) (MALTA) PLC",
+      "seed": false,
+      "uid": "icij:55031711"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "JARRTON INTERNATIONAL LIMITED",
+      "seed": false,
+      "uid": "icij:55036908"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SC Moana Limited",
+      "seed": false,
+      "uid": "icij:55050719"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "KASKAD HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55033794"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "E & H HOLDING LIMITED",
+      "seed": false,
+      "uid": "icij:55044414"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PEREGON HOLDING LIMITED",
+      "seed": false,
+      "uid": "icij:55030532"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "HUNTON LIMITED",
+      "seed": false,
+      "uid": "icij:55057259"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Elliott Paul Construction Limited",
+      "seed": false,
+      "uid": "icij:55041745"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Power Machine Holding Limited",
+      "seed": false,
+      "uid": "icij:55037934"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Mullach Limited",
+      "seed": false,
+      "uid": "icij:55045953"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "AROYA LIMITED",
+      "seed": false,
+      "uid": "icij:55081285"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "BEDFONT LAKES (HOLDINGS) (MALTA) P.L.C.",
+      "seed": true,
+      "uid": "icij:55033247"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "DENISORA LIMITED",
+      "seed": false,
+      "uid": "icij:55081188"
+    }
+  ],
+  "n_members": 163,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.994,
+    "anomaly_score": 0.6073619631901841,
+    "cluster_size": 163,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 1,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 113,
+    "officer_reuse_rate": 0.994,
+    "top_theme": "unknown",
+    "top_theme_share": 0.54,
+    "underreportedness": 1.0
+  },
+  "person": "john o connor",
+  "person_normalized": "john o connor",
+  "person_uids": [
+    "icij:56101165",
+    "icij:56102532"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.6074,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 41,
+    "connectedness": 0.9578,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "PEREGON TRADING LIMITED",
+      "HAAGSE POORT (HOLDINGS)(MALTA) PLC",
+      "FTFIP A320 (Paris) LIMITED",
+      "KANTARA ECLIPSE 1 LTD",
+      "Sea Capital Holding Malta Limited",
+      "TROY CAPITAL III LIMITED",
+      "MENA JIF HOLDCO I LIMITED",
+      "Frogmore Capital Limited",
+      "ARCTICMED HOLDING LIMITED",
+      "EUROPEAN CONVERGENCE DEVELOPMENT (MALTA) LIMITED"
+    ],
+    "member_uids_sample": [
+      "icij:55030555",
+      "icij:55032288",
+      "icij:55052436",
+      "icij:55052064",
+      "icij:55050477",
+      "icij:55048461",
+      "icij:55044886",
+      "icij:55034322",
+      "icij:55040364",
+      "icij:55032728"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.481371,
+    "size": 163,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address."
+    ],
+    "supporting": [
+      "2 ICIJ uids share normalized name `john o connor` (icij:56101165, icij:56102532).",
+      "All ICIJ rows report the same country: ie."
+    ]
+  },
+  "threshold": 0.9,
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/john-o-connor.md \u2014 using parquet only."
+  ]
+}

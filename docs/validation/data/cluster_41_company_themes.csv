@@ -1,0 +1,164 @@
+company_name,normalized_company_name,theme,matched_keywords,confidence,needs_manual_review
+33 OLD BROAD STREET (HOLDINGS) (MALTA) PLC,33 old broad street holdings malta,investment / holding / capital,holding,0.30,true
+ARCTICMED HOLDING LIMITED,arcticmed holding,investment / holding / capital,holding,0.30,true
+BEDFONT LAKES (HOLDINGS) (MALTA) P.L.C.,bedfont lakes holdings malta,investment / holding / capital,holding,0.30,true
+BHC INVESTMENT LIMITED,bhc investment,investment / holding / capital,invest,0.30,true
+BORDO (EUROPE) HOLDING LIMITED,bordo europe holding,investment / holding / capital,holding,0.30,true
+BRAND EQUITY DEVELOPMENT LIMITED,brand equity development,investment / holding / capital,equity,0.30,true
+BURGAS HOLDINGS LIMITED,burgas holdings,investment / holding / capital,holding,0.30,true
+CHIEFS AIRCRAFT HOLDING (MALTA) LIMITED,chiefs aircraft holding malta,investment / holding / capital,holding,0.30,true
+CINCLUS AVIATION INVESTMENTS LIMITED,cinclus aviation investments,investment / holding / capital,invest,0.30,true
+CITADEL CAPITAL PARTNERS LTD,citadel capital partners,investment / holding / capital,capital,0.30,true
+CITADEL CAPITAL TRANSPORTATION OPPORTUNITIES II LTD,citadel capital transportation opportunities ii,investment / holding / capital,capital,0.30,true
+CPP HOLDINGS LIMITED,cpp holdings,investment / holding / capital,holding,0.30,true
+CUPRUM HOLDING LIMITED,cuprum holding,investment / holding / capital,holding,0.30,true
+D.G.E. Holding Limited,dge holding,investment / holding / capital,holding,0.30,true
+E & H HOLDING LIMITED,e h holding,investment / holding / capital,holding,0.30,true
+FALCON TRADING LTD,falcon trading,investment / holding / capital,trading,0.30,true
+FELLDOWN INVESTMENTS LIMITED,felldown investments,investment / holding / capital,invest,0.30,true
+FOSSAR HOLDINGS LIMITED,fossar holdings,investment / holding / capital,holding,0.30,true
+Frogmore Capital Limited,frogmore capital,investment / holding / capital,capital,0.30,true
+GLENDINE HOLDING COMPANY LIMITED,glendine holding company,investment / holding / capital,holding,0.30,true
+GLENMORE HOLDING COMPANY LIMITED,glenmore holding company,investment / holding / capital,holding,0.30,true
+GRANITE HOLDINGS LIMITED,granite holdings,investment / holding / capital,holding,0.30,true
+GRANITE INVESTMENTS LIMITED,granite investments,investment / holding / capital,invest,0.30,true
+HAAGSE POORT (HOLDINGS)(MALTA) PLC,haagse poort holdings malta,investment / holding / capital,holding,0.30,true
+ISKRAMECO HOLDING MALTA LIMITED,iskrameco holding malta,investment / holding / capital,holding,0.30,true
+JL INVESTMENTS HOLDING LIMITED,jl investments holding,investment / holding / capital,invest;holding,0.30,true
+JL INVESTMENTS MALTA LIMITED,jl investments malta,investment / holding / capital,invest,0.30,true
+KASKAD HOLDINGS LIMITED,kaskad holdings,investment / holding / capital,holding,0.30,true
+KASKAD INVESTMENT LIMITED,kaskad investment,investment / holding / capital,invest,0.30,true
+KORAFINANCE LTD,korafinance,investment / holding / capital,finance,0.30,true
+LBC TANK TERMINALS MALTA HOLDING CIE LTD,lbc tank terminals malta holding cie,investment / holding / capital,holding,0.30,true
+LECA INVESTMENTS LIMITED,leca investments,investment / holding / capital,invest,0.30,true
+LONDON FIVE HOLDING LIMITED,london five holding,investment / holding / capital,holding,0.30,true
+MALTA INVEST & TRADING COMPANY LTD.,malta invest trading company,investment / holding / capital,invest;trading,0.30,true
+MUSAHAMAT INVESTIA CAPITAL LIMITED,musahamat investia capital,investment / holding / capital,invest;capital,0.30,true
+MUSCLE MACHINE FINANCE LIMITED,muscle machine finance,investment / holding / capital,finance,0.30,true
+NORTH COLONNADE (HOLDINGS) (MALTA) PLC,north colonnade holdings malta,investment / holding / capital,holding,0.30,true
+OSIRIS HOLDING LIMITED,osiris holding,investment / holding / capital,holding,0.30,true
+PEREGON HOLDING LIMITED,peregon holding,investment / holding / capital,holding,0.30,true
+PEREGON TRADING LIMITED,peregon trading,investment / holding / capital,trading,0.30,true
+Power Machine Holding Limited,power machine holding,investment / holding / capital,holding,0.30,true
+R. HOLDING LIMITED,r holding,investment / holding / capital,holding,0.30,true
+RED Agro Investments Limited,red agro investments,investment / holding / capital,invest,0.30,true
+Riyada D1G Investment Limited,riyada d1g investment,investment / holding / capital,invest,0.30,true
+Riyada Educational Investments Limited,riyada educational investments,investment / holding / capital,invest,0.30,true
+SAFFRON HOLDING MALTA LIMITED,saffron holding malta,investment / holding / capital,holding,0.30,true
+SEVENOAKS HOLDINGS LIMITED,sevenoaks holdings,investment / holding / capital,holding,0.30,true
+SFF MALTA HOLDING LTD,sff malta holding,investment / holding / capital,holding,0.30,true
+SFF MALTA TRADING LTD,sff malta trading,investment / holding / capital,trading,0.30,true
+SINO INVESTMENTS LIMITED,sino investments,investment / holding / capital,invest,0.30,true
+SOMMERA HOLDING LIMITED,sommera holding,investment / holding / capital,holding,0.30,true
+Sea Capital Holding Malta Limited,sea capital holding malta,investment / holding / capital,holding;capital,0.30,true
+Sky Holdings Limited,sky holdings,investment / holding / capital,holding,0.30,true
+TROY CAPITAL II LIMITED,troy capital ii,investment / holding / capital,capital,0.30,true
+TROY CAPITAL III LIMITED,troy capital iii,investment / holding / capital,capital,0.30,true
+TROY CAPITAL IV LIMITED,troy capital iv,investment / holding / capital,capital,0.30,true
+TROY CAPITAL LIMITED,troy capital,investment / holding / capital,capital,0.30,true
+ARLANDA LEASING LIMITED,arlanda leasing,property / real estate,land,0.30,true
+EUROPEAN CONVERGENCE PROPERTY COMPANY (MALTA) LIMITED,european convergence property company malta,property / real estate,propert,0.30,true
+KENEPURU PROPERTIES LIMITED,kenepuru properties,property / real estate,propert,0.30,true
+EKRA SERVICES INC.,ekra services,services / administration,services;service,0.30,true
+LS PROPERTY SERVICES MALTA LIMITED,ls property services malta,services / administration,services;service,0.30,true
+OSIRIS CORPORATE SERVICES LIMITED,osiris corporate services,services / administration,services;service;corporate,0.30,true
+OSIRIS INTERNATIONAL SERVICES LIMITED,osiris international services,services / administration,services;service,0.30,true
+OSIRIS TRUST LIMITED,osiris trust,services / administration,trust,0.30,true
+TRAILER SERVICE COMPANY LIMITED,trailer service company,services / administration,service,0.30,true
+BULLS AIRCRAFT LEASING (MALTA) LIMITED,bulls aircraft leasing malta,tech / digital,ai,0.30,true
+Bluebell Aircraft Leasing Limited,bluebell aircraft leasing,tech / digital,ai,0.30,true
+GAIF II MALTA ONE LIMITED,gaif ii malta one,tech / digital,ai,0.30,true
+Hibiscus Aircraft Leasing Limited,hibiscus aircraft leasing,tech / digital,ai,0.30,true
+Lantana Aircraft Leasing Limited,lantana aircraft leasing,tech / digital,ai,0.30,true
+SINALOA AIRCRAFT LEASING LIMITED,sinaloa aircraft leasing,tech / digital,ai,0.30,true
+STORMERS AIRCRAFT LEASING (MALTA) LIMITED,stormers aircraft leasing malta,tech / digital,ai,0.30,true
+33 OLD BROAD STREET (MALTA) LIMITED,33 old broad street malta,unknown,,0.00,true
+ABURG LIMITED,aburg,unknown,,0.00,true
+ALGARMAR MARITIME LIMITED,algarmar maritime,unknown,,0.00,true
+ANDALUSIA INTERNATIONAL LTD,andalusia international,unknown,,0.00,true
+AROHA LIMITED,aroha,unknown,,0.00,true
+AROYA LIMITED,aroya,unknown,,0.00,true
+ASAS Forty Seventh 1 Limited,asas forty seventh 1,unknown,,0.00,true
+Alchemy Parts (Malta) Limited,alchemy parts malta,unknown,,0.00,true
+B.M. MEMBERSHIP CLUB LIMITED,bm membership club,unknown,,0.00,true
+BORDO (EUROPE) LIMITED,bordo europe,unknown,,0.00,true
+BRH MALTA LIMITED,brh malta,unknown,,0.00,true
+BRIC PLUS (MALTA) LIMITED,bric plus malta,unknown,,0.00,true
+Bedfont Lakes (Malta) Limited,bedfont lakes malta,unknown,,0.00,true
+Browley Malta Limited,browley malta,unknown,,0.00,true
+CANADA SQUARE (MALTA) P.L.C.,canada square malta,unknown,,0.00,true
+CHEMOPHARMA LIMITED,chemopharma,unknown,,0.00,true
+COMALISA LIMITED,comalisa,unknown,,0.00,true
+CONTRA TELECOM AND CONSTRUCTION LTD,contra telecom and construction,unknown,,0.00,true
+Challenger LBC Terminals Junior Company Limited,challenger lbc terminals junior company,unknown,,0.00,true
+Concilian Group Limited,concilian group,unknown,,0.00,true
+DCII (MALTA) LIMITED,dcii malta,unknown,,0.00,true
+DENISORA LIMITED,denisora,unknown,,0.00,true
+ELBBLICK (MALTA) P.L.C.,elbblick malta,unknown,,0.00,true
+ELLIOTT WILLS CONSTRUCTION LIMITED,elliott wills construction,unknown,,0.00,true
+EPF (MALTA) P.L.C.,epf malta,unknown,,0.00,true
+EUROMEDIC INTERNATIONAL LIMITED,euromedic international,unknown,,0.00,true
+EUROPEAN CONVERGENCE DEVELOPMENT (MALTA) LIMITED,european convergence development malta,unknown,,0.00,true
+Elliott Paul Construction Limited,elliott paul construction,unknown,,0.00,true
+FDBT MALTA LIMITED,fdbt malta,unknown,,0.00,true
+FINANTIA EMEA LTD,finantia emea,unknown,,0.00,true
+FOSSAR LIMITED,fossar,unknown,,0.00,true
+FTFIP 737-300 LIMITED,ftfip 737 300,unknown,,0.00,true
+FTFIP 737NG LIMITED,ftfip 737ng,unknown,,0.00,true
+FTFIP A320 (Paris) LIMITED,ftfip a320 paris,unknown,,0.00,true
+FTFIP A330 Limited,ftfip a330,unknown,,0.00,true
+GARCIA LIMITED,garcia,unknown,,0.00,true
+GCR Limited,gcr,unknown,,0.00,true
+Gort Falcon Limited,gort falcon,unknown,,0.00,true
+HAAGSE POORT (MALTA) LIMITED,haagse poort malta,unknown,,0.00,true
+HEMBADOO LIMITED,hembadoo,unknown,,0.00,true
+HUNTON LIMITED,hunton,unknown,,0.00,true
+Hahn & Company I Ltd,hahn company i,unknown,,0.00,true
+Harvest Limited,harvest,unknown,,0.00,true
+JARRTON INTERNATIONAL LIMITED,jarrton international,unknown,,0.00,true
+KANTARA AGRO CORP I LTD,kantara agro corp i,unknown,,0.00,true
+KANTARA ECLIPSE 1 LTD,kantara eclipse 1,unknown,,0.00,true
+KANTARA OMS I LTD,kantara oms i,unknown,,0.00,true
+LATIN POWER III MALTA LIMITED,latin power iii malta,unknown,,0.00,true
+LBC TANK TERMINALS MALTA LTD,lbc tank terminals malta,unknown,,0.00,true
+LODESTONE PARTS (MALTA) LIMITED,lodestone parts malta,unknown,,0.00,true
+London Five Limited,london five,unknown,,0.00,true
+M-Link Ltd,m link,unknown,,0.00,true
+M.C.G.H. MALTA (2006) LIMITED,mcgh malta 2006,unknown,,0.00,true
+MALTA GENERAL STORES (MGS) LIMITED,malta general stores mgs,unknown,,0.00,true
+MALTICE LIMITED,maltice,unknown,,0.00,true
+MAPERI LIMITED,maperi,unknown,,0.00,true
+MARFIN LIMITED,marfin,unknown,,0.00,true
+MDFC LIMITED,mdfc,unknown,,0.00,true
+MENA JIF HOLDCO I LIMITED,mena jif holdco i,unknown,,0.00,true
+MENA JIF Holdco II Limited,mena jif holdco ii,unknown,,0.00,true
+MENA JIF LIMITED,mena jif,unknown,,0.00,true
+MERCURY MALTA LIMITED,mercury malta,unknown,,0.00,true
+MIS LTD.,mis,unknown,,0.00,true
+MORRETINO LIMITED,morretino,unknown,,0.00,true
+Mullach Limited,mullach,unknown,,0.00,true
+NYMGO MALTA LIMITED,nymgo malta,unknown,,0.00,true
+OBERGURGL Limited,obergurgl,unknown,,0.00,true
+ONSCREEN INTERACTIVE LIMITED,onscreen interactive,unknown,,0.00,true
+ORACAP FAR EAST LIMITED,oracap far east,unknown,,0.00,true
+OURAL LIMITED,oural,unknown,,0.00,true
+PW4168 SOLUTIONS (MALTA) LIMITED,pw4168 solutions malta,unknown,,0.00,true
+RADEGAST LIMITED,radegast,unknown,,0.00,true
+RBH MALTA LIMITED,rbh malta,unknown,,0.00,true
+REDBREAST AVIATION (MALTA) LIMITED,redbreast aviation malta,unknown,,0.00,true
+REPIKS LIMITED,repiks,unknown,,0.00,true
+ROPE ACCESS INTERNATIONAL LIMITED,rope access international,unknown,,0.00,true
+SC Moana Limited,sc moana,unknown,,0.00,true
+SILVERBERGER Limited,silverberger,unknown,,0.00,true
+SRF I LIMITED,srf i,unknown,,0.00,true
+SRF II Limited,srf ii,unknown,,0.00,true
+SRF III Limited,srf iii,unknown,,0.00,true
+STERLING GRACE EUROPE LIMITED,sterling grace europe,unknown,,0.00,true
+SWEG MALTA LIMITED,sweg malta,unknown,,0.00,true
+Shedlin New European Frontiers 3 (Malta) 1 Limited,shedlin new european frontiers 3 malta 1,unknown,,0.00,true
+TURNER & TOWNSEND LIMITED,turner townsend,unknown,,0.00,true
+ULSLANE INTERNATIONAL LIMITED,ulslane international,unknown,,0.00,true
+ZAMGATE INTERNATIONAL LIMITED,zamgate international,unknown,,0.00,true
+icij:58025383,icij 58025383,unknown,,0.00,true
+Happy Sailing Limited,happy sailing,yachting / charter / vessel,sailing,0.30,true
+SUNSHINE SHIPPING MALTA LIMITED,sunshine shipping malta,yachting / charter / vessel,shipping,0.30,true

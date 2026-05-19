@@ -1,0 +1,3 @@
+person_name,person_record_id,company_name,company_record_id,relationship_type,role,start_date,end_date,source,leak,confidence,notes
+john o connor,icij:56102532,HAAGSE POORT (HOLDINGS)(MALTA) PLC,icij:55032288,officer_of,shareholder of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+john o connor,icij:56102532,BEDFONT LAKES (HOLDINGS) (MALTA) P.L.C.,icij:55033247,officer_of,shareholder of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
