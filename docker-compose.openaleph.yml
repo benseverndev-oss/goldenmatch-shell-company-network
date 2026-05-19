@@ -1,0 +1,116 @@
+# Local OpenAleph stack for reviewing GoldenMatch validation bundles.
+#
+# This is a *minimal* single-host docker-compose intended for one analyst on
+# one laptop reviewing the cluster bundles produced by
+# scripts/build_openaleph_bundle.py. For production use see the upstream
+# OpenAleph deployment docs: https://docs.openaleph.org/deployment
+#
+# Bring-up:
+#
+#   docker compose -f docker-compose.openaleph.yml up -d
+#   docker compose -f docker-compose.openaleph.yml exec api aleph upgrade
+#   docker compose -f docker-compose.openaleph.yml exec api aleph createuser \
+#       --admin --email you@example.com --name "You"
+#   docker compose -f docker-compose.openaleph.yml logs -f api
+#
+# Ingest a bundle (after `unzip cluster_47_aleph_bundle.zip -d /tmp/c47/`):
+#
+#   pip install alephclient
+#   export ALEPHCLIENT_HOST=http://localhost:8080/
+#   export ALEPHCLIENT_API_KEY=<copy from web UI -> Profile>
+#   alephclient crawldir --foreign-id gm-cluster-47-bundle /tmp/c47/
+#
+# Tear-down (destroys all data):
+#
+#   docker compose -f docker-compose.openaleph.yml down -v
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: aleph
+      POSTGRES_PASSWORD: aleph
+      POSTGRES_DB: aleph
+    volumes:
+      - aleph-pg:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  elasticsearch:
+    image: elasticsearch:8.13.4
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+    volumes:
+      - aleph-es:/usr/share/elasticsearch/data
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+
+  # OpenAleph API + UI bundle. Use the openaleph/openaleph image (the
+  # maintained fork of the ICIJ Aleph platform). Pin to a known tag; bump
+  # only after re-testing the ingest path.
+  api:
+    image: openaleph/openaleph:4.2.0
+    depends_on:
+      - postgres
+      - elasticsearch
+      - redis
+    environment:
+      ALEPHDB_URI: postgresql://aleph:aleph@postgres/aleph
+      ALEPH_ELASTICSEARCH_URI: http://elasticsearch:9200/
+      ALEPH_REDIS_URL: redis://redis:6379/0
+      ALEPH_SECRET_KEY: change-me-for-prod
+      ALEPH_APP_TITLE: "GoldenMatch Investigations"
+      ALEPH_APP_NAME: "GoldenMatch"
+      ALEPH_UI_URL: http://localhost:8080/
+      ALEPH_DEBUG: "false"
+    ports:
+      - "8080:8080"
+    volumes:
+      - aleph-archive:/data
+      - ./docs/validation/data:/host-bundles:ro
+    restart: unless-stopped
+
+  # Background worker that handles ingest pipeline.
+  worker:
+    image: openaleph/openaleph:4.2.0
+    depends_on:
+      - api
+    environment:
+      ALEPHDB_URI: postgresql://aleph:aleph@postgres/aleph
+      ALEPH_ELASTICSEARCH_URI: http://elasticsearch:9200/
+      ALEPH_REDIS_URL: redis://redis:6379/0
+      ALEPH_SECRET_KEY: change-me-for-prod
+      ALEPH_APP_NAME: "GoldenMatch"
+    command: ["aleph", "worker"]
+    volumes:
+      - aleph-archive:/data
+    restart: unless-stopped
+
+  # Document-ingest sidecar that extracts text + entities from PDFs and
+  # other binary documents. Optional — skip if you only care about the
+  # FTM entities and not the source PDFs.
+  ingest-file:
+    image: openaleph/ingest-file:3.20.4
+    depends_on:
+      - redis
+    environment:
+      ARCHIVE_TYPE: file
+      ARCHIVE_PATH: /data/archive
+      INGESTORS_TOR_HOST: ""
+      REDIS_URL: redis://redis:6379/0
+    volumes:
+      - aleph-archive:/data
+    restart: unless-stopped
+
+volumes:
+  aleph-pg:
+  aleph-es:
+  aleph-archive:
