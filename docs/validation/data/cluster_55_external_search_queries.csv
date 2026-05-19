@@ -1,0 +1,42 @@
+target_type,target_name,query,purpose,priority
+person,david james mason,"""david james mason"" (PEP OR beneficial owner OR UBO)",PEP/UBO,high
+person,david james mason,"""david james mason"" (lawsuit OR claim OR litigation)",litigation,high
+person,david james mason,"""david james mason"" -site:linkedin.com -site:facebook.com",media,high
+person,david james mason,"""david james mason"" director OR officer",registry filings,high
+person,david james mason,"""david james mason"" (sanction OR OFAC OR OFSI)",sanctions,high
+company,CLARENDON PROPERTIES (MALTA) LIMITED,"""CLARENDON PROPERTIES (MALTA) LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,CLARENDON PROPERTIES (MALTA) LIMITED,"""CLARENDON PROPERTIES (MALTA) LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,CLARENDON PROPERTIES (MALTA) LIMITED,"""CLARENDON PROPERTIES (MALTA) LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,CLARENDON PROPERTIES (MALTA) LIMITED,"""CLARENDON PROPERTIES (MALTA) LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,CLARENDON PROPERTIES (MALTA) LIMITED,"""CLARENDON PROPERTIES (MALTA) LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,CLARENDON PROPERTIES (MALTA) LIMITED,"""CLARENDON PROPERTIES (MALTA) LIMITED"" (property OR real estate OR land registry)",property,medium
+company,CLARENDON PROPERTIES (MALTA) LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt CLARENDON PROPERTIES (MALTA) LIMITED,registry filing,medium
+company,CLARENDON PROPERTIES (MALTA) LIMITED,"""CLARENDON PROPERTIES (MALTA) LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,CLARENDON PROPERTIES (MALTA) LIMITED,"""CLARENDON PROPERTIES (MALTA) LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,SEVERN HOLDINGS LIMITED,"""SEVERN HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,SEVERN HOLDINGS LIMITED,"""SEVERN HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,SEVERN HOLDINGS LIMITED,"""SEVERN HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,SEVERN HOLDINGS LIMITED,"""SEVERN HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,SEVERN HOLDINGS LIMITED,"""SEVERN HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,SEVERN HOLDINGS LIMITED,"""SEVERN HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,SEVERN HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt SEVERN HOLDINGS LIMITED,registry filing,medium
+company,SEVERN HOLDINGS LIMITED,"""SEVERN HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,SEVERN HOLDINGS LIMITED,"""SEVERN HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,SEVERN INVESTMENTS LIMITED,"""SEVERN INVESTMENTS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,SEVERN INVESTMENTS LIMITED,"""SEVERN INVESTMENTS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,SEVERN INVESTMENTS LIMITED,"""SEVERN INVESTMENTS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,SEVERN INVESTMENTS LIMITED,"""SEVERN INVESTMENTS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,SEVERN INVESTMENTS LIMITED,"""SEVERN INVESTMENTS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,SEVERN INVESTMENTS LIMITED,"""SEVERN INVESTMENTS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,SEVERN INVESTMENTS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt SEVERN INVESTMENTS LIMITED,registry filing,medium
+company,SEVERN INVESTMENTS LIMITED,"""SEVERN INVESTMENTS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,SEVERN INVESTMENTS LIMITED,"""SEVERN INVESTMENTS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,icij:58045206,"""icij:58045206"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,icij:58045206,"""icij:58045206"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,icij:58045206,"""icij:58045206"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,icij:58045206,"""icij:58045206"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,icij:58045206,"""icij:58045206"" (tender OR contract OR procurement)",procurement,medium
+company,icij:58045206,"""icij:58045206"" (property OR real estate OR land registry)",property,medium
+company,icij:58045206,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt icij:58045206,registry filing,medium
+company,icij:58045206,"""icij:58045206"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,icij:58045206,"""icij:58045206"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium

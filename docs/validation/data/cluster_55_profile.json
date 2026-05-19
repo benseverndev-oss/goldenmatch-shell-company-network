@@ -1,0 +1,109 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.9,
+    "community_id": 55,
+    "isolation": 1.0,
+    "n_seeds": 3,
+    "seed_density": 0.75,
+    "size": 4,
+    "size_deviation": 1.3862943611198906
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 55,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 4
+  },
+  "community_id": 55,
+  "generated_at": "2026-05-19 17:13:49 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": "mt",
+      "name": "SEVERN HOLDINGS LIMITED",
+      "seed": true,
+      "uid": "icij:55047866"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58045206",
+      "seed": false,
+      "uid": "icij:58045206"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SEVERN INVESTMENTS LIMITED",
+      "seed": true,
+      "uid": "icij:55047860"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CLARENDON PROPERTIES (MALTA) LIMITED",
+      "seed": true,
+      "uid": "icij:55048985"
+    }
+  ],
+  "n_members": 4,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.75,
+    "anomaly_score": 0.9,
+    "cluster_size": 4,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 1,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 5,
+    "officer_reuse_rate": 0.75,
+    "top_theme": "investment / holding / capital",
+    "top_theme_share": 0.5,
+    "underreportedness": 1.0
+  },
+  "person": "david james mason",
+  "person_normalized": "david james mason",
+  "person_uids": [
+    "icij:56026496"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.9,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 55,
+    "connectedness": 0.2607,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "SEVERN HOLDINGS LIMITED",
+      "icij:58045206",
+      "SEVERN INVESTMENTS LIMITED",
+      "CLARENDON PROPERTIES (MALTA) LIMITED"
+    ],
+    "member_uids_sample": [
+      "icij:55047866",
+      "icij:58045206",
+      "icij:55047860",
+      "icij:55048985"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.310318,
+    "size": 4,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "only one or zero ICIJ uids \u2014 cannot test same-person consistency.",
+      "country field missing in ICIJ persons rows.",
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address."
+    ],
+    "supporting": []
+  },
+  "threshold": 0.9,
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/david-james-mason.md \u2014 using parquet only."
+  ]
+}

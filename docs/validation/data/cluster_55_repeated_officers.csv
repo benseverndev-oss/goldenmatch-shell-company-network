@@ -1,0 +1,6 @@
+officer_name,n_linked_companies,linked_companies,roles,source_label,confidence
+DAVID JAMES MASON,3,CLARENDON PROPERTIES (MALTA) LIMITED;SEVERN HOLDINGS LIMITED;SEVERN INVESTMENTS LIMITED,secretary of,Paradise Papers - Malta corporate registry,0.85
+ALAN KENTISH,2,SEVERN HOLDINGS LIMITED;SEVERN INVESTMENTS LIMITED,director of;judicial representative of;legal representative of,Paradise Papers - Malta corporate registry,0.85
+ARRON BANKS,2,SEVERN HOLDINGS LIMITED;SEVERN INVESTMENTS LIMITED,director of;judicial representative of;legal representative of;shareholder of,Paradise Papers - Malta corporate registry,0.85
+JOHN TRAPANI,2,SEVERN HOLDINGS LIMITED;SEVERN INVESTMENTS LIMITED,liquidator of,Paradise Papers - Malta corporate registry,0.85
+PAUL CHASE-GARDNER,2,SEVERN HOLDINGS LIMITED;SEVERN INVESTMENTS LIMITED,director of;judicial representative of;legal representative of;shareholder of,Paradise Papers - Malta corporate registry,0.85

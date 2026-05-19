@@ -1,0 +1,5 @@
+company_name,normalized_company_name,in_community,in_person_dossier,match_type,confidence,source_record_ids,notes
+CLARENDON PROPERTIES (MALTA) LIMITED,clarendon properties malta,true,false,community_only,1.00,icij:55048985,in cluster but not in person dossier
+icij:58045206,icij 58045206,true,false,community_only,1.00,icij:58045206,in cluster but not in person dossier
+SEVERN HOLDINGS LIMITED,severn holdings,true,false,community_only,1.00,icij:55047866,in cluster but not in person dossier
+SEVERN INVESTMENTS LIMITED,severn investments,true,false,community_only,1.00,icij:55047860,in cluster but not in person dossier

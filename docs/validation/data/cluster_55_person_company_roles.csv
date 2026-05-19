@@ -1,0 +1,4 @@
+person_name,person_record_id,company_name,company_record_id,relationship_type,role,start_date,end_date,source,leak,confidence,notes
+david james mason,icij:56026496,SEVERN INVESTMENTS LIMITED,icij:55047860,officer_of,secretary of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+david james mason,icij:56026496,SEVERN HOLDINGS LIMITED,icij:55047866,officer_of,secretary of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+david james mason,icij:56026496,CLARENDON PROPERTIES (MALTA) LIMITED,icij:55048985,officer_of,secretary of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
