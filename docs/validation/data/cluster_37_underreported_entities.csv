@@ -1,0 +1,20 @@
+company_name,uid,graph_degree,n_web_hits,max_hit_score,underreported_score,reason
+Sutherland Finance Limited,icij:55030232,9,0,0.0,1.0,high graph degree + no web presence
+ROMAR FINANCE LIMITED,icij:55041916,6,0,0.0,0.667,high graph degree + no web presence
+STRATHAM FINANCE LIMITED,icij:55022086,6,0,0.0,0.667,high graph degree + no web presence
+Nelson Finance Limited,icij:55041914,6,0,0.0,0.667,high graph degree + no web presence
+POLO FINANCE LIMITED,icij:55041915,6,0,0.0,0.667,high graph degree + no web presence
+MAGELLAN FINANCE LIMITED,icij:55041911,6,0,0.0,0.667,high graph degree + no web presence
+LYON FINANCE LIMITED,icij:55034582,5,0,0.0,0.556,high graph degree + no web presence
+Kiel Finance Limited,icij:55037148,5,0,0.0,0.556,high graph degree + no web presence
+ESSER FINANCE LIMITED,icij:55037146,5,0,0.0,0.556,high graph degree + no web presence
+MILBURN FINANCE LIMITED,icij:55038673,5,0,0.0,0.556,high graph degree + no web presence
+SAVOY FINANCE LIMITED,icij:55034584,4,0,0.0,0.444,high graph degree + no web presence
+Bodog Music (Europe) Limited,icij:55031139,7,40,1.0,0.0,well-attested
+Aragon Finance Limited,icij:55034583,5,40,1.0,0.0,well-attested
+COSMO (MALTA) LIMITED,icij:55040688,3,40,1.0,0.0,well-attested
+Cochrane Finance Limited,icij:55041910,6,5,0.93,0.0,well-attested
+BAGUNU FINANCE LIMITED,icij:55041912,6,40,1.0,0.0,well-attested
+icij:58045699,icij:58045699,0,0,0.0,0.0,low graph degree
+AESIR HOLDINGS LIMITED,icij:55041908,5,40,1.0,0.0,well-attested
+BROMPTON FINANCE LIMITED,icij:55038672,5,40,1.0,0.0,well-attested
