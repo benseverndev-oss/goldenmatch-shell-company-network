@@ -424,7 +424,13 @@ def resolve_members(ctx: PackContext) -> list[MemberEntity]:
     to recover a (name, jurisdiction) for each."""
 
     uid_list = ctx.members["node_uid"].to_list()
-    seed_lookup = dict(zip(ctx.members["node_uid"].to_list(), ctx.members["is_seed"].to_list()))
+    seed_lookup = dict(
+        zip(
+            ctx.members["node_uid"].to_list(),
+            ctx.members["is_seed"].to_list(),
+            strict=True,
+        )
+    )
     source_ids = [u.split(":", 1)[1] for u in uid_list if ":" in u]
 
     name_lookup: dict[str, tuple[str, str | None, str | None]] = {}
@@ -852,7 +858,7 @@ def build_graph_paths_md(
     parts.append(f"# Graph paths — cluster {ctx.community_id} / {ctx.person_query}\n")
     parts.append(f"_Generated {ctx.generated_at}. Machine-extracted — verify each edge._\n")
 
-    parts.append(f"\n## Direct person → company edges\n")
+    parts.append("\n## Direct person → company edges\n")
     if not roles:
         parts.append("_(none found in icij_edges)_\n")
     else:
@@ -1071,7 +1077,7 @@ def render_markdown(  # noqa: PLR0913 — single template renderer; splitting hu
     parts.append(f"- Community ID: **{ctx.community_id}**\n")
     parts.append(f"- Human anchor: **{ctx.person_query}**\n")
     parts.append(f"- Generated at: {ctx.generated_at}\n")
-    parts.append(f"- Script: `scripts/build_validation_pack.py`\n")
+    parts.append("- Script: `scripts/build_validation_pack.py`\n")
     parts.append(f"- Threshold: {ctx.threshold}\n\n")
 
     if ctx.warnings:
