@@ -1,0 +1,33 @@
+target_type,target_name,query,purpose,priority
+person,nils peter grut,"""nils peter grut"" (PEP OR beneficial owner OR UBO)",PEP/UBO,high
+person,nils peter grut,"""nils peter grut"" (lawsuit OR claim OR litigation)",litigation,high
+person,nils peter grut,"""nils peter grut"" -site:linkedin.com -site:facebook.com",media,high
+person,nils peter grut,"""nils peter grut"" director OR officer",registry filings,high
+person,nils peter grut,"""nils peter grut"" (sanction OR OFAC OR OFSI)",sanctions,high
+company,NILS PETER GRUT,"""NILS PETER GRUT"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,NILS PETER GRUT,"""NILS PETER GRUT"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,NILS PETER GRUT,"""NILS PETER GRUT"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,NILS PETER GRUT,"""NILS PETER GRUT"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,NILS PETER GRUT,"""NILS PETER GRUT"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,NILS PETER GRUT,"""NILS PETER GRUT"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,NILS PETER GRUT,"""NILS PETER GRUT"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,NILS PETER GRUT,"""NILS PETER GRUT"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,NILS PETER GRUT,"""NILS PETER GRUT"" (tender OR contract OR procurement)",procurement,medium
+company,NILS PETER GRUT,"""NILS PETER GRUT"" (tender OR contract OR procurement)",procurement,medium
+company,NILS PETER GRUT,"""NILS PETER GRUT"" (property OR real estate OR land registry)",property,medium
+company,NILS PETER GRUT,"""NILS PETER GRUT"" (property OR real estate OR land registry)",property,medium
+company,NILS PETER GRUT,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt NILS PETER GRUT,registry filing,medium
+company,NILS PETER GRUT,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt NILS PETER GRUT,registry filing,medium
+company,NILS PETER GRUT,"""NILS PETER GRUT"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,NILS PETER GRUT,"""NILS PETER GRUT"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,NILS PETER GRUT,"""NILS PETER GRUT"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,NILS PETER GRUT,"""NILS PETER GRUT"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,icij:58029412,"""icij:58029412"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,icij:58029412,"""icij:58029412"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,icij:58029412,"""icij:58029412"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,icij:58029412,"""icij:58029412"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,icij:58029412,"""icij:58029412"" (tender OR contract OR procurement)",procurement,medium
+company,icij:58029412,"""icij:58029412"" (property OR real estate OR land registry)",property,medium
+company,icij:58029412,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt icij:58029412,registry filing,medium
+company,icij:58029412,"""icij:58029412"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,icij:58029412,"""icij:58029412"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium

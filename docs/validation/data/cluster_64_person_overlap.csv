@@ -1,0 +1,3 @@
+company_name,normalized_company_name,in_community,in_person_dossier,match_type,confidence,source_record_ids,notes
+icij:58029412,icij 58029412,true,false,community_only,1.00,icij:58029412,in cluster but not in person dossier
+NILS PETER GRUT,nils peter grut,true,false,community_only,1.00,icij:56065757;icij:56068063,in cluster but not in person dossier
