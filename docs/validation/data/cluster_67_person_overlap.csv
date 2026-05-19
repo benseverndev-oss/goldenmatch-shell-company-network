@@ -1,0 +1,4 @@
+company_name,normalized_company_name,in_community,in_person_dossier,match_type,confidence,source_record_ids,notes
+FAREX LTD,farex,true,false,community_only,1.00,icij:55048057,in cluster but not in person dossier
+icij:58008874,icij 58008874,true,false,community_only,1.00,icij:58008874,in cluster but not in person dossier
+INVICTUS PROPERTIES SOLUTIONS LIMITED,invictus properties solutions,true,false,community_only,1.00,icij:55065194,in cluster but not in person dossier
