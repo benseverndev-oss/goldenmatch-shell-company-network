@@ -1,0 +1,103 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.8666666666666667,
+    "community_id": 50,
+    "isolation": 1.0,
+    "n_seeds": 2,
+    "seed_density": 0.6666666666666666,
+    "size": 3,
+    "size_deviation": 1.0986122886681098
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 50,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 3
+  },
+  "community_id": 50,
+  "generated_at": "2026-05-19 17:21:30 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": null,
+      "name": "PETER KEVIN PERRY",
+      "seed": true,
+      "uid": "icij:56056705"
+    },
+    {
+      "jurisdiction": null,
+      "name": "PETER KEVIN PERRY",
+      "seed": true,
+      "uid": "icij:56056803"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58031372",
+      "seed": false,
+      "uid": "icij:58031372"
+    }
+  ],
+  "n_members": 3,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.333,
+    "anomaly_score": 0.8666666666666667,
+    "cluster_size": 3,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 1,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 0,
+    "officer_reuse_rate": 0.0,
+    "top_theme": "unknown",
+    "top_theme_share": 1.0,
+    "underreportedness": 1.0
+  },
+  "person": "peter kevin perry",
+  "person_normalized": "peter kevin perry",
+  "person_uids": [
+    "icij:56056803",
+    "icij:56056705"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.8667,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 50,
+    "connectedness": 0.2066,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "PETER KEVIN PERRY",
+      "PETER KEVIN PERRY",
+      "icij:58031372"
+    ],
+    "member_uids_sample": [
+      "icij:56056705",
+      "icij:56056803",
+      "icij:58031372"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.252017,
+    "size": 3,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "country field missing in ICIJ persons rows.",
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address."
+    ],
+    "supporting": [
+      "2 ICIJ uids share normalized name `peter kevin perry` (icij:56056803, icij:56056705)."
+    ]
+  },
+  "threshold": 0.9,
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/peter-kevin-perry.md \u2014 using parquet only."
+  ]
+}
