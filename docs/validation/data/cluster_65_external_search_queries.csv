@@ -1,0 +1,51 @@
+target_type,target_name,query,purpose,priority
+person,david james mason,"""david james mason"" (PEP OR beneficial owner OR UBO)",PEP/UBO,high
+person,david james mason,"""david james mason"" (lawsuit OR claim OR litigation)",litigation,high
+person,david james mason,"""david james mason"" -site:linkedin.com -site:facebook.com",media,high
+person,david james mason,"""david james mason"" director OR officer",registry filings,high
+person,david james mason,"""david james mason"" (sanction OR OFAC OR OFSI)",sanctions,high
+company,DAVID JAMES MASON,"""DAVID JAMES MASON"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,DAVID JAMES MASON,"""DAVID JAMES MASON"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,DAVID JAMES MASON,"""DAVID JAMES MASON"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,DAVID JAMES MASON,"""DAVID JAMES MASON"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,DAVID JAMES MASON,"""DAVID JAMES MASON"" (tender OR contract OR procurement)",procurement,medium
+company,DAVID JAMES MASON,"""DAVID JAMES MASON"" (property OR real estate OR land registry)",property,medium
+company,DAVID JAMES MASON,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt DAVID JAMES MASON,registry filing,medium
+company,DAVID JAMES MASON,"""DAVID JAMES MASON"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,DAVID JAMES MASON,"""DAVID JAMES MASON"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,SEVERN INVESTMENTS LIMITED,"""SEVERN INVESTMENTS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,SEVERN INVESTMENTS LIMITED,"""SEVERN INVESTMENTS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,SEVERN INVESTMENTS LIMITED,"""SEVERN INVESTMENTS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,SEVERN INVESTMENTS LIMITED,"""SEVERN INVESTMENTS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,SEVERN INVESTMENTS LIMITED,"""SEVERN INVESTMENTS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,SEVERN INVESTMENTS LIMITED,"""SEVERN INVESTMENTS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,SEVERN INVESTMENTS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt SEVERN INVESTMENTS LIMITED,registry filing,medium
+company,SEVERN INVESTMENTS LIMITED,"""SEVERN INVESTMENTS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,SEVERN INVESTMENTS LIMITED,"""SEVERN INVESTMENTS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,icij:58045194,"""icij:58045194"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,icij:58045194,"""icij:58045194"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,icij:58045194,"""icij:58045194"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,icij:58045194,"""icij:58045194"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,icij:58045194,"""icij:58045194"" (tender OR contract OR procurement)",procurement,medium
+company,icij:58045194,"""icij:58045194"" (property OR real estate OR land registry)",property,medium
+company,icij:58045194,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt icij:58045194,registry filing,medium
+company,icij:58045194,"""icij:58045194"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,icij:58045194,"""icij:58045194"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,icij:58057066,"""icij:58057066"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,icij:58057066,"""icij:58057066"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,icij:58057066,"""icij:58057066"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,icij:58057066,"""icij:58057066"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,icij:58057066,"""icij:58057066"" (tender OR contract OR procurement)",procurement,medium
+company,icij:58057066,"""icij:58057066"" (property OR real estate OR land registry)",property,medium
+company,icij:58057066,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt icij:58057066,registry filing,medium
+company,icij:58057066,"""icij:58057066"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,icij:58057066,"""icij:58057066"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,icij:58073250,"""icij:58073250"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,icij:58073250,"""icij:58073250"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,icij:58073250,"""icij:58073250"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,icij:58073250,"""icij:58073250"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,icij:58073250,"""icij:58073250"" (tender OR contract OR procurement)",procurement,medium
+company,icij:58073250,"""icij:58073250"" (property OR real estate OR land registry)",property,medium
+company,icij:58073250,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt icij:58073250,registry filing,medium
+company,icij:58073250,"""icij:58073250"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,icij:58073250,"""icij:58073250"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium

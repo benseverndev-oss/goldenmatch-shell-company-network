@@ -1,0 +1,6 @@
+company_name,normalized_company_name,in_community,in_person_dossier,match_type,confidence,source_record_ids,notes
+DAVID JAMES MASON,david james mason,true,false,community_only,1.00,icij:56026496,in cluster but not in person dossier
+icij:58045194,icij 58045194,true,false,community_only,1.00,icij:58045194,in cluster but not in person dossier
+icij:58057066,icij 58057066,true,false,community_only,1.00,icij:58057066,in cluster but not in person dossier
+icij:58073250,icij 58073250,true,false,community_only,1.00,icij:58073250,in cluster but not in person dossier
+SEVERN INVESTMENTS LIMITED,severn investments,true,false,community_only,1.00,icij:56084120,in cluster but not in person dossier

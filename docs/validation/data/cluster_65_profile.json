@@ -1,0 +1,117 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.6799999999999999,
+    "community_id": 65,
+    "isolation": 1.0,
+    "n_seeds": 1,
+    "seed_density": 0.2,
+    "size": 5,
+    "size_deviation": 1.6094379124341003
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 65,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 5
+  },
+  "community_id": 65,
+  "generated_at": "2026-05-19 16:44:37 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": null,
+      "name": "icij:58073250",
+      "seed": false,
+      "uid": "icij:58073250"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58057066",
+      "seed": false,
+      "uid": "icij:58057066"
+    },
+    {
+      "jurisdiction": null,
+      "name": "DAVID JAMES MASON",
+      "seed": true,
+      "uid": "icij:56026496"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58045194",
+      "seed": false,
+      "uid": "icij:58045194"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SEVERN INVESTMENTS LIMITED",
+      "seed": false,
+      "uid": "icij:56084120"
+    }
+  ],
+  "n_members": 5,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.4,
+    "anomaly_score": 0.6799999999999999,
+    "cluster_size": 5,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 1,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 0,
+    "officer_reuse_rate": 0.0,
+    "top_theme": "unknown",
+    "top_theme_share": 0.8,
+    "underreportedness": 1.0
+  },
+  "person": "david james mason",
+  "person_normalized": "david james mason",
+  "person_uids": [
+    "icij:56026496"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.68,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 65,
+    "connectedness": 0.3026,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "icij:58073250",
+      "icij:58057066",
+      "DAVID JAMES MASON",
+      "icij:58045194",
+      "SEVERN INVESTMENTS LIMITED"
+    ],
+    "member_uids_sample": [
+      "icij:58073250",
+      "icij:58057066",
+      "icij:56026496",
+      "icij:58045194",
+      "icij:56084120"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.246093,
+    "size": 5,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "only one or zero ICIJ uids \u2014 cannot test same-person consistency.",
+      "country field missing in ICIJ persons rows.",
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address."
+    ],
+    "supporting": []
+  },
+  "threshold": 0.9,
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/david-james-mason.md \u2014 using parquet only."
+  ]
+}
