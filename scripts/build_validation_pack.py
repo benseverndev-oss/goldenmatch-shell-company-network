@@ -480,9 +480,7 @@ def resolve_members(ctx: PackContext) -> list[MemberEntity]:
 # ---------------------------------------------------------------------------
 
 
-def compute_overlap(
-    ctx: PackContext, members: list[MemberEntity]
-) -> list[dict[str, Any]]:
+def compute_overlap(ctx: PackContext, members: list[MemberEntity]) -> list[dict[str, Any]]:
     """Compute company overlap between dossier and cluster.
 
     Match priority:
@@ -583,10 +581,14 @@ def compute_person_company_roles(
     member_uids = {m.uid for m in members}
     name_by_uid = {m.uid: m.name for m in members}
 
-    edges = ctx.icij_edges.lazy().filter(
-        (pl.col("src_node").is_in(ctx.person_uids) & pl.col("dst_node").is_in(member_uids))
-        | (pl.col("dst_node").is_in(ctx.person_uids) & pl.col("src_node").is_in(member_uids))
-    ).collect()
+    edges = (
+        ctx.icij_edges.lazy()
+        .filter(
+            (pl.col("src_node").is_in(ctx.person_uids) & pl.col("dst_node").is_in(member_uids))
+            | (pl.col("dst_node").is_in(ctx.person_uids) & pl.col("src_node").is_in(member_uids))
+        )
+        .collect()
+    )
 
     out: list[dict[str, Any]] = []
     for r in edges.iter_rows(named=True):
@@ -632,10 +634,14 @@ def _repeated_infra(
         return addresses_out, officers_out, agents_out
 
     # ------- registered addresses -------
-    addr_edges = ctx.icij_edges.lazy().filter(
-        (pl.col("kind_raw") == "registered_address")
-        & (pl.col("src_node").is_in(member_uids) | pl.col("dst_node").is_in(member_uids))
-    ).collect()
+    addr_edges = (
+        ctx.icij_edges.lazy()
+        .filter(
+            (pl.col("kind_raw") == "registered_address")
+            & (pl.col("src_node").is_in(member_uids) | pl.col("dst_node").is_in(member_uids))
+        )
+        .collect()
+    )
 
     addr_to_companies: dict[str, set[str]] = defaultdict(set)
     addr_to_source: dict[str, str] = {}
@@ -667,19 +673,18 @@ def _repeated_infra(
             {
                 "address": addr_text.get(addr_uid, addr_uid),
                 "n_linked_companies": str(len(companies)),
-                "linked_companies": ";".join(
-                    sorted(name_by_uid.get(c, c) for c in companies)
-                ),
+                "linked_companies": ";".join(sorted(name_by_uid.get(c, c) for c in companies)),
                 "source_label": addr_to_source.get(addr_uid, ""),
                 "confidence": "0.85",
             }
         )
 
     # ------- officers (officer_of edges) -------
-    off_edges = ctx.icij_edges.lazy().filter(
-        (pl.col("kind_raw") == "officer_of")
-        & (pl.col("dst_node").is_in(member_uids))
-    ).collect()
+    off_edges = (
+        ctx.icij_edges.lazy()
+        .filter((pl.col("kind_raw") == "officer_of") & (pl.col("dst_node").is_in(member_uids)))
+        .collect()
+    )
     officer_to_companies: dict[str, set[str]] = defaultdict(set)
     officer_roles: dict[str, set[str]] = defaultdict(set)
     officer_source: dict[str, str] = {}
@@ -694,9 +699,7 @@ def _repeated_infra(
     officer_names: dict[str, str] = {}
     if ctx.icij_officers is not None and officer_to_companies:
         ids = [u.split(":", 1)[1] for u in officer_to_companies]
-        nm = ctx.icij_officers.filter(pl.col("source_id").is_in(ids)).select(
-            ["source_id", "name"]
-        )
+        nm = ctx.icij_officers.filter(pl.col("source_id").is_in(ids)).select(["source_id", "name"])
         for r in nm.iter_rows(named=True):
             officer_names[f"icij:{r['source_id']}"] = r["name"]
 
@@ -707,9 +710,7 @@ def _repeated_infra(
             {
                 "officer_name": officer_names.get(off_uid, off_uid),
                 "n_linked_companies": str(len(companies)),
-                "linked_companies": ";".join(
-                    sorted(name_by_uid.get(c, c) for c in companies)
-                ),
+                "linked_companies": ";".join(sorted(name_by_uid.get(c, c) for c in companies)),
                 "roles": ";".join(sorted(officer_roles.get(off_uid, set()))),
                 "source_label": officer_source.get(off_uid, ""),
                 "confidence": "0.85",
@@ -717,10 +718,11 @@ def _repeated_infra(
         )
 
     # ------- intermediaries (intermediary_of edges) -------
-    int_edges = ctx.icij_edges.lazy().filter(
-        (pl.col("kind_raw") == "intermediary_of")
-        & (pl.col("dst_node").is_in(member_uids))
-    ).collect()
+    int_edges = (
+        ctx.icij_edges.lazy()
+        .filter((pl.col("kind_raw") == "intermediary_of") & (pl.col("dst_node").is_in(member_uids)))
+        .collect()
+    )
     int_to_companies: dict[str, set[str]] = defaultdict(set)
     int_source: dict[str, str] = {}
     for r in int_edges.iter_rows(named=True):
@@ -743,9 +745,7 @@ def _repeated_infra(
             {
                 "intermediary_name": int_names.get(uid, uid),
                 "n_linked_companies": str(len(companies)),
-                "linked_companies": ";".join(
-                    sorted(name_by_uid.get(c, c) for c in companies)
-                ),
+                "linked_companies": ";".join(sorted(name_by_uid.get(c, c) for c in companies)),
                 "source_label": int_source.get(uid, ""),
                 "confidence": "0.85",
             }
@@ -863,8 +863,7 @@ def build_graph_paths_md(
         parts.append("_(none found in icij_edges)_\n")
     else:
         parts.append(
-            "| person uid | → | company | role | leak |\n"
-            "| --- | --- | --- | --- | --- |\n"
+            "| person uid | → | company | role | leak |\n| --- | --- | --- | --- | --- |\n"
         )
         for r in roles:
             parts.append(
@@ -908,9 +907,13 @@ def build_graph_paths_md(
         parts.append("_(confidence_graph_edges.parquet not available)_\n")
     else:
         member_uids = {m.uid for m in members}
-        ce = ctx.confidence_edges.filter(
-            pl.col("src_node").is_in(member_uids) & pl.col("dst_node").is_in(member_uids)
-        ).sort("credibility", descending=True).head(25)
+        ce = (
+            ctx.confidence_edges.filter(
+                pl.col("src_node").is_in(member_uids) & pl.col("dst_node").is_in(member_uids)
+            )
+            .sort("credibility", descending=True)
+            .head(25)
+        )
         name_by_uid = {m.uid: m.name for m in members}
         parts.append("| src | → | dst | kind | source | credibility |\n")
         parts.append("| --- | --- | --- | --- | --- | ---: |\n")
@@ -1006,9 +1009,7 @@ def ordinary_vs_unusual(
         "intermediary_reuse_rate": round(len(members_touched_int) / n, 3),
         "top_theme": top_theme,
         "top_theme_share": round(top_count / n, 3) if themes else 0.0,
-        "underreportedness": (
-            ctx.queue_row.get("underreportedness") if ctx.queue_row else None
-        ),
+        "underreportedness": (ctx.queue_row.get("underreportedness") if ctx.queue_row else None),
         "contradiction_density": (
             ctx.cluster_scored.get("contradiction_density") if ctx.cluster_scored else None
         ),
@@ -1038,9 +1039,7 @@ def _write_csv(path: Path, headers: list[str], rows: list[dict]) -> None:
 
 def _write_json(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(payload, indent=2, sort_keys=True, default=str), encoding="utf-8"
-    )
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True, default=str), encoding="utf-8")
 
 
 def _md_table(headers: list[str], rows: list[list[str]]) -> str:
@@ -1120,8 +1119,9 @@ def render_markdown(  # noqa: PLR0913 — single template renderer; splitting hu
         parts.append("_Cluster not present in validation_queue.parquet._\n\n")
 
     parts.append("## Community sample members (first 20)\n")
-    sample_rows = [[m.name, m.uid, m.jurisdiction or "", "seed" if m.is_seed else ""]
-                   for m in members[:20]]
+    sample_rows = [
+        [m.name, m.uid, m.jurisdiction or "", "seed" if m.is_seed else ""] for m in members[:20]
+    ]
     parts.append(_md_table(["Name", "uid", "Jurisdiction", "Seed?"], sample_rows))
     parts.append(f"\n_Total cluster size: {len(members)}_\n\n")
 
@@ -1142,8 +1142,14 @@ def render_markdown(  # noqa: PLR0913 — single template renderer; splitting hu
 
     parts.append("## Company overlap table\n")
     overlap_rows = [
-        [r["company_name"], r["normalized_company_name"], r["in_community"],
-         r["in_person_dossier"], r["match_type"], r["confidence"]]
+        [
+            r["company_name"],
+            r["normalized_company_name"],
+            r["in_community"],
+            r["in_person_dossier"],
+            r["match_type"],
+            r["confidence"],
+        ]
         for r in overlap[:50]
     ]
     parts.append(
@@ -1162,9 +1168,7 @@ def render_markdown(  # noqa: PLR0913 — single template renderer; splitting hu
     role_rows = [
         [r["company_name"], r["relationship_type"], r["role"], r["leak"]] for r in roles[:30]
     ]
-    parts.append(
-        _md_table(["Company", "Relationship", "Role", "Leak"], role_rows)
-    )
+    parts.append(_md_table(["Company", "Relationship", "Role", "Leak"], role_rows))
     parts.append(
         f"\n_{len(roles)} edges total. Full CSV: "
         f"`data/cluster_{ctx.community_id}_person_company_roles.csv`._\n\n"
@@ -1174,24 +1178,30 @@ def render_markdown(  # noqa: PLR0913 — single template renderer; splitting hu
     parts.append(
         _md_table(
             ["Address", "N linked", "Source"],
-            [[r["address"], r["n_linked_companies"], r["source_label"]]
-             for r in repeated_addresses[:10]],
+            [
+                [r["address"], r["n_linked_companies"], r["source_label"]]
+                for r in repeated_addresses[:10]
+            ],
         )
     )
     parts.append("\n### Officers / directors\n")
     parts.append(
         _md_table(
             ["Officer", "N linked", "Roles"],
-            [[r["officer_name"], r["n_linked_companies"], r["roles"]]
-             for r in repeated_officers[:10]],
+            [
+                [r["officer_name"], r["n_linked_companies"], r["roles"]]
+                for r in repeated_officers[:10]
+            ],
         )
     )
     parts.append("\n### Agents / intermediaries\n")
     parts.append(
         _md_table(
             ["Intermediary", "N linked", "Source"],
-            [[r["intermediary_name"], r["n_linked_companies"], r["source_label"]]
-             for r in repeated_agents[:10]],
+            [
+                [r["intermediary_name"], r["n_linked_companies"], r["source_label"]]
+                for r in repeated_agents[:10]
+            ],
         )
     )
     parts.append(
@@ -1248,17 +1258,29 @@ def render_markdown(  # noqa: PLR0913 — single template renderer; splitting hu
             ["Indicator", "Value", "Interpretation"],
             [
                 ["Cluster size", str(odd["cluster_size"]), ""],
-                ["Officer reuse rate", str(odd["officer_reuse_rate"]),
-                 "high reuse = corporate-services hub"],
-                ["Address reuse rate", str(odd["address_reuse_rate"]),
-                 "high reuse = shared registered office"],
-                ["Intermediary reuse rate", str(odd["intermediary_reuse_rate"]),
-                 "high reuse = shared agent"],
+                [
+                    "Officer reuse rate",
+                    str(odd["officer_reuse_rate"]),
+                    "high reuse = corporate-services hub",
+                ],
+                [
+                    "Address reuse rate",
+                    str(odd["address_reuse_rate"]),
+                    "high reuse = shared registered office",
+                ],
+                [
+                    "Intermediary reuse rate",
+                    str(odd["intermediary_reuse_rate"]),
+                    "high reuse = shared agent",
+                ],
                 ["Top theme", odd["top_theme"], f"share={odd['top_theme_share']}"],
                 ["Anomaly score", str(odd["anomaly_score"]), ""],
                 ["Isolation", str(odd["isolation"]), "1.0 = no cross-cluster bridges"],
-                ["Underreportedness", str(odd["underreportedness"]),
-                 "1.0 = no name overlap with formal registries"],
+                [
+                    "Underreportedness",
+                    str(odd["underreportedness"]),
+                    "1.0 = no name overlap with formal registries",
+                ],
                 ["Contradiction density", str(odd["contradiction_density"]), ""],
                 ["# repeated addresses", str(odd["n_repeated_addresses"]), ""],
                 ["# repeated officers", str(odd["n_repeated_officers"]), ""],
@@ -1416,8 +1438,17 @@ def build_pack(
     paths["markdown"].parent.mkdir(parents=True, exist_ok=True)
     paths["markdown"].write_text(
         render_markdown(
-            ctx, members, overlap, roles, repeated_addresses, repeated_officers,
-            repeated_agents, themes, queries, spe, odd,
+            ctx,
+            members,
+            overlap,
+            roles,
+            repeated_addresses,
+            repeated_officers,
+            repeated_agents,
+            themes,
+            queries,
+            spe,
+            odd,
         ),
         encoding="utf-8",
     )
@@ -1477,8 +1508,7 @@ def main(argv: list[str] | None = None) -> int:
         "--dossiers-dir",
         type=Path,
         default=None,
-        help="directory holding person dossier markdown files "
-        "(default: docs/reports/dossiers/).",
+        help="directory holding person dossier markdown files (default: docs/reports/dossiers/).",
     )
     p.add_argument("-v", "--verbose", action="store_true")
     args = p.parse_args(argv)
@@ -1502,7 +1532,9 @@ def main(argv: list[str] | None = None) -> int:
 
     print("Generated:")
     for kind, path in paths.items():
-        print(f"  {kind:18s} {path.relative_to(PROJECT_ROOT) if path.is_absolute() and PROJECT_ROOT in path.parents else path}")
+        print(
+            f"  {kind:18s} {path.relative_to(PROJECT_ROOT) if path.is_absolute() and PROJECT_ROOT in path.parents else path}"
+        )
     return 0
 
 
