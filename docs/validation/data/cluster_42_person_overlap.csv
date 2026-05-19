@@ -1,0 +1,15 @@
+company_name,normalized_company_name,in_community,in_person_dossier,match_type,confidence,source_record_ids,notes
+AQUATICA PROPERTIES LIMITED,aquatica properties,true,false,community_only,1.00,icij:55023197,in cluster but not in person dossier
+ATLANTICA PROPERTIES LIMITED,atlantica properties,true,false,community_only,1.00,icij:55023128,in cluster but not in person dossier
+BUENAVISTA PROPERTIES LIMITED,buenavista properties,true,false,community_only,1.00,icij:55025473,in cluster but not in person dossier
+CALDER ENTERPRISES LIMITED,calder enterprises,true,false,community_only,1.00,icij:55025235,in cluster but not in person dossier
+CASSELLA SERVICE COMPANY LIMITED,cassella service company,true,false,community_only,1.00,icij:55025478,in cluster but not in person dossier
+CROSSKEY COMPUTERS LIMITED,crosskey computers,true,false,community_only,1.00,icij:55025337,in cluster but not in person dossier
+DESMOND PROPERTIES LIMITED,desmond properties,true,false,community_only,1.00,icij:55026360,in cluster but not in person dossier
+icij:58099343,icij 58099343,true,false,community_only,1.00,icij:58099343,in cluster but not in person dossier
+KRYPTON SERVICE COMPANY LIMITED,krypton service company,true,false,community_only,1.00,icij:55025297,in cluster but not in person dossier
+LAKELAND HOLDINGS LIMITED,lakeland holdings,true,false,community_only,1.00,icij:55025059,in cluster but not in person dossier
+SAHARA PROPERTIES LIMITED,sahara properties,true,false,community_only,1.00,icij:55025298,in cluster but not in person dossier
+SUFFOLK INTERNATIONAL LIMITED,suffolk international,true,false,community_only,1.00,icij:55025523,in cluster but not in person dossier
+VOXDALE PROPERTIES LIMITED,voxdale properties,true,false,community_only,1.00,icij:55026559,in cluster but not in person dossier
+WYLIE HOLDINGS LIMITED,wylie holdings,true,false,community_only,1.00,icij:55026416,in cluster but not in person dossier

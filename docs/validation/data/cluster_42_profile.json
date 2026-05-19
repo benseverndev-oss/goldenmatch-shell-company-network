@@ -1,0 +1,183 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.8857142857142857,
+    "community_id": 42,
+    "isolation": 1.0,
+    "n_seeds": 10,
+    "seed_density": 0.7142857142857143,
+    "size": 14,
+    "size_deviation": 2.6390573296152584
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 42,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 14
+  },
+  "community_id": 42,
+  "generated_at": "2026-05-19 16:48:21 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": "mt",
+      "name": "BUENAVISTA PROPERTIES LIMITED",
+      "seed": true,
+      "uid": "icij:55025473"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CASSELLA SERVICE COMPANY LIMITED",
+      "seed": true,
+      "uid": "icij:55025478"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CROSSKEY COMPUTERS LIMITED",
+      "seed": true,
+      "uid": "icij:55025337"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "KRYPTON SERVICE COMPANY LIMITED",
+      "seed": true,
+      "uid": "icij:55025297"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "DESMOND PROPERTIES LIMITED",
+      "seed": false,
+      "uid": "icij:55026360"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SAHARA PROPERTIES LIMITED",
+      "seed": true,
+      "uid": "icij:55025298"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "AQUATICA PROPERTIES LIMITED",
+      "seed": true,
+      "uid": "icij:55023197"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CALDER ENTERPRISES LIMITED",
+      "seed": true,
+      "uid": "icij:55025235"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SUFFOLK INTERNATIONAL LIMITED",
+      "seed": true,
+      "uid": "icij:55025523"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "VOXDALE PROPERTIES LIMITED",
+      "seed": false,
+      "uid": "icij:55026559"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "LAKELAND HOLDINGS LIMITED",
+      "seed": true,
+      "uid": "icij:55025059"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58099343",
+      "seed": false,
+      "uid": "icij:58099343"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "WYLIE HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55026416"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ATLANTICA PROPERTIES LIMITED",
+      "seed": true,
+      "uid": "icij:55023128"
+    }
+  ],
+  "n_members": 14,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.929,
+    "anomaly_score": 0.8857142857142857,
+    "cluster_size": 14,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 1,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 10,
+    "officer_reuse_rate": 0.929,
+    "top_theme": "property / real estate",
+    "top_theme_share": 0.429,
+    "underreportedness": 1.0
+  },
+  "person": "tracy jane pozo",
+  "person_normalized": "tracy jane pozo",
+  "person_uids": [
+    "icij:56055864",
+    "icij:56055924"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.8857,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 42,
+    "connectedness": 0.4962,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "BUENAVISTA PROPERTIES LIMITED",
+      "CASSELLA SERVICE COMPANY LIMITED",
+      "CROSSKEY COMPUTERS LIMITED",
+      "KRYPTON SERVICE COMPANY LIMITED",
+      "DESMOND PROPERTIES LIMITED",
+      "SAHARA PROPERTIES LIMITED",
+      "AQUATICA PROPERTIES LIMITED",
+      "CALDER ENTERPRISES LIMITED",
+      "SUFFOLK INTERNATIONAL LIMITED",
+      "VOXDALE PROPERTIES LIMITED"
+    ],
+    "member_uids_sample": [
+      "icij:55025473",
+      "icij:55025478",
+      "icij:55025337",
+      "icij:55025297",
+      "icij:55026360",
+      "icij:55025298",
+      "icij:55023197",
+      "icij:55025235",
+      "icij:55025523",
+      "icij:55026559"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.477731,
+    "size": 14,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "country field missing in ICIJ persons rows.",
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address."
+    ],
+    "supporting": [
+      "2 ICIJ uids share normalized name `tracy jane pozo` (icij:56055864, icij:56055924)."
+    ]
+  },
+  "threshold": 0.9,
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/tracy-jane-pozo.md \u2014 using parquet only."
+  ]
+}

@@ -1,0 +1,132 @@
+target_type,target_name,query,purpose,priority
+person,tracy jane pozo,"""tracy jane pozo"" (PEP OR beneficial owner OR UBO)",PEP/UBO,high
+person,tracy jane pozo,"""tracy jane pozo"" (lawsuit OR claim OR litigation)",litigation,high
+person,tracy jane pozo,"""tracy jane pozo"" -site:linkedin.com -site:facebook.com",media,high
+person,tracy jane pozo,"""tracy jane pozo"" director OR officer",registry filings,high
+person,tracy jane pozo,"""tracy jane pozo"" (sanction OR OFAC OR OFSI)",sanctions,high
+company,AQUATICA PROPERTIES LIMITED,"""AQUATICA PROPERTIES LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,AQUATICA PROPERTIES LIMITED,"""AQUATICA PROPERTIES LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,AQUATICA PROPERTIES LIMITED,"""AQUATICA PROPERTIES LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,AQUATICA PROPERTIES LIMITED,"""AQUATICA PROPERTIES LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,AQUATICA PROPERTIES LIMITED,"""AQUATICA PROPERTIES LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,AQUATICA PROPERTIES LIMITED,"""AQUATICA PROPERTIES LIMITED"" (property OR real estate OR land registry)",property,medium
+company,AQUATICA PROPERTIES LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt AQUATICA PROPERTIES LIMITED,registry filing,medium
+company,AQUATICA PROPERTIES LIMITED,"""AQUATICA PROPERTIES LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,AQUATICA PROPERTIES LIMITED,"""AQUATICA PROPERTIES LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,ATLANTICA PROPERTIES LIMITED,"""ATLANTICA PROPERTIES LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,ATLANTICA PROPERTIES LIMITED,"""ATLANTICA PROPERTIES LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,ATLANTICA PROPERTIES LIMITED,"""ATLANTICA PROPERTIES LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,ATLANTICA PROPERTIES LIMITED,"""ATLANTICA PROPERTIES LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,ATLANTICA PROPERTIES LIMITED,"""ATLANTICA PROPERTIES LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,ATLANTICA PROPERTIES LIMITED,"""ATLANTICA PROPERTIES LIMITED"" (property OR real estate OR land registry)",property,medium
+company,ATLANTICA PROPERTIES LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt ATLANTICA PROPERTIES LIMITED,registry filing,medium
+company,ATLANTICA PROPERTIES LIMITED,"""ATLANTICA PROPERTIES LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,ATLANTICA PROPERTIES LIMITED,"""ATLANTICA PROPERTIES LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,BUENAVISTA PROPERTIES LIMITED,"""BUENAVISTA PROPERTIES LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,BUENAVISTA PROPERTIES LIMITED,"""BUENAVISTA PROPERTIES LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,BUENAVISTA PROPERTIES LIMITED,"""BUENAVISTA PROPERTIES LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,BUENAVISTA PROPERTIES LIMITED,"""BUENAVISTA PROPERTIES LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,BUENAVISTA PROPERTIES LIMITED,"""BUENAVISTA PROPERTIES LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,BUENAVISTA PROPERTIES LIMITED,"""BUENAVISTA PROPERTIES LIMITED"" (property OR real estate OR land registry)",property,medium
+company,BUENAVISTA PROPERTIES LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt BUENAVISTA PROPERTIES LIMITED,registry filing,medium
+company,BUENAVISTA PROPERTIES LIMITED,"""BUENAVISTA PROPERTIES LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,BUENAVISTA PROPERTIES LIMITED,"""BUENAVISTA PROPERTIES LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,CALDER ENTERPRISES LIMITED,"""CALDER ENTERPRISES LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,CALDER ENTERPRISES LIMITED,"""CALDER ENTERPRISES LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,CALDER ENTERPRISES LIMITED,"""CALDER ENTERPRISES LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,CALDER ENTERPRISES LIMITED,"""CALDER ENTERPRISES LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,CALDER ENTERPRISES LIMITED,"""CALDER ENTERPRISES LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,CALDER ENTERPRISES LIMITED,"""CALDER ENTERPRISES LIMITED"" (property OR real estate OR land registry)",property,medium
+company,CALDER ENTERPRISES LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt CALDER ENTERPRISES LIMITED,registry filing,medium
+company,CALDER ENTERPRISES LIMITED,"""CALDER ENTERPRISES LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,CALDER ENTERPRISES LIMITED,"""CALDER ENTERPRISES LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,CASSELLA SERVICE COMPANY LIMITED,"""CASSELLA SERVICE COMPANY LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,CASSELLA SERVICE COMPANY LIMITED,"""CASSELLA SERVICE COMPANY LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,CASSELLA SERVICE COMPANY LIMITED,"""CASSELLA SERVICE COMPANY LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,CASSELLA SERVICE COMPANY LIMITED,"""CASSELLA SERVICE COMPANY LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,CASSELLA SERVICE COMPANY LIMITED,"""CASSELLA SERVICE COMPANY LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,CASSELLA SERVICE COMPANY LIMITED,"""CASSELLA SERVICE COMPANY LIMITED"" (property OR real estate OR land registry)",property,medium
+company,CASSELLA SERVICE COMPANY LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt CASSELLA SERVICE COMPANY LIMITED,registry filing,medium
+company,CASSELLA SERVICE COMPANY LIMITED,"""CASSELLA SERVICE COMPANY LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,CASSELLA SERVICE COMPANY LIMITED,"""CASSELLA SERVICE COMPANY LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,CROSSKEY COMPUTERS LIMITED,"""CROSSKEY COMPUTERS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,CROSSKEY COMPUTERS LIMITED,"""CROSSKEY COMPUTERS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,CROSSKEY COMPUTERS LIMITED,"""CROSSKEY COMPUTERS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,CROSSKEY COMPUTERS LIMITED,"""CROSSKEY COMPUTERS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,CROSSKEY COMPUTERS LIMITED,"""CROSSKEY COMPUTERS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,CROSSKEY COMPUTERS LIMITED,"""CROSSKEY COMPUTERS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,CROSSKEY COMPUTERS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt CROSSKEY COMPUTERS LIMITED,registry filing,medium
+company,CROSSKEY COMPUTERS LIMITED,"""CROSSKEY COMPUTERS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,CROSSKEY COMPUTERS LIMITED,"""CROSSKEY COMPUTERS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,DESMOND PROPERTIES LIMITED,"""DESMOND PROPERTIES LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,DESMOND PROPERTIES LIMITED,"""DESMOND PROPERTIES LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,DESMOND PROPERTIES LIMITED,"""DESMOND PROPERTIES LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,DESMOND PROPERTIES LIMITED,"""DESMOND PROPERTIES LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,DESMOND PROPERTIES LIMITED,"""DESMOND PROPERTIES LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,DESMOND PROPERTIES LIMITED,"""DESMOND PROPERTIES LIMITED"" (property OR real estate OR land registry)",property,medium
+company,DESMOND PROPERTIES LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt DESMOND PROPERTIES LIMITED,registry filing,medium
+company,DESMOND PROPERTIES LIMITED,"""DESMOND PROPERTIES LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,DESMOND PROPERTIES LIMITED,"""DESMOND PROPERTIES LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,KRYPTON SERVICE COMPANY LIMITED,"""KRYPTON SERVICE COMPANY LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,KRYPTON SERVICE COMPANY LIMITED,"""KRYPTON SERVICE COMPANY LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,KRYPTON SERVICE COMPANY LIMITED,"""KRYPTON SERVICE COMPANY LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,KRYPTON SERVICE COMPANY LIMITED,"""KRYPTON SERVICE COMPANY LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,KRYPTON SERVICE COMPANY LIMITED,"""KRYPTON SERVICE COMPANY LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,KRYPTON SERVICE COMPANY LIMITED,"""KRYPTON SERVICE COMPANY LIMITED"" (property OR real estate OR land registry)",property,medium
+company,KRYPTON SERVICE COMPANY LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt KRYPTON SERVICE COMPANY LIMITED,registry filing,medium
+company,KRYPTON SERVICE COMPANY LIMITED,"""KRYPTON SERVICE COMPANY LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,KRYPTON SERVICE COMPANY LIMITED,"""KRYPTON SERVICE COMPANY LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,LAKELAND HOLDINGS LIMITED,"""LAKELAND HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,LAKELAND HOLDINGS LIMITED,"""LAKELAND HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,LAKELAND HOLDINGS LIMITED,"""LAKELAND HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,LAKELAND HOLDINGS LIMITED,"""LAKELAND HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,LAKELAND HOLDINGS LIMITED,"""LAKELAND HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,LAKELAND HOLDINGS LIMITED,"""LAKELAND HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,LAKELAND HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt LAKELAND HOLDINGS LIMITED,registry filing,medium
+company,LAKELAND HOLDINGS LIMITED,"""LAKELAND HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,LAKELAND HOLDINGS LIMITED,"""LAKELAND HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,SAHARA PROPERTIES LIMITED,"""SAHARA PROPERTIES LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,SAHARA PROPERTIES LIMITED,"""SAHARA PROPERTIES LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,SAHARA PROPERTIES LIMITED,"""SAHARA PROPERTIES LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,SAHARA PROPERTIES LIMITED,"""SAHARA PROPERTIES LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,SAHARA PROPERTIES LIMITED,"""SAHARA PROPERTIES LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,SAHARA PROPERTIES LIMITED,"""SAHARA PROPERTIES LIMITED"" (property OR real estate OR land registry)",property,medium
+company,SAHARA PROPERTIES LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt SAHARA PROPERTIES LIMITED,registry filing,medium
+company,SAHARA PROPERTIES LIMITED,"""SAHARA PROPERTIES LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,SAHARA PROPERTIES LIMITED,"""SAHARA PROPERTIES LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,SUFFOLK INTERNATIONAL LIMITED,"""SUFFOLK INTERNATIONAL LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,SUFFOLK INTERNATIONAL LIMITED,"""SUFFOLK INTERNATIONAL LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,SUFFOLK INTERNATIONAL LIMITED,"""SUFFOLK INTERNATIONAL LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,SUFFOLK INTERNATIONAL LIMITED,"""SUFFOLK INTERNATIONAL LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,SUFFOLK INTERNATIONAL LIMITED,"""SUFFOLK INTERNATIONAL LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,SUFFOLK INTERNATIONAL LIMITED,"""SUFFOLK INTERNATIONAL LIMITED"" (property OR real estate OR land registry)",property,medium
+company,SUFFOLK INTERNATIONAL LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt SUFFOLK INTERNATIONAL LIMITED,registry filing,medium
+company,SUFFOLK INTERNATIONAL LIMITED,"""SUFFOLK INTERNATIONAL LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,SUFFOLK INTERNATIONAL LIMITED,"""SUFFOLK INTERNATIONAL LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,VOXDALE PROPERTIES LIMITED,"""VOXDALE PROPERTIES LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,VOXDALE PROPERTIES LIMITED,"""VOXDALE PROPERTIES LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,VOXDALE PROPERTIES LIMITED,"""VOXDALE PROPERTIES LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,VOXDALE PROPERTIES LIMITED,"""VOXDALE PROPERTIES LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,VOXDALE PROPERTIES LIMITED,"""VOXDALE PROPERTIES LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,VOXDALE PROPERTIES LIMITED,"""VOXDALE PROPERTIES LIMITED"" (property OR real estate OR land registry)",property,medium
+company,VOXDALE PROPERTIES LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt VOXDALE PROPERTIES LIMITED,registry filing,medium
+company,VOXDALE PROPERTIES LIMITED,"""VOXDALE PROPERTIES LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,VOXDALE PROPERTIES LIMITED,"""VOXDALE PROPERTIES LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,WYLIE HOLDINGS LIMITED,"""WYLIE HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,WYLIE HOLDINGS LIMITED,"""WYLIE HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,WYLIE HOLDINGS LIMITED,"""WYLIE HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,WYLIE HOLDINGS LIMITED,"""WYLIE HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,WYLIE HOLDINGS LIMITED,"""WYLIE HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,WYLIE HOLDINGS LIMITED,"""WYLIE HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,WYLIE HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt WYLIE HOLDINGS LIMITED,registry filing,medium
+company,WYLIE HOLDINGS LIMITED,"""WYLIE HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,WYLIE HOLDINGS LIMITED,"""WYLIE HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,icij:58099343,"""icij:58099343"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,icij:58099343,"""icij:58099343"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,icij:58099343,"""icij:58099343"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,icij:58099343,"""icij:58099343"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,icij:58099343,"""icij:58099343"" (tender OR contract OR procurement)",procurement,medium
+company,icij:58099343,"""icij:58099343"" (property OR real estate OR land registry)",property,medium
+company,icij:58099343,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt icij:58099343,registry filing,medium
+company,icij:58099343,"""icij:58099343"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,icij:58099343,"""icij:58099343"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium

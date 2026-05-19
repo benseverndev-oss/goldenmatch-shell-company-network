@@ -1,0 +1,15 @@
+company_name,normalized_company_name,theme,matched_keywords,confidence,needs_manual_review
+LAKELAND HOLDINGS LIMITED,lakeland holdings,investment / holding / capital,holding,0.30,true
+WYLIE HOLDINGS LIMITED,wylie holdings,investment / holding / capital,holding,0.30,true
+AQUATICA PROPERTIES LIMITED,aquatica properties,property / real estate,propert,0.30,true
+ATLANTICA PROPERTIES LIMITED,atlantica properties,property / real estate,propert,0.30,true
+BUENAVISTA PROPERTIES LIMITED,buenavista properties,property / real estate,propert,0.30,true
+DESMOND PROPERTIES LIMITED,desmond properties,property / real estate,propert,0.30,true
+SAHARA PROPERTIES LIMITED,sahara properties,property / real estate,propert,0.30,true
+VOXDALE PROPERTIES LIMITED,voxdale properties,property / real estate,propert,0.30,true
+CASSELLA SERVICE COMPANY LIMITED,cassella service company,services / administration,service,0.30,true
+KRYPTON SERVICE COMPANY LIMITED,krypton service company,services / administration,service,0.30,true
+CALDER ENTERPRISES LIMITED,calder enterprises,unknown,,0.00,true
+CROSSKEY COMPUTERS LIMITED,crosskey computers,unknown,,0.00,true
+SUFFOLK INTERNATIONAL LIMITED,suffolk international,unknown,,0.00,true
+icij:58099343,icij 58099343,unknown,,0.00,true
