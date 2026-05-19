@@ -1,0 +1,397 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.6052631578947368,
+    "community_id": 36,
+    "isolation": 1.0,
+    "n_seeds": 2,
+    "seed_density": 0.013157894736842105,
+    "size": 152,
+    "size_deviation": 5.0238805208462765
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 36,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 152
+  },
+  "community_id": 36,
+  "generated_at": "2026-05-19 16:48:25 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": "mt",
+      "name": "MAXIMILIAN STOCK LTD",
+      "seed": false,
+      "uid": "icij:55047434"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "WEST QUAY LTD",
+      "seed": false,
+      "uid": "icij:55033215"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PLS HOLDING LIMITED",
+      "seed": false,
+      "uid": "icij:55028142"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "COLUSSEUM HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55033092"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CONSULTING ACE HOLDING LTD.",
+      "seed": false,
+      "uid": "icij:55061579"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "FUNDATIO INTERNATIONAL LTD",
+      "seed": false,
+      "uid": "icij:55033671"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "INDUSTRIAL SHIPPING SUPPLIES VEGA MARINE LIMITED",
+      "seed": false,
+      "uid": "icij:55037736"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SEPTAGON HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55054199"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "GLOBAL EBS GROUP LTD",
+      "seed": false,
+      "uid": "icij:55044356"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MERLINO YACHTING LTD",
+      "seed": false,
+      "uid": "icij:55040259"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "DIGITAL WEB SERVICES LTD",
+      "seed": false,
+      "uid": "icij:55049353"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MIRAI INTERNATIONAL LTD",
+      "seed": false,
+      "uid": "icij:55054517"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SEPTEMBER HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55045530"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SEA VOYAGER SHIPPING LTD",
+      "seed": false,
+      "uid": "icij:55033916"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "General Software Corporation Ltd",
+      "seed": false,
+      "uid": "icij:55030340"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MEDRA CAPITAL LTD",
+      "seed": true,
+      "uid": "icij:55054620"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "VISUAL WINDOW SOFTWARE MANAGEMENT LTD",
+      "seed": false,
+      "uid": "icij:55063741"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Fan Services Ltd.",
+      "seed": false,
+      "uid": "icij:55061472"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Rosemount Holdings Ltd",
+      "seed": false,
+      "uid": "icij:55048902"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Serlio Holdings Ltd",
+      "seed": false,
+      "uid": "icij:55033809"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CAPITULUM HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55033674"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "YARRA HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55046327"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PLS TRADING LIMITED",
+      "seed": false,
+      "uid": "icij:55028172"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "GLORIOUS OPPORTUNITIES 1 LTD",
+      "seed": false,
+      "uid": "icij:55051752"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "FIF HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55033808"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "RINGNECK LTD",
+      "seed": false,
+      "uid": "icij:55049067"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "OMEGA CAPITAL LTD",
+      "seed": false,
+      "uid": "icij:55038620"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "LMS CONSULTING LTD.",
+      "seed": false,
+      "uid": "icij:55061405"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MEDITERRANEAN CERTIFICATION BODY LTD",
+      "seed": false,
+      "uid": "icij:55029576"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "BELL HARBOUR HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55033093"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "QUBIC ASSET MANAGEMENT LTD",
+      "seed": false,
+      "uid": "icij:55042467"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CP MANAGEMENT LTD",
+      "seed": false,
+      "uid": "icij:55032850"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "OKAPI TRADING LTD",
+      "seed": false,
+      "uid": "icij:55044208"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "DANTE INVESTMENTS LTD",
+      "seed": false,
+      "uid": "icij:55032952"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "GIBIV LIMITED",
+      "seed": false,
+      "uid": "icij:55060195"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "TELFERN INVESTMENTS LIMITED",
+      "seed": false,
+      "uid": "icij:55030206"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "BEAUBAY CHARTER LIMITED",
+      "seed": false,
+      "uid": "icij:55039792"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "HEGITOS HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55036283"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CORDOVAN LTD",
+      "seed": false,
+      "uid": "icij:55057005"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Qubic Investments Ltd",
+      "seed": false,
+      "uid": "icij:55042461"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Minard Ltd.",
+      "seed": false,
+      "uid": "icij:55037404"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CHERISE HOLDING LTD",
+      "seed": false,
+      "uid": "icij:55057006"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "TRIPLE S CONSULTANCY LTD",
+      "seed": false,
+      "uid": "icij:55038390"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "GALA HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55059821"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "LOCKMAN LTD",
+      "seed": false,
+      "uid": "icij:55046364"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PARISOT HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55034856"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "LIVING PROPERTIES MANAGEMENT LTD",
+      "seed": false,
+      "uid": "icij:55050012"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "DREANORE HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55061466"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "HMC CONSULTING LTD",
+      "seed": false,
+      "uid": "icij:55030230"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "COMMODORE HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55060329"
+    }
+  ],
+  "n_members": 152,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.993,
+    "anomaly_score": 0.6052631578947368,
+    "cluster_size": 152,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 1,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 31,
+    "officer_reuse_rate": 0.993,
+    "top_theme": "investment / holding / capital",
+    "top_theme_share": 0.533,
+    "underreportedness": 1.0
+  },
+  "person": "james michael green",
+  "person_normalized": "james michael green",
+  "person_uids": [
+    "icij:56048107"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.6053,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 36,
+    "connectedness": 0.9447,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "MAXIMILIAN STOCK LTD",
+      "WEST QUAY LTD",
+      "PLS HOLDING LIMITED",
+      "COLUSSEUM HOLDINGS LIMITED",
+      "CONSULTING ACE HOLDING LTD.",
+      "FUNDATIO INTERNATIONAL LTD",
+      "INDUSTRIAL SHIPPING SUPPLIES VEGA MARINE LIMITED",
+      "SEPTAGON HOLDINGS LTD",
+      "GLOBAL EBS GROUP LTD",
+      "MERLINO YACHTING LTD"
+    ],
+    "member_uids_sample": [
+      "icij:55047434",
+      "icij:55033215",
+      "icij:55028142",
+      "icij:55033092",
+      "icij:55061579",
+      "icij:55033671",
+      "icij:55037736",
+      "icij:55054199",
+      "icij:55044356",
+      "icij:55040259"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.474763,
+    "size": 152,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "only one or zero ICIJ uids \u2014 cannot test same-person consistency.",
+      "country field missing in ICIJ persons rows.",
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address."
+    ],
+    "supporting": []
+  },
+  "threshold": 0.9,
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/james-michael-green.md \u2014 using parquet only."
+  ]
+}
