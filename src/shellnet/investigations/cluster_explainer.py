@@ -186,6 +186,7 @@ class ClusterExplanation:
     leaks_present: list[str]
     sources_present: list[str]
     suggested_targets: list[str]
+    discovery_delta: Any = None  # DiscoveryDelta, populated by build_explanation
 
 
 # ---------------------------------------------------------------------------
@@ -834,6 +835,20 @@ def build_explanation(
         leaks.update(repeat.leak_labels)
     sources_present = sorted({m.source for m in members})
 
+    from shellnet.investigations.discovery_delta import build_discovery_delta
+
+    delta = build_discovery_delta(
+        members,
+        jurisdictions=jurisdictions,
+        intermediaries=intermediaries,
+        addresses=addresses,
+        officers=officers,
+        sanctions_anchors=sanctions_anchors,
+        centrality=centrality,
+        sources_present=sources_present,
+        leaks_present=sorted(leaks),
+    )
+
     return ClusterExplanation(
         cluster_id=cluster_id,
         members=members,
@@ -849,6 +864,7 @@ def build_explanation(
         leaks_present=sorted(leaks),
         sources_present=sources_present,
         suggested_targets=suggested,
+        discovery_delta=delta,
     )
 
 
@@ -929,6 +945,15 @@ def render_explanation_markdown(
             f"- **Sanctions adjacency:** {len(expl.sanctions_anchors)} list-match anchor(s)."
         )
     lines.append("")
+
+    # ----- Discovery delta -----
+    if expl.discovery_delta is not None:
+        from shellnet.investigations.discovery_delta import (
+            render_discovery_delta_markdown,
+        )
+
+        lines.append(render_discovery_delta_markdown(expl.discovery_delta))
+        lines.append("")
 
     # ----- Investigative value -----
     f = expl.features

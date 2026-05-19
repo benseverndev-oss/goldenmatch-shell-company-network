@@ -395,6 +395,7 @@ _ALLOWED_SCRIPTS = {
         "--out-dir",
         "/data/reports/generated",
     ],
+    "extract_subclusters": ["scripts/extract_subclusters.py"],
     "rank_by_investigative_value": ["scripts/rank_by_investigative_value.py"],
     "rank_by_investigative_value_with_join": [
         "scripts/rank_by_investigative_value.py",
