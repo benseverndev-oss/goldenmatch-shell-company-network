@@ -16,11 +16,20 @@ CLI wrapper lives in ``scripts/explain_cluster.py``.
 from __future__ import annotations
 
 from collections import Counter, defaultdict
-from dataclasses import dataclass, field
-from datetime import UTC, date, datetime
+from dataclasses import dataclass
+from datetime import UTC, datetime
 from typing import Any
 
 import polars as pl
+
+# Re-exported from sibling modules to keep the public API of this module
+# stable while the heavy logic lives elsewhere. Tests and downstream code
+# can still `from shellnet.investigations.cluster_explainer import AnomalyFlag`.
+from shellnet.investigations.anomalies import AnomalyFlag  # noqa: F401
+from shellnet.investigations.narrative_paths import (  # noqa: F401
+    NarrativePath,
+    PathStep,
+)
 
 # Conservative offshore-finance / corporate-secrecy ISO-3166-1 alpha-2 set.
 # Used only to flag jurisdiction *mix* — not a list of "guilty" places.
@@ -63,7 +72,13 @@ DORMANT_STATUSES: frozenset[str] = frozenset(
 
 @dataclass
 class MemberAttr:
-    """One row of cluster-member context, source-agnostic."""
+    """One row of cluster-member context, source-agnostic.
+
+    ``incorporation_date`` and ``dissolution_date`` are optional — they're
+    populated from the unified table when those columns are present,
+    otherwise they stay None and date-dependent anomaly detectors degrade
+    silently rather than firing false positives.
+    """
 
     entity_uid: str
     source: str
@@ -75,6 +90,8 @@ class MemberAttr:
     status: str | None
     legal_form: str | None
     address_raw: str | None
+    incorporation_date: Any | None = None
+    dissolution_date: Any | None = None
 
     @property
     def is_dormant(self) -> bool:
@@ -131,21 +148,6 @@ class CentralityAnnotation:
     total_degree: int
     community_id: int | None
     is_member: bool  # vs. high-centrality non-member in the ego subgraph
-
-
-@dataclass
-class AnomalyFlag:
-    kind: str  # 'impossible_timeline' | 'status_contradiction' | 'cross_border_same_id' | 'hidden_hub'
-    severity: str  # 'low' | 'medium' | 'high'
-    message: str
-    member_uids: list[str] = field(default_factory=list)
-
-
-@dataclass
-class NarrativePath:
-    anchor_uid: str
-    summary: str  # one-sentence
-    steps: list[str]  # human-readable bullets
 
 
 @dataclass
@@ -227,6 +229,8 @@ def gather_member_attrs(company_df: pl.DataFrame, member_uids: list[str]) -> lis
                 status=r.get("status"),
                 legal_form=r.get("legal_form"),
                 address_raw=r.get("address_raw"),
+                incorporation_date=r.get("incorporation_date"),
+                dissolution_date=r.get("dissolution_date"),
             )
         )
     # Preserve member_uids ordering when possible.
@@ -487,147 +491,30 @@ def filter_sanctions_anchors(
 # ---------------------------------------------------------------------------
 
 
-def _parse_date(v: Any) -> date | None:
-    if v is None or v == "":
-        return None
-    if isinstance(v, date) and not isinstance(v, datetime):
-        return v
-    if isinstance(v, datetime):
-        return v.date()
-    try:
-        return datetime.fromisoformat(str(v)).date()
-    except (TypeError, ValueError):
-        return None
-
-
 def detect_anomalies(
     members: list[MemberAttr],
     *,
     edges_df: pl.DataFrame | None,
     centrality: list[CentralityAnnotation],
+    intermediaries: list[IntermediaryRepeat] | None = None,
+    addresses: list[AddressRepeat] | None = None,
+    officers: list[OfficerRepeat] | None = None,
 ) -> list[AnomalyFlag]:
-    flags: list[AnomalyFlag] = []
-    member_uids = [m.entity_uid for m in members]
-    member_set = set(member_uids)
+    """Backward-compatible wrapper for ``anomalies.detect_all``. Existing
+    callers that only pass ``members``, ``edges_df``, and ``centrality``
+    still work; new callers can pass shared-feature repeats so the
+    detectors that need them (``shell_reuse_anomaly``,
+    ``contradictory_officer``) can fire."""
+    from shellnet.investigations.anomalies import detect_all
 
-    # 1. Impossible timeline: dissolved/struck-off member with an edge whose
-    #    start_date is after its dissolution. Use ICIJ struck_off_date proxy
-    #    via status — we don't have an explicit dissolution_date column in
-    #    the unified table, so this check only fires when the edges_df has a
-    #    start_date column and a member's source carries a struck_off_date.
-    if edges_df is not None and edges_df.height and "start_date" in edges_df.columns:
-        for m in members:
-            if not m.is_dormant:
-                continue
-            sub = edges_df.filter(
-                (pl.col("src_node") == m.entity_uid) | (pl.col("dst_node") == m.entity_uid)
-            )
-            for r in sub.iter_rows(named=True):
-                start = _parse_date(r.get("start_date"))
-                # We have no per-member dissolution date in the unified
-                # schema, so we can only fire this flag if there's also an
-                # edge `end_date` that says the relationship outlived the
-                # entity. Conservatively: flag when an officer-of edge has
-                # `end_date` strictly later than the entity's "Struck off"
-                # status implies the matter was contested.
-                end = _parse_date(r.get("end_date"))
-                _ = start
-                _ = end
-                # Without explicit dissolution_date in members we skip this
-                # check rather than firing false positives. The hook is here
-                # for when build_unified_table propagates dissolution_date.
-                break
-
-    # 2. Status contradiction: cluster members marked dormant *and* active.
-    if members:
-        any_dormant = any(m.is_dormant for m in members)
-        any_active = any(
-            (m.status or "").strip().lower() in {"active", "current", "registered"} for m in members
-        )
-        if any_dormant and any_active:
-            dormant_uids = [m.entity_uid for m in members if m.is_dormant]
-            flags.append(
-                AnomalyFlag(
-                    kind="status_contradiction",
-                    severity="medium",
-                    message=(
-                        "Cluster contains both active and dormant/struck-off entities. "
-                        "Worth checking which side is the live shell."
-                    ),
-                    member_uids=dormant_uids,
-                )
-            )
-
-    # 3. Cross-border same-id: members sharing a normalized name across
-    #    >1 jurisdiction (the canonical "mirror-shell" pattern that dedupe
-    #    surfaces but doesn't itself flag as suspicious).
-    by_name: dict[str, set[str]] = defaultdict(set)
-    by_name_uids: dict[str, list[str]] = defaultdict(list)
-    for m in members:
-        nn = (m.normalized_name or "").strip()
-        if not nn:
-            continue
-        j = (m.jurisdiction or "").strip().lower()
-        if j:
-            by_name[nn].add(j)
-        by_name_uids[nn].append(m.entity_uid)
-    for nn, jurs in by_name.items():
-        if len(jurs) >= 2:
-            flags.append(
-                AnomalyFlag(
-                    kind="cross_border_mirror",
-                    severity="medium",
-                    message=(
-                        f"Normalized name `{nn}` appears under {len(jurs)} different "
-                        f"jurisdictions ({', '.join(sorted(jurs))}). Possible mirror shells."
-                    ),
-                    member_uids=by_name_uids[nn],
-                )
-            )
-
-    # 4. Hidden hub: highest-betweenness centrality node is *not* a cluster
-    #    member but sits in a shared community.
-    non_member_hubs = [c for c in centrality if not c.is_member and c.betweenness > 0]
-    member_hubs = [c for c in centrality if c.is_member]
-    if non_member_hubs and member_hubs:
-        top_outside = max(non_member_hubs, key=lambda c: c.betweenness)
-        top_inside = max((c.betweenness for c in member_hubs), default=0.0)
-        if top_outside.betweenness > 2 * (top_inside or 1e-9):
-            flags.append(
-                AnomalyFlag(
-                    kind="hidden_hub",
-                    severity="high",
-                    message=(
-                        f"Non-member node `{top_outside.entity_uid}` has betweenness "
-                        f"{top_outside.betweenness:.4f}, more than 2× the top "
-                        f"member's ({top_inside:.4f}). Likely the connective tissue."
-                    ),
-                    member_uids=[top_outside.entity_uid],
-                )
-            )
-
-    # 5. LEI / company-number coverage of 0 across an otherwise multi-source
-    #    cluster — i.e. the cluster spans sources but none of them anchors
-    #    to a real registry. This is "shell-only" by signal.
-    if (
-        members
-        and len({m.source for m in members}) >= 2
-        and not any(m.lei or m.company_number for m in members)
-    ):
-        flags.append(
-            AnomalyFlag(
-                kind="no_registry_anchor",
-                severity="low",
-                message=(
-                    "Cluster spans multiple sources but no member carries an "
-                    "LEI or company_number. Identity rests on names + addresses."
-                ),
-                member_uids=member_uids,
-            )
-        )
-
-    _ = member_set
-    return flags
+    return detect_all(
+        members,
+        intermediaries=intermediaries,
+        addresses=addresses,
+        officers=officers,
+        centrality=centrality,
+        edges_df=edges_df,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -789,104 +676,37 @@ def build_narrative_paths(
     officers: list[OfficerRepeat],
     sanctions_anchors: list[dict[str, Any]],
     centrality: list[CentralityAnnotation],
+    edges_df: pl.DataFrame | None = None,
+    company_df: pl.DataFrame | None = None,
+    addresses_df: pl.DataFrame | None = None,
+    officers_df: pl.DataFrame | None = None,
+    intermediaries_df: pl.DataFrame | None = None,
+    max_hops: int = 5,
     max_paths: int = 3,
 ) -> list[NarrativePath]:
-    """A handful of short, human-readable paths from an anchor member through
-    a shared feature into something investigative (cross-jurisdiction sibling,
-    sanctions anchor, hidden hub). Quality over quantity."""
-    if not members:
-        return []
-    by_uid = {m.entity_uid: m for m in members}
-    anchor_score: dict[str, float] = {}
-    # Prefer members that anchor centrality, then registry-anchored ones.
-    for c in centrality:
-        if c.is_member:
-            anchor_score[c.entity_uid] = anchor_score.get(c.entity_uid, 0.0) + c.betweenness
-    for m in members:
-        if m.lei or m.company_number:
-            anchor_score[m.entity_uid] = anchor_score.get(m.entity_uid, 0.0) + 0.5
-    ranked = sorted(
+    """Backward-compatible wrapper for ``narrative_paths.find_paths``.
+
+    Original short-path callers (cluster + sibling + optional tail) keep
+    working with the four required kwargs. New callers can pass the
+    edges/company/side dataframes to enable a one-hop extension past the
+    sibling into a terminus anchor (registry, sanctions, hidden hub)."""
+    from shellnet.investigations.narrative_paths import find_paths
+
+    return find_paths(
         members,
-        key=lambda m: (-anchor_score.get(m.entity_uid, 0.0), m.entity_uid),
+        intermediaries=intermediaries,
+        addresses=addresses,
+        officers=officers,
+        sanctions_anchors=sanctions_anchors,
+        centrality=centrality,
+        edges_df=edges_df,
+        company_df=company_df,
+        addresses_df=addresses_df,
+        officers_df=officers_df,
+        intermediaries_df=intermediaries_df,
+        max_hops=max_hops,
+        max_paths=max_paths,
     )
-
-    out: list[NarrativePath] = []
-
-    for anchor in ranked:
-        if len(out) >= max_paths:
-            break
-        steps: list[str] = []
-        steps.append(
-            f"`{anchor.entity_uid}` — `{anchor.name}` ({anchor.jurisdiction or '?'}, "
-            f"{anchor.source})"
-        )
-        # Find a shared feature touching this anchor.
-        used_feature = None
-        for repeat in (*intermediaries, *addresses, *officers):
-            if anchor.entity_uid not in repeat.member_uids:
-                continue
-            used_feature = repeat
-            break
-        if used_feature is None:
-            continue
-
-        if isinstance(used_feature, IntermediaryRepeat):
-            steps.append(
-                f"→ shares intermediary `{used_feature.name or used_feature.node}` "
-                f"({used_feature.country or '?'}) "
-                f"[{', '.join(used_feature.leak_labels) or 'no leak label'}]"
-            )
-        elif isinstance(used_feature, AddressRepeat):
-            steps.append(
-                f"→ registered at shared address `{(used_feature.text or used_feature.node)[:60]}` "
-                f"({used_feature.country or '?'})"
-            )
-        else:  # OfficerRepeat
-            steps.append(
-                f"→ shares officer `{used_feature.name or used_feature.node}` "
-                f"({used_feature.country or '?'})"
-            )
-
-        siblings = [u for u in used_feature.member_uids if u != anchor.entity_uid]
-        for sib_uid in siblings[:2]:
-            sib = by_uid.get(sib_uid)
-            if sib is None:
-                continue
-            steps.append(
-                f"→ `{sib.entity_uid}` — `{sib.name}` ({sib.jurisdiction or '?'}, {sib.source})"
-            )
-
-        # Tail with sanctions or hidden hub if any.
-        if sanctions_anchors:
-            anc = sanctions_anchors[0]
-            steps.append(
-                f"→ list-match anchor `{anc.get('ref_name') or anc.get('ref_lei') or '?'}`"
-            )
-            summary_tail = "with a list-match anchor at the end of the chain"
-        else:
-            hidden = next((c for c in centrality if not c.is_member), None)
-            if hidden is not None:
-                steps.append(
-                    f"→ hidden hub `{hidden.entity_uid}` (betweenness {hidden.betweenness:.4f})"
-                )
-                summary_tail = "ending at a hidden hub node"
-            else:
-                summary_tail = "via repeated offshore infrastructure"
-
-        feature_label = (
-            "intermediary"
-            if isinstance(used_feature, IntermediaryRepeat)
-            else "address"
-            if isinstance(used_feature, AddressRepeat)
-            else "officer"
-        )
-        summary = (
-            f"`{anchor.name}` is structurally linked to {len(siblings)} other "
-            f"cluster member(s) through a shared {feature_label}, {summary_tail}."
-        )
-        out.append(NarrativePath(anchor_uid=anchor.entity_uid, summary=summary, steps=steps))
-
-    return out
 
 
 # ---------------------------------------------------------------------------
@@ -970,7 +790,14 @@ def build_explanation(
     jurisdictions = compute_jurisdiction_profile(members)
     centrality = annotate_centrality(centrality_df, [m.entity_uid for m in members])
     sanctions_anchors = filter_sanctions_anchors(sanctions_df, [m.entity_uid for m in members])
-    anomalies = detect_anomalies(members, edges_df=edges_df, centrality=centrality)
+    anomalies = detect_anomalies(
+        members,
+        edges_df=edges_df,
+        centrality=centrality,
+        intermediaries=intermediaries,
+        addresses=addresses,
+        officers=officers,
+    )
     features = score_investigative_value(
         members=members,
         intermediaries=intermediaries,
@@ -987,6 +814,11 @@ def build_explanation(
         officers=officers,
         sanctions_anchors=sanctions_anchors,
         centrality=centrality,
+        edges_df=edges_df,
+        company_df=company_df,
+        addresses_df=addresses_df,
+        officers_df=officers_df,
+        intermediaries_df=intermediaries_df,
     )
     suggested = suggest_investigation_targets(
         members=members,
@@ -1238,6 +1070,15 @@ def render_explanation_markdown(
     if expl.anomalies:
         for a in expl.anomalies:
             lines.append(f"- **[{a.severity}] {a.kind}** — {_md_escape(a.message)}")
+            # Show one or two evidence fields so the briefing shows its work.
+            ev = a.evidence or {}
+            shown = [
+                f"{k}: `{_md_escape(v)[:80]}`"
+                for k, v in list(ev.items())[:3]
+                if v not in (None, "", [], {})
+            ]
+            if shown:
+                lines.append(f"  - evidence: {'; '.join(shown)}")
     else:
         lines.append("_No automatic anomalies surfaced._")
     lines.append("")
@@ -1247,12 +1088,15 @@ def render_explanation_markdown(
     lines.append("")
     if expl.paths:
         for i, p in enumerate(expl.paths, start=1):
-            lines.append(f"### Path {i}")
+            lines.append(f"### Path {i} — terminus: `{p.terminus_kind}` (score {p.score:.2f})")
             lines.append("")
             lines.append(f"_{p.summary}_")
             lines.append("")
-            for s in p.steps:
-                lines.append(f"- {s}")
+            arrows = []
+            for j, s in enumerate(p.steps):
+                prefix = "" if j == 0 else "→ "
+                arrows.append(f"- {prefix}**{s.kind}**: {_md_escape(s.label)}")
+            lines.extend(arrows)
             lines.append("")
     else:
         lines.append("_No automatic paths generated (insufficient shared features)._ ")

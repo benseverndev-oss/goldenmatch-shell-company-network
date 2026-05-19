@@ -258,7 +258,11 @@ def test_build_explanation_acme_cluster_end_to_end(tmp_path: Path, fixtures_dir:
     # Narrative path should exist and reference the shared officer.
     assert expl.paths
     p0 = expl.paths[0]
-    assert "shares officer" in " ".join(p0.steps) or "shares" in p0.summary
+    # New shape: steps is a list of PathStep dataclasses; concatenate their
+    # labels for substring assertions and check the summary too.
+    step_text = " ".join(s.label for s in p0.steps)
+    assert "John Q. Public" in step_text or "30000001" in step_text
+    assert "shared officer" in p0.summary
 
 
 def test_build_explanation_sunrise_cluster_flags_dormant(
