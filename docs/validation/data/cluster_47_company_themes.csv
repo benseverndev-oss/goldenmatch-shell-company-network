@@ -1,0 +1,68 @@
+company_name,normalized_company_name,theme,matched_keywords,confidence,needs_manual_review
+AMARYLIS HOLDINGS LTD,amarylis holdings,investment / holding / capital,holding,0.30,true
+BALFOURI HOLDINGS LIMITED,balfouri holdings,investment / holding / capital,holding,0.30,true
+Bavarica Holdings Limited,bavarica holdings,investment / holding / capital,holding,0.30,true
+CCTH HOLDINGS LTD,ccth holdings,investment / holding / capital,holding,0.30,true
+Crowd Shout Holdings Ltd.,crowd shout holdings,investment / holding / capital,holding,0.30,true
+D AND R HOLDINGS LIMITED,d and r holdings,investment / holding / capital,holding,0.30,true
+DABNEY HOLDINGS LIMITED,dabney holdings,investment / holding / capital,holding,0.30,true
+DAIKON INVESTMENTS LIMITED,daikon investments,investment / holding / capital,invest,0.30,true
+DIONE HOLDINGS LTD,dione holdings,investment / holding / capital,holding,0.30,true
+DUCK HOLDINGS LTD,duck holdings,investment / holding / capital,holding,0.30,true
+DVUS HOLDINGS LTD,dvus holdings,investment / holding / capital,holding,0.30,true
+Deleni Trading Ltd.,deleni trading,investment / holding / capital,trading,0.30,true
+GALE HOLDINGS LTD,gale holdings,investment / holding / capital,holding,0.30,true
+HERNE HOLDINGS LTD,herne holdings,investment / holding / capital,holding,0.30,true
+Hordoth Holdings Limited,hordoth holdings,investment / holding / capital,holding,0.30,true
+INSTAPARK HOLDINGS LTD,instapark holdings,investment / holding / capital,holding,0.30,true
+JAVVOS HOLDINGS LIMITED,javvos holdings,investment / holding / capital,holding,0.30,true
+JAZMANIA HOLDINGS LIMITED,jazmania holdings,investment / holding / capital,holding,0.30,true
+JEDIEL HOLDINGS LIMITED,jediel holdings,investment / holding / capital,holding,0.30,true
+JOBIZ HOLDINGS LIMITED,jobiz holdings,investment / holding / capital,holding,0.30,true
+LPD HOLDINGS LTD,lpd holdings,investment / holding / capital,holding,0.30,true
+MAYFAIR CAPITAL LTD,mayfair capital,investment / holding / capital,capital,0.30,true
+MILA INVESTMENT HOLDINGS LTD,mila investment holdings,investment / holding / capital,invest;holding,0.30,true
+NAPELLUS INVESTMENTS LIMITED,napellus investments,investment / holding / capital,invest,0.30,true
+NETLEADS HOLDINGS LTD,netleads holdings,investment / holding / capital,holding,0.30,true
+NG HOLDINGS LTD,ng holdings,investment / holding / capital,holding,0.30,true
+PAKINYA HOLDINGS LIMITED,pakinya holdings,investment / holding / capital,holding,0.30,true
+SIDECAR HOLDINGS LTD,sidecar holdings,investment / holding / capital,holding,0.30,true
+TASI HOLDINGS LIMITED,tasi holdings,investment / holding / capital,holding,0.30,true
+JOHANSSON MEDIA LTD.,johansson media,media / marketing,media,0.30,true
+CENTRAL SERVICES LTD,central services,services / administration,services;service,0.30,true
+RESOURCE TECHNOLOGY LTD,resource technology,tech / digital,tech,0.30,true
+ARGOSY EUROPE LIMITED,argosy europe,unknown,,0.00,true
+B.M.D GLOBAL PROJECTS LTD,bmd global projects,unknown,,0.00,true
+BELLEVILLE LTD,belleville,unknown,,0.00,true
+CAPE MAY LTD,cape may,unknown,,0.00,true
+CHOICE FOR YOU LTD,choice for you,unknown,,0.00,true
+CRIUS LTD,crius,unknown,,0.00,true
+CUDDY LTD,cuddy,unknown,,0.00,true
+DRIPPING WET LTD,dripping wet,unknown,,0.00,true
+Desert Fox Ltd.,desert fox,unknown,,0.00,true
+EMBLA LTD,embla,unknown,,0.00,true
+FCL MALTA LTD,fcl malta,unknown,,0.00,true
+GLADIUS LTD (MALTA BRANCH),gladius ltd malta branch,unknown,,0.00,true
+HELLENE LTD,hellene,unknown,,0.00,true
+INTEGRATED-CAPABILITIES (MALTA) LTD,integrated capabilities malta,unknown,,0.00,true
+INTEGRATED-CAPABILITIES LTD,integrated capabilities,unknown,,0.00,true
+KALINA LTD (MALTA BRANCH),kalina ltd malta branch,unknown,,0.00,true
+LARSTON LTD,larston,unknown,,0.00,true
+PALPATINE INDUSTRIES LTD,palpatine industries,unknown,,0.00,true
+PICK ME LTD,pick me,unknown,,0.00,true
+PRIMARY GLOBAL NET LTD,primary global net,unknown,,0.00,true
+PROBUTEC (MALTA) LTD,probutec malta,unknown,,0.00,true
+Prism Lights Ltd.,prism lights,unknown,,0.00,true
+RAN 4 LIMITED,ran 4,unknown,,0.00,true
+SENTORUM LIMITED,sentorum,unknown,,0.00,true
+SONNYS MIE LTD.,sonnys mie,unknown,,0.00,true
+icij:58034946,icij 58034946,unknown,,0.00,true
+AIR SEVEN YACHTING LTD,air seven yachting,yachting / charter / vessel,yacht;yachting,0.30,true
+AWEIGH YACHTING LTD,aweigh yachting,yachting / charter / vessel,yacht;yachting,0.30,true
+IKARUS YACHTING LTD,ikarus yachting,yachting / charter / vessel,yacht;yachting,0.30,true
+MARLIN YACHTING LTD,marlin yachting,yachting / charter / vessel,yacht;yachting,0.30,true
+MIRAGE CHARTERS LTD,mirage charters,yachting / charter / vessel,charter,0.30,true
+PETHERTON MARINE LTD,petherton marine,yachting / charter / vessel,marine,0.30,true
+SEABREEZE YACHTING LTD,seabreeze yachting,yachting / charter / vessel,yacht;yachting,0.30,true
+SMOOTH SAILING LTD,smooth sailing,yachting / charter / vessel,sailing,0.30,true
+VERA YACHTING LTD,vera yachting,yachting / charter / vessel,yacht;yachting,0.30,true

@@ -1,0 +1,69 @@
+company_name,normalized_company_name,in_community,in_person_dossier,match_type,confidence,source_record_ids,notes
+AWEIGH YACHTING LTD,aweigh yachting,true,true,exact_normalized,0.90,icij:55046957 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+BALFOURI HOLDINGS LIMITED,balfouri holdings,true,true,exact_normalized,0.90,icij:55051182 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+Bavarica Holdings Limited,bavarica holdings,true,true,exact_normalized,0.90,icij:55051186 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+B.M.D GLOBAL PROJECTS LTD,bmd global projects,true,true,exact_normalized,0.90,icij:55045531 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+CENTRAL SERVICES LTD,central services,true,true,exact_normalized,0.90,icij:55050026 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+CHOICE FOR YOU LTD,choice for you,true,true,exact_normalized,0.90,icij:55050629 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+CUDDY LTD,cuddy,true,true,exact_normalized,0.90,icij:55050088 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+DABNEY HOLDINGS LIMITED,dabney holdings,true,true,exact_normalized,0.90,icij:55049696 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+DAIKON INVESTMENTS LIMITED,daikon investments,true,true,exact_normalized,0.90,icij:55053862 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+FCL MALTA LTD,fcl malta,true,true,exact_normalized,0.90,icij:55050777 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+Hordoth Holdings Limited,hordoth holdings,true,true,exact_normalized,0.90,icij:55049786 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+IKARUS YACHTING LTD,ikarus yachting,true,true,exact_normalized,0.90,icij:55051026 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+JAVVOS HOLDINGS LIMITED,javvos holdings,true,true,exact_normalized,0.90,icij:55049789 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+JAZMANIA HOLDINGS LIMITED,jazmania holdings,true,true,exact_normalized,0.90,icij:55049210 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+JEDIEL HOLDINGS LIMITED,jediel holdings,true,true,exact_normalized,0.90,icij:55049699 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+JOBIZ HOLDINGS LIMITED,jobiz holdings,true,true,exact_normalized,0.90,icij:55049697 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+MAYFAIR CAPITAL LTD,mayfair capital,true,true,exact_normalized,0.90,icij:55049444 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+MIRAGE CHARTERS LTD,mirage charters,true,true,exact_normalized,0.90,icij:55051281 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+NAPELLUS INVESTMENTS LIMITED,napellus investments,true,true,exact_normalized,0.90,icij:55051181 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+PAKINYA HOLDINGS LIMITED,pakinya holdings,true,true,exact_normalized,0.90,icij:55049695 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+PICK ME LTD,pick me,true,true,exact_normalized,0.90,icij:55050623 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+Prism Lights Ltd.,prism lights,true,true,exact_normalized,0.90,icij:55046675 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+RAN 4 LIMITED,ran 4,true,true,exact_normalized,0.90,icij:55045477 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+SENTORUM LIMITED,sentorum,true,true,exact_normalized,0.90,icij:55051179 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+TASI HOLDINGS LIMITED,tasi holdings,true,true,exact_normalized,0.90,icij:55049698 | dossier=mt,candidate overlap — verify these uids refer to the same underlying legal entity
+AIR SEVEN YACHTING LTD,air seven yachting,true,false,community_only,1.00,icij:55057760,in cluster but not in person dossier
+AMARYLIS HOLDINGS LTD,amarylis holdings,true,false,community_only,1.00,icij:55054634,in cluster but not in person dossier
+ARGOSY EUROPE LIMITED,argosy europe,true,false,community_only,1.00,icij:55066237,in cluster but not in person dossier
+BELLEVILLE LTD,belleville,true,false,community_only,1.00,icij:55081280,in cluster but not in person dossier
+CAPE MAY LTD,cape may,true,false,community_only,1.00,icij:55081385,in cluster but not in person dossier
+CCTH HOLDINGS LTD,ccth holdings,true,false,community_only,1.00,icij:55057037,in cluster but not in person dossier
+CRIUS LTD,crius,true,false,community_only,1.00,icij:55051778,in cluster but not in person dossier
+Crowd Shout Holdings Ltd.,crowd shout holdings,true,false,community_only,1.00,icij:55052200,in cluster but not in person dossier
+D AND R HOLDINGS LIMITED,d and r holdings,true,false,community_only,1.00,icij:55066070,in cluster but not in person dossier
+Deleni Trading Ltd.,deleni trading,true,false,community_only,1.00,icij:55046171,in cluster but not in person dossier
+Desert Fox Ltd.,desert fox,true,false,community_only,1.00,icij:55052215,in cluster but not in person dossier
+DIONE HOLDINGS LTD,dione holdings,true,false,community_only,1.00,icij:55051774,in cluster but not in person dossier
+DRIPPING WET LTD,dripping wet,true,false,community_only,1.00,icij:55069461,in cluster but not in person dossier
+DUCK HOLDINGS LTD,duck holdings,true,false,community_only,1.00,icij:55057137,in cluster but not in person dossier
+DVUS HOLDINGS LTD,dvus holdings,true,false,community_only,1.00,icij:55057131,in cluster but not in person dossier
+EMBLA LTD,embla,true,false,community_only,1.00,icij:55054932,in cluster but not in person dossier
+GALE HOLDINGS LTD,gale holdings,true,false,community_only,1.00,icij:55055738,in cluster but not in person dossier
+GLADIUS LTD (MALTA BRANCH),gladius ltd malta branch,true,false,community_only,1.00,icij:55081464,in cluster but not in person dossier
+HELLENE LTD,hellene,true,false,community_only,1.00,icij:55081482,in cluster but not in person dossier
+HERNE HOLDINGS LTD,herne holdings,true,false,community_only,1.00,icij:55052191,in cluster but not in person dossier
+icij:58034946,icij 58034946,true,false,community_only,1.00,icij:58034946,in cluster but not in person dossier
+INSTAPARK HOLDINGS LTD,instapark holdings,true,false,community_only,1.00,icij:55069631,in cluster but not in person dossier
+INTEGRATED-CAPABILITIES LTD,integrated capabilities,true,false,community_only,1.00,icij:55081116,in cluster but not in person dossier
+INTEGRATED-CAPABILITIES (MALTA) LTD,integrated capabilities malta,true,false,community_only,1.00,icij:55044834,in cluster but not in person dossier
+JOHANSSON MEDIA LTD.,johansson media,true,false,community_only,1.00,icij:55080645,in cluster but not in person dossier
+KALINA LTD (MALTA BRANCH),kalina ltd malta branch,true,false,community_only,1.00,icij:55081491,in cluster but not in person dossier
+LARSTON LTD,larston,true,false,community_only,1.00,icij:55068072,in cluster but not in person dossier
+LPD HOLDINGS LTD,lpd holdings,true,false,community_only,1.00,icij:55055770,in cluster but not in person dossier
+MARLIN YACHTING LTD,marlin yachting,true,false,community_only,1.00,icij:55081288,in cluster but not in person dossier
+MILA INVESTMENT HOLDINGS LTD,mila investment holdings,true,false,community_only,1.00,icij:55081490,in cluster but not in person dossier
+NETLEADS HOLDINGS LTD,netleads holdings,true,false,community_only,1.00,icij:55053169,in cluster but not in person dossier
+NG HOLDINGS LTD,ng holdings,true,false,community_only,1.00,icij:55054632,in cluster but not in person dossier
+PALPATINE INDUSTRIES LTD,palpatine industries,true,false,community_only,1.00,icij:55065685,in cluster but not in person dossier
+PETHERTON MARINE LTD,petherton marine,true,false,community_only,1.00,icij:55081442,in cluster but not in person dossier
+PRIMARY GLOBAL NET LTD,primary global net,true,false,community_only,1.00,icij:55055974,in cluster but not in person dossier
+PROBUTEC (MALTA) LTD,probutec malta,true,false,community_only,1.00,icij:55054014,in cluster but not in person dossier
+RESOURCE TECHNOLOGY LTD,resource technology,true,false,community_only,1.00,icij:55051787,in cluster but not in person dossier
+SEABREEZE YACHTING LTD,seabreeze yachting,true,false,community_only,1.00,icij:55051782,in cluster but not in person dossier
+SIDECAR HOLDINGS LTD,sidecar holdings,true,false,community_only,1.00,icij:55076450,in cluster but not in person dossier
+SMOOTH SAILING LTD,smooth sailing,true,false,community_only,1.00,icij:55058021,in cluster but not in person dossier
+SONNYS MIE LTD.,sonnys mie,true,false,community_only,1.00,icij:55081665,in cluster but not in person dossier
+VERA YACHTING LTD,vera yachting,true,false,community_only,1.00,icij:55057631,in cluster but not in person dossier
+SANTHILL LIMITED,santhill,false,true,dossier_only,1.00,dossier:mt,"in dossier but not in this cluster — could be a different Perry, or in a different community"
