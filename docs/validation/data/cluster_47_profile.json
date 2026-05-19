@@ -1,0 +1,398 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.7731343283582089,
+    "community_id": 47,
+    "isolation": 1.0,
+    "n_seeds": 29,
+    "seed_density": 0.43283582089552236,
+    "size": 67,
+    "size_deviation": 4.204692619390966
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 47,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 67
+  },
+  "community_id": 47,
+  "generated_at": "2026-05-19 14:58:36 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": "mt",
+      "name": "EMBLA LTD",
+      "seed": false,
+      "uid": "icij:55054932"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MAYFAIR CAPITAL LTD",
+      "seed": true,
+      "uid": "icij:55049444"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "INTEGRATED-CAPABILITIES LTD",
+      "seed": true,
+      "uid": "icij:55081116"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "NG HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55054632"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "DAIKON INVESTMENTS LIMITED",
+      "seed": true,
+      "uid": "icij:55053862"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "KALINA LTD (MALTA BRANCH)",
+      "seed": false,
+      "uid": "icij:55081491"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "VERA YACHTING LTD",
+      "seed": false,
+      "uid": "icij:55057631"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CUDDY LTD",
+      "seed": true,
+      "uid": "icij:55050088"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Prism Lights Ltd.",
+      "seed": true,
+      "uid": "icij:55046675"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Crowd Shout Holdings Ltd.",
+      "seed": false,
+      "uid": "icij:55052200"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "JAZMANIA HOLDINGS LIMITED",
+      "seed": true,
+      "uid": "icij:55049210"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PAKINYA HOLDINGS LIMITED",
+      "seed": true,
+      "uid": "icij:55049695"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "TASI HOLDINGS LIMITED",
+      "seed": true,
+      "uid": "icij:55049698"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "DVUS HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55057131"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PICK ME LTD",
+      "seed": true,
+      "uid": "icij:55050623"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Deleni Trading Ltd.",
+      "seed": false,
+      "uid": "icij:55046171"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "AWEIGH YACHTING LTD",
+      "seed": true,
+      "uid": "icij:55046957"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PALPATINE INDUSTRIES LTD",
+      "seed": false,
+      "uid": "icij:55065685"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "BALFOURI HOLDINGS LIMITED",
+      "seed": true,
+      "uid": "icij:55051182"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MARLIN YACHTING LTD",
+      "seed": false,
+      "uid": "icij:55081288"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ARGOSY EUROPE LIMITED",
+      "seed": false,
+      "uid": "icij:55066237"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "JEDIEL HOLDINGS LIMITED",
+      "seed": true,
+      "uid": "icij:55049699"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "INSTAPARK HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55069631"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "FCL MALTA LTD",
+      "seed": true,
+      "uid": "icij:55050777"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CRIUS LTD",
+      "seed": false,
+      "uid": "icij:55051778"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "DABNEY HOLDINGS LIMITED",
+      "seed": true,
+      "uid": "icij:55049696"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "B.M.D GLOBAL PROJECTS LTD",
+      "seed": true,
+      "uid": "icij:55045531"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "NAPELLUS INVESTMENTS LIMITED",
+      "seed": true,
+      "uid": "icij:55051181"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "NETLEADS HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55053169"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "JAVVOS HOLDINGS LIMITED",
+      "seed": true,
+      "uid": "icij:55049789"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "DUCK HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55057137"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MIRAGE CHARTERS LTD",
+      "seed": true,
+      "uid": "icij:55051281"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "BELLEVILLE LTD",
+      "seed": false,
+      "uid": "icij:55081280"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "INTEGRATED-CAPABILITIES (MALTA) LTD",
+      "seed": true,
+      "uid": "icij:55044834"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SMOOTH SAILING LTD",
+      "seed": false,
+      "uid": "icij:55058021"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CENTRAL SERVICES LTD",
+      "seed": true,
+      "uid": "icij:55050026"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "RAN 4 LIMITED",
+      "seed": true,
+      "uid": "icij:55045477"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "AMARYLIS HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55054634"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SEABREEZE YACHTING LTD",
+      "seed": false,
+      "uid": "icij:55051782"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PROBUTEC (MALTA) LTD",
+      "seed": false,
+      "uid": "icij:55054014"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Bavarica Holdings Limited",
+      "seed": true,
+      "uid": "icij:55051186"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MILA INVESTMENT HOLDINGS LTD",
+      "seed": true,
+      "uid": "icij:55081490"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "RESOURCE TECHNOLOGY LTD",
+      "seed": false,
+      "uid": "icij:55051787"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "LPD HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55055770"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PRIMARY GLOBAL NET LTD",
+      "seed": false,
+      "uid": "icij:55055974"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "Desert Fox Ltd.",
+      "seed": false,
+      "uid": "icij:55052215"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SENTORUM LIMITED",
+      "seed": true,
+      "uid": "icij:55051179"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "DIONE HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55051774"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CCTH HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55057037"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "DRIPPING WET LTD",
+      "seed": false,
+      "uid": "icij:55069461"
+    }
+  ],
+  "n_members": 67,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.985,
+    "anomaly_score": 0.7731343283582089,
+    "cluster_size": 67,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 1,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 19,
+    "officer_reuse_rate": 0.985,
+    "top_theme": "investment / holding / capital",
+    "top_theme_share": 0.433,
+    "underreportedness": 1.0
+  },
+  "person": "peter kevin perry",
+  "person_normalized": "peter kevin perry",
+  "person_uids": [
+    "icij:56056803",
+    "icij:56056705"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.7731,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 47,
+    "connectedness": 0.7906,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "EMBLA LTD",
+      "MAYFAIR CAPITAL LTD",
+      "INTEGRATED-CAPABILITIES LTD",
+      "NG HOLDINGS LTD",
+      "DAIKON INVESTMENTS LIMITED",
+      "KALINA LTD (MALTA BRANCH)",
+      "VERA YACHTING LTD",
+      "CUDDY LTD",
+      "Prism Lights Ltd.",
+      "Crowd Shout Holdings Ltd."
+    ],
+    "member_uids_sample": [
+      "icij:55054932",
+      "icij:55049444",
+      "icij:55081116",
+      "icij:55054632",
+      "icij:55053862",
+      "icij:55081491",
+      "icij:55057631",
+      "icij:55050088",
+      "icij:55046675",
+      "icij:55052200"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.562259,
+    "size": 67,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "country field missing in ICIJ persons rows.",
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address.",
+      "dossier reports 0 web mentions \u2014 no third-party corroboration online."
+    ],
+    "supporting": [
+      "2 ICIJ uids share normalized name `peter kevin perry` (icij:56056803, icij:56056705)."
+    ]
+  },
+  "threshold": 0.9,
+  "warnings": []
+}
