@@ -1,0 +1,4 @@
+company_name,normalized_company_name,in_community,in_person_dossier,match_type,confidence,source_record_ids,notes
+icij:58044872,icij 58044872,true,false,community_only,1.00,icij:58044872,in cluster but not in person dossier
+icij:58045753,icij 58045753,true,false,community_only,1.00,icij:58045753,in cluster but not in person dossier
+TRACY JANE POZO,tracy jane pozo,true,false,community_only,1.00,icij:56055864;icij:56055924,in cluster but not in person dossier

@@ -1,0 +1,111 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.8,
+    "community_id": 46,
+    "isolation": 1.0,
+    "n_seeds": 2,
+    "seed_density": 0.5,
+    "size": 4,
+    "size_deviation": 1.3862943611198906
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 46,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 4
+  },
+  "community_id": 46,
+  "generated_at": "2026-05-19 17:34:26 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": null,
+      "name": "TRACY JANE POZO",
+      "seed": true,
+      "uid": "icij:56055864"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58044872",
+      "seed": false,
+      "uid": "icij:58044872"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58045753",
+      "seed": false,
+      "uid": "icij:58045753"
+    },
+    {
+      "jurisdiction": null,
+      "name": "TRACY JANE POZO",
+      "seed": true,
+      "uid": "icij:56055924"
+    }
+  ],
+  "n_members": 4,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.25,
+    "anomaly_score": 0.8,
+    "cluster_size": 4,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 1,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 0,
+    "officer_reuse_rate": 0.0,
+    "top_theme": "unknown",
+    "top_theme_share": 1.0,
+    "underreportedness": 1.0
+  },
+  "person": "tracy jane pozo",
+  "person_normalized": "tracy jane pozo",
+  "person_uids": [
+    "icij:56055864",
+    "icij:56055924"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.8,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 46,
+    "connectedness": 0.2607,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "TRACY JANE POZO",
+      "icij:58044872",
+      "icij:58045753",
+      "TRACY JANE POZO"
+    ],
+    "member_uids_sample": [
+      "icij:56055864",
+      "icij:58044872",
+      "icij:58045753",
+      "icij:56055924"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.269416,
+    "size": 4,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "country field missing in ICIJ persons rows.",
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address."
+    ],
+    "supporting": [
+      "2 ICIJ uids share normalized name `tracy jane pozo` (icij:56055864, icij:56055924)."
+    ]
+  },
+  "threshold": 0.9,
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/tracy-jane-pozo.md \u2014 using parquet only."
+  ]
+}

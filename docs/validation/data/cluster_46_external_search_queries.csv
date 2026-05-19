@@ -1,0 +1,42 @@
+target_type,target_name,query,purpose,priority
+person,tracy jane pozo,"""tracy jane pozo"" (PEP OR beneficial owner OR UBO)",PEP/UBO,high
+person,tracy jane pozo,"""tracy jane pozo"" (lawsuit OR claim OR litigation)",litigation,high
+person,tracy jane pozo,"""tracy jane pozo"" -site:linkedin.com -site:facebook.com",media,high
+person,tracy jane pozo,"""tracy jane pozo"" director OR officer",registry filings,high
+person,tracy jane pozo,"""tracy jane pozo"" (sanction OR OFAC OR OFSI)",sanctions,high
+company,TRACY JANE POZO,"""TRACY JANE POZO"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,TRACY JANE POZO,"""TRACY JANE POZO"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,TRACY JANE POZO,"""TRACY JANE POZO"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,TRACY JANE POZO,"""TRACY JANE POZO"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,TRACY JANE POZO,"""TRACY JANE POZO"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,TRACY JANE POZO,"""TRACY JANE POZO"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,TRACY JANE POZO,"""TRACY JANE POZO"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,TRACY JANE POZO,"""TRACY JANE POZO"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,TRACY JANE POZO,"""TRACY JANE POZO"" (tender OR contract OR procurement)",procurement,medium
+company,TRACY JANE POZO,"""TRACY JANE POZO"" (tender OR contract OR procurement)",procurement,medium
+company,TRACY JANE POZO,"""TRACY JANE POZO"" (property OR real estate OR land registry)",property,medium
+company,TRACY JANE POZO,"""TRACY JANE POZO"" (property OR real estate OR land registry)",property,medium
+company,TRACY JANE POZO,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt TRACY JANE POZO,registry filing,medium
+company,TRACY JANE POZO,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt TRACY JANE POZO,registry filing,medium
+company,TRACY JANE POZO,"""TRACY JANE POZO"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,TRACY JANE POZO,"""TRACY JANE POZO"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,TRACY JANE POZO,"""TRACY JANE POZO"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,TRACY JANE POZO,"""TRACY JANE POZO"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,icij:58044872,"""icij:58044872"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,icij:58044872,"""icij:58044872"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,icij:58044872,"""icij:58044872"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,icij:58044872,"""icij:58044872"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,icij:58044872,"""icij:58044872"" (tender OR contract OR procurement)",procurement,medium
+company,icij:58044872,"""icij:58044872"" (property OR real estate OR land registry)",property,medium
+company,icij:58044872,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt icij:58044872,registry filing,medium
+company,icij:58044872,"""icij:58044872"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,icij:58044872,"""icij:58044872"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,icij:58045753,"""icij:58045753"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,icij:58045753,"""icij:58045753"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,icij:58045753,"""icij:58045753"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,icij:58045753,"""icij:58045753"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,icij:58045753,"""icij:58045753"" (tender OR contract OR procurement)",procurement,medium
+company,icij:58045753,"""icij:58045753"" (property OR real estate OR land registry)",property,medium
+company,icij:58045753,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt icij:58045753,registry filing,medium
+company,icij:58045753,"""icij:58045753"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,icij:58045753,"""icij:58045753"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium

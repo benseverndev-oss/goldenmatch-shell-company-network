@@ -1,0 +1,4 @@
+person_name,person_record_id,company_name,company_record_id,relationship_type,role,start_date,end_date,source,leak,confidence,notes
+tracy jane pozo,icij:56055864,icij:58044872,icij:58044872,registered_address,registered address,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+tracy jane pozo,icij:56055924,icij:58044872,icij:58044872,registered_address,registered address,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+tracy jane pozo,icij:56055864,icij:58045753,icij:58045753,registered_address,registered address,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
