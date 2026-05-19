@@ -473,9 +473,8 @@ def score_hits(
         matched: list[str] = []
         if person_low and person_low in text:
             matched.append("person")
-        elif (
-            len(person_tokens) >= 2
-            and all(t in text for t in person_tokens[:1] + person_tokens[-1:])
+        elif len(person_tokens) >= 2 and all(
+            t in text for t in person_tokens[:1] + person_tokens[-1:]
         ):
             # First and last name both present — treat as person match.
             matched.append("person")
