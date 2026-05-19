@@ -1,0 +1,4 @@
+company_name,normalized_company_name,theme,matched_keywords,confidence,needs_manual_review
+FUND ADVISERS HOLDINGS LTD,fund advisers holdings,investment / holding / capital,holding;fund,0.30,true
+NEW VILLE CORP LTD,new ville corp,unknown,,0.00,true
+icij:58052173,icij 58052173,unknown,,0.00,true

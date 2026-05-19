@@ -1,0 +1,33 @@
+target_type,target_name,query,purpose,priority
+person,david mark cooper,"""david mark cooper"" (PEP OR beneficial owner OR UBO)",PEP/UBO,high
+person,david mark cooper,"""david mark cooper"" (lawsuit OR claim OR litigation)",litigation,high
+person,david mark cooper,"""david mark cooper"" -site:linkedin.com -site:facebook.com",media,high
+person,david mark cooper,"""david mark cooper"" director OR officer",registry filings,high
+person,david mark cooper,"""david mark cooper"" (sanction OR OFAC OR OFSI)",sanctions,high
+company,FUND ADVISERS HOLDINGS LTD,"""FUND ADVISERS HOLDINGS LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,FUND ADVISERS HOLDINGS LTD,"""FUND ADVISERS HOLDINGS LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,FUND ADVISERS HOLDINGS LTD,"""FUND ADVISERS HOLDINGS LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,FUND ADVISERS HOLDINGS LTD,"""FUND ADVISERS HOLDINGS LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,FUND ADVISERS HOLDINGS LTD,"""FUND ADVISERS HOLDINGS LTD"" (tender OR contract OR procurement)",procurement,medium
+company,FUND ADVISERS HOLDINGS LTD,"""FUND ADVISERS HOLDINGS LTD"" (property OR real estate OR land registry)",property,medium
+company,FUND ADVISERS HOLDINGS LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt FUND ADVISERS HOLDINGS LTD,registry filing,medium
+company,FUND ADVISERS HOLDINGS LTD,"""FUND ADVISERS HOLDINGS LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,FUND ADVISERS HOLDINGS LTD,"""FUND ADVISERS HOLDINGS LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,NEW VILLE CORP LTD,"""NEW VILLE CORP LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,NEW VILLE CORP LTD,"""NEW VILLE CORP LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,NEW VILLE CORP LTD,"""NEW VILLE CORP LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,NEW VILLE CORP LTD,"""NEW VILLE CORP LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,NEW VILLE CORP LTD,"""NEW VILLE CORP LTD"" (tender OR contract OR procurement)",procurement,medium
+company,NEW VILLE CORP LTD,"""NEW VILLE CORP LTD"" (property OR real estate OR land registry)",property,medium
+company,NEW VILLE CORP LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt NEW VILLE CORP LTD,registry filing,medium
+company,NEW VILLE CORP LTD,"""NEW VILLE CORP LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,NEW VILLE CORP LTD,"""NEW VILLE CORP LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,icij:58052173,"""icij:58052173"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,icij:58052173,"""icij:58052173"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,icij:58052173,"""icij:58052173"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,icij:58052173,"""icij:58052173"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,icij:58052173,"""icij:58052173"" (tender OR contract OR procurement)",procurement,medium
+company,icij:58052173,"""icij:58052173"" (property OR real estate OR land registry)",property,medium
+company,icij:58052173,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt icij:58052173,registry filing,medium
+company,icij:58052173,"""icij:58052173"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,icij:58052173,"""icij:58052173"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium

@@ -1,0 +1,103 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.7333333333333333,
+    "community_id": 56,
+    "isolation": 1.0,
+    "n_seeds": 1,
+    "seed_density": 0.3333333333333333,
+    "size": 3,
+    "size_deviation": 1.0986122886681098
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 56,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 3
+  },
+  "community_id": 56,
+  "generated_at": "2026-05-19 17:14:14 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": "mt",
+      "name": "FUND ADVISERS HOLDINGS LTD",
+      "seed": true,
+      "uid": "icij:55050531"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58052173",
+      "seed": false,
+      "uid": "icij:58052173"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "NEW VILLE CORP LTD",
+      "seed": false,
+      "uid": "icij:55044241"
+    }
+  ],
+  "n_members": 3,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.667,
+    "anomaly_score": 0.7333333333333333,
+    "cluster_size": 3,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 1,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 2,
+    "officer_reuse_rate": 0.667,
+    "top_theme": "unknown",
+    "top_theme_share": 0.667,
+    "underreportedness": 1.0
+  },
+  "person": "david mark cooper",
+  "person_normalized": "david mark cooper",
+  "person_uids": [
+    "icij:56048119",
+    "icij:56062581"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.7333,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 56,
+    "connectedness": 0.2066,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "FUND ADVISERS HOLDINGS LTD",
+      "icij:58052173",
+      "NEW VILLE CORP LTD"
+    ],
+    "member_uids_sample": [
+      "icij:55050531",
+      "icij:58052173",
+      "icij:55044241"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.206238,
+    "size": 3,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "country field missing in ICIJ persons rows.",
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address."
+    ],
+    "supporting": [
+      "2 ICIJ uids share normalized name `david mark cooper` (icij:56048119, icij:56062581)."
+    ]
+  },
+  "threshold": 0.9,
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/david-mark-cooper.md \u2014 using parquet only."
+  ]
+}

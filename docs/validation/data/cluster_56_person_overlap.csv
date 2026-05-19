@@ -1,0 +1,4 @@
+company_name,normalized_company_name,in_community,in_person_dossier,match_type,confidence,source_record_ids,notes
+FUND ADVISERS HOLDINGS LTD,fund advisers holdings,true,false,community_only,1.00,icij:55050531,in cluster but not in person dossier
+icij:58052173,icij 58052173,true,false,community_only,1.00,icij:58052173,in cluster but not in person dossier
+NEW VILLE CORP LTD,new ville corp,true,false,community_only,1.00,icij:55044241,in cluster but not in person dossier
