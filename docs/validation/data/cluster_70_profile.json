@@ -1,0 +1,118 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.6,
+    "community_id": 70,
+    "isolation": 1.0,
+    "n_seeds": 0,
+    "seed_density": 0.0,
+    "size": 5,
+    "size_deviation": 1.6094379124341003
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 70,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 5
+  },
+  "community_id": 70,
+  "generated_at": "2026-05-19 16:44:40 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": "mt",
+      "name": "ADRIANO CEFAI",
+      "seed": false,
+      "uid": "icij:56033452"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CHRISTIAN ELLUL",
+      "seed": false,
+      "uid": "icij:56032560"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "FIDES FIDUCIARY LIMITED",
+      "seed": false,
+      "uid": "icij:56083164"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58038552",
+      "seed": false,
+      "uid": "icij:58038552"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "FIDES CORPORATE SERVICES LIMITED",
+      "seed": false,
+      "uid": "icij:56082935"
+    }
+  ],
+  "n_members": 5,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.8,
+    "anomaly_score": 0.6,
+    "cluster_size": 5,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 2,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 0,
+    "officer_reuse_rate": 0.0,
+    "top_theme": "services / administration",
+    "top_theme_share": 0.4,
+    "underreportedness": 1.0
+  },
+  "person": "adriano cefai",
+  "person_normalized": "adriano cefai",
+  "person_uids": [
+    "icij:56033452"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.6,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 70,
+    "connectedness": 0.3026,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "ADRIANO CEFAI",
+      "CHRISTIAN ELLUL",
+      "FIDES FIDUCIARY LIMITED",
+      "icij:58038552",
+      "FIDES CORPORATE SERVICES LIMITED"
+    ],
+    "member_uids_sample": [
+      "icij:56033452",
+      "icij:56032560",
+      "icij:56083164",
+      "icij:58038552",
+      "icij:56082935"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.211773,
+    "size": 5,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "only one or zero ICIJ uids \u2014 cannot test same-person consistency.",
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address."
+    ],
+    "supporting": [
+      "All ICIJ rows report the same country: mt."
+    ]
+  },
+  "threshold": 0.9,
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/adriano-cefai.md \u2014 using parquet only."
+  ]
+}

@@ -1,0 +1,6 @@
+company_name,normalized_company_name,theme,matched_keywords,confidence,needs_manual_review
+FIDES CORPORATE SERVICES LIMITED,fides corporate services,services / administration,services;service;corporate,0.30,true
+FIDES FIDUCIARY LIMITED,fides fiduciary,services / administration,fiduciary,0.30,true
+ADRIANO CEFAI,adriano cefai,tech / digital,ai,0.30,true
+CHRISTIAN ELLUL,christian ellul,unknown,,0.00,true
+icij:58038552,icij 58038552,unknown,,0.00,true

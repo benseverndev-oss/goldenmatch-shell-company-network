@@ -1,0 +1,51 @@
+target_type,target_name,query,purpose,priority
+person,adriano cefai,"""adriano cefai"" (PEP OR beneficial owner OR UBO)",PEP/UBO,high
+person,adriano cefai,"""adriano cefai"" (lawsuit OR claim OR litigation)",litigation,high
+person,adriano cefai,"""adriano cefai"" -site:linkedin.com -site:facebook.com",media,high
+person,adriano cefai,"""adriano cefai"" director OR officer",registry filings,high
+person,adriano cefai,"""adriano cefai"" (sanction OR OFAC OR OFSI)",sanctions,high
+company,ADRIANO CEFAI,"""ADRIANO CEFAI"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,ADRIANO CEFAI,"""ADRIANO CEFAI"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,ADRIANO CEFAI,"""ADRIANO CEFAI"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,ADRIANO CEFAI,"""ADRIANO CEFAI"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,ADRIANO CEFAI,"""ADRIANO CEFAI"" (tender OR contract OR procurement)",procurement,medium
+company,ADRIANO CEFAI,"""ADRIANO CEFAI"" (property OR real estate OR land registry)",property,medium
+company,ADRIANO CEFAI,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt ADRIANO CEFAI,registry filing,medium
+company,ADRIANO CEFAI,"""ADRIANO CEFAI"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,ADRIANO CEFAI,"""ADRIANO CEFAI"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,CHRISTIAN ELLUL,"""CHRISTIAN ELLUL"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,CHRISTIAN ELLUL,"""CHRISTIAN ELLUL"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,CHRISTIAN ELLUL,"""CHRISTIAN ELLUL"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,CHRISTIAN ELLUL,"""CHRISTIAN ELLUL"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,CHRISTIAN ELLUL,"""CHRISTIAN ELLUL"" (tender OR contract OR procurement)",procurement,medium
+company,CHRISTIAN ELLUL,"""CHRISTIAN ELLUL"" (property OR real estate OR land registry)",property,medium
+company,CHRISTIAN ELLUL,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt CHRISTIAN ELLUL,registry filing,medium
+company,CHRISTIAN ELLUL,"""CHRISTIAN ELLUL"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,CHRISTIAN ELLUL,"""CHRISTIAN ELLUL"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,FIDES CORPORATE SERVICES LIMITED,"""FIDES CORPORATE SERVICES LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,FIDES CORPORATE SERVICES LIMITED,"""FIDES CORPORATE SERVICES LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,FIDES CORPORATE SERVICES LIMITED,"""FIDES CORPORATE SERVICES LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,FIDES CORPORATE SERVICES LIMITED,"""FIDES CORPORATE SERVICES LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,FIDES CORPORATE SERVICES LIMITED,"""FIDES CORPORATE SERVICES LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,FIDES CORPORATE SERVICES LIMITED,"""FIDES CORPORATE SERVICES LIMITED"" (property OR real estate OR land registry)",property,medium
+company,FIDES CORPORATE SERVICES LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt FIDES CORPORATE SERVICES LIMITED,registry filing,medium
+company,FIDES CORPORATE SERVICES LIMITED,"""FIDES CORPORATE SERVICES LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,FIDES CORPORATE SERVICES LIMITED,"""FIDES CORPORATE SERVICES LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,FIDES FIDUCIARY LIMITED,"""FIDES FIDUCIARY LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,FIDES FIDUCIARY LIMITED,"""FIDES FIDUCIARY LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,FIDES FIDUCIARY LIMITED,"""FIDES FIDUCIARY LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,FIDES FIDUCIARY LIMITED,"""FIDES FIDUCIARY LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,FIDES FIDUCIARY LIMITED,"""FIDES FIDUCIARY LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,FIDES FIDUCIARY LIMITED,"""FIDES FIDUCIARY LIMITED"" (property OR real estate OR land registry)",property,medium
+company,FIDES FIDUCIARY LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt FIDES FIDUCIARY LIMITED,registry filing,medium
+company,FIDES FIDUCIARY LIMITED,"""FIDES FIDUCIARY LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,FIDES FIDUCIARY LIMITED,"""FIDES FIDUCIARY LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,icij:58038552,"""icij:58038552"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,icij:58038552,"""icij:58038552"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,icij:58038552,"""icij:58038552"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,icij:58038552,"""icij:58038552"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,icij:58038552,"""icij:58038552"" (tender OR contract OR procurement)",procurement,medium
+company,icij:58038552,"""icij:58038552"" (property OR real estate OR land registry)",property,medium
+company,icij:58038552,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt icij:58038552,registry filing,medium
+company,icij:58038552,"""icij:58038552"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,icij:58038552,"""icij:58038552"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium

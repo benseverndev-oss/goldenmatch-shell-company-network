@@ -1,0 +1,2 @@
+person_name,person_record_id,company_name,company_record_id,relationship_type,role,start_date,end_date,source,leak,confidence,notes
+adriano cefai,icij:56033452,icij:58038552,icij:58038552,registered_address,registered address,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record

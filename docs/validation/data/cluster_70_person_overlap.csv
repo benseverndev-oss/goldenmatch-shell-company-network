@@ -1,0 +1,6 @@
+company_name,normalized_company_name,in_community,in_person_dossier,match_type,confidence,source_record_ids,notes
+ADRIANO CEFAI,adriano cefai,true,false,community_only,1.00,icij:56033452,in cluster but not in person dossier
+CHRISTIAN ELLUL,christian ellul,true,false,community_only,1.00,icij:56032560,in cluster but not in person dossier
+FIDES CORPORATE SERVICES LIMITED,fides corporate services,true,false,community_only,1.00,icij:56082935,in cluster but not in person dossier
+FIDES FIDUCIARY LIMITED,fides fiduciary,true,false,community_only,1.00,icij:56083164,in cluster but not in person dossier
+icij:58038552,icij 58038552,true,false,community_only,1.00,icij:58038552,in cluster but not in person dossier
