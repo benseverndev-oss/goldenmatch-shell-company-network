@@ -1,0 +1,14 @@
+company_name,normalized_company_name,in_community,in_person_dossier,match_type,confidence,source_record_ids,notes
+ARBOREA PROPERTIES LIMITED,arborea properties,true,false,community_only,1.00,icij:55023380,in cluster but not in person dossier
+BELLA VISTA LIMITED,bella vista,true,false,community_only,1.00,icij:55021609,in cluster but not in person dossier
+ENIGMA LIMITED,enigma,true,false,community_only,1.00,icij:55016371,in cluster but not in person dossier
+icij:58016802,icij 58016802,true,false,community_only,1.00,icij:58016802,in cluster but not in person dossier
+INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED,international participations holdings,true,false,community_only,1.00,icij:55020239,in cluster but not in person dossier
+INTERNET MARKETING LIMITED,internet marketing,true,false,community_only,1.00,icij:55018625,in cluster but not in person dossier
+M K MALTA LIMITED,m k malta,true,false,community_only,1.00,icij:55022117,in cluster but not in person dossier
+MATCON INVESTMENTS LIMITED,matcon investments,true,false,community_only,1.00,icij:55025855,in cluster but not in person dossier
+PRIMA DONNA LIMITED,prima donna,true,false,community_only,1.00,icij:55020226,in cluster but not in person dossier
+RUTHWELL LIMITED,ruthwell,true,false,community_only,1.00,icij:55025610,in cluster but not in person dossier
+SHERNON HOLDINGS LIMITED,shernon holdings,true,false,community_only,1.00,icij:55026048,in cluster but not in person dossier
+SOPHORA PROPERTIES LIMITED,sophora properties,true,false,community_only,1.00,icij:55022389,in cluster but not in person dossier
+ULNESS INVESTMENTS LIMITED,ulness investments,true,false,community_only,1.00,icij:55024977,in cluster but not in person dossier

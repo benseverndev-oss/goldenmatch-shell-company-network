@@ -1,0 +1,177 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.7230769230769231,
+    "community_id": 45,
+    "isolation": 1.0,
+    "n_seeds": 4,
+    "seed_density": 0.3076923076923077,
+    "size": 13,
+    "size_deviation": 2.5649493574615367
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 45,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 13
+  },
+  "community_id": 45,
+  "generated_at": "2026-05-19 16:48:35 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": "mt",
+      "name": "SHERNON HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55026048"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "BELLA VISTA LIMITED",
+      "seed": false,
+      "uid": "icij:55021609"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58016802",
+      "seed": false,
+      "uid": "icij:58016802"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "M K MALTA LIMITED",
+      "seed": false,
+      "uid": "icij:55022117"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PRIMA DONNA LIMITED",
+      "seed": false,
+      "uid": "icij:55020226"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ENIGMA LIMITED",
+      "seed": false,
+      "uid": "icij:55016371"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55020239"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "INTERNET MARKETING LIMITED",
+      "seed": false,
+      "uid": "icij:55018625"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MATCON INVESTMENTS LIMITED",
+      "seed": false,
+      "uid": "icij:55025855"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ARBOREA PROPERTIES LIMITED",
+      "seed": true,
+      "uid": "icij:55023380"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "RUTHWELL LIMITED",
+      "seed": true,
+      "uid": "icij:55025610"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SOPHORA PROPERTIES LIMITED",
+      "seed": true,
+      "uid": "icij:55022389"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ULNESS INVESTMENTS LIMITED",
+      "seed": true,
+      "uid": "icij:55024977"
+    }
+  ],
+  "n_members": 13,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.923,
+    "anomaly_score": 0.7230769230769231,
+    "cluster_size": 13,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 1,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 8,
+    "officer_reuse_rate": 0.923,
+    "top_theme": "unknown",
+    "top_theme_share": 0.462,
+    "underreportedness": 1.0
+  },
+  "person": "tracy jane pozo",
+  "person_normalized": "tracy jane pozo",
+  "person_uids": [
+    "icij:56055864",
+    "icij:56055924"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.7231,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 45,
+    "connectedness": 0.4823,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "SHERNON HOLDINGS LIMITED",
+      "BELLA VISTA LIMITED",
+      "icij:58016802",
+      "M K MALTA LIMITED",
+      "PRIMA DONNA LIMITED",
+      "ENIGMA LIMITED",
+      "INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED",
+      "INTERNET MARKETING LIMITED",
+      "MATCON INVESTMENTS LIMITED",
+      "ARBOREA PROPERTIES LIMITED"
+    ],
+    "member_uids_sample": [
+      "icij:55026048",
+      "icij:55021609",
+      "icij:58016802",
+      "icij:55022117",
+      "icij:55020226",
+      "icij:55016371",
+      "icij:55020239",
+      "icij:55018625",
+      "icij:55025855",
+      "icij:55023380"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.367107,
+    "size": 13,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "country field missing in ICIJ persons rows.",
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address."
+    ],
+    "supporting": [
+      "2 ICIJ uids share normalized name `tracy jane pozo` (icij:56055864, icij:56055924)."
+    ]
+  },
+  "threshold": 0.9,
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/tracy-jane-pozo.md \u2014 using parquet only."
+  ]
+}

@@ -1,0 +1,123 @@
+target_type,target_name,query,purpose,priority
+person,tracy jane pozo,"""tracy jane pozo"" (PEP OR beneficial owner OR UBO)",PEP/UBO,high
+person,tracy jane pozo,"""tracy jane pozo"" (lawsuit OR claim OR litigation)",litigation,high
+person,tracy jane pozo,"""tracy jane pozo"" -site:linkedin.com -site:facebook.com",media,high
+person,tracy jane pozo,"""tracy jane pozo"" director OR officer",registry filings,high
+person,tracy jane pozo,"""tracy jane pozo"" (sanction OR OFAC OR OFSI)",sanctions,high
+company,ARBOREA PROPERTIES LIMITED,"""ARBOREA PROPERTIES LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,ARBOREA PROPERTIES LIMITED,"""ARBOREA PROPERTIES LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,ARBOREA PROPERTIES LIMITED,"""ARBOREA PROPERTIES LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,ARBOREA PROPERTIES LIMITED,"""ARBOREA PROPERTIES LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,ARBOREA PROPERTIES LIMITED,"""ARBOREA PROPERTIES LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,ARBOREA PROPERTIES LIMITED,"""ARBOREA PROPERTIES LIMITED"" (property OR real estate OR land registry)",property,medium
+company,ARBOREA PROPERTIES LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt ARBOREA PROPERTIES LIMITED,registry filing,medium
+company,ARBOREA PROPERTIES LIMITED,"""ARBOREA PROPERTIES LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,ARBOREA PROPERTIES LIMITED,"""ARBOREA PROPERTIES LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,BELLA VISTA LIMITED,"""BELLA VISTA LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,BELLA VISTA LIMITED,"""BELLA VISTA LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,BELLA VISTA LIMITED,"""BELLA VISTA LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,BELLA VISTA LIMITED,"""BELLA VISTA LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,BELLA VISTA LIMITED,"""BELLA VISTA LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,BELLA VISTA LIMITED,"""BELLA VISTA LIMITED"" (property OR real estate OR land registry)",property,medium
+company,BELLA VISTA LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt BELLA VISTA LIMITED,registry filing,medium
+company,BELLA VISTA LIMITED,"""BELLA VISTA LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,BELLA VISTA LIMITED,"""BELLA VISTA LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,ENIGMA LIMITED,"""ENIGMA LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,ENIGMA LIMITED,"""ENIGMA LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,ENIGMA LIMITED,"""ENIGMA LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,ENIGMA LIMITED,"""ENIGMA LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,ENIGMA LIMITED,"""ENIGMA LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,ENIGMA LIMITED,"""ENIGMA LIMITED"" (property OR real estate OR land registry)",property,medium
+company,ENIGMA LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt ENIGMA LIMITED,registry filing,medium
+company,ENIGMA LIMITED,"""ENIGMA LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,ENIGMA LIMITED,"""ENIGMA LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED,"""INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED,"""INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED,"""INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED,"""INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED,"""INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED,"""INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED,registry filing,medium
+company,INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED,"""INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED,"""INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,INTERNET MARKETING LIMITED,"""INTERNET MARKETING LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,INTERNET MARKETING LIMITED,"""INTERNET MARKETING LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,INTERNET MARKETING LIMITED,"""INTERNET MARKETING LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,INTERNET MARKETING LIMITED,"""INTERNET MARKETING LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,INTERNET MARKETING LIMITED,"""INTERNET MARKETING LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,INTERNET MARKETING LIMITED,"""INTERNET MARKETING LIMITED"" (property OR real estate OR land registry)",property,medium
+company,INTERNET MARKETING LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt INTERNET MARKETING LIMITED,registry filing,medium
+company,INTERNET MARKETING LIMITED,"""INTERNET MARKETING LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,INTERNET MARKETING LIMITED,"""INTERNET MARKETING LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,M K MALTA LIMITED,"""M K MALTA LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,M K MALTA LIMITED,"""M K MALTA LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,M K MALTA LIMITED,"""M K MALTA LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,M K MALTA LIMITED,"""M K MALTA LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,M K MALTA LIMITED,"""M K MALTA LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,M K MALTA LIMITED,"""M K MALTA LIMITED"" (property OR real estate OR land registry)",property,medium
+company,M K MALTA LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt M K MALTA LIMITED,registry filing,medium
+company,M K MALTA LIMITED,"""M K MALTA LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,M K MALTA LIMITED,"""M K MALTA LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,MATCON INVESTMENTS LIMITED,"""MATCON INVESTMENTS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,MATCON INVESTMENTS LIMITED,"""MATCON INVESTMENTS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,MATCON INVESTMENTS LIMITED,"""MATCON INVESTMENTS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,MATCON INVESTMENTS LIMITED,"""MATCON INVESTMENTS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,MATCON INVESTMENTS LIMITED,"""MATCON INVESTMENTS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,MATCON INVESTMENTS LIMITED,"""MATCON INVESTMENTS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,MATCON INVESTMENTS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt MATCON INVESTMENTS LIMITED,registry filing,medium
+company,MATCON INVESTMENTS LIMITED,"""MATCON INVESTMENTS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,MATCON INVESTMENTS LIMITED,"""MATCON INVESTMENTS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,PRIMA DONNA LIMITED,"""PRIMA DONNA LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,PRIMA DONNA LIMITED,"""PRIMA DONNA LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,PRIMA DONNA LIMITED,"""PRIMA DONNA LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,PRIMA DONNA LIMITED,"""PRIMA DONNA LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,PRIMA DONNA LIMITED,"""PRIMA DONNA LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,PRIMA DONNA LIMITED,"""PRIMA DONNA LIMITED"" (property OR real estate OR land registry)",property,medium
+company,PRIMA DONNA LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt PRIMA DONNA LIMITED,registry filing,medium
+company,PRIMA DONNA LIMITED,"""PRIMA DONNA LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,PRIMA DONNA LIMITED,"""PRIMA DONNA LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,RUTHWELL LIMITED,"""RUTHWELL LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,RUTHWELL LIMITED,"""RUTHWELL LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,RUTHWELL LIMITED,"""RUTHWELL LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,RUTHWELL LIMITED,"""RUTHWELL LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,RUTHWELL LIMITED,"""RUTHWELL LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,RUTHWELL LIMITED,"""RUTHWELL LIMITED"" (property OR real estate OR land registry)",property,medium
+company,RUTHWELL LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt RUTHWELL LIMITED,registry filing,medium
+company,RUTHWELL LIMITED,"""RUTHWELL LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,RUTHWELL LIMITED,"""RUTHWELL LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,SHERNON HOLDINGS LIMITED,"""SHERNON HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,SHERNON HOLDINGS LIMITED,"""SHERNON HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,SHERNON HOLDINGS LIMITED,"""SHERNON HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,SHERNON HOLDINGS LIMITED,"""SHERNON HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,SHERNON HOLDINGS LIMITED,"""SHERNON HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,SHERNON HOLDINGS LIMITED,"""SHERNON HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,SHERNON HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt SHERNON HOLDINGS LIMITED,registry filing,medium
+company,SHERNON HOLDINGS LIMITED,"""SHERNON HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,SHERNON HOLDINGS LIMITED,"""SHERNON HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,SOPHORA PROPERTIES LIMITED,"""SOPHORA PROPERTIES LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,SOPHORA PROPERTIES LIMITED,"""SOPHORA PROPERTIES LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,SOPHORA PROPERTIES LIMITED,"""SOPHORA PROPERTIES LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,SOPHORA PROPERTIES LIMITED,"""SOPHORA PROPERTIES LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,SOPHORA PROPERTIES LIMITED,"""SOPHORA PROPERTIES LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,SOPHORA PROPERTIES LIMITED,"""SOPHORA PROPERTIES LIMITED"" (property OR real estate OR land registry)",property,medium
+company,SOPHORA PROPERTIES LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt SOPHORA PROPERTIES LIMITED,registry filing,medium
+company,SOPHORA PROPERTIES LIMITED,"""SOPHORA PROPERTIES LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,SOPHORA PROPERTIES LIMITED,"""SOPHORA PROPERTIES LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,ULNESS INVESTMENTS LIMITED,"""ULNESS INVESTMENTS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,ULNESS INVESTMENTS LIMITED,"""ULNESS INVESTMENTS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,ULNESS INVESTMENTS LIMITED,"""ULNESS INVESTMENTS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,ULNESS INVESTMENTS LIMITED,"""ULNESS INVESTMENTS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,ULNESS INVESTMENTS LIMITED,"""ULNESS INVESTMENTS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,ULNESS INVESTMENTS LIMITED,"""ULNESS INVESTMENTS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,ULNESS INVESTMENTS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt ULNESS INVESTMENTS LIMITED,registry filing,medium
+company,ULNESS INVESTMENTS LIMITED,"""ULNESS INVESTMENTS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,ULNESS INVESTMENTS LIMITED,"""ULNESS INVESTMENTS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,icij:58016802,"""icij:58016802"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,icij:58016802,"""icij:58016802"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,icij:58016802,"""icij:58016802"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,icij:58016802,"""icij:58016802"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,icij:58016802,"""icij:58016802"" (tender OR contract OR procurement)",procurement,medium
+company,icij:58016802,"""icij:58016802"" (property OR real estate OR land registry)",property,medium
+company,icij:58016802,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt icij:58016802,registry filing,medium
+company,icij:58016802,"""icij:58016802"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,icij:58016802,"""icij:58016802"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium

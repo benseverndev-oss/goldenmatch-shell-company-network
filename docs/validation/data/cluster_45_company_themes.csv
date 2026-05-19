@@ -1,0 +1,14 @@
+company_name,normalized_company_name,theme,matched_keywords,confidence,needs_manual_review
+INTERNATIONAL PARTICIPATIONS HOLDINGS LIMITED,international participations holdings,investment / holding / capital,holding,0.30,true
+MATCON INVESTMENTS LIMITED,matcon investments,investment / holding / capital,invest,0.30,true
+SHERNON HOLDINGS LIMITED,shernon holdings,investment / holding / capital,holding,0.30,true
+ULNESS INVESTMENTS LIMITED,ulness investments,investment / holding / capital,invest,0.30,true
+INTERNET MARKETING LIMITED,internet marketing,media / marketing,marketing,0.30,true
+ARBOREA PROPERTIES LIMITED,arborea properties,property / real estate,propert,0.30,true
+SOPHORA PROPERTIES LIMITED,sophora properties,property / real estate,propert,0.30,true
+BELLA VISTA LIMITED,bella vista,unknown,,0.00,true
+ENIGMA LIMITED,enigma,unknown,,0.00,true
+M K MALTA LIMITED,m k malta,unknown,,0.00,true
+PRIMA DONNA LIMITED,prima donna,unknown,,0.00,true
+RUTHWELL LIMITED,ruthwell,unknown,,0.00,true
+icij:58016802,icij 58016802,unknown,,0.00,true
