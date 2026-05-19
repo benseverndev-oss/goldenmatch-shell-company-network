@@ -1,0 +1,399 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.6039215686274509,
+    "community_id": 38,
+    "isolation": 1.0,
+    "n_seeds": 2,
+    "seed_density": 0.00980392156862745,
+    "size": 204,
+    "size_deviation": 5.318119993844216
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 38,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 204
+  },
+  "community_id": 38,
+  "generated_at": "2026-05-19 16:48:06 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": "mt",
+      "name": "CUTTING EDGE MEDIA LIMITED",
+      "seed": false,
+      "uid": "icij:55046678"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "TREVALI INVESTMENTS LIMITED",
+      "seed": false,
+      "uid": "icij:55052544"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MARE SERVICES LIMITED",
+      "seed": false,
+      "uid": "icij:55035073"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CROSSROADS HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55047090"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "8DEVICES EUROPE LIMITED",
+      "seed": false,
+      "uid": "icij:55067960"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58030471",
+      "seed": false,
+      "uid": "icij:58030471"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "DICK DASTARDLY CAPITAL MALTA LTD",
+      "seed": false,
+      "uid": "icij:55069264"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "DUKE INVESTMENTS LIMITED",
+      "seed": false,
+      "uid": "icij:55053459"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "XYLON LIMITED",
+      "seed": false,
+      "uid": "icij:55056241"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PETERBURI HOLDING LIMITED",
+      "seed": false,
+      "uid": "icij:55053926"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CRAUFORD COMMUNICATIONS LIMITED",
+      "seed": false,
+      "uid": "icij:55051087"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SERVICE HAIL STORM LIMITED",
+      "seed": false,
+      "uid": "icij:55035509"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "XC SOLUTIONS LTD.",
+      "seed": false,
+      "uid": "icij:55060406"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SUNRISE BEAM LIMITED",
+      "seed": false,
+      "uid": "icij:55059429"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "DOLPHIN HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55053520"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CONSOLIDATED MANAGEMENT LIMITED",
+      "seed": false,
+      "uid": "icij:55061873"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "WORLD TRADE CORPORATE FINANCE (W.T.C.F.) LIMITED",
+      "seed": false,
+      "uid": "icij:55038695"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "BMP INTERNATIONAL LIMITED",
+      "seed": false,
+      "uid": "icij:55048457"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "TOMTA LIMITED",
+      "seed": false,
+      "uid": "icij:55050288"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "FIDES FIDUCIARY LIMITED",
+      "seed": false,
+      "uid": "icij:55042487"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "THE SKY CLUB AVIATION LIMITED",
+      "seed": false,
+      "uid": "icij:55047736"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "XCORE CORPORATION - SERVICES AND INVESTMENTS LIMITED",
+      "seed": false,
+      "uid": "icij:55054947"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PACKAGING & CAPITAL INVESTMENT LTD",
+      "seed": false,
+      "uid": "icij:55042976"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "LAMBRETTA HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55051601"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "12TIX LIMITED",
+      "seed": false,
+      "uid": "icij:55054181"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "BBM SERVICES AND INVESTMENTS LIMITED",
+      "seed": false,
+      "uid": "icij:55054437"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "INTERUNION - HOLDING GROUP LIMITED",
+      "seed": false,
+      "uid": "icij:55055618"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "BOTTESINI INTERNATIONAL HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55048690"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "JV SOLUTIONS LIMITED",
+      "seed": false,
+      "uid": "icij:55056662"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "KARA HOLDING LIMITED",
+      "seed": false,
+      "uid": "icij:55058544"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SI GI FIN INVESTMENTS LIMITED",
+      "seed": false,
+      "uid": "icij:55014960"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "EC CAPITAL HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55046990"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "MULTI-LEADERS-FUND HOLDING LTD",
+      "seed": false,
+      "uid": "icij:55053155"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "REDSTONE HOLDINGS LTD",
+      "seed": false,
+      "uid": "icij:55028636"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CAPITAL INVESTMENT HOLDINGS LIMITED",
+      "seed": false,
+      "uid": "icij:55010227"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "FINTURIST LIMITED",
+      "seed": false,
+      "uid": "icij:55013464"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ADINOTEC LTD",
+      "seed": false,
+      "uid": "icij:55069428"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "NEXT CLICK LIMITED",
+      "seed": false,
+      "uid": "icij:55065213"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "TRAMUNTANA TRADING & SERVICES LIMITED",
+      "seed": false,
+      "uid": "icij:55040922"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "5th AVENUE LIMITED",
+      "seed": false,
+      "uid": "icij:55049750"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "VIANORD ENGINEERING HOLDING LIMITED",
+      "seed": false,
+      "uid": "icij:55052038"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "SPECIAL-OPPORTUNITIES-FUND HOLDING LTD",
+      "seed": false,
+      "uid": "icij:55058071"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "E.W. HOLDING LIMITED",
+      "seed": false,
+      "uid": "icij:55050128"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "THE ONE LIMITED",
+      "seed": false,
+      "uid": "icij:55060053"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PERSHING HALL HOLDING LIMITED",
+      "seed": false,
+      "uid": "icij:55045398"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "CANNES YACHTING LIMITED",
+      "seed": false,
+      "uid": "icij:55077729"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "ELEVEN YACHTING LIMITED",
+      "seed": false,
+      "uid": "icij:55072216"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "TOMILLOIN INVESTMENTS LIMITED",
+      "seed": false,
+      "uid": "icij:55055186"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "PROPERTIES INVESTMENT CLUB PIC LIMITED",
+      "seed": false,
+      "uid": "icij:55064781"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "A.W. HOLDING LIMITED",
+      "seed": false,
+      "uid": "icij:55038763"
+    }
+  ],
+  "n_members": 204,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.995,
+    "anomaly_score": 0.6039215686274509,
+    "cluster_size": 204,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 1,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 42,
+    "officer_reuse_rate": 0.995,
+    "top_theme": "investment / holding / capital",
+    "top_theme_share": 0.407,
+    "underreportedness": 1.0
+  },
+  "person": "john o connor",
+  "person_normalized": "john o connor",
+  "person_uids": [
+    "icij:56101165",
+    "icij:56102532"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.6039,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 38,
+    "connectedness": 1.0,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "CUTTING EDGE MEDIA LIMITED",
+      "TREVALI INVESTMENTS LIMITED",
+      "MARE SERVICES LIMITED",
+      "CROSSROADS HOLDINGS LIMITED",
+      "8DEVICES EUROPE LIMITED",
+      "icij:58030471",
+      "DICK DASTARDLY CAPITAL MALTA LTD",
+      "DUKE INVESTMENTS LIMITED",
+      "XYLON LIMITED",
+      "PETERBURI HOLDING LIMITED"
+    ],
+    "member_uids_sample": [
+      "icij:55046678",
+      "icij:55052544",
+      "icij:55035073",
+      "icij:55047090",
+      "icij:55067960",
+      "icij:58030471",
+      "icij:55069264",
+      "icij:55053459",
+      "icij:55056241",
+      "icij:55053926"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.492747,
+    "size": 204,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address."
+    ],
+    "supporting": [
+      "2 ICIJ uids share normalized name `john o connor` (icij:56101165, icij:56102532).",
+      "All ICIJ rows report the same country: ie."
+    ]
+  },
+  "threshold": 0.9,
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/john-o-connor.md \u2014 using parquet only."
+  ]
+}

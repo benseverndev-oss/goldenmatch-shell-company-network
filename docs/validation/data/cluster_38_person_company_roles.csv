@@ -1,0 +1,8 @@
+person_name,person_record_id,company_name,company_record_id,relationship_type,role,start_date,end_date,source,leak,confidence,notes
+john o connor,icij:56101165,DS CORPORATE CONSULTANTS LIMITED,icij:55046317,officer_of,director of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+john o connor,icij:56101165,DS CORPORATE CONSULTANTS LIMITED,icij:55046317,officer_of,judicial representative of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+john o connor,icij:56101165,DS CORPORATE CONSULTANTS LIMITED,icij:55046317,officer_of,legal representative of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+john o connor,icij:56101165,CO-ARMA MARINE CONSTRUCTION LIMITED,icij:55049701,officer_of,director of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+john o connor,icij:56101165,CO-ARMA MARINE CONSTRUCTION LIMITED,icij:55049701,officer_of,judicial representative of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+john o connor,icij:56101165,CO-ARMA MARINE CONSTRUCTION LIMITED,icij:55049701,officer_of,legal representative of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+john o connor,icij:56101165,CO-ARMA MARINE CONSTRUCTION LIMITED,icij:55049701,officer_of,shareholder of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
