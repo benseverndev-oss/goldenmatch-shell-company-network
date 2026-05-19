@@ -75,7 +75,10 @@ def _resolve_cluster_ids(
             )
         df = pl.read_parquet(rank_parquet)
         sort_col = "score" if "score" in df.columns else df.columns[0]
-        return [int(r["cluster_id"]) for r in df.sort(sort_col, descending=True).head(top_from_rank).iter_rows(named=True)]
+        return [
+            int(r["cluster_id"])
+            for r in df.sort(sort_col, descending=True).head(top_from_rank).iter_rows(named=True)
+        ]
     return []
 
 
@@ -97,8 +100,7 @@ def _members_from_postgres(
                 raise RuntimeError("no company run in shellnet.runs")
             run_id = str(row[0])
         cur.execute(
-            "SELECT entity_uid FROM shellnet.clusters "
-            "WHERE run_id=%s AND cluster_id=%s",
+            "SELECT entity_uid FROM shellnet.clusters WHERE run_id=%s AND cluster_id=%s",
             (run_id, cluster_id),
         )
         uids = [uid for (uid,) in cur.fetchall()]
@@ -167,9 +169,7 @@ def main(
         ids.append(int(cluster_id))
     ids = sorted({i for i in ids})
     if not ids:
-        raise typer.BadParameter(
-            "Provide --cluster-id, --cluster-ids, or --top-from-rank > 0."
-        )
+        raise typer.BadParameter("Provide --cluster-id, --cluster-ids, or --top-from-rank > 0.")
     log.info("explaining %d cluster(s): %s", len(ids), ids)
 
     company_path = processed_dir / "company_entities.parquet"
@@ -202,9 +202,7 @@ def main(
             log.warning("Postgres connect failed (%s); falling back to parquet", exc)
             pg_conn = None
 
-    clusters_offline = (
-        _read_optional_parquet(clusters_parquet) if clusters_parquet else None
-    )
+    clusters_offline = _read_optional_parquet(clusters_parquet) if clusters_parquet else None
 
     written: list[tuple[int, Path, float, int]] = []  # (cluster_id, path, score, n_members)
     try:
@@ -261,7 +259,9 @@ def main(
             target = default_explanation_path(out_dir, cid)
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(md, encoding="utf-8")
-            log.info("wrote %s (score %.2f, %d members)", target, expl.features.total, len(expl.members))
+            log.info(
+                "wrote %s (score %.2f, %d members)", target, expl.features.total, len(expl.members)
+            )
             written.append((cid, target, expl.features.total, len(expl.members)))
     finally:
         if pg_conn is not None:

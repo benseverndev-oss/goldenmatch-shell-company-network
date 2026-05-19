@@ -128,12 +128,28 @@ def test_score_investigative_value_components_in_unit_interval() -> None:
 def test_detect_anomalies_flags_cross_border_mirror_and_status_contradiction() -> None:
     members = [
         MemberAttr(
-            "icij:a", "icij", "ACME HOLDINGS LIMITED", "acme holdings", "vg",
-            None, None, "Active", None, None,
+            "icij:a",
+            "icij",
+            "ACME HOLDINGS LIMITED",
+            "acme holdings",
+            "vg",
+            None,
+            None,
+            "Active",
+            None,
+            None,
         ),
         MemberAttr(
-            "icij:b", "icij", "Acme Holdings Ltd", "acme holdings", "ky",
-            None, None, "Struck off", None, None,
+            "icij:b",
+            "icij",
+            "Acme Holdings Ltd",
+            "acme holdings",
+            "ky",
+            None,
+            None,
+            "Struck off",
+            None,
+            None,
         ),
     ]
     flags = detect_anomalies(members, edges_df=None, centrality=[])
@@ -158,9 +174,7 @@ def test_detect_anomalies_flags_hidden_hub_when_nonmember_betweenness_dominates(
 
 
 def test_load_cluster_members_from_parquet_returns_uids(tmp_path: Path) -> None:
-    df = pl.DataFrame(
-        {"cluster_id": [1, 1, 2], "entity_uid": ["icij:a", "icij:b", "icij:c"]}
-    )
+    df = pl.DataFrame({"cluster_id": [1, 1, 2], "entity_uid": ["icij:a", "icij:b", "icij:c"]})
     path = tmp_path / "c.parquet"
     df.write_parquet(path)
     loaded = pl.read_parquet(path)
@@ -326,7 +340,8 @@ def test_explainer_round_trip_via_clusters_parquet_offline(
     uids = load_cluster_members_from_parquet(cl_df, 1)
     assert sorted(uids) == ["icij:10000001", "icij:10000002"]
     expl = build_explanation(
-        1, uids,
+        1,
+        uids,
         company_df=company_df,
         edges_df=edges_df,
         addresses_df=addresses_df,
@@ -337,9 +352,7 @@ def test_explainer_round_trip_via_clusters_parquet_offline(
     assert len(expl.members) == 2
 
 
-def test_explainer_degrades_gracefully_without_edges(
-    tmp_path: Path, fixtures_dir: Path
-) -> None:
+def test_explainer_degrades_gracefully_without_edges(tmp_path: Path, fixtures_dir: Path) -> None:
     _, processed = _stage_full_fixtures(tmp_path, fixtures_dir)
     company_df = pl.read_parquet(processed / "company_entities.parquet")
     expl = build_explanation(

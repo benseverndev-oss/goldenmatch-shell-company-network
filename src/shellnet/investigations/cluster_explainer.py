@@ -191,9 +191,7 @@ class ClusterExplanation:
 # ---------------------------------------------------------------------------
 
 
-def load_cluster_members_from_parquet(
-    clusters_df: pl.DataFrame, cluster_id: int
-) -> list[str]:
+def load_cluster_members_from_parquet(clusters_df: pl.DataFrame, cluster_id: int) -> list[str]:
     """Offline fallback: a parquet with at least ``(cluster_id, entity_uid)``."""
     if clusters_df.height == 0:
         return []
@@ -431,21 +429,25 @@ def annotate_centrality(
                 eigenvector=float(r.get("eigenvector") or 0.0),
                 betweenness=float(r.get("betweenness") or 0.0),
                 total_degree=int(r.get("total_degree") or 0),
-                community_id=(int(r["community_id"]) if r.get("community_id") is not None else None),
+                community_id=(
+                    int(r["community_id"]) if r.get("community_id") is not None else None
+                ),
                 is_member=True,
             )
         )
 
     # Hidden-hub candidates: nodes in the same community as ≥1 member but
     # *not* in the cluster, ranked by betweenness.
-    member_communities = {
-        c.community_id for c in out if c.community_id is not None
-    }
+    member_communities = {c.community_id for c in out if c.community_id is not None}
     if member_communities:
-        extras = centrality_df.filter(
-            (~pl.col("entity_uid").is_in(member_uids))
-            & pl.col("community_id").is_in(list(member_communities))
-        ).sort("betweenness", descending=True).head(top_extra_nonmembers)
+        extras = (
+            centrality_df.filter(
+                (~pl.col("entity_uid").is_in(member_uids))
+                & pl.col("community_id").is_in(list(member_communities))
+            )
+            .sort("betweenness", descending=True)
+            .head(top_extra_nonmembers)
+        )
         for r in extras.iter_rows(named=True):
             out.append(
                 CentralityAnnotation(
@@ -453,7 +455,9 @@ def annotate_centrality(
                     eigenvector=float(r.get("eigenvector") or 0.0),
                     betweenness=float(r.get("betweenness") or 0.0),
                     total_degree=int(r.get("total_degree") or 0),
-                    community_id=(int(r["community_id"]) if r.get("community_id") is not None else None),
+                    community_id=(
+                        int(r["community_id"]) if r.get("community_id") is not None else None
+                    ),
                     is_member=False,
                 )
             )
@@ -670,9 +674,7 @@ def score_investigative_value(
     # --- cross-jurisdiction bridge: jurisdictions count, with extra credit
     #     for crossing into secrecy jurisdictions.
     n_jurs = len(jurisdictions.counts)
-    secrecy_share = (
-        len(jurisdictions.secrecy_jurisdictions) / n_jurs if n_jurs else 0.0
-    )
+    secrecy_share = len(jurisdictions.secrecy_jurisdictions) / n_jurs if n_jurs else 0.0
     bridge_raw = (n_jurs - 1) * 0.4 + secrecy_share * 0.6
     cross_jurisdiction_bridge = _clamp01(bridge_raw)
     notes["cross_jurisdiction_bridge"] = (
@@ -688,9 +690,7 @@ def score_investigative_value(
         if sanctions_anchors
         else 0.0
     )
-    sanctions_proximity = _clamp01(
-        (direct_sanctions / max(len(members), 1)) + 0.5 * anchor_share
-    )
+    sanctions_proximity = _clamp01((direct_sanctions / max(len(members), 1)) + 0.5 * anchor_share)
     notes["sanctions_proximity"] = (
         f"{direct_sanctions} direct opensanctions member(s); "
         f"{len(sanctions_anchors)} list-match anchor(s)"
@@ -749,9 +749,7 @@ def score_investigative_value(
     for repeat in (*intermediaries, *addresses):
         reuse_max = max(reuse_max, repeat.n_global_edges)
     shell_reuse = _clamp01(reuse_max / max(reuse_threshold * 4, 1))
-    notes["shell_reuse"] = (
-        f"top shared intermediary/address has {reuse_max} edges in the corpus"
-    )
+    notes["shell_reuse"] = f"top shared intermediary/address has {reuse_max} edges in the corpus"
 
     total = (
         intermediary_rarity
@@ -866,16 +864,17 @@ def build_narrative_paths(
             hidden = next((c for c in centrality if not c.is_member), None)
             if hidden is not None:
                 steps.append(
-                    f"→ hidden hub `{hidden.entity_uid}` "
-                    f"(betweenness {hidden.betweenness:.4f})"
+                    f"→ hidden hub `{hidden.entity_uid}` (betweenness {hidden.betweenness:.4f})"
                 )
                 summary_tail = "ending at a hidden hub node"
             else:
                 summary_tail = "via repeated offshore infrastructure"
 
         feature_label = (
-            "intermediary" if isinstance(used_feature, IntermediaryRepeat)
-            else "address" if isinstance(used_feature, AddressRepeat)
+            "intermediary"
+            if isinstance(used_feature, IntermediaryRepeat)
+            else "address"
+            if isinstance(used_feature, AddressRepeat)
             else "officer"
         )
         summary = (
@@ -1091,7 +1090,9 @@ def render_explanation_markdown(
             f"— shared by {top.n_members_served}/{len(expl.members)} members."
         )
     if expl.sanctions_anchors:
-        lines.append(f"- **Sanctions adjacency:** {len(expl.sanctions_anchors)} list-match anchor(s).")
+        lines.append(
+            f"- **Sanctions adjacency:** {len(expl.sanctions_anchors)} list-match anchor(s)."
+        )
     lines.append("")
 
     # ----- Investigative value -----
@@ -1114,17 +1115,13 @@ def render_explanation_markdown(
         ("dormant_but_connected", f.dormant_but_connected),
         ("shell_reuse", f.shell_reuse),
     ]:
-        lines.append(
-            f"| `{name}` | {val:.2f} | {_md_escape(f.notes.get(name, ''))} |"
-        )
+        lines.append(f"| `{name}` | {val:.2f} | {_md_escape(f.notes.get(name, ''))} |")
     lines.append("")
 
     # ----- Members -----
     lines.append("## Members")
     lines.append("")
-    lines.append(
-        "| entity_uid | source | name | jur | status | lei | company_number |"
-    )
+    lines.append("| entity_uid | source | name | jur | status | lei | company_number |")
     lines.append("| --- | --- | --- | --- | --- | --- | --- |")
     for m in expl.members:
         lines.append(
