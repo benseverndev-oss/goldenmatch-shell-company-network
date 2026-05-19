@@ -1,0 +1,5 @@
+company_name,normalized_company_name,theme,matched_keywords,confidence,needs_manual_review
+BEGNA CAPITAL AS,begna capital as,investment / holding / capital,capital,0.30,true
+TRINITY HOLDINGS LIMITED,trinity holdings,investment / holding / capital,holding,0.30,true
+TRINITY TRADING LIMITED,trinity trading,investment / holding / capital,trading,0.30,true
+icij:58080709,icij 58080709,unknown,,0.00,true

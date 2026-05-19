@@ -1,0 +1,111 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.8,
+    "community_id": 52,
+    "isolation": 1.0,
+    "n_seeds": 2,
+    "seed_density": 0.5,
+    "size": 4,
+    "size_deviation": 1.3862943611198906
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 52,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 4
+  },
+  "community_id": 52,
+  "generated_at": "2026-05-19 17:13:57 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": "mt",
+      "name": "BEGNA CAPITAL AS",
+      "seed": false,
+      "uid": "icij:55081193"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "TRINITY TRADING LIMITED",
+      "seed": true,
+      "uid": "icij:55043107"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "TRINITY HOLDINGS LIMITED",
+      "seed": true,
+      "uid": "icij:55043105"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58080709",
+      "seed": false,
+      "uid": "icij:58080709"
+    }
+  ],
+  "n_members": 4,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.75,
+    "anomaly_score": 0.8,
+    "cluster_size": 4,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 1,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 1,
+    "officer_reuse_rate": 0.5,
+    "top_theme": "investment / holding / capital",
+    "top_theme_share": 0.75,
+    "underreportedness": 1.0
+  },
+  "person": "john o connor",
+  "person_normalized": "john o connor",
+  "person_uids": [
+    "icij:56101165",
+    "icij:56102532"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.8,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 52,
+    "connectedness": 0.2607,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "BEGNA CAPITAL AS",
+      "TRINITY TRADING LIMITED",
+      "TRINITY HOLDINGS LIMITED",
+      "icij:58080709"
+    ],
+    "member_uids_sample": [
+      "icij:55081193",
+      "icij:55043107",
+      "icij:55043105",
+      "icij:58080709"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.269416,
+    "size": 4,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address."
+    ],
+    "supporting": [
+      "2 ICIJ uids share normalized name `john o connor` (icij:56101165, icij:56102532).",
+      "All ICIJ rows report the same country: ie."
+    ]
+  },
+  "threshold": 0.9,
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/john-o-connor.md \u2014 using parquet only."
+  ]
+}

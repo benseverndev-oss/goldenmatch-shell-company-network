@@ -1,0 +1,5 @@
+company_name,normalized_company_name,in_community,in_person_dossier,match_type,confidence,source_record_ids,notes
+BEGNA CAPITAL AS,begna capital as,true,false,community_only,1.00,icij:55081193,in cluster but not in person dossier
+icij:58080709,icij 58080709,true,false,community_only,1.00,icij:58080709,in cluster but not in person dossier
+TRINITY HOLDINGS LIMITED,trinity holdings,true,false,community_only,1.00,icij:55043105,in cluster but not in person dossier
+TRINITY TRADING LIMITED,trinity trading,true,false,community_only,1.00,icij:55043107,in cluster but not in person dossier

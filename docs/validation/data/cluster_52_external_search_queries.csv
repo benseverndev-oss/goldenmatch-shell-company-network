@@ -1,0 +1,42 @@
+target_type,target_name,query,purpose,priority
+person,john o connor,"""john o connor"" (PEP OR beneficial owner OR UBO)",PEP/UBO,high
+person,john o connor,"""john o connor"" (lawsuit OR claim OR litigation)",litigation,high
+person,john o connor,"""john o connor"" -site:linkedin.com -site:facebook.com",media,high
+person,john o connor,"""john o connor"" director OR officer",registry filings,high
+person,john o connor,"""john o connor"" (sanction OR OFAC OR OFSI)",sanctions,high
+company,BEGNA CAPITAL AS,"""BEGNA CAPITAL AS"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,BEGNA CAPITAL AS,"""BEGNA CAPITAL AS"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,BEGNA CAPITAL AS,"""BEGNA CAPITAL AS"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,BEGNA CAPITAL AS,"""BEGNA CAPITAL AS"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,BEGNA CAPITAL AS,"""BEGNA CAPITAL AS"" (tender OR contract OR procurement)",procurement,medium
+company,BEGNA CAPITAL AS,"""BEGNA CAPITAL AS"" (property OR real estate OR land registry)",property,medium
+company,BEGNA CAPITAL AS,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt BEGNA CAPITAL AS,registry filing,medium
+company,BEGNA CAPITAL AS,"""BEGNA CAPITAL AS"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,BEGNA CAPITAL AS,"""BEGNA CAPITAL AS"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,TRINITY HOLDINGS LIMITED,"""TRINITY HOLDINGS LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,TRINITY HOLDINGS LIMITED,"""TRINITY HOLDINGS LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,TRINITY HOLDINGS LIMITED,"""TRINITY HOLDINGS LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,TRINITY HOLDINGS LIMITED,"""TRINITY HOLDINGS LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,TRINITY HOLDINGS LIMITED,"""TRINITY HOLDINGS LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,TRINITY HOLDINGS LIMITED,"""TRINITY HOLDINGS LIMITED"" (property OR real estate OR land registry)",property,medium
+company,TRINITY HOLDINGS LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt TRINITY HOLDINGS LIMITED,registry filing,medium
+company,TRINITY HOLDINGS LIMITED,"""TRINITY HOLDINGS LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,TRINITY HOLDINGS LIMITED,"""TRINITY HOLDINGS LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,TRINITY TRADING LIMITED,"""TRINITY TRADING LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,TRINITY TRADING LIMITED,"""TRINITY TRADING LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,TRINITY TRADING LIMITED,"""TRINITY TRADING LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,TRINITY TRADING LIMITED,"""TRINITY TRADING LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,TRINITY TRADING LIMITED,"""TRINITY TRADING LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,TRINITY TRADING LIMITED,"""TRINITY TRADING LIMITED"" (property OR real estate OR land registry)",property,medium
+company,TRINITY TRADING LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt TRINITY TRADING LIMITED,registry filing,medium
+company,TRINITY TRADING LIMITED,"""TRINITY TRADING LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,TRINITY TRADING LIMITED,"""TRINITY TRADING LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,icij:58080709,"""icij:58080709"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,icij:58080709,"""icij:58080709"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,icij:58080709,"""icij:58080709"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,icij:58080709,"""icij:58080709"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,icij:58080709,"""icij:58080709"" (tender OR contract OR procurement)",procurement,medium
+company,icij:58080709,"""icij:58080709"" (property OR real estate OR land registry)",property,medium
+company,icij:58080709,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt icij:58080709,registry filing,medium
+company,icij:58080709,"""icij:58080709"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,icij:58080709,"""icij:58080709"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
