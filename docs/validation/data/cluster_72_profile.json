@@ -1,0 +1,103 @@
+{
+  "cluster_anomaly": {
+    "anomaly_score": 0.8666666666666667,
+    "community_id": 72,
+    "isolation": 1.0,
+    "n_seeds": 2,
+    "seed_density": 0.6666666666666666,
+    "size": 3,
+    "size_deviation": 1.0986122886681098
+  },
+  "cluster_scored": {
+    "cluster_confidence": 0.9025,
+    "community_id": 72,
+    "contradiction_density": 0.0,
+    "lambda": 0.5,
+    "mean_edge_credibility": 0.9025,
+    "n_contradiction_nodes": 0,
+    "size": 3
+  },
+  "community_id": 72,
+  "generated_at": "2026-05-19 17:14:04 UTC",
+  "members_sample": [
+    {
+      "jurisdiction": "mt",
+      "name": "TEMPUS FUGIT LTD",
+      "seed": true,
+      "uid": "icij:55055198"
+    },
+    {
+      "jurisdiction": null,
+      "name": "icij:58021661",
+      "seed": false,
+      "uid": "icij:58021661"
+    },
+    {
+      "jurisdiction": "mt",
+      "name": "DAIMA YACHTING LIMITED",
+      "seed": true,
+      "uid": "icij:55062733"
+    }
+  ],
+  "n_members": 3,
+  "ordinary_vs_unusual": {
+    "address_reuse_rate": 0.667,
+    "anomaly_score": 0.8666666666666667,
+    "cluster_size": 3,
+    "contradiction_density": 0.0,
+    "intermediary_reuse_rate": 0.0,
+    "isolation": 1.0,
+    "n_repeated_addresses": 1,
+    "n_repeated_intermediaries": 0,
+    "n_repeated_officers": 1,
+    "officer_reuse_rate": 0.667,
+    "top_theme": "unknown",
+    "top_theme_share": 0.667,
+    "underreportedness": 1.0
+  },
+  "person": "erbil mehmet arkin",
+  "person_normalized": "erbil mehmet arkin",
+  "person_uids": [
+    "icij:56011328",
+    "icij:56060871"
+  ],
+  "queue_row": {
+    "anomaly_score": 0.8667,
+    "attestation_density": 0.0,
+    "cluster_confidence": 0.9025,
+    "community_id": 72,
+    "connectedness": 0.2066,
+    "contradiction_density": 0.0,
+    "isolation": 1.0,
+    "mean_edge_credibility": 0.9025,
+    "member_names_sample": [
+      "TEMPUS FUGIT LTD",
+      "icij:58021661",
+      "DAIMA YACHTING LIMITED"
+    ],
+    "member_uids_sample": [
+      "icij:55055198",
+      "icij:58021661",
+      "icij:55062733"
+    ],
+    "n_seeds": 0,
+    "priority_score": 0.252017,
+    "size": 3,
+    "underreportedness": 1.0
+  },
+  "same_person_evidence": {
+    "contradictory": [],
+    "missing": [
+      "country field missing in ICIJ persons rows.",
+      "date-of-birth not available in icij_persons; cannot compare DOB.",
+      "no canonical home-address field for persons; cannot compare residential address."
+    ],
+    "supporting": [
+      "2 ICIJ uids share normalized name `erbil mehmet arkin` (icij:56011328, icij:56060871)."
+    ]
+  },
+  "threshold": 0.9,
+  "warnings": [
+    "dossier file not found at /app/docs/reports/dossiers/erbil-mehmet-arkin.md \u2014 using parquet only."
+  ]
+}

@@ -1,0 +1,33 @@
+target_type,target_name,query,purpose,priority
+person,erbil mehmet arkin,"""erbil mehmet arkin"" (PEP OR beneficial owner OR UBO)",PEP/UBO,high
+person,erbil mehmet arkin,"""erbil mehmet arkin"" (lawsuit OR claim OR litigation)",litigation,high
+person,erbil mehmet arkin,"""erbil mehmet arkin"" -site:linkedin.com -site:facebook.com",media,high
+person,erbil mehmet arkin,"""erbil mehmet arkin"" director OR officer",registry filings,high
+person,erbil mehmet arkin,"""erbil mehmet arkin"" (sanction OR OFAC OR OFSI)",sanctions,high
+company,DAIMA YACHTING LIMITED,"""DAIMA YACHTING LIMITED"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,DAIMA YACHTING LIMITED,"""DAIMA YACHTING LIMITED"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,DAIMA YACHTING LIMITED,"""DAIMA YACHTING LIMITED"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,DAIMA YACHTING LIMITED,"""DAIMA YACHTING LIMITED"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,DAIMA YACHTING LIMITED,"""DAIMA YACHTING LIMITED"" (tender OR contract OR procurement)",procurement,medium
+company,DAIMA YACHTING LIMITED,"""DAIMA YACHTING LIMITED"" (property OR real estate OR land registry)",property,medium
+company,DAIMA YACHTING LIMITED,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt DAIMA YACHTING LIMITED,registry filing,medium
+company,DAIMA YACHTING LIMITED,"""DAIMA YACHTING LIMITED"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,DAIMA YACHTING LIMITED,"""DAIMA YACHTING LIMITED"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,TEMPUS FUGIT LTD,"""TEMPUS FUGIT LTD"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,TEMPUS FUGIT LTD,"""TEMPUS FUGIT LTD"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,TEMPUS FUGIT LTD,"""TEMPUS FUGIT LTD"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,TEMPUS FUGIT LTD,"""TEMPUS FUGIT LTD"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,TEMPUS FUGIT LTD,"""TEMPUS FUGIT LTD"" (tender OR contract OR procurement)",procurement,medium
+company,TEMPUS FUGIT LTD,"""TEMPUS FUGIT LTD"" (property OR real estate OR land registry)",property,medium
+company,TEMPUS FUGIT LTD,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt TEMPUS FUGIT LTD,registry filing,medium
+company,TEMPUS FUGIT LTD,"""TEMPUS FUGIT LTD"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,TEMPUS FUGIT LTD,"""TEMPUS FUGIT LTD"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium
+company,icij:58021661,"""icij:58021661"" (director OR officer OR shareholder OR UBO)",directors/officers,medium
+company,icij:58021661,"""icij:58021661"" (MGA OR ""gaming licence"" OR gambling)",gaming,medium
+company,icij:58021661,"""icij:58021661"" (insolvency OR liquidation OR bankruptcy OR winding-up)",insolvency,medium
+company,icij:58021661,"""icij:58021661"" (lawsuit OR claim OR litigation OR judgment)",litigation,medium
+company,icij:58021661,"""icij:58021661"" (tender OR contract OR procurement)",procurement,medium
+company,icij:58021661,"""icij:58021661"" (property OR real estate OR land registry)",property,medium
+company,icij:58021661,site:registry.mfsa.mt OR site:rocsupport.mfsa.com.mt icij:58021661,registry filing,medium
+company,icij:58021661,"""icij:58021661"" (sanction OR OFAC OR EU sanction OR OFSI)",sanctions,medium
+company,icij:58021661,"""icij:58021661"" (yacht OR charter OR vessel OR IMO)",shipping/yacht/charter,medium

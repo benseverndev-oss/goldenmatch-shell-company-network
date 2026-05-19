@@ -1,0 +1,9 @@
+person_name,person_record_id,company_name,company_record_id,relationship_type,role,start_date,end_date,source,leak,confidence,notes
+erbil mehmet arkin,icij:56060871,TEMPUS FUGIT LTD,icij:55055198,officer_of,director of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+erbil mehmet arkin,icij:56060871,TEMPUS FUGIT LTD,icij:55055198,officer_of,judicial representative of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+erbil mehmet arkin,icij:56060871,TEMPUS FUGIT LTD,icij:55055198,officer_of,legal representative of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+erbil mehmet arkin,icij:56060871,TEMPUS FUGIT LTD,icij:55055198,officer_of,shareholder of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+erbil mehmet arkin,icij:56060871,DAIMA YACHTING LIMITED,icij:55062733,officer_of,director of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+erbil mehmet arkin,icij:56060871,DAIMA YACHTING LIMITED,icij:55062733,officer_of,judicial representative of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+erbil mehmet arkin,icij:56060871,DAIMA YACHTING LIMITED,icij:55062733,officer_of,legal representative of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record
+erbil mehmet arkin,icij:56060871,DAIMA YACHTING LIMITED,icij:55062733,officer_of,shareholder of,,,icij,Paradise Papers - Malta corporate registry,0.90,candidate edge — verify against original ICIJ source record

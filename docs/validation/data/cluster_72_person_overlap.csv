@@ -1,0 +1,4 @@
+company_name,normalized_company_name,in_community,in_person_dossier,match_type,confidence,source_record_ids,notes
+DAIMA YACHTING LIMITED,daima yachting,true,false,community_only,1.00,icij:55062733,in cluster but not in person dossier
+icij:58021661,icij 58021661,true,false,community_only,1.00,icij:58021661,in cluster but not in person dossier
+TEMPUS FUGIT LTD,tempus fugit,true,false,community_only,1.00,icij:55055198,in cluster but not in person dossier
