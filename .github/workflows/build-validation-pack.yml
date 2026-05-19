@@ -1,10 +1,24 @@
-name: build validation pack — cluster 47 (Railway-side compute)
+name: build validation pack (Railway-side compute)
 
 on:
   workflow_dispatch:
+    inputs:
+      community_id:
+        description: "Community ID to profile (e.g. 47)"
+        required: true
+        type: string
+      person:
+        description: 'Human anchor (e.g. "peter kevin perry")'
+        required: true
+        type: string
+      threshold:
+        description: "confidence_communities threshold"
+        required: false
+        type: string
+        default: "0.9"
 
 concurrency:
-  group: build-validation-pack-cluster-47
+  group: build-validation-pack-${{ inputs.community_id }}
   cancel-in-progress: false
 
 permissions:
@@ -17,6 +31,9 @@ jobs:
     env:
       SHELLNET_JOB_URL: ${{ vars.SHELLNET_JOB_URL }}
       SHELLNET_JOB_TOKEN: ${{ secrets.SHELLNET_JOB_TOKEN }}
+      CID: ${{ inputs.community_id }}
+      PERSON: ${{ inputs.person }}
+      THRESHOLD: ${{ inputs.threshold }}
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v3
@@ -24,16 +41,32 @@ jobs:
           enable-cache: true
       - run: uv sync --frozen --no-dev
       - run: curl -fsS "$SHELLNET_JOB_URL/healthz"
-      - name: Trigger build_validation_pack_cluster_47
+
+      - name: Validate inputs
         run: |
           set -euo pipefail
+          if ! echo "$CID" | grep -qE '^[0-9]+$'; then
+            echo "::error::community_id must be a positive integer"
+            exit 1
+          fi
+          if ! echo "$PERSON" | grep -qE "^[A-Za-z][A-Za-z .'-]{1,80}$"; then
+            echo "::error::person must match ^[A-Za-z][A-Za-z .'-]{1,80}\$"
+            exit 1
+          fi
+
+      - name: Trigger build_validation_pack
+        run: |
+          set -euo pipefail
+          # url-encode person for the query string.
+          person_enc=$(python -c "import urllib.parse,os; print(urllib.parse.quote(os.environ['PERSON']))")
           curl -fsS -X POST -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
-            "$SHELLNET_JOB_URL/run-script?name=build_validation_pack_cluster_47"
+            "$SHELLNET_JOB_URL/run-validation-pack?community_id=$CID&person=$person_enc&threshold=$THRESHOLD"
           echo
+
       - name: Poll until complete
         run: |
           set -euo pipefail
-          stage="script_build_validation_pack_cluster_47"
+          stage="script_build_validation_pack_cluster_$CID"
           done=false
           for _ in $(seq 1 360); do
             sleep 5
@@ -49,32 +82,34 @@ jobs:
             esac
           done
           if [ "$done" != "true" ]; then echo "::error::poll timed out"; exit 1; fi
+
       - name: Download artifacts
         run: |
           set -euo pipefail
           mkdir -p docs/validation/data
-          # Markdown + JSON + CSVs + graph paths land under /data/validation_packs/cluster_47/.
-          for p in cluster_47.md \
-                   data/cluster_47_profile.json \
-                   data/cluster_47_person_overlap.csv \
-                   data/cluster_47_person_company_roles.csv \
-                   data/cluster_47_repeated_addresses.csv \
-                   data/cluster_47_repeated_officers.csv \
-                   data/cluster_47_repeated_agents.csv \
-                   data/cluster_47_company_themes.csv \
-                   data/cluster_47_external_search_queries.csv \
-                   data/cluster_47_graph_paths.md; do
+          base="validation_packs/cluster_$CID"
+          for p in cluster_$CID.md \
+                   data/cluster_${CID}_profile.json \
+                   data/cluster_${CID}_person_overlap.csv \
+                   data/cluster_${CID}_person_company_roles.csv \
+                   data/cluster_${CID}_repeated_addresses.csv \
+                   data/cluster_${CID}_repeated_officers.csv \
+                   data/cluster_${CID}_repeated_agents.csv \
+                   data/cluster_${CID}_company_themes.csv \
+                   data/cluster_${CID}_external_search_queries.csv \
+                   data/cluster_${CID}_graph_paths.md; do
             curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
-              "$SHELLNET_JOB_URL/download?path=validation_packs/cluster_47/$p" \
+              "$SHELLNET_JOB_URL/download?path=$base/$p" \
               -o "docs/validation/$p"
           done
+
       - name: Commit + push to main
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/validation/cluster_47.md docs/validation/data/
+          git add docs/validation/cluster_$CID.md docs/validation/data/cluster_${CID}_*
           if git diff --cached --quiet; then echo "no changes"; exit 0; fi
-          git commit -m "report: refresh cluster 47 validation pack (auto from build-validation-pack.yml)"
+          git commit -m "report: refresh cluster $CID validation pack (auto from build-validation-pack.yml)"
           git pull --rebase origin main
           git push origin HEAD:main
