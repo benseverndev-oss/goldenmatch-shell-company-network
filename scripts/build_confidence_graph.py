@@ -63,6 +63,9 @@ _EDGE_KIND_CREDIBILITY: dict[str, float] = {
     # Open Ownership PSC controller-of edges are mandated state
     # disclosures (UK Companies Act 2006 s790); treat as structural.
     "psc_controller_of": 0.92,
+    # Phase 7 additions:
+    "cross_jurisdictional_twin": 0.85,
+    "beneficial_owner_of": 0.92,
 }
 _DEFAULT_EDGE_KIND_CREDIBILITY = 0.70
 
@@ -92,6 +95,9 @@ _SOURCE_CREDIBILITY: dict[str, float] = {
     # issued; slightly above raw UK PSC because OO has done the
     # canonicalisation work.
     "Open Ownership UK PSC (BODS v0.4)": 0.97,
+    # Phase 7 additions:
+    "SEC EDGAR 13D/13G": 0.97,
+    "GoldenMatch twin detector": 0.80,
 }
 _DEFAULT_SOURCE_CREDIBILITY = 0.85
 
@@ -185,6 +191,16 @@ def main(
             "Skipped silently if the file isn't present."
         ),
     ),
+    twin_edges_parquet: Path | None = typer.Option(
+        None,
+        "--twin-edges",
+        help="Optional Phase-3 cross_jurisdiction_twins.parquet to union in.",
+    ),
+    sec_13dg_edges_parquet: Path | None = typer.Option(
+        None,
+        "--sec-13dg-edges",
+        help="Optional Phase-6 sec_13dg_edges.parquet to union in.",
+    ),
     dossier_parquet: Path = typer.Option(
         PROCESSED_DIR / "rare_officer_dossiers.parquet",
         "--dossier-parquet",
@@ -248,8 +264,7 @@ def main(
 
     # Concatenate Open Ownership UK PSC edges if the file is on disk.
     # The OO uids are `oo:gb-coh-...`, distinct from `icij:...`, so the
-    # union doesn't risk node-id collisions. Cross-jurisdictional bridges
-    # (UK <-> Malta name twins) come in a later phase, not here.
+    # union doesn't risk node-id collisions.
     if oo_uk_psc_edges.exists():
         oo_cols = pl.scan_parquet(oo_uk_psc_edges).collect_schema().names()
         oo_select = ["src_node", "dst_node", "kind_raw"]
@@ -258,9 +273,32 @@ def main(
         oo_edges = pl.scan_parquet(oo_uk_psc_edges).select(oo_select).collect()
         log.info("Open Ownership UK PSC edges loaded: %d", oo_edges.height)
         all_edges = pl.concat([all_edges, oo_edges], how="diagonal")
-        log.info("combined edges: %d", all_edges.height)
+        log.info("combined edges after OO PSC: %d", all_edges.height)
     else:
         log.info("Open Ownership UK PSC edges not found at %s; skipping", oo_uk_psc_edges)
+
+    # Union Phase-3 cross-jurisdictional twins (one edge per pair).
+    if twin_edges_parquet and twin_edges_parquet.exists():
+        twins = pl.read_parquet(twin_edges_parquet).select(
+            pl.col("src_uid").alias("src_node"),
+            pl.col("dst_uid").alias("dst_node"),
+            pl.lit("cross_jurisdictional_twin").alias("kind_raw"),
+            pl.lit("GoldenMatch twin detector").alias("source_label"),
+        )
+        all_edges = pl.concat([all_edges, twins], how="diagonal")
+        log.info("unioned %d twin edges from %s", twins.height, twin_edges_parquet)
+
+    # Union Phase-6 SEC 13D/G filer->subject edges. CIKs are prefixed with
+    # ``sec:`` so they don't collide with ICIJ uids.
+    if sec_13dg_edges_parquet and sec_13dg_edges_parquet.exists():
+        sec = pl.read_parquet(sec_13dg_edges_parquet).select(
+            (pl.lit("sec:") + pl.col("filer_cik")).alias("src_node"),
+            (pl.lit("sec:") + pl.col("subject_cik")).alias("dst_node"),
+            pl.lit("beneficial_owner_of").alias("kind_raw"),
+            pl.lit("SEC EDGAR 13D/13G").alias("source_label"),
+        )
+        all_edges = pl.concat([all_edges, sec], how="diagonal")
+        log.info("unioned %d SEC 13D/G edges from %s", sec.height, sec_13dg_edges_parquet)
 
     sub_edges = _build_subgraph(all_edges, seeds, hops=hops, max_nodes=max_nodes)
     log.info("subgraph edges: %d", sub_edges.height)

@@ -670,6 +670,25 @@ _ALLOWED_SCRIPTS = {
         "--out-summary",
         "/data/processed/confidence_graph_summary.json",
     ],
+    # Phase 7: same graph builder, plus Phase-3 twin edges + Phase-6 SEC
+    # 13D/G edges unioned into the ICIJ corpus before community detection.
+    "build_confidence_graph_expanded": [
+        "scripts/build_confidence_graph.py",
+        "--edges",
+        "/data/interim/icij_edges.parquet",
+        "--twin-edges",
+        "/data/processed/cross_jurisdiction_twins.parquet",
+        "--sec-13dg-edges",
+        "/data/processed/sec_13dg_edges.parquet",
+        "--dossier-parquet",
+        "/data/processed/rare_officer_dossiers.parquet",
+        "--out-edges",
+        "/data/processed/confidence_graph_edges.parquet",
+        "--out-communities",
+        "/data/processed/confidence_communities.parquet",
+        "--out-summary",
+        "/data/processed/confidence_graph_summary.json",
+    ],
     "build_adversarial_benchmark": [
         "scripts/build_adversarial_benchmark.py",
         "--discovery-parquet",
