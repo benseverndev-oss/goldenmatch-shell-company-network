@@ -1,13 +1,10 @@
 fact,category,public_knowledge,goldenmatch_added,sources,needs_human_review
 peter kevin perry mentioned in public sources,publicly_known,true,false,https://find-and-update.company-information.service.gov.uk/officers/HgeHCR6Q4eZTWFZbXw6EqaRPPvs/appointments;https://find-and-update.company-information.service.gov.uk/company/OE009343/persons-with-significant-control;https://www.bloomberg.com/profile/person/5130594,true
-AIR SEVEN YACHTING LTD mentioned in public sources,publicly_known,true,false,https://offshoreleaks.icij.org/nodes/55057760;https://ofac.treasury.gov/recent-actions/20251009;https://home.treasury.gov/news/press-releases/jy0802,true
-AMARYLIS HOLDINGS LTD mentioned in public sources,publicly_known,true,false,https://offshoreleaks.icij.org/nodes/56056843;https://find-and-update.company-information.service.gov.uk/company/05951116;https://find-and-update.company-information.service.gov.uk/company/15649343,true
-ARGOSY EUROPE LIMITED mentioned in public sources,publicly_known,true,false,https://find-and-update.company-information.service.gov.uk/company/SC124507/insolvency;https://ofac.treasury.gov/sanctions-programs-and-country-information;https://sanctionssearchapp.ofsi.hmtreasury.gov.uk/,true
-AWEIGH YACHTING LTD mentioned in public sources,publicly_known,true,false,https://offshoreleaks.icij.org/nodes/55046957;https://ofac.treasury.gov/recent-actions/20250730_33;https://www.gamblingcommission.gov.uk/public-register/business/detail/8295,true
-B.M.D GLOBAL PROJECTS LTD mentioned in public sources,publicly_known,true,false,https://find-and-update.company-information.service.gov.uk/company/14172526/filing-history;https://ofac.treasury.gov/sanctions-programs-and-country-information;https://ofac.treasury.gov/recent-actions/20241030,true
-BALFOURI HOLDINGS LIMITED mentioned in public sources,publicly_known,true,false,https://find-and-update.company-information.service.gov.uk/company/14346204;https://ofac.treasury.gov/recent-actions/20230412;https://sanctionssearchapp.ofsi.hmtreasury.gov.uk/,true
+AIR SEVEN YACHTING LTD mentioned in public sources,publicly_known,true,false,https://offshoreleaks.icij.org/nodes/55057760,true
+AMARYLIS HOLDINGS LTD mentioned in public sources,publicly_known,true,false,https://offshoreleaks.icij.org/nodes/56056843,true
+AWEIGH YACHTING LTD mentioned in public sources,publicly_known,true,false,https://offshoreleaks.icij.org/nodes/55046957,true
 BELLEVILLE LTD mentioned in public sources,publicly_known,true,false,https://offshoreleaks.icij.org/nodes/55081280;https://find-and-update.company-information.service.gov.uk/company/13399004/filing-history,true
 Cluster #47 contains 67 entities tied together by uncertainty-propagated edges,structural,false,true,docs/validation/data/cluster_47_profile.json,false
 1 address(es) recur across 98% of cluster members,infrastructure_reuse,false,true,docs/validation/data/cluster_47_repeated_addresses.csv,false
 19 officer(s) appear on 98% of cluster members,infrastructure_reuse,false,true,docs/validation/data/cluster_47_repeated_officers.csv,false
-44 cluster members have zero credible web mentions after fanned-out search,underreported,false,true,docs/validation/data/cluster_47_underreported_entities.csv,false
+45 cluster members have zero credible web mentions after fanned-out search,underreported,false,true,docs/validation/data/cluster_47_underreported_entities.csv,false

@@ -17,12 +17,9 @@ GoldenMatch surfaced a 67-entity cluster (#47) with 98% shared-address rate and 
 
 ## What was already publicly known
 - peter kevin perry mentioned in public sources — `https://find-and-update.company-information.service.gov.uk/officers/HgeHCR6Q4eZTWFZbXw6EqaRPPvs/appointments;https://find-and-update.company-information.service.gov.uk/company/OE009343/persons-with-significant-control;https://www.bloomberg.com/profile/person/5130594`
-- AIR SEVEN YACHTING LTD mentioned in public sources — `https://offshoreleaks.icij.org/nodes/55057760;https://ofac.treasury.gov/recent-actions/20251009;https://home.treasury.gov/news/press-releases/jy0802`
-- AMARYLIS HOLDINGS LTD mentioned in public sources — `https://offshoreleaks.icij.org/nodes/56056843;https://find-and-update.company-information.service.gov.uk/company/05951116;https://find-and-update.company-information.service.gov.uk/company/15649343`
-- ARGOSY EUROPE LIMITED mentioned in public sources — `https://find-and-update.company-information.service.gov.uk/company/SC124507/insolvency;https://ofac.treasury.gov/sanctions-programs-and-country-information;https://sanctionssearchapp.ofsi.hmtreasury.gov.uk/`
-- AWEIGH YACHTING LTD mentioned in public sources — `https://offshoreleaks.icij.org/nodes/55046957;https://ofac.treasury.gov/recent-actions/20250730_33;https://www.gamblingcommission.gov.uk/public-register/business/detail/8295`
-- B.M.D GLOBAL PROJECTS LTD mentioned in public sources — `https://find-and-update.company-information.service.gov.uk/company/14172526/filing-history;https://ofac.treasury.gov/sanctions-programs-and-country-information;https://ofac.treasury.gov/recent-actions/20241030`
-- BALFOURI HOLDINGS LIMITED mentioned in public sources — `https://find-and-update.company-information.service.gov.uk/company/14346204;https://ofac.treasury.gov/recent-actions/20230412;https://sanctionssearchapp.ofsi.hmtreasury.gov.uk/`
+- AIR SEVEN YACHTING LTD mentioned in public sources — `https://offshoreleaks.icij.org/nodes/55057760`
+- AMARYLIS HOLDINGS LTD mentioned in public sources — `https://offshoreleaks.icij.org/nodes/56056843`
+- AWEIGH YACHTING LTD mentioned in public sources — `https://offshoreleaks.icij.org/nodes/55046957`
 - BELLEVILLE LTD mentioned in public sources — `https://offshoreleaks.icij.org/nodes/55081280;https://find-and-update.company-information.service.gov.uk/company/13399004/filing-history`
 
 ## What appears underreported
@@ -46,7 +43,6 @@ _… and 29 more._
 
 ## Strongest evidence paths
 - **c47-001**: Community #47 contains 67 entities at threshold 0.9.
-- **c47-r03**: Records say peter kevin perry (uid icij:56056803) appears as director of, judicial representative of, legal representative of of B.M.D GLOBAL PROJECTS LTD in Paradise Papers - Malta corporate registry.
 - **c47-r05**: Records say peter kevin perry (uid icij:56056803) appears as director of, judicial representative of, legal representative of of AWEIGH YACHTING LTD in Paradise Papers - Malta corporate registry.
 - **c47-a01**: 66 cluster companies share registered address: 45/13 STRAIT STREET, VALLETTAVLT 1434, MALTA
 - **c47-o01**: CATHERINE BAXTER holds roles (director of;judicial representative of;legal representative of;local representative of;secretary of) across 63 cluster companies
@@ -65,10 +61,10 @@ _… and 29 more._
 - [leak_primary] PETER KEVIN PERRY | ICIJ Offshore Leaks Database — https://offshoreleaks.icij.org/nodes/56056803 (score 1.0)
 - [regulator] Peter Kevin PERRY personal appointments - Companies House — https://find-and-update.company-information.service.gov.uk/officers/HgeHCR6Q4eZTWFZbXw6EqaRPPvs/appointments (score 1.0)
 - [leak_primary] AIR SEVEN YACHTING LTD | ICIJ Offshore Leaks Database — https://offshoreleaks.icij.org/nodes/55057760 (score 1.0)
-- [regulator] Iran-related Designations; Russia-related Designation Removal — https://ofac.treasury.gov/recent-actions/20251009 (score 1.0)
-- [regulator] U.S. Treasury Severs More Networks Providing Support for Putin ... — https://home.treasury.gov/news/press-releases/jy0802 (score 1.0)
 - [leak_primary] KEVIN JOHN PERKS | ICIJ Offshore Leaks Database — https://offshoreleaks.icij.org/nodes/56056843 (score 1.0)
-- [regulator] amaryllis group holdings ltd - Companies House - GOV.UK — https://find-and-update.company-information.service.gov.uk/company/05951116 (score 1.0)
+- [leak_primary] AWEIGH YACHTING LTD | ICIJ Offshore Leaks Database — https://offshoreleaks.icij.org/nodes/55046957 (score 1.0)
+- [leak_primary] BELLEVILLE LTD | ICIJ Offshore Leaks Database — https://offshoreleaks.icij.org/nodes/55081280 (score 1.0)
+- [regulator] BELLEVILLE HOLDINGS LTD filing history - Companies House — https://find-and-update.company-information.service.gov.uk/company/13399004/filing-history (score 1.0)
 
 ## Contradictions / caveats
 - Same-name does not imply same-person. The anchor uids are unverified.

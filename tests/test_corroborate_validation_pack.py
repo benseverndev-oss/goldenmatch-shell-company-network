@@ -95,6 +95,66 @@ def test_score_hits_low_quality(cvp):
     assert scored[0]["relevance_score"] < 0.75
 
 
+def test_score_hits_generic_regulator_page_is_capped(cvp):
+    """A high-quality domain (OFAC) + topical vocabulary (malta, sanction)
+    must NOT score as corroboration if the cluster entity isn't named.
+    Without this gate the scorer would return relevance=1.0 on generic
+    action-list pages and a reviewer could lift them as "OFAC confirms"
+    — defamatory."""
+
+    results = [
+        {
+            "query": "BAGUNU FINANCE LIMITED OFAC sanction",
+            "target_name": "BAGUNU FINANCE LIMITED",
+            "result_title": "Russia-related Designations | OFAC",
+            "url": "https://ofac.treasury.gov/recent-actions/20250428",
+            "snippet": (
+                "Today OFAC issued new Russia-related designations and "
+                "amended several Specially Designated Nationals entries. "
+                "See the full list for malta-based and offshore entities."
+            ),
+        }
+    ]
+    scored = cvp.score_hits(
+        results,
+        person="calvin edward ayre",
+        member_names=["BAGUNU FINANCE LIMITED"],
+    )
+    assert len(scored) == 1
+    row = scored[0]
+    # No specific entity match -> hard cap.
+    assert row["relevance_score"] <= 0.5, (
+        f"generic OFAC page must be capped, got {row['relevance_score']}"
+    )
+    assert row["needs_human_review"] == "true"
+    assert "topical-only" in row["notes"]
+    assert "target" not in row["matched_terms"]
+
+
+def test_score_hits_specific_match_passes_gate(cvp):
+    """A high-quality domain that DOES name the entity should score high."""
+
+    results = [
+        {
+            "query": "BAGUNU FINANCE LIMITED",
+            "target_name": "BAGUNU FINANCE LIMITED",
+            "result_title": "BAGUNU FINANCE LIMITED on OFAC SDN list",
+            "url": "https://ofac.treasury.gov/recent-actions/20250428",
+            "snippet": (
+                "Bagunu Finance Limited (Malta) was added to the SDN list "
+                "under the Russia sanctions program."
+            ),
+        }
+    ]
+    scored = cvp.score_hits(
+        results,
+        person="calvin edward ayre",
+        member_names=["BAGUNU FINANCE LIMITED"],
+    )
+    assert scored[0]["relevance_score"] >= 0.85
+    assert "target_normalized" in scored[0]["matched_terms"]
+
+
 def test_csv_headers_unique(cvp):
     for hdrs in (
         cvp.SEARCH_RESULTS_HEADERS,
