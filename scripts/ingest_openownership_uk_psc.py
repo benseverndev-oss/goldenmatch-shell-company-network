@@ -120,23 +120,46 @@ def _entity_uid(bods_subject: str | None) -> str:
 
 
 def project_entities(bundle_dir: Path) -> pl.DataFrame:
-    """Project entity_statement.parquet into our pipeline shape."""
+    """Project entity_statement.parquet into our pipeline shape.
+
+    OO's BODS export tracks the BODS spec. In v0.4 the schema flattened —
+    ``recordDetails_subject`` moved up to ``declarationSubject``,
+    ``recordDetails_entityType_subtype`` collapsed into
+    ``recordDetails_entityType_type``, and ``recordDetails_dissolutionDate``
+    was removed. We accept both shapes so a future schema bump doesn't
+    silently lose the older one.
+    """
 
     src = bundle_dir / "entity_statement.parquet"
     log.info("reading %s", src)
-    df = pl.scan_parquet(src)
-    # The BODS entity statement has a wide schema; pick what we need.
-    out = (
-        df.select(
-            pl.col("recordDetails_subject").alias("bods_subject"),
-            pl.col("recordDetails_name").alias("name"),
-            pl.col("recordDetails_entityType_subtype").alias("entity_type"),
-            pl.col("recordDetails_jurisdiction_code").alias("jurisdiction"),
-            pl.col("recordDetails_foundingDate").alias("incorporation_date"),
-            pl.col("recordDetails_dissolutionDate").alias("dissolution_date"),
-            pl.col("statementDate").alias("statement_date"),
-            pl.col("publicationDetails_publicationDate").alias("publication_date"),
+    cols = set(pl.scan_parquet(src).collect_schema().names())
+    subject_col = "declarationSubject" if "declarationSubject" in cols else "recordDetails_subject"
+    entity_type_col = (
+        "recordDetails_entityType_type"
+        if "recordDetails_entityType_type" in cols
+        else "recordDetails_entityType_subtype"
+    )
+    has_dissolution = "recordDetails_dissolutionDate" in cols
+
+    selects = [
+        pl.col(subject_col).alias("bods_subject"),
+        pl.col("recordDetails_name").alias("name"),
+        pl.col(entity_type_col).alias("entity_type"),
+        pl.col("recordDetails_jurisdiction_code").alias("jurisdiction"),
+        pl.col("recordDetails_foundingDate").alias("incorporation_date"),
+        pl.col("statementDate").alias("statement_date"),
+        pl.col("publicationDetails_publicationDate").alias("publication_date"),
+    ]
+    if has_dissolution:
+        selects.insert(
+            5, pl.col("recordDetails_dissolutionDate").alias("dissolution_date")
         )
+    else:
+        selects.insert(5, pl.lit(None).cast(pl.String).alias("dissolution_date"))
+
+    out = (
+        pl.scan_parquet(src)
+        .select(*selects)
         .with_columns(
             (pl.lit("oo:") + pl.col("bods_subject").str.to_lowercase()).alias("entity_uid"),
             pl.lit("oo_uk_psc").alias("source"),
@@ -144,7 +167,7 @@ def project_entities(bundle_dir: Path) -> pl.DataFrame:
         )
         .collect()
     )
-    log.info("  %d entity rows", out.shape[0])
+    log.info("  %d entity rows (subject_col=%s)", out.shape[0], subject_col)
     return out
 
 
@@ -200,11 +223,24 @@ def project_relationships(bundle_dir: Path) -> pl.DataFrame:
 
     src = bundle_dir / "relationship_statement.parquet"
     log.info("reading %s", src)
+    cols = set(pl.scan_parquet(src).collect_schema().names())
+    # BODS 0.4 flattened recordDetails_subject -> declarationSubject and
+    # recordDetails_interestedParty -> interestedParty (and may have split
+    # the interestedParty into recordDetails_interests_* sub-fields). We
+    # accept both old and new top-level names.
+    subject_col = (
+        "declarationSubject" if "declarationSubject" in cols else "recordDetails_subject"
+    )
+    interested_col = (
+        "interestedParty"
+        if "interestedParty" in cols
+        else "recordDetails_interestedParty"
+    )
     df = pl.scan_parquet(src)
     out = (
         df.select(
-            pl.col("recordDetails_subject").alias("subject"),
-            pl.col("recordDetails_interestedParty").alias("interested_party"),
+            pl.col(subject_col).alias("subject"),
+            pl.col(interested_col).alias("interested_party"),
             pl.col("recordDetails_isComponent").alias("is_component"),
             pl.col("statementDate").alias("start_date"),
             pl.col("publicationDetails_publicationDate").alias("publication_date"),
