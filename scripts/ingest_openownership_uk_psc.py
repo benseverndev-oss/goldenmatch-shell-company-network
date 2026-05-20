@@ -151,9 +151,7 @@ def project_entities(bundle_dir: Path) -> pl.DataFrame:
         pl.col("publicationDetails_publicationDate").alias("publication_date"),
     ]
     if has_dissolution:
-        selects.insert(
-            5, pl.col("recordDetails_dissolutionDate").alias("dissolution_date")
-        )
+        selects.insert(5, pl.col("recordDetails_dissolutionDate").alias("dissolution_date"))
     else:
         selects.insert(5, pl.lit(None).cast(pl.String).alias("dissolution_date"))
 
@@ -228,13 +226,9 @@ def project_relationships(bundle_dir: Path) -> pl.DataFrame:
     # recordDetails_interestedParty -> interestedParty (and may have split
     # the interestedParty into recordDetails_interests_* sub-fields). We
     # accept both old and new top-level names.
-    subject_col = (
-        "declarationSubject" if "declarationSubject" in cols else "recordDetails_subject"
-    )
+    subject_col = "declarationSubject" if "declarationSubject" in cols else "recordDetails_subject"
     interested_col = (
-        "interestedParty"
-        if "interestedParty" in cols
-        else "recordDetails_interestedParty"
+        "interestedParty" if "interestedParty" in cols else "recordDetails_interestedParty"
     )
     df = pl.scan_parquet(src)
     out = (

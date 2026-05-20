@@ -413,9 +413,7 @@ def _parse_year_quarter(spec: str) -> tuple[int, int]:
             f"--year-quarter must be in 'YYYY/Q' form, got {spec!r}"
         ) from exc
     if quarter not in (1, 2, 3, 4):
-        raise argparse.ArgumentTypeError(
-            f"--year-quarter quarter must be 1-4, got {quarter}"
-        )
+        raise argparse.ArgumentTypeError(f"--year-quarter quarter must be 1-4, got {quarter}")
     return year, quarter
 
 
@@ -490,9 +488,7 @@ def main(argv: list[str] | None = None) -> int:
     elif args.year is not None and args.quarter is not None:
         quarters = [(args.year, args.quarter)]
     else:
-        raise SystemExit(
-            "[fatal] must pass --year-quarter (preferred) or --year + --quarter"
-        )
+        raise SystemExit("[fatal] must pass --year-quarter (preferred) or --year + --quarter")
 
     fetch_idx, fetch_filing = _http_fetcher(args.user_agent)
     all_edges: list[Filing13DGEdge] = []
