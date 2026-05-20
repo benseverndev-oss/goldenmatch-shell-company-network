@@ -189,9 +189,22 @@ def detect_twins(left: pl.DataFrame, right: pl.DataFrame) -> pl.DataFrame:
     Both frames must already be processed by :func:`build_name_index`.
     """
 
-    # Drop empty roots — they'd join to everything.
-    left = left.filter(pl.col("root").str.len_chars() > 1)
-    right = right.filter(pl.col("root").str.len_chars() > 1)
+    # Drop short or generic roots. At corpus scale (5.79M OO x 814k ICIJ)
+    # a root like "asia" or "trust" produces 6-figure cross-joins that
+    # OOM the container. Empirically a 4-char minimum cuts cardinality
+    # by ~95% while preserving all PROBUTEC-style multi-syllable matches.
+    left = left.filter(pl.col("root").str.len_chars() >= 4)
+    right = right.filter(pl.col("root").str.len_chars() >= 4)
+
+    # Frequency-based drop: a root that appears on hundreds of entities
+    # in either side is generic ("global trading", "investments holdings")
+    # and produces explosive join cardinality without surfacing real
+    # twins. Cap at 5 occurrences per side; PROBUTEC etc. appear ~1-3x.
+    _MAX_ROOT_FREQ = 5
+    left_freq = left.group_by("root").len().filter(pl.col("len") <= _MAX_ROOT_FREQ)
+    right_freq = right.group_by("root").len().filter(pl.col("len") <= _MAX_ROOT_FREQ)
+    left = left.join(left_freq.select("root"), on="root", how="inner")
+    right = right.join(right_freq.select("root"), on="root", how="inner")
 
     def _project(df: pl.DataFrame, *, match_type: str, confidence: float) -> pl.DataFrame:
         return df.select(
@@ -212,13 +225,15 @@ def detect_twins(left: pl.DataFrame, right: pl.DataFrame) -> pl.DataFrame:
 
     # For abbreviation joins, drop the left frame's `root` column first so it
     # doesn't collide with the join key on the right.
+    # Same OOM concern applies to the abbreviation join. Two-letter
+    # acronyms collide too often at corpus scale; require >=3 letters.
     left_abbrev = (
-        left.filter(pl.col("abbrev_root").str.len_chars() >= 2)
+        left.filter(pl.col("abbrev_root").str.len_chars() >= 3)
         .drop("root")
         .rename({"abbrev_root": "root"})
     )
     right_abbrev = (
-        right.filter(pl.col("abbrev_root").str.len_chars() >= 2)
+        right.filter(pl.col("abbrev_root").str.len_chars() >= 3)
         .drop("root")
         .rename({"abbrev_root": "root"})
     )

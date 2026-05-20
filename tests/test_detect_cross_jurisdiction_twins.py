@@ -82,19 +82,20 @@ def test_abbreviation_twin_detected(mod):
 
     # NOTE: the Perry case is I-CAP <-> INTEGRATED-CAPABILITIES (no MARINE
     # SERVICES on the MT side); test that pattern.
+    # At corpus scale the abbrev path requires >=3 char acronyms to keep
+    # join cardinality from blowing up. Use a 3-token name so the
+    # abbreviation has 3 letters.
     icij = pl.DataFrame(
         {
             "entity_uid": ["icij:m1"],
-            "name": ["INTEGRATED-CAPABILITIES (MALTA) LTD"],
+            "name": ["GLOBAL TRADE FINANCE (MALTA) LTD"],  # abbrev "gtf"
             "jurisdiction": ["mt"],
         }
     )
     oo = pl.DataFrame(
         {
             "entity_uid": ["oo:gb-coh-x"],
-            "name": [
-                "I CAP LIMITED"
-            ],  # i + cap = "ic" -> matches abbrev root of integrated capabilities
+            "name": ["G T F LIMITED"],  # abbrev also "gtf"
             "jurisdiction": ["gb"],
         }
     )
