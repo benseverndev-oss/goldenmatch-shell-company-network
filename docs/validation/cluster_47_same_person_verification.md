@@ -60,39 +60,103 @@ for the earliest INTEGRATED-CAPABILITIES appointment in 2010, one for
 the later Malta-secretary appointments from 2011-2016). The Companies
 House record covers his post-2019 UK directorships.
 
-## A = B = C → D: plausible but unverified
+## A = B = C → D: not verified via UK Companies House
 
-The Bloomberg profile page extract above did not surface a date of
-birth, address, or any cross-referenceable identifier in its public
-preview. The page lists the subject as "Former Board Member, Corvus
-Capital LLC" but the full biography requires a Bloomberg Terminal
-subscription.
+The Companies House search for "Corvus Capital" returns no UK entity
+that matches the Bloomberg profile cleanly. The closest UK record is
+**CORVUS CAPITAL L.P.** (`SL013246`, a Scottish Limited Partnership
+registered 4 June 2013, address 69 Brunswick Street, Edinburgh). Two
+other Corvus Capital entities (`CORVUS CAPITAL GROUP LTD`,
+`CORVUS CAPITAL MANAGEMENT LIMITED`) were registered in Nov 2025 and
+Jan 2026 respectively — almost certainly unrelated to a "Former
+Board Member" Bloomberg profile that predates them.
 
-The hypothesis "ICIJ/Companies House Perry = Bloomberg Corvus Capital
-Perry" is **plausible**:
+More decisively, **the same Perry's master Companies House officer
+record (`HF0jiKwO9x2R3Ypa0xss6sFPIuU`, 19 historical appointments)
+contains no Corvus Capital affiliation at all.** That record includes
+every past UK directorship and secretaryship recorded under his name
++ DOB + IoM address — and Corvus is not on it.
 
-- Corvus Capital LLC is a small London-based investment vehicle with
-  a known pattern of board appointments by people who hold parallel
-  Malta and Isle of Man directorships.
-- The offshore-vehicle-director archetype matches.
-- Same name on a high-quality domain (Bloomberg) is itself weak
-  corroboration.
+This means one of:
 
-It is **not verified**:
+1. The Bloomberg "Peter Kevin Perry, Corvus Capital LLC" is a
+   **different individual** with the same name.
+2. The Bloomberg "Corvus Capital LLC" is a **US entity** (the "LLC"
+   suffix is American) whose board appointments don't surface in UK
+   Companies House at all. Verification would require US
+   incorporation records (Delaware, BVI, or another offshore
+   registry).
+3. The Bloomberg profile predates the Companies House appointment
+   history that's been digitised — Companies House only carries
+   officer history back so far.
 
-- No address, DOB, or other identifier on the Bloomberg public
-  preview matched the Isle of Man records.
-- The Bloomberg profile body is paywalled; the public preview shows
-  only name + "Former Board Member, Corvus Capital LLC".
-- Multiple people may share a name on Bloomberg; same-name on
-  Bloomberg is not the same as same-person.
+**Verdict for D: not verifiable from UK public sources.** Do not lift
+"Corvus Capital LLC director" into any narrative without a separate US
+registry confirmation. The plausibility argument falls below the bar
+once the UK record doesn't carry the link.
 
-**Verdict for D: candidate, requires direct verification.** To upgrade
-to "verified": pull the Corvus Capital LLC corporate filings (UK
-Companies House for Corvus Capital LLC) and check whether
-`HgeHCR6Q4eZTWFZbXw6EqaRPPvs` (the same officer ID) appears as a former
-director. That's a one-query check that this document does not yet
-perform.
+## What the UK record *does* show — and why it strengthens A = B = C
+
+Walking the 19-appointment Companies House officer record produced
+two cross-jurisdictional corroborations that strengthen the
+"ICIJ Perry = Companies House Perry" identification independently of
+the address match:
+
+### PROBUTEC lineage
+
+| Jurisdiction | Entity | Status | Record |
+| --- | --- | --- | --- |
+| UK | **PROBUTEC LTD** (04102334) | Dissolved | Companies House — Peter Kevin Perry, Director, appointed 6 Nov 2000 |
+| Malta | **PROBUTEC (MALTA) LTD** | (in cluster 47) | ICIJ Paradise Papers — Peter Kevin Perry, officer |
+
+Same root name across two jurisdictions, same Perry, ~2000-era UK
+incorporation followed by a Malta parallel. This is a corporate
+lineage signal, not a coincidence.
+
+### I-CAP / INTEGRATED-CAPABILITIES lineage
+
+| Jurisdiction | Entity | Status | Record |
+| --- | --- | --- | --- |
+| UK | **I-CAP MARINE SERVICES LIMITED** (06494852) | Active | Companies House — Peter Kevin Perry, Director, appointed 6 Feb 2008 |
+| Malta | **INTEGRATED-CAPABILITIES (MALTA) LTD** | (in cluster 47) | ICIJ — Peter Kevin Perry, Legal/Judicial rep + Director, appointed 22 Sep 2010 |
+| Malta | **INTEGRATED-CAPABILITIES LTD** | (in cluster 47) | ICIJ — Peter Kevin Perry, same roles |
+
+I-CAP is the obvious abbreviation of Integrated CAPabilities. The
+2008 UK incorporation precedes the 2010 Malta incorporation by two
+years — same person, same naming convention, parallel structures
+spanning the IoM → UK → Malta corridor.
+
+### Updated verdict for A = B = C
+
+**Confirmed.** Three records share name + address; two records share
+underlying business naming convention across jurisdictions; one record
+(Companies House) supplies DOB and nationality. The same-person
+identification is now publication-grade — well beyond
+"same name + same postal code".
+
+## What this means for any published narrative
+
+A defensible sentence the verification now supports:
+
+> "UK Companies House lists Peter Kevin Perry (born April 1963,
+> British, resident in the Isle of Man) at 52 Barrule Park, Ramsey,
+> with 19 past and present directorships. Two of those companies —
+> PROBUTEC LTD (UK, 2000) and I-CAP MARINE SERVICES LIMITED (UK, 2008)
+> — share root names with companies in the Malta-incorporated cluster
+> the ICIJ Paradise Papers leak documents him as an officer of
+> (PROBUTEC (MALTA) LTD and INTEGRATED-CAPABILITIES (MALTA) LTD).
+> The Malta companies share registered office at 45/13 Strait Street,
+> Valletta."
+
+A sentence the verification does **not** support and should be left
+out of any narrative:
+
+> "Peter Kevin Perry of Corvus Capital LLC was the director of a
+> 67-company Malta network."
+
+The Bloomberg profile remains a same-name hit. The UK Companies
+House record affirmatively does not list Corvus Capital among his
+appointments.
 
 ## What this means for any published narrative
 
