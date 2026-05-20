@@ -231,6 +231,20 @@ UNDERREPORTED_HEADERS = [
     "underreported_score",
     "reason",
 ]
+REGISTRY_HITS_HEADERS = [
+    "cluster_member",
+    "jurisdiction",
+    "registry",
+    "match_type",
+    "registry_identifier",
+    "registry_name",
+    "registry_status",
+    "registry_address",
+    "officer_overlap",
+    "sourceUrl",
+    "publication_safe",
+    "notes",
+]
 
 
 # ---------------------------------------------------------------------------
@@ -971,6 +985,105 @@ def build_evidence_ledger(
 # ---------------------------------------------------------------------------
 
 
+# ---------------------------------------------------------------------------
+# Registry lookups (Phase 2)
+# ---------------------------------------------------------------------------
+
+
+# Jurisdiction -> adapter class. Lazy-imported inside the function so the
+# corroborate module stays importable without httpx etc. when the flag
+# isn't used.
+_JURIS_TO_ADAPTER = {
+    "no": "BrregNorwayAdapter",
+    "fr": "InpiFranceAdapter",
+    "ie": "CroIrelandAdapter",
+    "nl": "KvkNetherlandsAdapter",
+    "us": "SecEdgar13DAdapter",
+}
+
+
+def run_registry_lookups(inputs: PackInputs) -> list[dict[str, Any]]:
+    """For each cluster member, dispatch to the right national-registry
+    adapter and emit a `RegistryHit` row per match.
+
+    State-authoritative; far stronger evidence than Tavily hits.
+    Returns an empty list when no cluster member has a supported
+    jurisdiction (the common case for current Malta-anchored clusters).
+    """
+
+    try:
+        from shellnet.registries.brreg_norway import BrregNorwayAdapter
+        from shellnet.registries.cro_ireland import CroIrelandAdapter
+        from shellnet.registries.inpi_france import InpiFranceAdapter
+        from shellnet.registries.kvk_netherlands import KvkNetherlandsAdapter
+        from shellnet.registries.sec_edgar_13d_13g import SecEdgar13DAdapter
+    except ImportError as exc:
+        log.warning("registry adapters unavailable (%s); skipping", exc)
+        return []
+
+    adapters = {
+        "no": BrregNorwayAdapter(),
+        "fr": InpiFranceAdapter(),
+        "ie": CroIrelandAdapter(),
+        "nl": KvkNetherlandsAdapter(),
+        "us": SecEdgar13DAdapter(),
+    }
+
+    members_sample = inputs.profile.get("members_sample", []) or []
+    # Per-cluster officer set for overlap scoring.
+    cluster_officers = {
+        (o.get("officer_name") or "").lower() for o in inputs.officers if o.get("officer_name")
+    }
+
+    rows: list[dict[str, Any]] = []
+    for m in members_sample:
+        juris = (m.get("jurisdiction") or "").lower().strip()
+        name = m.get("name") or ""
+        adapter = adapters.get(juris)
+        if not adapter or not name:
+            continue
+        try:
+            hits = adapter.search(name, limit=3)
+        except Exception as exc:  # noqa: BLE001
+            log.warning("registry search failed for %s (%s): %s", name, juris, exc)
+            continue
+
+        for hit in hits:
+            # Calculate officer overlap if the adapter returned officers.
+            overlap_count = sum(
+                1 for o in getattr(hit, "officers", []) if o.name.lower() in cluster_officers
+            )
+            # Heuristic: a state-issued registry hit that overlaps on
+            # name + at least one officer with the cluster is
+            # publication-safe.
+            publication_safe = (
+                "true"
+                if (
+                    overlap_count > 0
+                    or hit.registry in {"sec_edgar_13d_13g", "brreg_norway", "inpi_france"}
+                )
+                else "needs_review"
+            )
+            rows.append(
+                {
+                    "cluster_member": name,
+                    "jurisdiction": juris,
+                    "registry": hit.registry,
+                    "match_type": "name_search",
+                    "registry_identifier": hit.identifier,
+                    "registry_name": hit.name,
+                    "registry_status": hit.status,
+                    "registry_address": hit.address,
+                    "officer_overlap": str(overlap_count),
+                    "sourceUrl": hit.sourceUrl,
+                    "publication_safe": publication_safe,
+                    "notes": hit.notes,
+                }
+            )
+    log.info("registry lookups: %d hits across cluster members", len(rows))
+    return rows
+
+
 def score_underreported(
     inputs: PackInputs, scored_hits: list[dict[str, Any]]
 ) -> list[dict[str, Any]]:
@@ -1195,6 +1308,7 @@ def corroborate(
     max_queries: int = 60,
     tavily_api_key: str | None = None,
     rescore_only: bool = False,
+    with_registry_lookups: bool = False,
 ) -> dict[str, Path]:
     """If ``rescore_only`` is True, skip Tavily and re-use the previously
     saved ``cluster_<id>_external_search_results.json``. Lets a scorer-only
@@ -1240,6 +1354,7 @@ def corroborate(
     delta = build_discovery_delta(inputs, scored)
     ledger = build_evidence_ledger(inputs, scored)
     underreported = score_underreported(inputs, scored)
+    registry_hits = run_registry_lookups(inputs) if with_registry_lookups else []
 
     # Output paths.
     paths = {
@@ -1253,6 +1368,7 @@ def corroborate(
         "timeline_csv": data / f"cluster_{cid}_timeline.csv",
         "evidence_ledger": data / f"cluster_{cid}_evidence_ledger.csv",
         "underreported": data / f"cluster_{cid}_underreported_entities.csv",
+        "registry_hits": data / f"cluster_{cid}_registry_hits.csv",
     }
 
     _write_json(paths["search_json"], raw_results)
@@ -1262,6 +1378,7 @@ def corroborate(
     _write_csv(paths["timeline_csv"], TIMELINE_HEADERS, timeline)
     _write_csv(paths["evidence_ledger"], EVIDENCE_LEDGER_HEADERS, ledger)
     _write_csv(paths["underreported"], UNDERREPORTED_HEADERS, underreported)
+    _write_csv(paths["registry_hits"], REGISTRY_HITS_HEADERS, registry_hits)
 
     paths["timeline_md"].parent.mkdir(parents=True, exist_ok=True)
     paths["timeline_md"].write_text(render_timeline_md(cid, person, timeline), encoding="utf-8")
@@ -1309,6 +1426,15 @@ def main(argv: list[str] | None = None) -> int:
         default=60,
         help="cap on Tavily API spend (default 60 high/medium queries)",
     )
+    p.add_argument(
+        "--with-registry-lookups",
+        action="store_true",
+        help=(
+            "dispatch each cluster member to the relevant national-registry "
+            "adapter (NO/FR/IE/NL/US) when its jurisdiction is supported. "
+            "Returns state-authoritative hits in cluster_<id>_registry_hits.csv."
+        ),
+    )
     p.add_argument("-v", "--verbose", action="store_true")
     args = p.parse_args(argv)
 
@@ -1324,6 +1450,7 @@ def main(argv: list[str] | None = None) -> int:
         run_external_search=args.run_external_search,
         max_queries=args.max_queries,
         rescore_only=args.rescore_only,
+        with_registry_lookups=args.with_registry_lookups,
     )
     print("Generated:")
     for kind, path in paths.items():
