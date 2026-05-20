@@ -76,3 +76,27 @@ def test_phase7_workflow_present():
     txt = wf.read_text(encoding="utf-8")
     assert "build_confidence_graph_expanded" in txt
     assert "workflow_dispatch" in txt
+
+
+def test_phase3_and_phase6_allowlist_and_workflows():
+    """Phase 3 / Phase 6 heavy scripts must be triggerable via the same
+    Railway dispatch pattern as Phases 0 / 7 (otherwise compute can't be
+    offloaded from the laptop)."""
+    js = (REPO_ROOT / "src" / "shellnet" / "job_server.py").read_text(encoding="utf-8")
+    assert "detect_cross_jurisdiction_twins" in js
+    assert "ingest_sec_13dg_bulk" in js
+    # Per CLAUDE.md: allowlist entries must NOT lead with "python".
+    for name in ("detect_cross_jurisdiction_twins", "ingest_sec_13dg_bulk"):
+        # The entry should look like "name": [\n        "scripts/..." — no "python" in between.
+        idx = js.find(f'"{name}":')
+        assert idx >= 0, f"{name} missing from allowlist"
+        snippet = js[idx : idx + 200]
+        assert '"python"' not in snippet, f"{name} entry must not lead with python"
+
+    wf3 = REPO_ROOT / ".github" / "workflows" / "detect-cross-jurisdiction-twins.yml"
+    wf6 = REPO_ROOT / ".github" / "workflows" / "ingest-sec-13dg-bulk.yml"
+    assert wf3.exists() and wf6.exists()
+    for wf in (wf3, wf6):
+        txt = wf.read_text(encoding="utf-8")
+        assert "SHELLNET_JOB_URL" in txt
+        assert "/run-script?name=" in txt
