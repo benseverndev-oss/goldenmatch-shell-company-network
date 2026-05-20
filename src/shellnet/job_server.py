@@ -703,10 +703,14 @@ _ALLOWED_SCRIPTS = {
     ],
     "ingest_sec_13dg_bulk": [
         "scripts/ingest_sec_13dg_bulk.py",
-        "--year",
-        "2025",
-        "--quarter",
-        "4",
+        # Phase 13: ingest 4 quarters instead of 1. Cap is per-quarter,
+        # so max total filings = 4 x 5000 = 20,000. Rate-limited at
+        # ~9 req/s, that's ~37 min Railway-side.
+        "--year-quarter",
+        "2025/1",
+        "2025/2",
+        "2025/3",
+        "2025/4",
         "--out",
         "/data/processed/sec_13dg_edges.parquet",
         "--limit",
@@ -715,6 +719,23 @@ _ALLOWED_SCRIPTS = {
         # words or a URL inside the UA returns 403.
         "--user-agent",
         "Ben Severn bsevern@mjhlifesciences.com",
+    ],
+    # Phase 11: select top-N anomaly communities' member UIDs from the
+    # previous recluster as extra seeds for the next pass.
+    "select_anomaly_seeds": [
+        "scripts/select_anomaly_seeds.py",
+        "--anomalies",
+        "/data/processed/confidence_community_anomalies.parquet",
+        "--communities",
+        "/data/processed/confidence_communities.parquet",
+        "--top-n",
+        "10",
+        "--min-anomaly-score",
+        "0.5",
+        "--threshold",
+        "0.9",
+        "--out",
+        "/data/processed/anomaly_seed_uids.parquet",
     ],
     # Phase 7: same graph builder, plus Phase-3 twin edges + Phase-6 SEC
     # 13D/G edges unioned into the ICIJ corpus before community detection.
@@ -728,6 +749,17 @@ _ALLOWED_SCRIPTS = {
         "/data/processed/sec_13dg_edges.parquet",
         "--sec-icij-bridges",
         "/data/processed/sec_icij_bridges.parquet",
+        # Phase 11: anomaly-community extra seeds. Skipped silently if
+        # the parquet isn't on disk yet (first recluster).
+        "--extra-seeds",
+        "/data/processed/anomaly_seed_uids.parquet",
+        # Phase 12: 3-hop BFS with per-hop degree pruning to reach
+        # bridged SEC/registry nodes that sit one hop past the
+        # rare-officer set.
+        "--hops",
+        "3",
+        "--min-frontier-degree-deep",
+        "2",
         "--dossier-parquet",
         "/data/processed/rare_officer_dossiers.parquet",
         "--out-edges",

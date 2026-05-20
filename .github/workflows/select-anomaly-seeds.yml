@@ -1,27 +1,24 @@
-name: Phase 6 — ingest SEC 13D/13G bulk (Railway-side compute)
+name: Phase 11 — select anomaly-community seeds (Railway-side compute)
 
-# Walks the EDGAR full-index for the year/quarter baked into the
-# `ingest_sec_13dg_bulk` allowlist entry in src/shellnet/job_server.py,
-# fetches per-filing SGML headers, and emits filer->subject edges.
-# Bump the year/quarter in the allowlist in a PR before re-running for
-# a different window.
+# Reads the previous recluster's anomaly + community parquets and emits
+# anomaly_seed_uids.parquet for the next recluster pass. Cheap (~1 min)
+# but must run AFTER one recluster (which produces the anomaly table)
+# and BEFORE the next (which consumes the seeds parquet).
 
 on:
   workflow_dispatch:
 
 concurrency:
-  group: ingest-sec-13dg-bulk
+  group: select-anomaly-seeds
   cancel-in-progress: false
 
 permissions:
   contents: write
 
 jobs:
-  ingest:
+  select:
     runs-on: ubuntu-latest
-    # Phase 13: 4 quarters x 5000 cap = 20,000 fetches at ~9 req/s rate
-    # limit = ~37 min HTTP + per-filing parse. Plus poll-loop overhead.
-    timeout-minutes: 75
+    timeout-minutes: 10
     env:
       SHELLNET_JOB_URL: ${{ vars.SHELLNET_JOB_URL }}
       SHELLNET_JOB_TOKEN: ${{ secrets.SHELLNET_JOB_TOKEN }}
@@ -33,20 +30,19 @@ jobs:
       - run: uv sync --frozen --no-dev
       - run: curl -fsS "$SHELLNET_JOB_URL/healthz"
 
-      - name: Trigger ingest_sec_13dg_bulk
+      - name: Trigger select_anomaly_seeds
         run: |
           set -euo pipefail
           curl -fsS -X POST -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
-            "$SHELLNET_JOB_URL/run-script?name=ingest_sec_13dg_bulk"
+            "$SHELLNET_JOB_URL/run-script?name=select_anomaly_seeds"
           echo
 
       - name: Poll until complete
         run: |
           set -euo pipefail
-          stage="script_ingest_sec_13dg_bulk"
+          stage="script_select_anomaly_seeds"
           done=false
-          # Up to ~70 minutes of polling for Phase 13's 4-quarter ingest.
-          for _ in $(seq 1 840); do
+          for _ in $(seq 1 120); do
             sleep 5
             s=$(curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" "$SHELLNET_JOB_URL/status" \
                 | python -c "import sys,json; d=json.load(sys.stdin); print(d['stages'].get('$stage',{}).get('status','?'))")
@@ -64,7 +60,7 @@ jobs:
       - name: Report output size
         run: |
           set -euo pipefail
-          size=$(curl -sI -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
-            "$SHELLNET_JOB_URL/download?path=processed/sec_13dg_edges.parquet" \
-            | awk '/Content-Length/ {print $2}' | tr -d '\r')
-          echo "  sec_13dg_edges.parquet: ${size:-?} bytes"
+          size=$(curl -s -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+            -o /dev/null -w "%{size_download}" \
+            "$SHELLNET_JOB_URL/download?path=processed/anomaly_seed_uids.parquet")
+          echo "  anomaly_seed_uids.parquet: ${size:-?} bytes"

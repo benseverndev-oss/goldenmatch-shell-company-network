@@ -78,6 +78,111 @@ def test_phase7_workflow_present():
     assert "workflow_dispatch" in txt
 
 
+def test_phase11_extra_seeds_flag_exposed(graph_mod):
+    """Phase 11 plumbs --extra-seeds into build_confidence_graph.main."""
+    import inspect
+
+    sig = inspect.signature(graph_mod.main)
+    assert "extra_seeds_parquet" in sig.parameters
+
+
+def test_phase12_hops_3_with_pruning_bounds_size(graph_mod):
+    """At hops=3 with min_frontier_degree_deep=2, the BFS only admits
+    candidates that bridge >= 2 visited nodes. A star topology (1 hub
+    + many one-degree leaves) should reach the hub but stop there.
+
+    Builds a synthetic graph where:
+      seed -> hubA (1 edge)
+      hubA -> leaf1, leaf2, leaf3, leaf4 (4 edges)
+      leaf1 -> tip1 (1 edge each — only reachable at hop 3)
+      leaf2 -> tip2
+      ...
+
+    With hops=3 + min_degree=2, the tips should be pruned out since
+    each connects to exactly one leaf (degree=1 into visited set).
+    """
+
+    import polars as pl
+
+    edges = pl.DataFrame(
+        {
+            "src_node": [
+                "seed",
+                "hubA",
+                "hubA",
+                "hubA",
+                "hubA",
+                "leaf1",
+                "leaf2",
+                "leaf3",
+                "leaf4",
+            ],
+            "dst_node": [
+                "hubA",
+                "leaf1",
+                "leaf2",
+                "leaf3",
+                "leaf4",
+                "tip1",
+                "tip2",
+                "tip3",
+                "tip4",
+            ],
+            "kind_raw": ["officer_of"] * 9,
+        }
+    )
+    sub = graph_mod._build_subgraph(
+        edges, seed_uids={"seed"}, hops=3, max_nodes=100, min_frontier_degree_deep=2
+    )
+    visited = set(sub["src_node"].to_list()) | set(sub["dst_node"].to_list())
+    # seed, hubA, leaf1-4 should all be in. tips should be filtered.
+    assert "seed" in visited
+    assert "hubA" in visited
+    assert "leaf1" in visited
+    assert "tip1" not in visited, (
+        "tip1 has only 1 edge into visited set; deep-pruning should drop it"
+    )
+
+
+def test_phase12_hops_3_min_degree_1_admits_leaves(graph_mod):
+    """Sanity: min_frontier_degree_deep=1 reproduces the pre-Phase-12
+    behaviour and admits one-degree leaves at hop 3."""
+    import polars as pl
+
+    edges = pl.DataFrame(
+        {
+            "src_node": ["seed", "mid", "tail"],
+            "dst_node": ["mid", "tail", "leaf"],
+            "kind_raw": ["officer_of"] * 3,
+        }
+    )
+    sub = graph_mod._build_subgraph(
+        edges, seed_uids={"seed"}, hops=3, max_nodes=100, min_frontier_degree_deep=1
+    )
+    visited = set(sub["src_node"].to_list()) | set(sub["dst_node"].to_list())
+    # leaf is the hop-3 node; with min_degree=1 it gets in.
+    assert "leaf" in visited
+
+
+def test_phase12_min_frontier_degree_deep_flag_exposed(graph_mod):
+    import inspect
+
+    sig = inspect.signature(graph_mod.main)
+    assert "min_frontier_degree_deep" in sig.parameters
+
+
+def test_phase11_max_nodes_default_raised(graph_mod):
+    """Phase 11 raised the --max-nodes default from 8000 to 16000 so the
+    expanded seed set has BFS headroom."""
+    import inspect
+
+    sig = inspect.signature(graph_mod.main)
+    default = sig.parameters["max_nodes"].default
+    # Default is a typer.OptionInfo wrapping the value.
+    value = getattr(default, "default", default)
+    assert value == 16000, f"expected 16000, got {value!r}"
+
+
 def test_phase3_and_phase6_allowlist_and_workflows():
     """Phase 3 / Phase 6 heavy scripts must be triggerable via the same
     Railway dispatch pattern as Phases 0 / 7 (otherwise compute can't be
