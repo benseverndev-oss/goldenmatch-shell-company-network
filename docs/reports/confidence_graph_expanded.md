@@ -1,6 +1,6 @@
 # Confidence-aware graph reconstruction
 
-_Generated 2026-05-20 19:10 UTC from `processed/confidence_graph_edges.parquet`,
+_Generated 2026-05-20 19:22 UTC from `processed/confidence_graph_edges.parquet`,
 `processed/confidence_communities.parquet`, and
 `processed/confidence_graph_summary.json`. Companion to
 [`methodology.md` §6](../paper/methodology.md)._
@@ -57,8 +57,8 @@ aligned subgraph.
 
 | Credibility bucket | Edges |
 |---|---:|
-| 0.70–0.90 | 25,551 |
-| ≥0.90 (structural) | 954 |
+| 0.70–0.90 | 25,547 |
+| ≥0.90 (structural) | 958 |
 | 0.50–0.70 | 61 |
 | <0.50 | 34 |
 
@@ -66,17 +66,17 @@ aligned subgraph.
 
 | Edge kind | Credibility | Edges in subgraph |
 |---|---:|---:|
-| `officer_of` | 0.77 | 17,357 |
-| `registered_address` | 0.90 | 7,093 |
-| `intermediary_of` | 0.85 | 2,040 |
+| `officer_of` | 0.77 | 17,375 |
+| `registered_address` | 0.90 | 7,095 |
+| `intermediary_of` | 0.85 | 2,020 |
 | `cross_jurisdictional_twin` | 0.68 | 61 |
 | `similar` | 0.42 | 21 |
 | `same_name_as` | 0.42 | 13 |
 | `same_company_as` | 0.77 | 9 |
 | `same_as` | 0.81 | 2 |
 | `same_id_as` | 0.90 | 2 |
-| `underlying` | 0.72 | 1 |
 | `psc_controller_of` | 0.89 | 1 |
+| `underlying` | 0.72 | 1 |
 
 
 ## Communities at three credibility thresholds
@@ -87,9 +87,9 @@ filtered graph.
 
 | Threshold | Edges retained | Communities | Largest | Median | Singletons |
 |---:|---:|---:|---:|---:|---:|
-| 0.50 | 23,604 | 49 | 3,082 | 12 | 3 |
-| 0.70 | 23,543 | 100 | 3,083 | 1 | 52 |
-| 0.90 | 954 | 6934 | 207 | 1 | 6855 |
+| 0.50 | 23,604 | 49 | 3,101 | 11 | 3 |
+| 0.70 | 23,543 | 100 | 3,101 | 1 | 52 |
+| 0.90 | 958 | 6930 | 205 | 1 | 6851 |
 
 
 ## Stability across thresholds
@@ -101,8 +101,8 @@ most-permissive threshold (0.50) and the most-strict threshold
 | Metric | Value |
 |---|---:|
 | Nodes evaluated | 7,888 |
-| Mean Jaccard overlap | **0.072** |
-| Nodes with overlap ≥ 0.5 | 480 (6.1%) |
+| Mean Jaccard overlap | **0.071** |
+| Nodes with overlap ≥ 0.5 | 481 (6.1%) |
 
 A mean Jaccard of 0.07 means **the community structure is
 unstable to credibility-threshold changes**.
@@ -124,13 +124,13 @@ relevant, not just structurally large).
 
 | Community ID | Size | Seed members |
 |---:|---:|---:|
-| 38 | 207 | 2 |
-| 41 | 163 | 3 |
-| 40 | 161 | 35 |
-| 36 | 150 | 2 |
+| 38 | 205 | 2 |
+| 41 | 164 | 3 |
+| 40 | 162 | 35 |
+| 36 | 153 | 2 |
 | 47 | 67 | 29 |
 | 39 | 44 | 4 |
-| 37 | 19 | 3 |
+| 37 | 20 | 3 |
 | 69 | 15 | 1 |
 | 42 | 14 | 10 |
 | 46 | 13 | 4 |
@@ -156,11 +156,11 @@ Top 10:
 |---:|---:|---:|---:|---:|---:|---:|
 | 1 | 55 | 4 | 3 | 0.75 | 1.00 | 0.900 |
 | 2 | 42 | 14 | 10 | 0.71 | 1.00 | 0.886 |
-| 3 | 75 | 3 | 2 | 0.67 | 1.00 | 0.867 |
-| 4 | 49 | 3 | 2 | 0.67 | 1.00 | 0.867 |
-| 5 | 64 | 3 | 2 | 0.67 | 1.00 | 0.867 |
-| 6 | 52 | 3 | 2 | 0.67 | 1.00 | 0.867 |
-| 7 | 29 | 3 | 2 | 0.67 | 1.00 | 0.867 |
+| 3 | 72 | 3 | 2 | 0.67 | 1.00 | 0.867 |
+| 4 | 64 | 3 | 2 | 0.67 | 1.00 | 0.867 |
+| 5 | 52 | 3 | 2 | 0.67 | 1.00 | 0.867 |
+| 6 | 29 | 3 | 2 | 0.67 | 1.00 | 0.867 |
+| 7 | 50 | 3 | 2 | 0.67 | 1.00 | 0.867 |
 | 8 | 45 | 4 | 2 | 0.50 | 1.00 | 0.800 |
 | 9 | 47 | 67 | 29 | 0.43 | 1.00 | 0.773 |
 | 10 | 6 | 3 | 1 | 0.33 | 1.00 | 0.733 |
@@ -209,33 +209,33 @@ Mean / min edge credibility within each community at the strict threshold (0.90)
 
 | Community | Internal edges | Mean credibility | Min credibility |
 |---:|---:|---:|---:|
-| 38 | 206 | 0.902 | 0.902 |
-| 41 | 162 | 0.902 | 0.902 |
-| 40 | 160 | 0.903 | 0.902 |
-| 36 | 149 | 0.902 | 0.902 |
+| 38 | 204 | 0.902 | 0.902 |
+| 41 | 163 | 0.902 | 0.902 |
+| 40 | 161 | 0.903 | 0.902 |
+| 36 | 152 | 0.903 | 0.902 |
 | 47 | 66 | 0.902 | 0.902 |
 | 39 | 43 | 0.902 | 0.902 |
-| 37 | 18 | 0.903 | 0.902 |
+| 37 | 19 | 0.903 | 0.902 |
 | 69 | 14 | 0.902 | 0.902 |
 | 42 | 13 | 0.902 | 0.902 |
 | 46 | 12 | 0.902 | 0.902 |
 
 ### Contradiction-aware closure
 
-Node pairs that share a community at the loose threshold but split across distinct communities at the strict threshold — the soft edges between them are the load-bearing assumptions. Detected: **5,046** pairs (capped).
+Node pairs that share a community at the loose threshold but split across distinct communities at the strict threshold — the soft edges between them are the load-bearing assumptions. Detected: **5,014** pairs (capped).
 
 | Node A | Node B | Loose community | Strict A | Strict B |
 |---|---|---:|---:|---:|
-| `icij:10102324` | `icij:12002435` | 0 | 96 | 6009 |
-| `icij:10102324` | `icij:12132752` | 0 | 96 | 15 |
-| `icij:10102324` | `icij:14029376` | 0 | 96 | 15 |
-| `icij:10102324` | `icij:10208459` | 0 | 96 | 160 |
-| `icij:10102324` | `icij:12002436` | 0 | 96 | 6010 |
-| `icij:10102324` | `icij:12002835` | 0 | 96 | 6012 |
-| `icij:10102324` | `icij:10032973` | 0 | 96 | 80 |
-| `icij:10102324` | `icij:11000123` | 0 | 96 | 79 |
-| `icij:10102324` | `icij:12002521` | 0 | 96 | 6011 |
-| `icij:10102324` | `icij:10105758` | 0 | 96 | 92 |
+| `icij:20161123` | `icij:10170877` | 0 | 6874 | 142 |
+| `icij:20161123` | `icij:20096636` | 0 | 6874 | 6872 |
+| `icij:20161123` | `oo:gb-coh-oe017787` | 0 | 6874 | 6887 |
+| `icij:20161123` | `icij:20100895` | 0 | 6874 | 6875 |
+| `icij:20161123` | `icij:12172503` | 0 | 6874 | 3 |
+| `icij:20161123` | `icij:14026430` | 0 | 6874 | 25 |
+| `icij:20161123` | `oo:gb-coh-08855125` | 0 | 6874 | 6906 |
+| `icij:20161123` | `icij:20160171` | 0 | 6874 | 6877 |
+| `icij:20161123` | `icij:10184260` | 0 | 6874 | 150 |
+| `icij:20161123` | `icij:12032353` | 0 | 6874 | 6029 |
 
 ### Review-priority ranking
 
