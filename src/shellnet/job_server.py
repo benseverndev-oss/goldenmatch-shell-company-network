@@ -753,13 +753,18 @@ _ALLOWED_SCRIPTS = {
         # the parquet isn't on disk yet (first recluster).
         "--extra-seeds",
         "/data/processed/anomaly_seed_uids.parquet",
-        # Phase 12: 3-hop BFS with per-hop degree pruning to reach
-        # bridged SEC/registry nodes that sit one hop past the
-        # rare-officer set.
+        # Phase 12: 3-hop BFS. The original deep-pruning default (=2)
+        # killed the SEC bridges because each bridge is a degree-1
+        # connection from ICIJ to SEC — exactly the case we want to
+        # preserve. min-degree=1 disables the prune. The 16k max-nodes
+        # cap was also binding (degree-tiebreak dropped the low-degree
+        # bridge endpoints), so we raise to 50k.
         "--hops",
         "3",
         "--min-frontier-degree-deep",
-        "2",
+        "1",
+        "--max-nodes",
+        "50000",
         "--dossier-parquet",
         "/data/processed/rare_officer_dossiers.parquet",
         "--out-edges",
