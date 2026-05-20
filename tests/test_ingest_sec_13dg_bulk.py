@@ -184,3 +184,65 @@ def test_no_hardcoded_absolute_paths():
     src = SCRIPT_PATH.read_text(encoding="utf-8")
     for token in ("C:\\Users", "/home/", "/Users/"):
         assert token not in src
+
+
+# ---------------------------------------------------------------------------
+# Real-corpus regression fixtures. These are actual SCHEDULE 13D / 13G
+# headers pulled from EDGAR's 2025 Q4 full-index in the Phase 9 fix.
+# The original synthetic fixture used the legacy bracketed format and
+# passed unit tests while extracting zero edges from real filings; these
+# fixtures lock the parser to the modern plain-text format.
+# ---------------------------------------------------------------------------
+
+FIXTURES_DIR = REPO_ROOT / "tests" / "fixtures" / "sec_13dg"
+
+
+def test_real_corpus_schedule_13d(mod):
+    """Live EDGAR SCHEDULE 13D filing: Catsimatidis Jr -> 1stdibs.com."""
+    text = (FIXTURES_DIR / "schedule_13d.txt").read_text(encoding="utf-8")
+    fields = mod.parse_sgml_header(text)
+    # Subject side
+    assert fields.get("subject-company.COMPANY CONFORMED NAME") == "1stdibs.com, Inc."
+    assert fields.get("subject-company.CENTRAL INDEX KEY") == "0001600641"
+    # Filer side uses the modern FILED BY: marker, not FILER:
+    assert fields.get("filed-by.COMPANY CONFORMED NAME") == "Catsimatidis John A. Jr"
+    assert fields.get("filed-by.CENTRAL INDEX KEY") == "0002022852"
+
+    edge = mod.extract_edge_from_sgml(
+        fields, accession="0001104659-25-115101", form="SCHEDULE 13D", filed_date="2025-11-21"
+    )
+    assert edge is not None
+    assert edge.filer_cik == "0002022852"
+    assert edge.subject_cik == "0001600641"
+    assert "Catsimatidis" in edge.filer_name
+    assert "1stdibs" in edge.subject_name
+
+
+def test_real_corpus_schedule_13g(mod):
+    """Live EDGAR SCHEDULE 13G: Newtyn Management -> 1-800-Flowers."""
+    text = (FIXTURES_DIR / "schedule_13g.txt").read_text(encoding="utf-8")
+    fields = mod.parse_sgml_header(text)
+    edge = mod.extract_edge_from_sgml(
+        fields, accession="0001493152-25-021595", form="SCHEDULE 13G", filed_date="2025-12-15"
+    )
+    assert edge is not None
+    assert edge.filer_cik == "0001569241"
+    assert edge.subject_cik == "0001084869"
+
+
+def test_form_idx_accepts_schedule_13d_and_13g(mod):
+    """SEC renamed forms from 'SC 13D' / 'SC 13G' to 'SCHEDULE 13D' / 'SCHEDULE 13G'.
+    The parser must match the new names AND continue rejecting SC 13E3 etc."""
+    sample = (
+        " Form Type      Company Name                                                  CIK         Date Filed  File Name\n"
+        "-" * 130 + "\n"
+        "SCHEDULE 13D     1stdibs.com, Inc.                                             1600641     2025-11-21  edgar/data/1600641/0001104659-25-115101.txt\n"
+        "SCHEDULE 13G/A   1 800 FLOWERS COM INC                                         1084869     2025-12-15  edgar/data/1084869/0001493152-25-021598.txt\n"
+        "SC 13E3          5&2 Studios, Inc.                                             1733443     2025-12-31  edgar/data/1733443/0001104659-25-125664.txt\n"
+        "10-K             ACME INC                                                      0000001     2025-10-01  edgar/data/1/0000001.txt\n"
+    )
+    entries = mod.parse_form_idx(sample)
+    forms = sorted(e.form for e in entries)
+    assert forms == ["SCHEDULE 13D", "SCHEDULE 13G/A"]
+    # SC 13E3 must NOT slip through (it has the "SC 13" substring).
+    assert all("13E" not in e.form for e in entries)

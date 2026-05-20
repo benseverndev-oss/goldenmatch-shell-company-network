@@ -45,20 +45,41 @@ sys.path.insert(0, str(_REPO_ROOT / "src"))
 
 log = logging.getLogger("ingest_sec_13dg_bulk")
 
-# Forms we want. Anything with prefix "SC 13D" or "SC 13G" (including /A).
-_INTERESTING_FORM_PREFIXES = ("SC 13D", "SC 13G")
+# Forms we want. SEC renamed "SC 13D" / "SC 13G" to "SCHEDULE 13D" /
+# "SCHEDULE 13G" (with "/A" amendments). The old prefixes match zero
+# 2025 Q4 filings — we keep them in the prefix list as a safety net for
+# any archived filings that may still use the old code, but every live
+# Phase-6 row should hit the new ones.
+_INTERESTING_FORM_PREFIXES = (
+    "SCHEDULE 13D",
+    "SCHEDULE 13G",
+    "SC 13D",
+    "SC 13G",
+)
 
 _FULL_INDEX_URL = "https://www.sec.gov/Archives/edgar/full-index/{year}/QTR{quarter}/form.idx"
 
-# An EDGAR full-index "form.idx" row is fixed-width text:
-#   Form Type      Company Name          CIK    Date Filed   Filename
-#   12 chars       62 chars              12     12           remainder
+# EDGAR's full-index form.idx is whitespace-separated rather than strictly
+# fixed-width. Form names may contain spaces ("SCHEDULE 13D"), so we anchor
+# on 2+ whitespace as the field separator.
 _IDX_ROW_RE = re.compile(
-    r"^(?P<form>.{12})(?P<company>.{62})(?P<cik>\d+)\s+(?P<date>\d{4}-\d{2}-\d{2})\s+(?P<path>\S+)\s*$"
+    r"^(?P<form>\S.*?)\s{2,}"
+    r"(?P<company>\S.*?)\s{2,}"
+    r"(?P<cik>\d+)\s+"
+    r"(?P<date>\d{4}-\d{2}-\d{2})\s+"
+    r"(?P<path>\S+)\s*$"
 )
 
-# SGML header field markers in a .txt filing.
-_SGML_FIELD_RE = re.compile(r"<(?P<tag>[A-Z\-]+)>(?P<value>[^\n<]+)")
+# Legacy bracketed SGML field marker, e.g. ``<CIK>0000999999``. Pre-2010-ish
+# vintage; kept for archived filings.
+_SGML_BRACKETED_FIELD_RE = re.compile(r"<(?P<tag>[A-Z\-]+)>(?P<value>[^\n<]+)")
+
+# Modern plain-text field marker, e.g. ``COMPANY CONFORMED NAME:\t\tACME``.
+# Keys are uppercase words separated by spaces, terminated by a colon.
+# Value follows after whitespace.
+_SGML_PLAIN_FIELD_RE = re.compile(
+    r"^\s*(?P<tag>[A-Z][A-Z\s\-]*[A-Z]):\s+(?P<value>\S.*?)\s*$"
+)
 
 
 @dataclass(frozen=True)
@@ -127,22 +148,33 @@ def parse_form_idx(text: str) -> list[IndexEntry]:
 def parse_sgml_header(text: str) -> dict[str, str]:
     """Extract the SGML header fields from an EDGAR .txt filing.
 
-    The filing wraps the actual documents but the header block at the top
-    has FILER / SUBJECT-COMPANY sub-sections with COMPANY-DATA / CIK /
-    CONFORMED-NAME tags. We only care about a few of these.
+    Supports both the legacy bracketed format (``<CIK>0000999999``,
+    pre-2010-ish vintage) and the modern plain-text format
+    (``CENTRAL INDEX KEY:\\t0000999999``) that all 2025 Q4 SCHEDULE 13D/G
+    filings use. The two formats may also be mixed within one filing.
+
+    Section markers in the modern format:
+      ``SUBJECT COMPANY:``  -> ``subject-company``
+      ``FILED BY:``         -> ``filed-by``  (NOT ``FILER:``)
+      ``REPORTING-OWNER:``  -> ``reporting-owner``
+
+    Each field gets a key like ``<section>.<TAG>`` where TAG retains its
+    original spacing (e.g. ``subject-company.COMPANY CONFORMED NAME``)
+    so downstream consumers can look up either style.
     """
 
     fields: dict[str, str] = {}
     section: str | None = None
-    # Maps the canonical block-header forms EDGAR emits to our normalised
-    # section keys. Both bracketed (``<FILER>``) and colon-terminated
-    # (``SUBJECT COMPANY:``) styles appear across vintages.
     _section_aliases = {
+        # Legacy bracketed-style markers
         "<SUBJECT-COMPANY>": "subject-company",
-        "SUBJECT COMPANY:": "subject-company",
         "<FILER>": "filer",
-        "FILER:": "filer",
         "<REPORTING-OWNER>": "reporting-owner",
+        # Modern plain-text markers. Trailing tabs/spaces are stripped
+        # before lookup so "SUBJECT COMPANY:" matches "SUBJECT COMPANY:\\t".
+        "SUBJECT COMPANY:": "subject-company",
+        "FILER:": "filer",
+        "FILED BY:": "filed-by",
         "REPORTING-OWNER:": "reporting-owner",
         "REPORTING OWNER:": "reporting-owner",
     }
@@ -151,15 +183,30 @@ def parse_sgml_header(text: str) -> dict[str, str]:
         if s in _section_aliases:
             section = _section_aliases[s]
             continue
-        m = _SGML_FIELD_RE.match(s)
-        if not m:
+
+        tag: str | None = None
+        value: str | None = None
+        # Try the legacy bracketed format first; if it doesn't match,
+        # fall back to the modern plain-text format.
+        m = _SGML_BRACKETED_FIELD_RE.match(s)
+        if m:
+            tag = m.group("tag")
+            value = m.group("value").strip()
+        else:
+            m = _SGML_PLAIN_FIELD_RE.match(line)
+            if m:
+                tag = m.group("tag").strip()
+                value = m.group("value").strip()
+                # Skip the section sub-headers that look like plain fields
+                # but have no value past the colon (e.g. "COMPANY DATA:").
+                if not value:
+                    continue
+        if tag is None or value is None:
             continue
-        tag = m.group("tag")
-        value = m.group("value").strip()
         prefix = (section or "header") + "."
-        # Only collect the *first* occurrence per scoped key to avoid the
-        # OPERATING-DATA / FILING-VALUES blocks overwriting things.
         key = f"{prefix}{tag}"
+        # First-occurrence-wins so nested FILING VALUES / BUSINESS ADDRESS
+        # blocks don't overwrite the top-level section field.
         if key not in fields:
             fields[key] = value
     return fields
@@ -169,16 +216,47 @@ def extract_edge_from_sgml(
     fields: dict[str, str], *, accession: str, form: str, filed_date: str
 ) -> Filing13DGEdge | None:
     """Construct a single filer->subject edge from parsed SGML header
-    fields. Returns None if either side is missing."""
+    fields. Returns None if either side is missing.
 
-    filer_cik = fields.get("filer.CIK") or fields.get("reporting-owner.CIK")
-    filer_name = (
-        fields.get("filer.COMPANY-CONFORMED-NAME")
-        or fields.get("reporting-owner.COMPANY-CONFORMED-NAME")
-        or ""
+    Looks up keys in both the legacy bracketed format (tags like ``CIK``,
+    ``COMPANY-CONFORMED-NAME``) and the modern plain-text format (tags
+    like ``CENTRAL INDEX KEY``, ``COMPANY CONFORMED NAME``). Also accepts
+    the modern ``FILED BY:`` section in addition to the legacy ``FILER:``.
+    """
+
+    def _first(*keys: str) -> str:
+        for k in keys:
+            v = fields.get(k)
+            if v:
+                return v
+        return ""
+
+    filer_cik = _first(
+        # modern plain-text style first (live filings)
+        "filed-by.CENTRAL INDEX KEY",
+        "filer.CENTRAL INDEX KEY",
+        "reporting-owner.CENTRAL INDEX KEY",
+        # legacy bracketed style
+        "filed-by.CIK",
+        "filer.CIK",
+        "reporting-owner.CIK",
     )
-    subject_cik = fields.get("subject-company.CIK")
-    subject_name = fields.get("subject-company.COMPANY-CONFORMED-NAME") or ""
+    filer_name = _first(
+        "filed-by.COMPANY CONFORMED NAME",
+        "filer.COMPANY CONFORMED NAME",
+        "reporting-owner.COMPANY CONFORMED NAME",
+        "filed-by.COMPANY-CONFORMED-NAME",
+        "filer.COMPANY-CONFORMED-NAME",
+        "reporting-owner.COMPANY-CONFORMED-NAME",
+    )
+    subject_cik = _first(
+        "subject-company.CENTRAL INDEX KEY",
+        "subject-company.CIK",
+    )
+    subject_name = _first(
+        "subject-company.COMPANY CONFORMED NAME",
+        "subject-company.COMPANY-CONFORMED-NAME",
+    )
 
     if not filer_cik or not subject_cik:
         return None
