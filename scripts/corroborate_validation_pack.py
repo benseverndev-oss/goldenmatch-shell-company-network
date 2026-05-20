@@ -496,11 +496,36 @@ def score_hits(
             if _match_terms(text, vocab):
                 matched.append(label)
 
+        # Specific-entity gate: a hit only earns high relevance if the
+        # cluster entity actually appears in the page text. Without this,
+        # high-quality domains (OFAC, SEC) + topical vocabulary (malta,
+        # offshore) compose to relevance=1.0 even when the page is a
+        # generic action list that doesn't name the target. That's a
+        # defamation hazard — a reviewer might lift "OFAC 1.0" as
+        # corroboration of a sanctions designation that doesn't exist.
+        specific_match_terms = {"target", "target_normalized", "cluster_member", "person"}
+        has_specific = bool(specific_match_terms.intersection(matched))
+
         # Composite score: base domain quality + bonus for matched terms.
         term_bonus = min(0.4, 0.08 * len(set(matched)))
         target_bonus = 0.10 if "target" in matched or "target_normalized" in matched else 0
         person_bonus = 0.10 if "person" in matched else 0
-        relevance = round(min(1.0, base + term_bonus + target_bonus + person_bonus), 3)
+        raw_relevance = base + term_bonus + target_bonus + person_bonus
+
+        if has_specific:
+            relevance = round(min(1.0, raw_relevance), 3)
+            note = ""
+        else:
+            # No entity from this cluster is named in the page body.
+            # Hard-cap relevance at 0.5 regardless of domain quality.
+            # This keeps the hit visible to the reviewer (it's still on
+            # a credible domain about a credible topic) but disqualifies
+            # it from auto-counting as corroboration.
+            relevance = round(min(0.5, base * 0.5 + term_bonus * 0.5), 3)
+            note = (
+                "no specific cluster entity named in page body; "
+                "treat as topical-only, not corroboration."
+            )
 
         # supports / contradicts at this stage is a heuristic: a high-quality
         # domain matching both the target AND person counts as supporting
@@ -529,7 +554,7 @@ def score_hits(
                 "supports_edge": supports,
                 "contradicts_edge": "",  # filled by human review
                 "needs_human_review": "true" if relevance < 0.75 else "false",
-                "notes": "",
+                "notes": note,
             }
         )
 
@@ -1169,7 +1194,12 @@ def corroborate(
     run_external_search: bool = False,
     max_queries: int = 60,
     tavily_api_key: str | None = None,
+    rescore_only: bool = False,
 ) -> dict[str, Path]:
+    """If ``rescore_only`` is True, skip Tavily and re-use the previously
+    saved ``cluster_<id>_external_search_results.json``. Lets a scorer-only
+    change ship without burning API spend on already-fetched results."""
+
     inputs = load_pack(community_id, person, pack_dir=pack_dir, repo_root=repo_root)
     base = inputs.pack_dir
     data = inputs.data_dir
@@ -1178,7 +1208,17 @@ def corroborate(
     # Step 1: search.
     raw_results: list[dict[str, Any]] = []
     search_was_run = False
-    if run_external_search:
+    if rescore_only:
+        existing = data / f"cluster_{cid}_external_search_results.json"
+        if not existing.exists():
+            raise SystemExit(
+                f"[fatal] --rescore-only set but {existing} not found. "
+                "Run corroborate with --run-external-search first."
+            )
+        raw_results = json.loads(existing.read_text(encoding="utf-8")) or []
+        search_was_run = bool(raw_results)
+        log.info("rescore-only: reusing %d previously fetched results", len(raw_results))
+    elif run_external_search:
         api_key = tavily_api_key or os.environ.get("TAVILY_API_KEY")
         if api_key:
             raw_results = run_search_queue(
@@ -1256,6 +1296,14 @@ def main(argv: list[str] | None = None) -> int:
         help="actually call Tavily. Requires TAVILY_API_KEY.",
     )
     p.add_argument(
+        "--rescore-only",
+        action="store_true",
+        help=(
+            "skip Tavily; re-use existing cluster_<id>_external_search_results.json. "
+            "Useful when only the scoring logic changed."
+        ),
+    )
+    p.add_argument(
         "--max-queries",
         type=int,
         default=60,
@@ -1275,6 +1323,7 @@ def main(argv: list[str] | None = None) -> int:
         pack_dir=args.pack_dir,
         run_external_search=args.run_external_search,
         max_queries=args.max_queries,
+        rescore_only=args.rescore_only,
     )
     print("Generated:")
     for kind, path in paths.items():

@@ -16,13 +16,11 @@ GoldenMatch surfaced a 19-entity cluster (#37) with 95% shared-address rate and 
 - Isolation: 1.0 (1.0 = no bridges to other clusters)
 
 ## What was already publicly known
-- AESIR HOLDINGS LIMITED mentioned in public sources — `https://offshoreleaks.icij.org/nodes/55041908;https://www.sec.gov/Archives/edgar/data/356590/000149315218011432/R12.htm;https://find-and-update.company-information.service.gov.uk/company/14974007`
-- Aragon Finance Limited mentioned in public sources — `https://find-and-update.company-information.service.gov.uk/company/08682281/persons-with-significant-control;https://find-and-update.company-information.service.gov.uk/company/10690572/more;https://www.sec.gov/enforcement-litigation/litigation-releases`
-- BAGUNU FINANCE LIMITED mentioned in public sources — `https://offshoreleaks.icij.org/nodes/55041912;https://ofac.treasury.gov/recent-actions/20250428;https://www.sec.gov/Archives/edgar/data/1448397/000114036122012362/brhc10035641_ex4-53.htm`
-- BROMPTON FINANCE LIMITED mentioned in public sources — `https://find-and-update.company-information.service.gov.uk/company/07671006;https://find-and-update.company-information.service.gov.uk/company/01763668/filing-history;https://find-and-update.company-information.service.gov.uk/company/07671006`
-- Bodog Music (Europe) Limited mentioned in public sources — `https://offshoreleaks.icij.org/nodes/56096569;https://find-and-update.company-information.service.gov.uk/company/11712404;https://find-and-update.company-information.service.gov.uk/company/11712404`
-- COSMO (MALTA) LIMITED mentioned in public sources — `https://offshoreleaks.icij.org/nodes/55040688;https://find-and-update.company-information.service.gov.uk/company/13627421/officers;https://find-and-update.company-information.service.gov.uk/company/00735065/insolvency`
-- Cochrane Finance Limited mentioned in public sources — `https://find-and-update.company-information.service.gov.uk/company/10989064/filing-history`
+- AESIR HOLDINGS LIMITED mentioned in public sources — `https://offshoreleaks.icij.org/nodes/55041908`
+- Aragon Finance Limited mentioned in public sources — `https://find-and-update.company-information.service.gov.uk/company/08682281/persons-with-significant-control`
+- BAGUNU FINANCE LIMITED mentioned in public sources — `https://offshoreleaks.icij.org/nodes/55041912`
+- Bodog Music (Europe) Limited mentioned in public sources — `https://offshoreleaks.icij.org/nodes/56096569`
+- COSMO (MALTA) LIMITED mentioned in public sources — `https://offshoreleaks.icij.org/nodes/55040688`
 
 ## What appears underreported
 - **Sutherland Finance Limited** (uid icij:55030232): graph_degree=9, web_hits=0, underreported_score=1.0
@@ -57,10 +55,10 @@ GoldenMatch surfaced a 19-entity cluster (#37) with 95% shared-address rate and 
 - [tertiary] Calvin Ayre - Wikipedia — https://en.wikipedia.org/wiki/Calvin_Ayre (score 1.0)
 - [tertiary] Calvin Ayre - Wikipedia — https://en.wikipedia.org/wiki/Calvin_Ayre (score 1.0)
 - [leak_primary] AESIR HOLDINGS LIMITED | ICIJ Offshore Leaks Database — https://offshoreleaks.icij.org/nodes/55041908 (score 1.0)
-- [regulator] Untitled — https://www.sec.gov/Archives/edgar/data/356590/000149315218011432/R12.htm (score 1.0)
-- [regulator] AESIR INVESTMENTS LTD overview - Companies House - GOV.UK — https://find-and-update.company-information.service.gov.uk/company/14974007 (score 1.0)
-- [regulator] Russia-related Designations and Designations Updates; Issuance of Russia-related General Licenses; Issuance and Amendment of Russia-related Frequently Asked Questions | Office of Foreign Assets Control — https://ofac.treasury.gov/recent-actions/20240823 (score 1.0)
-- [regulator] OFSI Consolidated List Search — https://sanctionssearchapp.ofsi.hmtreasury.gov.uk/ (score 1.0)
+- [regulator] ARAGON FINANCE LIMITED persons with significant control — https://find-and-update.company-information.service.gov.uk/company/08682281/persons-with-significant-control (score 1.0)
+- [leak_primary] BAGUNU FINANCE LIMITED | ICIJ Offshore Leaks Database — https://offshoreleaks.icij.org/nodes/55041912 (score 1.0)
+- [leak_primary] JAMES LEONARD PHILIP | ICIJ Offshore Leaks Database — https://offshoreleaks.icij.org/nodes/56096569 (score 1.0)
+- [leak_primary] COSMO (MALTA) LIMITED | ICIJ Offshore Leaks Database — https://offshoreleaks.icij.org/nodes/55040688 (score 1.0)
 
 ## Contradictions / caveats
 - Same-name does not imply same-person. The anchor uids are unverified.

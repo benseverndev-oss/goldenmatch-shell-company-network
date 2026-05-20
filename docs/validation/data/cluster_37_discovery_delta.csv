@@ -1,12 +1,10 @@
 fact,category,public_knowledge,goldenmatch_added,sources,needs_human_review
-AESIR HOLDINGS LIMITED mentioned in public sources,publicly_known,true,false,https://offshoreleaks.icij.org/nodes/55041908;https://www.sec.gov/Archives/edgar/data/356590/000149315218011432/R12.htm;https://find-and-update.company-information.service.gov.uk/company/14974007,true
-Aragon Finance Limited mentioned in public sources,publicly_known,true,false,https://find-and-update.company-information.service.gov.uk/company/08682281/persons-with-significant-control;https://find-and-update.company-information.service.gov.uk/company/10690572/more;https://www.sec.gov/enforcement-litigation/litigation-releases,true
-BAGUNU FINANCE LIMITED mentioned in public sources,publicly_known,true,false,https://offshoreleaks.icij.org/nodes/55041912;https://ofac.treasury.gov/recent-actions/20250428;https://www.sec.gov/Archives/edgar/data/1448397/000114036122012362/brhc10035641_ex4-53.htm,true
-BROMPTON FINANCE LIMITED mentioned in public sources,publicly_known,true,false,https://find-and-update.company-information.service.gov.uk/company/07671006;https://find-and-update.company-information.service.gov.uk/company/01763668/filing-history;https://find-and-update.company-information.service.gov.uk/company/07671006,true
-Bodog Music (Europe) Limited mentioned in public sources,publicly_known,true,false,https://offshoreleaks.icij.org/nodes/56096569;https://find-and-update.company-information.service.gov.uk/company/11712404;https://find-and-update.company-information.service.gov.uk/company/11712404,true
-COSMO (MALTA) LIMITED mentioned in public sources,publicly_known,true,false,https://offshoreleaks.icij.org/nodes/55040688;https://find-and-update.company-information.service.gov.uk/company/13627421/officers;https://find-and-update.company-information.service.gov.uk/company/00735065/insolvency,true
-Cochrane Finance Limited mentioned in public sources,publicly_known,true,false,https://find-and-update.company-information.service.gov.uk/company/10989064/filing-history,true
+AESIR HOLDINGS LIMITED mentioned in public sources,publicly_known,true,false,https://offshoreleaks.icij.org/nodes/55041908,true
+Aragon Finance Limited mentioned in public sources,publicly_known,true,false,https://find-and-update.company-information.service.gov.uk/company/08682281/persons-with-significant-control,true
+BAGUNU FINANCE LIMITED mentioned in public sources,publicly_known,true,false,https://offshoreleaks.icij.org/nodes/55041912,true
+Bodog Music (Europe) Limited mentioned in public sources,publicly_known,true,false,https://offshoreleaks.icij.org/nodes/56096569,true
+COSMO (MALTA) LIMITED mentioned in public sources,publicly_known,true,false,https://offshoreleaks.icij.org/nodes/55040688,true
 Cluster #37 contains 19 entities tied together by uncertainty-propagated edges,structural,false,true,docs/validation/data/cluster_37_profile.json,false
 1 address(es) recur across 95% of cluster members,infrastructure_reuse,false,true,docs/validation/data/cluster_37_repeated_addresses.csv,false
 7 officer(s) appear on 95% of cluster members,infrastructure_reuse,false,true,docs/validation/data/cluster_37_repeated_officers.csv,false
-12 cluster members have zero credible web mentions after fanned-out search,underreported,false,true,docs/validation/data/cluster_37_underreported_entities.csv,false
+13 cluster members have zero credible web mentions after fanned-out search,underreported,false,true,docs/validation/data/cluster_37_underreported_entities.csv,false
