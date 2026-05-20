@@ -78,6 +78,26 @@ def test_phase7_workflow_present():
     assert "workflow_dispatch" in txt
 
 
+def test_phase11_extra_seeds_flag_exposed(graph_mod):
+    """Phase 11 plumbs --extra-seeds into build_confidence_graph.main."""
+    import inspect
+
+    sig = inspect.signature(graph_mod.main)
+    assert "extra_seeds_parquet" in sig.parameters
+
+
+def test_phase11_max_nodes_default_raised(graph_mod):
+    """Phase 11 raised the --max-nodes default from 8000 to 16000 so the
+    expanded seed set has BFS headroom."""
+    import inspect
+
+    sig = inspect.signature(graph_mod.main)
+    default = sig.parameters["max_nodes"].default
+    # Default is a typer.OptionInfo wrapping the value.
+    value = getattr(default, "default", default)
+    assert value == 16000, f"expected 16000, got {value!r}"
+
+
 def test_phase3_and_phase6_allowlist_and_workflows():
     """Phase 3 / Phase 6 heavy scripts must be triggerable via the same
     Railway dispatch pattern as Phases 0 / 7 (otherwise compute can't be

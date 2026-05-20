@@ -716,6 +716,23 @@ _ALLOWED_SCRIPTS = {
         "--user-agent",
         "Ben Severn bsevern@mjhlifesciences.com",
     ],
+    # Phase 11: select top-N anomaly communities' member UIDs from the
+    # previous recluster as extra seeds for the next pass.
+    "select_anomaly_seeds": [
+        "scripts/select_anomaly_seeds.py",
+        "--anomalies",
+        "/data/processed/confidence_community_anomalies.parquet",
+        "--communities",
+        "/data/processed/confidence_communities.parquet",
+        "--top-n",
+        "10",
+        "--min-anomaly-score",
+        "0.5",
+        "--threshold",
+        "0.9",
+        "--out",
+        "/data/processed/anomaly_seed_uids.parquet",
+    ],
     # Phase 7: same graph builder, plus Phase-3 twin edges + Phase-6 SEC
     # 13D/G edges unioned into the ICIJ corpus before community detection.
     "build_confidence_graph_expanded": [
@@ -728,6 +745,10 @@ _ALLOWED_SCRIPTS = {
         "/data/processed/sec_13dg_edges.parquet",
         "--sec-icij-bridges",
         "/data/processed/sec_icij_bridges.parquet",
+        # Phase 11: anomaly-community extra seeds. Skipped silently if
+        # the parquet isn't on disk yet (first recluster).
+        "--extra-seeds",
+        "/data/processed/anomaly_seed_uids.parquet",
         "--dossier-parquet",
         "/data/processed/rare_officer_dossiers.parquet",
         "--out-edges",

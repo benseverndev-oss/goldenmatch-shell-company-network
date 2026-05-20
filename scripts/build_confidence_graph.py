@@ -221,6 +221,16 @@ def main(
         "--dossier-parquet",
         help="Source of seed entity UIDs. We anchor the subgraph on these.",
     ),
+    extra_seeds_parquet: Path | None = typer.Option(
+        None,
+        "--extra-seeds",
+        help=(
+            "Optional Phase-11 anomaly_seed_uids.parquet (single 'uid' "
+            "column). UIDs added to the seed set BEFORE the BFS so their "
+            "2-hop neighbourhoods enter the subgraph alongside the "
+            "rare-officer dossier set. Skipped silently if missing."
+        ),
+    ),
     out_edges: Path = typer.Option(
         PROCESSED_DIR / "confidence_graph_edges.parquet",
         "--out-edges",
@@ -234,7 +244,15 @@ def main(
         "--out-summary",
     ),
     hops: int = typer.Option(2, "--hops"),
-    max_nodes: int = typer.Option(8000, "--max-nodes"),
+    max_nodes: int = typer.Option(
+        16000,
+        "--max-nodes",
+        help=(
+            "Phase 11 raised this from 8,000 to 16,000 — the extra "
+            "anomaly seeds + their 2-hop neighbourhoods push the BFS "
+            "past the old cap."
+        ),
+    ),
     seed: int = typer.Option(42, "--seed"),
     verbose: bool = typer.Option(False, "--verbose", "-v"),
 ) -> None:
@@ -268,6 +286,25 @@ def main(
         len(seed_person_uids),
         len(seed_company_uids),
     )
+
+    # Phase 11: optional anomaly-community seeds. These broaden the BFS
+    # reach so bridged SEC/registry entities sitting one hop past the
+    # rare-officer set can enter the subgraph.
+    if extra_seeds_parquet and extra_seeds_parquet.exists():
+        extra_df = pl.read_parquet(extra_seeds_parquet)
+        if "uid" not in extra_df.columns:
+            raise SystemExit(
+                f"[fatal] {extra_seeds_parquet} must have a 'uid' column; got {extra_df.columns}"
+            )
+        extra_uids = extra_df["uid"].drop_nulls().to_list()
+        new_seeds = set(extra_uids) - seeds
+        seeds |= set(extra_uids)
+        log.info(
+            "Phase-11 extra seeds: +%d new (%d in parquet, %d already in dossier set)",
+            len(new_seeds),
+            len(extra_uids),
+            len(extra_uids) - len(new_seeds),
+        )
 
     log.info("scanning %s ...", edges_parquet)
     edge_cols = pl.scan_parquet(edges_parquet).collect_schema().names()
