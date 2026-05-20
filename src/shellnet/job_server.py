@@ -801,6 +801,13 @@ _ALLOWED_SCRIPTS = {
         "--out",
         "/data/raw/scrapers/members-financial-interests/members-financial-interests.csv",
     ],
+    "ingest_openownership_uk_psc": [
+        "scripts/ingest_openownership_uk_psc.py",
+        "--bundle-zip",
+        "/data/raw/openownership/uk_psc_v0_4.zip",
+        "--out-dir",
+        "/data/processed",
+    ],
 }
 
 
