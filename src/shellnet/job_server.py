@@ -680,6 +680,11 @@ _ALLOWED_SCRIPTS = {
         "/data/processed/oo_uk_psc_entities.parquet",
         "--out",
         "/data/processed/cross_jurisdiction_twins.parquet",
+        # At 5.79M OO rows the abbreviation pre-filter OOMs Railway
+        # before any semi-join can shrink the frames. Strict_root alone
+        # still catches PROBUTEC-style direct twins, which is the
+        # roadmap target.
+        "--no-abbrev",
     ],
     # Phase 6: bulk SEC EDGAR 13D/G ingest. Year/quarter are baked in;
     # bump them in a PR when re-running for a different window. Caps the

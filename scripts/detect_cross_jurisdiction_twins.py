@@ -265,11 +265,19 @@ def build_name_index(
     )
 
 
-def detect_twins(left: pl.DataFrame, right: pl.DataFrame) -> pl.DataFrame:
+def detect_twins(
+    left: pl.DataFrame, right: pl.DataFrame, *, include_abbrev: bool = True
+) -> pl.DataFrame:
     """Inner-join ``left`` and ``right`` on (root) AND on (abbrev <-> root)
     to surface strict-root + abbrev candidate twin pairs.
 
     Both frames must already be processed by :func:`build_name_index`.
+
+    Set ``include_abbrev=False`` for corpus-scale runs (5M+ rows): the
+    abbreviation paths materialise the unfiltered frame before any
+    semi-join can shrink them and OOM the Railway container. The
+    strict_root path alone catches the cases we care about (PROBUTEC,
+    direct name twins).
     """
 
     # Drop short or generic roots. At corpus scale (5.79M OO x 814k ICIJ)
@@ -326,49 +334,54 @@ def detect_twins(left: pl.DataFrame, right: pl.DataFrame) -> pl.DataFrame:
     strict_raw = strict_left.join(strict_right, on="root", how="inner", suffix="_r")
     strict = _project(strict_raw, match_type="strict_root", confidence=0.95)
 
-    # Abbreviation joins. Two-letter acronyms collide too often at corpus
-    # scale; require >=3 letters. Then apply the same shared-key semi-join
-    # used by the strict path so the inner joins below don't have to
-    # materialise full-corpus cross-products.
-    left_abbrev = (
-        left.filter(pl.col("abbrev_root").str.len_chars() >= 3)
-        .drop("root")
-        .rename({"abbrev_root": "root"})
-    )
-    right_abbrev = (
-        right.filter(pl.col("abbrev_root").str.len_chars() >= 3)
-        .drop("root")
-        .rename({"abbrev_root": "root"})
-    )
+    pieces = [strict]
 
-    def _semi_join(a: pl.DataFrame, b: pl.DataFrame) -> tuple[pl.DataFrame, pl.DataFrame]:
-        """Filter both ``a`` and ``b`` to rows whose ``root`` value also
-        appears in the other side. Cheap two-pass semi-join replacement."""
-        shared = a.select("root").unique().join(
-            b.select("root").unique(), on="root", how="inner"
+    if include_abbrev:
+        # Abbreviation joins. Two-letter acronyms collide too often at
+        # corpus scale; require >=3 letters. Apply the same shared-key
+        # semi-join used by the strict path so the inner joins below
+        # don't materialise full-corpus cross-products.
+        left_abbrev = (
+            left.filter(pl.col("abbrev_root").str.len_chars() >= 3)
+            .drop("root")
+            .rename({"abbrev_root": "root"})
         )
-        return (
-            a.join(shared, on="root", how="inner"),
-            b.join(shared, on="root", how="inner"),
+        right_abbrev = (
+            right.filter(pl.col("abbrev_root").str.len_chars() >= 3)
+            .drop("root")
+            .rename({"abbrev_root": "root"})
         )
 
-    # 2. Abbreviation match: left.abbrev_root == right.root.
-    al, ar = _semi_join(left_abbrev, right)
-    abbrev_l_raw = al.join(ar, on="root", how="inner", suffix="_r")
-    abbrev_l = _project(abbrev_l_raw, match_type="abbrev_left", confidence=0.80)
+        def _semi_join(
+            a: pl.DataFrame, b: pl.DataFrame
+        ) -> tuple[pl.DataFrame, pl.DataFrame]:
+            """Filter both ``a`` and ``b`` to rows whose ``root`` value
+            also appears in the other side. Cheap two-pass semi-join."""
+            shared = a.select("root").unique().join(
+                b.select("root").unique(), on="root", how="inner"
+            )
+            return (
+                a.join(shared, on="root", how="inner"),
+                b.join(shared, on="root", how="inner"),
+            )
 
-    # 3. Abbreviation match the other way: right.abbrev_root == left.root.
-    bl, br = _semi_join(right_abbrev, left)
-    abbrev_r_raw = bl.join(br, on="root", how="inner", suffix="_r")
-    abbrev_r = _project(abbrev_r_raw, match_type="abbrev_right", confidence=0.80)
+        # 2. Abbreviation match: left.abbrev_root == right.root.
+        al, ar = _semi_join(left_abbrev, right)
+        abbrev_l_raw = al.join(ar, on="root", how="inner", suffix="_r")
+        pieces.append(_project(abbrev_l_raw, match_type="abbrev_left", confidence=0.80))
 
-    # 4. Both-sides abbreviation match: shared acronym. Lower confidence
-    # because acronym collisions are more common ("IC" can be many things).
-    cl, cr = _semi_join(left_abbrev, right_abbrev)
-    abbrev_both_raw = cl.join(cr, on="root", how="inner", suffix="_r")
-    abbrev_both = _project(abbrev_both_raw, match_type="abbrev_both", confidence=0.65)
+        # 3. Abbreviation match the other way: right.abbrev_root == left.root.
+        bl, br = _semi_join(right_abbrev, left)
+        abbrev_r_raw = bl.join(br, on="root", how="inner", suffix="_r")
+        pieces.append(_project(abbrev_r_raw, match_type="abbrev_right", confidence=0.80))
 
-    pairs = pl.concat([strict, abbrev_l, abbrev_r, abbrev_both], how="diagonal")
+        # 4. Both-sides abbreviation match: shared acronym. Lower confidence
+        # because acronym collisions are more common ("IC" can be many things).
+        cl, cr = _semi_join(left_abbrev, right_abbrev)
+        abbrev_both_raw = cl.join(cr, on="root", how="inner", suffix="_r")
+        pieces.append(_project(abbrev_both_raw, match_type="abbrev_both", confidence=0.65))
+
+    pairs = pl.concat(pieces, how="diagonal")
     # Filter same-jurisdiction pairs out — twins must be cross-jurisdictional.
     pairs = pairs.filter(pl.col("src_jurisdiction") != pl.col("dst_jurisdiction"))
     # Filter same-uid (shouldn't happen but defensive).
@@ -409,6 +422,17 @@ def main(argv: list[str] | None = None) -> int:
         "--out",
         type=Path,
         default=Path("/data/processed/cross_jurisdiction_twins.parquet"),
+    )
+    p.add_argument(
+        "--no-abbrev",
+        action="store_true",
+        help=(
+            "Skip the abbreviation match paths (abbrev_left, abbrev_right, "
+            "abbrev_both). Required at corpus scale: the abbrev pre-filter "
+            "materialises the unfiltered frame before any semi-join, which "
+            "OOMs Railway on 5.79M OO rows. Strict_root alone still catches "
+            "PROBUTEC-style direct name twins."
+        ),
     )
     p.add_argument("-v", "--verbose", action="store_true")
     args = p.parse_args(argv)
@@ -465,7 +489,7 @@ def main(argv: list[str] | None = None) -> int:
         icij_idx.height,
         oo_idx.height,
     )
-    twins = detect_twins(icij_idx, oo_idx)
+    twins = detect_twins(icij_idx, oo_idx, include_abbrev=not args.no_abbrev)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     twins.write_parquet(args.out)
     log.info("wrote %d twin pairs to %s", twins.height, args.out)

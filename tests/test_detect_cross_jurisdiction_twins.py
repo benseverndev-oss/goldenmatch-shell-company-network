@@ -189,6 +189,33 @@ def test_polars_native_matches_python_helper(mod):
         assert rows[i]["abbrev_root"] == mod._abbreviation_root(name)
 
 
+def test_include_abbrev_false_disables_abbrev_paths(mod):
+    """With include_abbrev=False, only strict_root matches surface."""
+    icij = pl.DataFrame(
+        {
+            "entity_uid": ["icij:1"],
+            "name": ["PROBUTEC (MALTA) LTD"],
+            "jurisdiction": ["mt"],
+        }
+    )
+    oo = pl.DataFrame(
+        {
+            "entity_uid": ["oo:gb-coh-04102334"],
+            "name": ["PROBUTEC LTD"],
+            "jurisdiction": ["gb"],
+        }
+    )
+    icij_idx = mod.build_name_index(
+        icij, name_col="name", uid_col="entity_uid", jurisdiction_col="jurisdiction"
+    )
+    oo_idx = mod.build_name_index(
+        oo, name_col="name", uid_col="entity_uid", jurisdiction_col="jurisdiction"
+    )
+    twins = mod.detect_twins(icij_idx, oo_idx, include_abbrev=False)
+    assert twins.height >= 1
+    assert all(mt == "strict_root" for mt in twins["match_type"].to_list())
+
+
 def test_no_python_udf_in_build_name_index():
     """Defends the OOM fix: build_name_index must not call map_elements."""
     src = SCRIPT_PATH.read_text(encoding="utf-8")
