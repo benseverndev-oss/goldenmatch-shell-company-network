@@ -98,6 +98,11 @@ _SOURCE_CREDIBILITY: dict[str, float] = {
     # Phase 7 additions:
     "SEC EDGAR 13D/13G": 0.97,
     "GoldenMatch twin detector": 0.80,
+    # Phase 10 addition: SEC <-> ICIJ name-match bridge. Low source
+    # credibility because exact-name match is heuristic; combined with
+    # the same_company_as edge kind (0.85) the effective edge weight
+    # lands at ~0.51, signalling "worth investigating, not a fact".
+    "GoldenMatch SEC<->ICIJ name bridge": 0.60,
 }
 _DEFAULT_SOURCE_CREDIBILITY = 0.85
 
@@ -201,6 +206,16 @@ def main(
         "--sec-13dg-edges",
         help="Optional Phase-6 sec_13dg_edges.parquet to union in.",
     ),
+    sec_icij_bridges_parquet: Path | None = typer.Option(
+        None,
+        "--sec-icij-bridges",
+        help=(
+            "Optional Phase-10 sec_icij_bridges.parquet to union in. "
+            "Connects sec:CIK nodes to icij:source_id nodes via normalised-"
+            "name match so SEC edges can actually reach the dossier-anchored "
+            "subgraph."
+        ),
+    ),
     dossier_parquet: Path = typer.Option(
         PROCESSED_DIR / "rare_officer_dossiers.parquet",
         "--dossier-parquet",
@@ -299,6 +314,23 @@ def main(
         )
         all_edges = pl.concat([all_edges, sec], how="diagonal")
         log.info("unioned %d SEC 13D/G edges from %s", sec.height, sec_13dg_edges_parquet)
+
+    # Union Phase-10 SEC <-> ICIJ name bridges. Without these, the
+    # sec:CIK nodes are topologically disconnected from the dossier-
+    # anchored ICIJ subgraph and the BFS never reaches them.
+    if sec_icij_bridges_parquet and sec_icij_bridges_parquet.exists():
+        bridges = pl.read_parquet(sec_icij_bridges_parquet).select(
+            pl.col("src_uid").alias("src_node"),
+            pl.col("dst_uid").alias("dst_node"),
+            pl.lit("same_company_as").alias("kind_raw"),
+            pl.lit("GoldenMatch SEC<->ICIJ name bridge").alias("source_label"),
+        )
+        all_edges = pl.concat([all_edges, bridges], how="diagonal")
+        log.info(
+            "unioned %d SEC<->ICIJ bridge edges from %s",
+            bridges.height,
+            sec_icij_bridges_parquet,
+        )
 
     sub_edges = _build_subgraph(all_edges, seeds, hops=hops, max_nodes=max_nodes)
     log.info("subgraph edges: %d", sub_edges.height)

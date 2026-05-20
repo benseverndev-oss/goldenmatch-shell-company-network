@@ -689,6 +689,18 @@ _ALLOWED_SCRIPTS = {
     # Phase 6: bulk SEC EDGAR 13D/G ingest. Year/quarter are baked in;
     # bump them in a PR when re-running for a different window. Caps the
     # fan-out at 5000 filings so the per-filing SGML fetches stay sane.
+    # Phase 10: name-match SEC issuers/filers against ICIJ US entities to
+    # emit sec:CIK <-> icij:uid bridge edges. Without this, the SEC
+    # corpus sits in a topologically disconnected namespace.
+    "bridge_sec_icij_by_name": [
+        "scripts/bridge_sec_icij_by_name.py",
+        "--sec-edges",
+        "/data/processed/sec_13dg_edges.parquet",
+        "--icij-entities",
+        "/data/interim/icij_entities.parquet",
+        "--out",
+        "/data/processed/sec_icij_bridges.parquet",
+    ],
     "ingest_sec_13dg_bulk": [
         "scripts/ingest_sec_13dg_bulk.py",
         "--year",
@@ -714,6 +726,8 @@ _ALLOWED_SCRIPTS = {
         "/data/processed/cross_jurisdiction_twins.parquet",
         "--sec-13dg-edges",
         "/data/processed/sec_13dg_edges.parquet",
+        "--sec-icij-bridges",
+        "/data/processed/sec_icij_bridges.parquet",
         "--dossier-parquet",
         "/data/processed/rare_officer_dossiers.parquet",
         "--out-edges",

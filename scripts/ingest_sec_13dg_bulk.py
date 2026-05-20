@@ -77,9 +77,7 @@ _SGML_BRACKETED_FIELD_RE = re.compile(r"<(?P<tag>[A-Z\-]+)>(?P<value>[^\n<]+)")
 # Modern plain-text field marker, e.g. ``COMPANY CONFORMED NAME:\t\tACME``.
 # Keys are uppercase words separated by spaces, terminated by a colon.
 # Value follows after whitespace.
-_SGML_PLAIN_FIELD_RE = re.compile(
-    r"^\s*(?P<tag>[A-Z][A-Z\s\-]*[A-Z]):\s+(?P<value>\S.*?)\s*$"
-)
+_SGML_PLAIN_FIELD_RE = re.compile(r"^\s*(?P<tag>[A-Z][A-Z\s\-]*[A-Z]):\s+(?P<value>\S.*?)\s*$")
 
 
 @dataclass(frozen=True)
@@ -357,9 +355,19 @@ def edges_to_parquet(edges: list[Filing13DGEdge], out: Path) -> None:
 # ---------------------------------------------------------------------------
 
 
-def _http_fetcher(user_agent: str):
+def _http_fetcher(user_agent: str, *, min_interval_s: float = 0.11):
     """Returns ``(fetch_idx, fetch_filing)`` using httpx + the SEC's
-    required User-Agent header."""
+    required User-Agent header.
+
+    SEC's fair-use policy caps unauthenticated access at ~10 requests
+    per second. Without pacing, an earlier run got 128 edges out of
+    5000 attempted filings — most fetches silently 403'd. We enforce
+    a minimum inter-request interval (default 110 ms ≈ 9 req/s, safely
+    under the threshold) so a long run can sustain throughput without
+    tripping the limiter.
+    """
+
+    import time
 
     import httpx
 
@@ -369,13 +377,23 @@ def _http_fetcher(user_agent: str):
         follow_redirects=True,
     )
 
+    last_call = [0.0]  # mutable closure cell
+
+    def _pace() -> None:
+        elapsed = time.monotonic() - last_call[0]
+        if elapsed < min_interval_s:
+            time.sleep(min_interval_s - elapsed)
+        last_call[0] = time.monotonic()
+
     def fetch_idx(year: int, quarter: int) -> str:
+        _pace()
         url = _FULL_INDEX_URL.format(year=year, quarter=quarter)
         r = client.get(url)
         r.raise_for_status()
         return r.text
 
     def fetch_filing(path: str) -> str:
+        _pace()
         url = f"https://www.sec.gov/Archives/{path}"
         r = client.get(url)
         r.raise_for_status()
