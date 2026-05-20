@@ -272,6 +272,91 @@ profile body is paywalled and not reachable from this verification.
 Corvus claim under any framing.** The structural Malta-cluster
 story stands on its own without it.
 
+## Addendum: identifying the SEC "Mr. Marsh"
+
+The Henley LP 13E3 director-biography section names the Corvus
+Capital LLC managing partner in full:
+
+> "**John B. Marsh, III, Director.** Mr. Marsh is the managing
+> partner of MHF Advisors, LLC, a strategic investment partnership
+> where he is an investment banker. The address of MHF Advisors,
+> LLC is 411 West Putnam Avenue, Suite 420, Greenwich, CT 06830.
+> Mr. Marsh has been a director of Henley II, Inc. since September
+> 1992. From April 2002 to August 2002, he was a senior portfolio
+> manager at Rayner and Stonington... From 1998 to 2002, Mr. Marsh
+> was the managing partner of Corvus Capital, LLC. From 1995 to
+> 1998, he was Director of Trading and Sales with ABSA Securities,
+> Inc... From 1991 to 1995, he was Chief Executive Officer and
+> President of Saicor Ltd... From 1988 to 1991 he was a Vice
+> President at Deutsche Bank Capital Corporation... From 1985 to
+> 1988 Mr. Marsh was a Vice President in the international
+> arbitrage department of Merrill Lynch Pierce Fenner and Smith."
+
+### Cross-cluster check
+
+Does John B. Marsh, III appear in any GoldenMatch cluster?
+
+- **ICIJ officers parquet** (`data/interim/icij_officers.parquet`):
+  zero exact matches for "John B Marsh", "John B Marsh III", or
+  "John Marsh". Every "John + Marsh" substring hit resolves to
+  "John Marshall" (different surname).
+- **Cluster 47** (Perry / Strait Street): zero "marsh" mentions in
+  officers, roles, FTM, or any artefact.
+- **Cluster 38** (size 204): a **STUART MARSH** appears as auditor
+  on 94 cluster companies. Different first name — different
+  individual.
+- **Cluster 40** (size 161): **MARSH DEVELOPMENT LIMITED** is a
+  cluster *company* (a Malta company name, not a person).
+
+### Where the DOB stops being reachable from public records
+
+Followup searches:
+
+| Source | Query | Result |
+| --- | --- | --- |
+| UK Companies House officer search | `John B Marsh` | No matches — US-based career, no UK appointments |
+| FINRA BrokerCheck (individual API) | `John B Marsh` (21 results) | All resolve to "John Marshall" or unrelated; Marsh III is not FINRA-registered |
+| FINRA BrokerCheck (firm) | `MHF Advisors` | 0 hits |
+| FINRA BrokerCheck (firm) | `Corvus Capital` | 1 hit — `CORVUS CAPITAL MANAGEMENT LLC` (Nashville TN, principal: Stephen James Vogel) — a **different** entity from Marsh's |
+| SEC IAPD (firm) | `MHF Advisors` | 0 hits |
+| SEC IAPD (individual) | `John B Marsh` | Same 21 false positives as BrokerCheck |
+
+That's consistent with the Henley LP filing's description — Marsh has
+been a private-fund managing partner / investment-banking executive,
+not a retail-facing broker. Private-fund managers can be exempt from
+IA registration under SEC rules, so the absence from FINRA/IAPD is
+expected for someone with this career shape, not evidence of obscurity.
+
+### Implied DOB window
+
+Career data points let us estimate (not pin) a DOB:
+
+- 1985-1988: VP, Merrill Lynch international arbitrage desk
+  → typical age for that role is mid-20s to early 30s
+- September 1992: appointed Director of Henley II, Inc.
+- Estimated DOB: **roughly 1950-1957**
+
+That decade window is enough to definitively separate John B. Marsh,
+III from any other "Marsh" in the cluster dataset:
+
+| Person | DOB / decade | First name | Verdict |
+| --- | --- | --- | --- |
+| **John B. Marsh, III** (SEC Corvus, Greenwich CT) | ~1950-1957 | John | The SEC-Corvus subject |
+| **Peter Kevin Perry** (cluster 47 anchor, Isle of Man) | April **1963** | — | Different decade, different surname, different country |
+| **STUART MARSH** (cluster 38 auditor, Malta) | unknown | Stuart | Different first name |
+
+### Final cross-cluster verdict
+
+**There is no person-level bridge between the SEC's "Corvus Capital
+LLC" story (John B. Marsh, III, Greenwich CT) and any GoldenMatch
+Malta cluster.** The Bloomberg "Corvus Capital LLC" attribution that
+the corroboration pass surfaced for the cluster 47 anchor is, with
+all available evidence, a same-name coincidence.
+
+The Malta cluster story stands entirely on its own structural and
+cross-jurisdictional findings (PROBUTEC, I-CAP / INTEGRATED-
+CAPABILITIES). Do not introduce Marsh or Corvus into the narrative.
+
 ## What this means for any published narrative
 
 A defensible sentence the verification supports:
