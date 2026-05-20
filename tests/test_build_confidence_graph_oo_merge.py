@@ -54,14 +54,23 @@ def test_psc_controller_of_kind_present(mod):
 
 
 def test_cli_accepts_oo_flag(mod, tmp_path):
-    # The typer.Option declarations show up as click parameters on the
-    # underlying command. Easiest check: run --help and look for the flag.
-    import typer.testing
+    # Inspect the click command parameters directly. The previous version
+    # of this test grepped `--help` output, but Rich/Typer wraps long flag
+    # names mid-token in narrow terminals (CI defaults to 80 cols) which
+    # broke the substring match. Going through the click command object
+    # is both faster and width-independent.
+    import typer.main
 
-    runner = typer.testing.CliRunner()
-    result = runner.invoke(mod.app, ["--help"])
-    assert result.exit_code == 0, result.output
-    assert "--oo-uk-psc-edges" in result.output
+    cmd = typer.main.get_command(mod.app)
+    # Find the underlying main command — Typer wraps single-command apps
+    # so the params might be on `cmd` directly or on a single sub-command.
+    if hasattr(cmd, "commands") and cmd.commands:
+        first = next(iter(cmd.commands.values()))
+        params = first.params
+    else:
+        params = cmd.params
+    flag_names = {opt for p in params for opt in p.opts}
+    assert "--oo-uk-psc-edges" in flag_names, flag_names
 
 
 def test_diagonal_concat_compatibility(tmp_path):
