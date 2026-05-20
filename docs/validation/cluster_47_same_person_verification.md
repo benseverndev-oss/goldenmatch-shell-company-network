@@ -158,6 +158,120 @@ The Bloomberg profile remains a same-name hit. The UK Companies
 House record affirmatively does not list Corvus Capital among his
 appointments.
 
+## Addendum: US-registry follow-up on the Bloomberg "Corvus Capital LLC" claim
+
+PR #62 closed the question via UK Companies House; this addendum
+walks the US side to confirm that the Bloomberg attribution is dead
+across every reachable primary source.
+
+### SEC EDGAR full-text search
+
+Query: `"Corvus Capital LLC"` (free-text, all filings)
+→ **7 filings**, all from **2001-2003**, all for:
+
+- BOSTON CELTICS LIMITED PARTNERSHIP /DE/ (CIK 0001059969)
+- BOSTON CELTICS LIMITED PARTNERSHIP II /DE/ (CIK 0000805009)
+- HENLEY LIMITED PARTNERSHIP (CIK 0001059969)
+
+The most informative is **`SC 13E3`** (Henley LP, filed
+2003-02-14, accession `0000910647-03-000068`). The director
+biography section reads:
+
+> "From 1998 to 2002, **Mr. Marsh** was the managing partner of
+> Corvus Capital, LLC. From 1995 to 1998, he was Director of
+> Trading and Sales with ABSA Securities, Inc., an investment
+> banking firm. ..."
+
+Combined queries:
+
+| Query | Filings |
+| --- | ---: |
+| `"Corvus Capital LLC" "Peter Kevin Perry"` | **0** |
+| `"Corvus Capital LLC" "Peter Perry"` | **0** |
+| `"Corvus Capital" "Peter Kevin Perry"` | **0** |
+| `"Corvus Capital" "Peter Perry"` | **0** |
+
+**No SEC filing under any name variant ties any Peter Perry to any
+Corvus Capital entity.**
+
+Screenshots:
+- `docs/validation/screenshots/sec_edgar_corvus_company_search.png`
+- `docs/validation/screenshots/sec_edgar_henley_lp_filings.png`
+
+### Delaware Division of Corporations
+
+Free entity search at `icis.corp.delaware.gov` returns five
+Corvus-Capital entities:
+
+| File # | Entity name | Formation date | Notes |
+| ---: | --- | --- | --- |
+| 2942086 | CORVUS CAPITAL LLC | **1998-09-10** | Matches the SEC-filed (Marsh-managed) entity; registered agent: Corporation Service Company (CSC) |
+| 4741239 | CORVUS CAPITAL LLC | **2009-10-13** | Newer LLC under the same name; no SEC filings under this entity; registered agent: Registered Agent Solutions, Inc. (Dover, DE) — generic shelf agent |
+| 4979247 | CORVUS CAPITAL MANAGEMENT GP, LLC | — | Manager vehicle |
+| 5087639 | CORVUS CAPITAL MANAGEMENT, LP | — | LP, presumably the fund vehicle |
+| 5418707 | CORVUS CAPITAL ONSHORE FUND, LP | — | Onshore fund |
+
+Delaware's free tier returns entity-level metadata only — no
+officer / member / manager names without a paid certified copy
+($20+). **The 1998 entity (file 2942086) is the one named in the
+SEC filings as Marsh-managed.** The 2009 entity (file 4741239) is
+a distinct entity formed seven years after Marsh's 1998-2002
+tenure ended; it has no SEC filings under its own name and the
+registered agent is a generic shelf provider used by thousands of
+unrelated LLCs.
+
+Either Delaware entity could in principle have been Bloomberg's
+profile target, but neither can be tied to Perry without paying
+Delaware's per-entity fee for filing history. Given (a) zero SEC
+hits for Perry + Corvus, (b) zero appointments under Corvus in
+Perry's UK Companies House master record, and (c) the 1998 entity
+already accounted for by Marsh, the case for paying to dig
+further is weak.
+
+Screenshots:
+- `docs/validation/screenshots/delaware_corvus_capital_results.png`
+- `docs/validation/screenshots/delaware_corvus_2942086_detail.png`
+- `docs/validation/screenshots/delaware_corvus_4741239_detail.png`
+
+### Nevada and OpenCorporates
+
+- **Nevada SOS** (`esos.nv.gov`) returned an **Incapsula access-denied**
+  page to the automated session. Could not retrieve any Nevada
+  records via this channel.
+  Screenshot: `docs/validation/screenshots/nevada_search_blocked.png`
+- **OpenCorporates** (`opencorporates.com`) presented an **HAProxy
+  bot challenge** on the search results page. Could not retrieve.
+  Screenshot: `docs/validation/screenshots/opencorporates_corvus_capital_us.png`
+
+Both blocks are anti-automation defenses, not evidence one way or the
+other about Perry / Corvus. A reviewer with a real browser session and
+either site's standard search UI could reach them; this document
+records that the automated half of the verification stopped there.
+
+### Final verdict on Bloomberg "Corvus Capital LLC"
+
+**The Bloomberg attribution is unsupported across every primary
+source reachable from automated public-registry walks.**
+
+- UK Companies House master officer record (19 appointments): no
+  Corvus appointment.
+- SEC EDGAR (full corpus): no filing ties any Perry to any Corvus
+  Capital entity.
+- Delaware (free metadata): two LLCs under the name exist, one
+  Marsh-managed per SEC, one a 2009 entity with no SEC trail.
+  Neither shows a Perry link in the free tier.
+- Nevada / OpenCorporates: blocked.
+
+The most parsimonious explanation is that the Bloomberg profile
+under the name "Peter Kevin Perry, Former Board Member, Corvus
+Capital LLC" refers to **a different individual sharing the name**,
+not the Isle-of-Man Peter Kevin Perry of cluster 47. The Bloomberg
+profile body is paywalled and not reachable from this verification.
+
+**Hard recommendation for any published narrative: do not lift the
+Corvus claim under any framing.** The structural Malta-cluster
+story stands on its own without it.
+
 ## What this means for any published narrative
 
 A defensible sentence the verification supports:
