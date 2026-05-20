@@ -2,7 +2,7 @@
   "subgraph": {
     "n_seed_uids": 363,
     "n_nodes": 7888,
-    "n_edges": 23637,
+    "n_edges": 23636,
     "hops": 2,
     "max_nodes_cap": 8000
   },
@@ -52,12 +52,12 @@
     "path_propagation_formula": "P(connection | path) = \u220f_i cred(e_i)",
     "cluster_confidence_formula": "conf(C) = mean_cred(C) \u00d7 (1 - \u03bb \u00b7 contradiction_density(C))",
     "graph_entropy_formula": "H(G) = (1/|E|) \u00b7 \u03a3_e [-p log p - (1-p) log(1-p)]    (nats)",
-    "graph_total_entropy_nats": 11818.8555,
+    "graph_total_entropy_nats": 11819.1391,
     "graph_mean_entropy_per_edge_nats": 0.5,
     "graph_normalised_entropy": 0.7214,
-    "graph_mean_edge_credibility": 0.7961,
-    "n_clusters_with_contradictions": 379,
-    "n_clusters_scored": 6933,
+    "graph_mean_edge_credibility": 0.796,
+    "n_clusters_with_contradictions": 391,
+    "n_clusters_scored": 6936,
     "mean_cluster_confidence": 0.0079,
     "independence_assumption_note": "Path propagation assumes conditional independence of edges given underlying truth. This is conservative \u2014 real-world edges correlate, so the computed path probability is a lower bound on the true probability."
   },
@@ -68,28 +68,28 @@
   ],
   "per_threshold": {
     "0.50": {
-      "n_communities": 49,
-      "largest_community_size": 3094,
+      "n_communities": 48,
+      "largest_community_size": 3102,
       "median_community_size": 12,
       "n_singletons": 3,
-      "edges_retained": 23604,
+      "edges_retained": 23603,
       "isolated_nodes": 3
     },
     "0.70": {
       "n_communities": 100,
-      "largest_community_size": 3094,
+      "largest_community_size": 3099,
       "median_community_size": 1,
       "n_singletons": 52,
-      "edges_retained": 23543,
+      "edges_retained": 23542,
       "isolated_nodes": 52
     },
     "0.90": {
-      "n_communities": 6933,
-      "largest_community_size": 203,
+      "n_communities": 6936,
+      "largest_community_size": 204,
       "median_community_size": 1,
-      "n_singletons": 6854,
-      "edges_retained": 955,
-      "isolated_nodes": 6854
+      "n_singletons": 6857,
+      "edges_retained": 952,
+      "isolated_nodes": 6857
     }
   },
   "stability": {
@@ -99,7 +99,7 @@
       0.9
     ],
     "n_nodes_evaluated": 7888,
-    "mean_jaccard": 0.07,
+    "mean_jaccard": 0.071,
     "n_nodes_overlap_ge_0_5": 477,
     "fraction_overlap_ge_0_5": 0.06
   }
