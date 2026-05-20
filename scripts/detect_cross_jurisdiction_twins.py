@@ -289,6 +289,24 @@ def detect_twins(left: pl.DataFrame, right: pl.DataFrame) -> pl.DataFrame:
     left = left.join(left_freq.select("root"), on="root", how="inner")
     right = right.join(right_freq.select("root"), on="root", how="inner")
 
+    # Strict-root semi-join filter: shrink each side to roots that exist on
+    # the other side BEFORE the strict-root inner join. Two unique-root
+    # intersections are dramatically cheaper than materialising the full
+    # cross-join. Applied to dedicated strict_left/strict_right frames so
+    # the abbreviation paths (which join across roots) keep their inputs.
+    shared_roots = (
+        left.select("root")
+        .unique()
+        .join(right.select("root").unique(), on="root", how="inner")
+    )
+    strict_left = left.join(shared_roots, on="root", how="inner")
+    strict_right = right.join(shared_roots, on="root", how="inner")
+    log.info(
+        "after shared-root filter: strict_left=%d, strict_right=%d",
+        strict_left.height,
+        strict_right.height,
+    )
+
     def _project(df: pl.DataFrame, *, match_type: str, confidence: float) -> pl.DataFrame:
         return df.select(
             pl.col("entity_uid").alias("src_uid"),
@@ -302,8 +320,10 @@ def detect_twins(left: pl.DataFrame, right: pl.DataFrame) -> pl.DataFrame:
             pl.lit(confidence).alias("confidence"),
         )
 
-    # 1. Strict-root match: left.root == right.root.
-    strict_raw = left.join(right, on="root", how="inner", suffix="_r")
+    # 1. Strict-root match: left.root == right.root. Uses the
+    # shared-root-filtered frames so the inner join only materialises
+    # actual matches.
+    strict_raw = strict_left.join(strict_right, on="root", how="inner", suffix="_r")
     strict = _project(strict_raw, match_type="strict_root", confidence=0.95)
 
     # For abbreviation joins, drop the left frame's `root` column first so it
