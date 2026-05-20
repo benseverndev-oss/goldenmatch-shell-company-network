@@ -37,23 +37,25 @@ def test_normalize_collapses_punct_and_spaces(mod):
 
 
 def test_build_bridges_exact_match(mod, tmp_path):
-    """A subject_name matching an ICIJ US-juris entity emits a bridge."""
+    """A SEC filer name matching an ICIJ entity (any jurisdiction)
+    emits a bridge. Multi-token names get past the name-shape gate."""
     sec_edges = pl.DataFrame(
         {
             "accession": ["A1"],
             "form": ["SCHEDULE 13D"],
             "filed_date": ["2025-11-21"],
-            "filer_cik": ["0002022852"],
-            "filer_name": ["Catsimatidis John A. Jr"],
-            "subject_cik": ["0001600641"],
-            "subject_name": ["1stdibs.com, Inc."],
+            # 3+ tokens, >=12 chars normalised: passes the shape gate.
+            "filer_cik": ["0001234567"],
+            "filer_name": ["Corvus Capital Partners LP"],
+            "subject_cik": ["0009999999"],
+            "subject_name": ["Some Target Co"],
         }
     )
     icij = pl.DataFrame(
         {
-            "source_id": ["12345", "67890"],
-            "name": ["1stdibs.com Inc", "Unrelated UK Holdings"],
-            "jurisdiction": ["us", "gb"],
+            "source_id": ["99", "100"],
+            "name": ["Corvus Capital Partners LP", "Different Co"],
+            "jurisdiction": ["vg", "mt"],  # offshore
         }
     )
     sec_path = tmp_path / "sec.parquet"
@@ -65,31 +67,35 @@ def test_build_bridges_exact_match(mod, tmp_path):
     icij_df = mod.load_icij_us_entities(icij_path)
     bridges = mod.build_bridges(sec_df, icij_df)
 
-    assert bridges.height >= 1
+    assert bridges.height == 1
     row = bridges.row(0, named=True)
-    assert row["src_uid"] == "sec:0001600641"
-    assert row["dst_uid"] == "icij:12345"
-    assert row["sec_role"] == "subject"
+    assert row["src_uid"] == "sec:0001234567"
+    assert row["dst_uid"] == "icij:99"
+    # Only filer-side matches are emitted now.
+    assert row["sec_role"] == "filer"
 
 
-def test_build_bridges_rejects_non_us_icij(mod, tmp_path):
-    """Same-name ICIJ entity in GB jurisdiction must NOT match (Corvus rule)."""
+def test_build_bridges_rejects_subject_side(mod, tmp_path):
+    """SEC subject (US-listed issuer) is never emitted as a bridge —
+    even if the name happens to match an ICIJ entity. Subjects on US
+    exchanges aren't expected in ICIJ's offshore corpus, so any match
+    on that side is more likely coincidence than identity."""
     sec_edges = pl.DataFrame(
         {
             "accession": ["A1"],
             "form": ["SCHEDULE 13D"],
             "filed_date": ["2025-11-21"],
             "filer_cik": ["0001"],
-            "filer_name": ["Corvus Capital LLC"],
+            "filer_name": ["Some Boring Filer LLC"],
             "subject_cik": ["0002"],
-            "subject_name": ["Target Co"],
+            "subject_name": ["Corvus Capital Partners LP"],
         }
     )
     icij = pl.DataFrame(
         {
             "source_id": ["99"],
-            "name": ["Corvus Capital LLC"],
-            "jurisdiction": ["gb"],  # UK same-name coincidence
+            "name": ["Corvus Capital Partners LP"],
+            "jurisdiction": ["vg"],
         }
     )
     sec_path = tmp_path / "sec.parquet"
@@ -103,8 +109,43 @@ def test_build_bridges_rejects_non_us_icij(mod, tmp_path):
     assert bridges.height == 0
 
 
+def test_build_bridges_rejects_short_names(mod, tmp_path):
+    """Short or single-token names get dropped by the name-shape gate.
+    "Acme Inc" is a common-coincidence trap; only substantive multi-token
+    names produce bridges."""
+    sec_edges = pl.DataFrame(
+        {
+            "accession": ["A1", "A2"],
+            "form": ["SCHEDULE 13D"] * 2,
+            "filed_date": ["2025-11-21"] * 2,
+            "filer_cik": ["0001", "0002"],
+            "filer_name": ["Acme Inc", "Corvus Capital Partners LP"],
+            "subject_cik": ["0099", "0099"],
+            "subject_name": ["Target Co"] * 2,
+        }
+    )
+    icij = pl.DataFrame(
+        {
+            "source_id": ["10", "20"],
+            "name": ["Acme Inc", "Corvus Capital Partners LP"],
+            "jurisdiction": ["gb", "vg"],
+        }
+    )
+    sec_path = tmp_path / "sec.parquet"
+    icij_path = tmp_path / "icij.parquet"
+    sec_edges.write_parquet(sec_path)
+    icij.write_parquet(icij_path)
+
+    sec_df = mod.load_sec_names(sec_path)
+    icij_df = mod.load_icij_us_entities(icij_path)
+    bridges = mod.build_bridges(sec_df, icij_df)
+    # Only the "Corvus Capital Partners LP" match survives.
+    assert bridges.height == 1
+    assert bridges.row(0, named=True)["src_uid"] == "sec:0002"
+
+
 def test_build_bridges_dedups_per_pair(mod, tmp_path):
-    """A SEC entity appearing on multiple filings should produce one
+    """A SEC filer appearing on multiple filings should produce one
     bridge row per (sec_uid, icij_uid), not one per filing."""
     sec_edges = pl.DataFrame(
         {
@@ -112,16 +153,16 @@ def test_build_bridges_dedups_per_pair(mod, tmp_path):
             "form": ["SCHEDULE 13D"] * 3,
             "filed_date": ["2025-11-21"] * 3,
             "filer_cik": ["0001"] * 3,
-            "filer_name": ["Same Filer Inc"] * 3,
-            "subject_cik": ["0002"] * 3,
-            "subject_name": ["Same Subject Inc"] * 3,
+            "filer_name": ["Recurring Offshore Filer LLC"] * 3,
+            "subject_cik": ["0002", "0003", "0004"],
+            "subject_name": ["Target A", "Target B", "Target C"],
         }
     )
     icij = pl.DataFrame(
         {
             "source_id": ["100"],
-            "name": ["Same Subject Inc"],
-            "jurisdiction": ["us"],
+            "name": ["Recurring Offshore Filer LLC"],
+            "jurisdiction": ["vg"],
         }
     )
     sec_path = tmp_path / "sec.parquet"
@@ -135,25 +176,26 @@ def test_build_bridges_dedups_per_pair(mod, tmp_path):
     assert bridges.height == 1
 
 
-def test_build_bridges_min_length_4_chars(mod, tmp_path):
-    """Names shorter than 4 normalised chars (e.g. 'AB') must not match;
-    one-letter normalisations are pure noise at corpus scale."""
+def test_build_bridges_emits_on_any_juris(mod, tmp_path):
+    """ICIJ's offshore-only corpus has zero US-juris rows; the policy
+    accepts any jurisdiction on the ICIJ side as long as the name-shape
+    gates pass."""
     sec_edges = pl.DataFrame(
         {
             "accession": ["A1"],
             "form": ["SCHEDULE 13D"],
             "filed_date": ["2025-11-21"],
             "filer_cik": ["0001"],
-            "filer_name": ["AB"],
+            "filer_name": ["Multi Token Offshore Holdings"],
             "subject_cik": ["0002"],
-            "subject_name": ["XY"],
+            "subject_name": ["Some Target"],
         }
     )
     icij = pl.DataFrame(
         {
             "source_id": ["1"],
-            "name": ["AB"],
-            "jurisdiction": ["us"],
+            "name": ["Multi Token Offshore Holdings"],
+            "jurisdiction": ["mt"],
         }
     )
     sec_path = tmp_path / "sec.parquet"
@@ -164,7 +206,7 @@ def test_build_bridges_min_length_4_chars(mod, tmp_path):
     sec_df = mod.load_sec_names(sec_path)
     icij_df = mod.load_icij_us_entities(icij_path)
     bridges = mod.build_bridges(sec_df, icij_df)
-    assert bridges.height == 0
+    assert bridges.height == 1
 
 
 def test_no_hardcoded_absolute_paths():

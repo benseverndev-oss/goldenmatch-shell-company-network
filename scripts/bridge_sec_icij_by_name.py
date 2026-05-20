@@ -15,9 +15,15 @@ from PR #61 is the cautionary tale):
 
 * Both sides must normalise to the same string via
   :func:`shellnet.normalize.normalize_company_name`.
-* Both sides must declare US jurisdiction. SEC filings are US-only;
-  ICIJ entities matching by US jurisdiction filter most of the
-  same-name-across-borders false positives.
+* **Only the SEC filer side** is matched — SEC subjects are by
+  definition US-listed and so unlikely to appear in ICIJ's
+  offshore-only corpus. Filers, however, are often offshore vehicles
+  (BVI / Malta / Cyprus holdings) that DO appear in ICIJ. This
+  filer-only direction is the discovery-aligned cut.
+* Multi-token name requirement (≥ 3 normalised tokens, ≥ 12 chars).
+  Drops the most common same-name coincidences ("ACME Inc" exists in
+  every jurisdiction) while preserving substantive matches like
+  "Corvus Capital Partners LP".
 * No fuzzy matching, no abbreviation expansion. Names are not
   identities — anything looser invites defamation hazard.
 * Emitted edge credibility is **0.60** (deliberately low) so the
@@ -58,9 +64,16 @@ from shellnet.normalize import normalize_company_name  # noqa: E402
 
 log = logging.getLogger("bridge_sec_icij_by_name")
 
-# US-jurisdiction codes we accept on the ICIJ side. ICIJ uses both ISO
-# alpha-2 ("us") and the older 3-letter codes; accept both.
-_US_JURIS = frozenset({"us", "usa"})
+# Minimum normalised-name length AND token count for an emitted bridge.
+# ICIJ's corpus is offshore-only (top jurisdictions: VG, MT, AW, BM —
+# no US-juris rows at all in the 814k entity table), so the original
+# US-only filter on the ICIJ side rejected every candidate. The
+# discovery-aligned cut is the opposite: SEC FILERS are often offshore
+# vehicles (BVI / Malta / Cyprus holdings) that DO appear in ICIJ, and
+# matching them is the lift. We trade US-juris gating for stronger
+# name-shape gating to keep the defamation hazard bounded.
+_MIN_NAME_CHARS = 12
+_MIN_NAME_TOKENS = 3
 
 
 def _normalize_name_series(col: pl.Expr) -> pl.Expr:
@@ -85,50 +98,58 @@ def _normalize_name_series(col: pl.Expr) -> pl.Expr:
 
 def load_sec_names(sec_edges_path: Path) -> pl.DataFrame:
     """Project the SEC 13D/G edges parquet into one row per (CIK, name,
-    role) tuple. A single accession produces two rows: one subject and
-    one filer."""
+    role) tuple. Only the filer side is emitted — SEC subjects are
+    US-listed and very unlikely to appear in ICIJ's offshore-only corpus.
+    """
 
     df = pl.read_parquet(sec_edges_path)
     log.info("loaded %d SEC edges from %s", df.height, sec_edges_path)
 
-    subjects = df.select(
-        pl.col("subject_cik").alias("cik"),
-        pl.col("subject_name").alias("name"),
-        pl.lit("subject").alias("role"),
-    )
     filers = df.select(
         pl.col("filer_cik").alias("cik"),
         pl.col("filer_name").alias("name"),
         pl.lit("filer").alias("role"),
-    )
-    combined = pl.concat([subjects, filers], how="vertical").unique(subset=["cik", "role"])
-    combined = combined.with_columns(
+    ).unique(subset=["cik"])
+    combined = filers.with_columns(
         _normalize_name_series(pl.col("name")).alias("normalized"),
-    ).filter(pl.col("normalized").str.len_chars() >= 4)
-    log.info("  -> %d unique (cik, role) candidates with normalisable names", combined.height)
+    ).filter(
+        (pl.col("normalized").str.len_chars() >= _MIN_NAME_CHARS)
+        & ((pl.col("normalized").str.count_matches(" ") + 1) >= _MIN_NAME_TOKENS)
+    )
+    log.info(
+        "  -> %d unique SEC filers passing name-shape gates (>=%d chars, >=%d tokens)",
+        combined.height,
+        _MIN_NAME_CHARS,
+        _MIN_NAME_TOKENS,
+    )
     return combined
 
 
 def load_icij_us_entities(icij_path: Path) -> pl.DataFrame:
-    """Project ICIJ entities to (source_id, name, normalized) for US-only
-    rows.
+    """Project ICIJ entities to (source_id, name, normalized) for rows
+    that pass the multi-token name-shape gates.
 
-    SEC is US-only, so we drop everything else upfront. This is the
-    primary defamation-hazard mitigation — without it, a UK "Corvus
-    Capital LLC" matches the SEC's US "Corvus Capital LLC" purely on
-    name and we'd emit a false bridge.
+    ICIJ Offshore Leaks is dominated by VG / MT / AW / BM (offshore)
+    with zero US-juris rows, so the previous US-only filter rejected
+    every candidate. The name-shape gates (multi-token, ≥12 chars) are
+    the substitute defamation guard: most cross-border same-name
+    coincidences are short single-token names that don't pass.
     """
 
     df = pl.read_parquet(icij_path)
     log.info("loaded %d ICIJ entities from %s", df.height, icij_path)
-    # Schema in this repo: source_id, name, jurisdiction (lowercase).
-    df = df.with_columns(
-        pl.col("jurisdiction").fill_null("").str.to_lowercase().str.strip_chars().alias("juris"),
-    ).filter(pl.col("juris").is_in(list(_US_JURIS)))
     df = df.with_columns(
         _normalize_name_series(pl.col("name")).alias("normalized"),
-    ).filter(pl.col("normalized").str.len_chars() >= 4)
-    log.info("  -> %d US-jurisdiction ICIJ entities with normalisable names", df.height)
+    ).filter(
+        (pl.col("normalized").str.len_chars() >= _MIN_NAME_CHARS)
+        & ((pl.col("normalized").str.count_matches(" ") + 1) >= _MIN_NAME_TOKENS)
+    )
+    log.info(
+        "  -> %d ICIJ entities passing name-shape gates (>=%d chars, >=%d tokens)",
+        df.height,
+        _MIN_NAME_CHARS,
+        _MIN_NAME_TOKENS,
+    )
     return df
 
 
