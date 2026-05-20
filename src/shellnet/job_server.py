@@ -694,12 +694,10 @@ _ALLOWED_SCRIPTS = {
         "/data/processed/sec_13dg_edges.parquet",
         "--limit",
         "5000",
-        # SEC EDGAR's fair-use policy requires a descriptive User-Agent
-        # with a real contact email; placeholders return 403.
+        # SEC EDGAR's fair-use policy: UA must be "Name Email" — too many
+        # words or a URL inside the UA returns 403.
         "--user-agent",
-        "GoldenMatch shell-company-network discovery pipeline "
-        "https://github.com/benseverndev-oss/goldenmatch-shell-company-network "
-        "bsevern@mjhlifesciences.com",
+        "Ben Severn bsevern@mjhlifesciences.com",
     ],
     # Phase 7: same graph builder, plus Phase-3 twin edges + Phase-6 SEC
     # 13D/G edges unioned into the ICIJ corpus before community detection.
