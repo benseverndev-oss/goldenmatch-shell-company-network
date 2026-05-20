@@ -148,3 +148,54 @@ def test_no_hardcoded_absolute_paths():
     src = SCRIPT_PATH.read_text(encoding="utf-8")
     for token in ("C:\\Users", "/home/", "/Users/"):
         assert token not in src
+
+
+def test_polars_native_matches_python_helper(mod):
+    """Lock in that build_name_index (polars-native) produces the same
+    root + abbrev_root as the Python _normalize / _abbreviation_root helpers
+    on representative cases. Catches drift if either side gets edited."""
+
+    cases = [
+        # name, expected_root, expected_abbrev
+        ("PROBUTEC LTD", "probutec", ""),
+        ("PROBUTEC LIMITED", "probutec", ""),
+        ("ACME HOLDINGS PLC", "acme", ""),
+        ("PROBUTEC (MALTA) LTD", "probutec", ""),
+        ("INTEGRATED-CAPABILITIES (MALTA) LTD", "integrated capabilities", "ic"),
+        ("I-CAP MARINE SERVICES LIMITED", "i cap marine services", "icms"),
+        # Suffix-only name — preserved (>=1 token kept alive).
+        ("LIMITED", "limited", ""),
+    ]
+    df = pl.DataFrame(
+        {
+            "entity_uid": [f"x:{i}" for i in range(len(cases))],
+            "name": [c[0] for c in cases],
+            "jurisdiction": ["xx"] * len(cases),
+        }
+    )
+    idx = mod.build_name_index(
+        df, name_col="name", uid_col="entity_uid", jurisdiction_col="jurisdiction"
+    )
+    rows = idx.to_dicts()
+    for i, (name, expected_root, expected_abbrev) in enumerate(cases):
+        assert rows[i]["root"] == expected_root, (
+            f"polars-native {name!r}: got root={rows[i]['root']!r}, want {expected_root!r}"
+        )
+        assert rows[i]["abbrev_root"] == expected_abbrev, (
+            f"polars-native {name!r}: got abbrev={rows[i]['abbrev_root']!r}, want {expected_abbrev!r}"
+        )
+        # And cross-check against the Python helper to lock in parity.
+        assert rows[i]["root"] == mod._normalize(name)
+        assert rows[i]["abbrev_root"] == mod._abbreviation_root(name)
+
+
+def test_no_python_udf_in_build_name_index():
+    """Defends the OOM fix: build_name_index must not call map_elements."""
+    src = SCRIPT_PATH.read_text(encoding="utf-8")
+    # Allow map_elements elsewhere in the file (e.g. doc comments) but
+    # not inside the build_name_index function body.
+    start = src.index("def build_name_index(")
+    end = src.index("\ndef ", start + 1)
+    assert "map_elements" not in src[start:end], (
+        "build_name_index regressed to a Python UDF; this OOMs Railway at corpus scale"
+    )

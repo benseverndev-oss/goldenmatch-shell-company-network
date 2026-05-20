@@ -164,21 +164,104 @@ def _abbreviation_root(name: str) -> str:
 # ---------------------------------------------------------------------------
 
 
+# ---------------------------------------------------------------------------
+# Polars-native expression equivalents of _normalize / _abbreviation_root.
+# The Python helpers above are kept for readability + unit tests; build_name_index
+# uses these expressions so the work streams through Polars rather than crossing
+# the Python-UDF boundary for every row (which OOMs at corpus scale).
+# ---------------------------------------------------------------------------
+
+# Tail jurisdictional qualifier ("(MALTA)" / "MT" / "CYPRUS" at end of string).
+# Matches the Python _JURIS_QUALIFIER_RE one-for-one.
+_TAIL_JURIS_PATTERN = (
+    r"(?i)\s*\(?\s*(?:malta|mt|isle\s+of\s+man|iom|cyprus|cy|bvi|jersey|"
+    r"guernsey|gibraltar|luxembourg|lu|monaco|mc|liechtenstein|li|panama|"
+    r"pa|bahamas|bs|bermuda|bm|cayman|ky|delaware|de)\s*\)?\s*$"
+)
+
+# A single trailing legal-suffix or jurisdiction token, preceded by whitespace.
+# The leading `\s+` is what preserves the "keep at least one token alive"
+# semantic from the Python implementation: we only strip a token that has
+# *something* before it, so a name reduced to "limited" stays "limited"
+# rather than collapsing to empty. Iterating this regex N times drains
+# trailing suffix + juris runs in one streaming pass.
+_TAIL_SUFFIX_OR_JURIS_PATTERN = (
+    r"(?i)\s+(?:"
+    r"limited\s+liability\s+company|public\s+limited\s+company|"
+    r"limited\s+partnership|societe\s+anonyme|"
+    r"plc|ltd|limited|inc|incorporated|corporation|corp|llc|llp|lp|"
+    r"ag|gmbh|sa|nv|bv|oy|ab|as|group|holdings|holding|"
+    r"malta|mt|iom|cyprus|cy|bvi|jersey|guernsey|gibraltar|"
+    r"luxembourg|lu|monaco|mc|liechtenstein|li|panama|pa|"
+    r"bahamas|bs|bermuda|bm|cayman|ky|delaware|de"
+    r")\s*$"
+)
+
+# Iteration cap. The longest plausible trailing chain in real corpora is
+# "<name> HOLDINGS GROUP LIMITED" (3 tokens). Six iterations covers that
+# with margin, including one extra for nested parenthesised qualifiers.
+_TAIL_STRIP_ITERATIONS = 6
+
+
+def _normalize_expr(col: str) -> pl.Expr:
+    """Polars-native equivalent of :func:`_normalize`."""
+
+    expr = (
+        pl.col(col)
+        .fill_null("")
+        .str.to_lowercase()
+        .str.strip_chars()
+        .str.replace_all(_TAIL_JURIS_PATTERN, "")
+        .str.replace_all(r"[^a-z0-9\s\-]+", " ")
+        .str.replace_all("-", " ", literal=True)
+        .str.replace_all(r"\s+", " ")
+        .str.strip_chars()
+    )
+    # Apply the trailing-suffix regex up to _TAIL_STRIP_ITERATIONS times.
+    # Polars compiles this once and reuses the regex object across rows.
+    for _ in range(_TAIL_STRIP_ITERATIONS):
+        expr = expr.str.replace_all(_TAIL_SUFFIX_OR_JURIS_PATTERN, "").str.strip_chars()
+    return expr
+
+
+def _abbreviation_root_expr(root_expr: pl.Expr) -> pl.Expr:
+    """Polars-native equivalent of :func:`_abbreviation_root`.
+
+    Returns the concatenated first-character-of-each-token initialism for
+    multi-token roots; returns "" for single-token roots (matching the
+    Python helper).
+    """
+
+    # \b\w extracts the first letter at every word boundary, e.g. for
+    # "integrated capabilities" the matches are ["i", "c"]; list.join glues
+    # them back to "ic". For single-token names we'd get a single-char
+    # initialism which the caller's >= 3 filter drops, but we also gate on
+    # token count for clarity.
+    abbrev = root_expr.str.extract_all(r"\b\w").list.join("")
+    token_count = (root_expr.str.count_matches(" ") + 1).cast(pl.Int64)
+    return pl.when(token_count >= 2).then(abbrev).otherwise(pl.lit(""))
+
+
 def build_name_index(
     df: pl.DataFrame, *, name_col: str, uid_col: str, jurisdiction_col: str
 ) -> pl.DataFrame:
     """Returns a frame with one row per entity carrying:
-    entity_uid, name, jurisdiction, root, abbrev_root."""
+    entity_uid, name, jurisdiction, root, abbrev_root.
 
-    return df.select(
+    Uses Polars-native expressions throughout (no Python UDFs) so the work
+    streams; required for 5.79M-row OO UK PSC ingestion to fit in Railway's
+    memory ceiling.
+    """
+
+    base = df.select(
         pl.col(uid_col).alias("entity_uid"),
         pl.col(name_col).alias("name"),
         pl.col(jurisdiction_col).fill_null("").alias("jurisdiction"),
+    )
+    return base.with_columns(
+        _normalize_expr("name").alias("root"),
     ).with_columns(
-        pl.col("name").map_elements(_normalize, return_dtype=pl.String).alias("root"),
-        pl.col("name")
-        .map_elements(_abbreviation_root, return_dtype=pl.String)
-        .alias("abbrev_root"),
+        _abbreviation_root_expr(pl.col("root")).alias("abbrev_root"),
     )
 
 
