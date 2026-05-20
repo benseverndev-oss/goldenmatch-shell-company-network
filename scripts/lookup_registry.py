@@ -23,12 +23,14 @@ from shellnet.registries.brreg_norway import BrregNorwayAdapter  # noqa: E402
 from shellnet.registries.cro_ireland import CroIrelandAdapter  # noqa: E402
 from shellnet.registries.inpi_france import InpiFranceAdapter  # noqa: E402
 from shellnet.registries.kvk_netherlands import KvkNetherlandsAdapter  # noqa: E402
+from shellnet.registries.sec_edgar_13d_13g import SecEdgar13DAdapter  # noqa: E402
 
 _ADAPTERS = {
     "brreg_norway": BrregNorwayAdapter,
     "inpi_france": InpiFranceAdapter,
     "cro_ireland": CroIrelandAdapter,
     "kvk_netherlands": KvkNetherlandsAdapter,
+    "sec_edgar_13d_13g": SecEdgar13DAdapter,
 }
 
 
