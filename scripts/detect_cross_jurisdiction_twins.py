@@ -326,10 +326,10 @@ def detect_twins(left: pl.DataFrame, right: pl.DataFrame) -> pl.DataFrame:
     strict_raw = strict_left.join(strict_right, on="root", how="inner", suffix="_r")
     strict = _project(strict_raw, match_type="strict_root", confidence=0.95)
 
-    # For abbreviation joins, drop the left frame's `root` column first so it
-    # doesn't collide with the join key on the right.
-    # Same OOM concern applies to the abbreviation join. Two-letter
-    # acronyms collide too often at corpus scale; require >=3 letters.
+    # Abbreviation joins. Two-letter acronyms collide too often at corpus
+    # scale; require >=3 letters. Then apply the same shared-key semi-join
+    # used by the strict path so the inner joins below don't have to
+    # materialise full-corpus cross-products.
     left_abbrev = (
         left.filter(pl.col("abbrev_root").str.len_chars() >= 3)
         .drop("root")
@@ -341,18 +341,31 @@ def detect_twins(left: pl.DataFrame, right: pl.DataFrame) -> pl.DataFrame:
         .rename({"abbrev_root": "root"})
     )
 
+    def _semi_join(a: pl.DataFrame, b: pl.DataFrame) -> tuple[pl.DataFrame, pl.DataFrame]:
+        """Filter both ``a`` and ``b`` to rows whose ``root`` value also
+        appears in the other side. Cheap two-pass semi-join replacement."""
+        shared = a.select("root").unique().join(
+            b.select("root").unique(), on="root", how="inner"
+        )
+        return (
+            a.join(shared, on="root", how="inner"),
+            b.join(shared, on="root", how="inner"),
+        )
+
     # 2. Abbreviation match: left.abbrev_root == right.root.
-    abbrev_l_raw = left_abbrev.join(right, on="root", how="inner", suffix="_r")
+    al, ar = _semi_join(left_abbrev, right)
+    abbrev_l_raw = al.join(ar, on="root", how="inner", suffix="_r")
     abbrev_l = _project(abbrev_l_raw, match_type="abbrev_left", confidence=0.80)
 
     # 3. Abbreviation match the other way: right.abbrev_root == left.root.
-    # Reverse the inputs so the helper's column layout still applies.
-    abbrev_r_raw = right_abbrev.join(left, on="root", how="inner", suffix="_r")
+    bl, br = _semi_join(right_abbrev, left)
+    abbrev_r_raw = bl.join(br, on="root", how="inner", suffix="_r")
     abbrev_r = _project(abbrev_r_raw, match_type="abbrev_right", confidence=0.80)
 
     # 4. Both-sides abbreviation match: shared acronym. Lower confidence
     # because acronym collisions are more common ("IC" can be many things).
-    abbrev_both_raw = left_abbrev.join(right_abbrev, on="root", how="inner", suffix="_r")
+    cl, cr = _semi_join(left_abbrev, right_abbrev)
+    abbrev_both_raw = cl.join(cr, on="root", how="inner", suffix="_r")
     abbrev_both = _project(abbrev_both_raw, match_type="abbrev_both", confidence=0.65)
 
     pairs = pl.concat([strict, abbrev_l, abbrev_r, abbrev_both], how="diagonal")
