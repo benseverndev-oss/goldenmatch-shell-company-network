@@ -670,6 +670,50 @@ _ALLOWED_SCRIPTS = {
         "--out-summary",
         "/data/processed/confidence_graph_summary.json",
     ],
+    # Phase 3: cross-jurisdictional name-lineage twin detector. Heavy join
+    # across ICIJ entities + the OO UK PSC entities parquet (~13.9M rows).
+    "detect_cross_jurisdiction_twins": [
+        "scripts/detect_cross_jurisdiction_twins.py",
+        "--icij-entities",
+        "/data/interim/icij_entities.parquet",
+        "--oo-entities",
+        "/data/processed/oo_uk_psc_entities.parquet",
+        "--out",
+        "/data/processed/cross_jurisdiction_twins.parquet",
+    ],
+    # Phase 6: bulk SEC EDGAR 13D/G ingest. Year/quarter are baked in;
+    # bump them in a PR when re-running for a different window. Caps the
+    # fan-out at 5000 filings so the per-filing SGML fetches stay sane.
+    "ingest_sec_13dg_bulk": [
+        "scripts/ingest_sec_13dg_bulk.py",
+        "--year",
+        "2025",
+        "--quarter",
+        "4",
+        "--out",
+        "/data/processed/sec_13dg_edges.parquet",
+        "--limit",
+        "5000",
+    ],
+    # Phase 7: same graph builder, plus Phase-3 twin edges + Phase-6 SEC
+    # 13D/G edges unioned into the ICIJ corpus before community detection.
+    "build_confidence_graph_expanded": [
+        "scripts/build_confidence_graph.py",
+        "--edges",
+        "/data/interim/icij_edges.parquet",
+        "--twin-edges",
+        "/data/processed/cross_jurisdiction_twins.parquet",
+        "--sec-13dg-edges",
+        "/data/processed/sec_13dg_edges.parquet",
+        "--dossier-parquet",
+        "/data/processed/rare_officer_dossiers.parquet",
+        "--out-edges",
+        "/data/processed/confidence_graph_edges.parquet",
+        "--out-communities",
+        "/data/processed/confidence_communities.parquet",
+        "--out-summary",
+        "/data/processed/confidence_graph_summary.json",
+    ],
     "build_adversarial_benchmark": [
         "scripts/build_adversarial_benchmark.py",
         "--discovery-parquet",

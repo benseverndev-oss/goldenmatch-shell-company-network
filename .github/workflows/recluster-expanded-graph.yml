@@ -1,0 +1,119 @@
+name: Phase 7 — re-cluster with expanded graph
+
+# Triggers a Railway-side build_confidence_graph run that unions in the
+# Phase-3 cross-jurisdictional twin edges and the Phase-6 SEC 13D/G
+# edges on top of the ICIJ corpus + Phase-1 OO UK PSC bundle, then
+# runs the Louvain community detector on the expanded graph.
+#
+# Expected effect: previously-singleton entities in the SEC corpus get
+# pulled into existing Malta/IoM clusters via beneficial-ownership
+# edges; the Perry case (PROBUTEC + I-CAP twins) gets rediscovered
+# automatically as a single cluster instead of two same-name islands.
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: recluster-expanded-graph
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  recluster:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      SHELLNET_JOB_URL: ${{ vars.SHELLNET_JOB_URL }}
+      SHELLNET_JOB_TOKEN: ${{ secrets.SHELLNET_JOB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+      - name: Sync deps
+        run: uv sync --frozen --no-dev
+      - name: Confirm Railway reachable
+        run: curl -fsS "$SHELLNET_JOB_URL/healthz"
+
+      - name: Trigger build_confidence_graph (expanded)
+        run: |
+          set -euo pipefail
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+            "$SHELLNET_JOB_URL/run-script?name=build_confidence_graph_expanded"
+          echo
+
+      - name: Poll until complete
+        run: |
+          set -euo pipefail
+          stage="script_build_confidence_graph_expanded"
+          done=false
+          for _ in $(seq 1 720); do
+            sleep 5
+            s=$(curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+                "$SHELLNET_JOB_URL/status" \
+                | python -c "import sys,json; d=json.load(sys.stdin); print(d['stages'].get('$stage',{}).get('status','?'))")
+            echo "  $stage: $s"
+            case "$s" in
+              completed) done=true; break ;;
+              failed)
+                curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+                  "$SHELLNET_JOB_URL/logs/$stage?tail=200" || true
+                exit 1
+                ;;
+            esac
+          done
+          if [ "$done" != "true" ]; then
+            echo "::error::poll loop timed out (60 min cap)"
+            exit 1
+          fi
+
+      - name: Download artifacts
+        run: |
+          set -euo pipefail
+          mkdir -p data/processed docs/reports/data
+          for p in processed/confidence_graph_edges.parquet \
+                   processed/confidence_communities.parquet \
+                   processed/confidence_community_anomalies.parquet \
+                   processed/confidence_community_aggregates.parquet \
+                   processed/confidence_contradictions.parquet \
+                   processed/confidence_review_priority.parquet \
+                   processed/confidence_cluster_scored.parquet \
+                   processed/confidence_graph_summary.json; do
+            curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+              "$SHELLNET_JOB_URL/download?path=$p" -o "data/$p"
+            cp "data/$p" "docs/reports/data/$(basename $p)"
+          done
+
+      - name: Render expanded-graph markdown
+        run: |
+          set -euo pipefail
+          uv run python scripts/render_confidence_graph.py \
+            --edges docs/reports/data/confidence_graph_edges.parquet \
+            --communities docs/reports/data/confidence_communities.parquet \
+            --summary docs/reports/data/confidence_graph_summary.json \
+            --out docs/reports/confidence_graph_expanded.md
+
+      - name: Commit + push to main
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/reports/confidence_graph_expanded.md \
+                  docs/reports/data/confidence_graph_edges.parquet \
+                  docs/reports/data/confidence_communities.parquet \
+                  docs/reports/data/confidence_community_anomalies.parquet \
+                  docs/reports/data/confidence_community_aggregates.parquet \
+                  docs/reports/data/confidence_contradictions.parquet \
+                  docs/reports/data/confidence_review_priority.parquet \
+                  docs/reports/data/confidence_cluster_scored.parquet \
+                  docs/reports/data/confidence_graph_summary.json
+          if git diff --cached --quiet; then
+            echo "No changes; expanded recluster already current."
+            exit 0
+          fi
+          git commit -m "report: re-cluster with expanded graph (Phase 7, auto from recluster-expanded-graph.yml)"
+          git pull --rebase origin main
+          git push origin HEAD:main
