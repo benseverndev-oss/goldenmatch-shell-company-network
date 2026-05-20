@@ -19,8 +19,9 @@ permissions:
 jobs:
   ingest:
     runs-on: ubuntu-latest
-    # Worst case ~5000 SGML fetches at 100 ms apart = ~10 min, plus parse.
-    timeout-minutes: 45
+    # Phase 13: 4 quarters x 5000 cap = 20,000 fetches at ~9 req/s rate
+    # limit = ~37 min HTTP + per-filing parse. Plus poll-loop overhead.
+    timeout-minutes: 75
     env:
       SHELLNET_JOB_URL: ${{ vars.SHELLNET_JOB_URL }}
       SHELLNET_JOB_TOKEN: ${{ secrets.SHELLNET_JOB_TOKEN }}
@@ -44,8 +45,8 @@ jobs:
           set -euo pipefail
           stage="script_ingest_sec_13dg_bulk"
           done=false
-          # Up to ~40 minutes of polling.
-          for _ in $(seq 1 480); do
+          # Up to ~70 minutes of polling for Phase 13's 4-quarter ingest.
+          for _ in $(seq 1 840); do
             sleep 5
             s=$(curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" "$SHELLNET_JOB_URL/status" \
                 | python -c "import sys,json; d=json.load(sys.stdin); print(d['stages'].get('$stage',{}).get('status','?'))")

@@ -402,10 +402,53 @@ def _http_fetcher(user_agent: str, *, min_interval_s: float = 0.11):
     return fetch_idx, fetch_filing
 
 
+def _parse_year_quarter(spec: str) -> tuple[int, int]:
+    """Parse a ``YYYY/Q`` spec like ``2025/4`` into (year, quarter)."""
+
+    try:
+        year_s, quarter_s = spec.split("/")
+        year, quarter = int(year_s), int(quarter_s)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(
+            f"--year-quarter must be in 'YYYY/Q' form, got {spec!r}"
+        ) from exc
+    if quarter not in (1, 2, 3, 4):
+        raise argparse.ArgumentTypeError(
+            f"--year-quarter quarter must be 1-4, got {quarter}"
+        )
+    return year, quarter
+
+
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--year", type=int, required=True)
-    p.add_argument("--quarter", type=int, required=True, choices=(1, 2, 3, 4))
+    # Phase 13: accept one or more year/quarter pairs and concatenate.
+    # The legacy --year/--quarter flags are still accepted for backwards
+    # compatibility (the workflow may pass either form during the
+    # transition).
+    p.add_argument(
+        "--year-quarter",
+        type=_parse_year_quarter,
+        nargs="+",
+        default=None,
+        help=(
+            "One or more year/quarter pairs in 'YYYY/Q' form, e.g. "
+            "'--year-quarter 2025/1 2025/2 2025/3 2025/4'. Edges from "
+            "all quarters are concatenated into a single --out parquet."
+        ),
+    )
+    p.add_argument(
+        "--year",
+        type=int,
+        default=None,
+        help=argparse.SUPPRESS,  # legacy
+    )
+    p.add_argument(
+        "--quarter",
+        type=int,
+        default=None,
+        choices=(1, 2, 3, 4),
+        help=argparse.SUPPRESS,  # legacy
+    )
     p.add_argument(
         "--out",
         type=Path,
@@ -425,7 +468,10 @@ def main(argv: list[str] | None = None) -> int:
         "--limit",
         type=int,
         default=0,
-        help="optional cap on number of filings to fetch (0 = no cap).",
+        help=(
+            "Optional cap on number of filings to fetch PER QUARTER "
+            "(0 = no cap). Cap is applied independently per quarter."
+        ),
     )
     p.add_argument("-v", "--verbose", action="store_true")
     args = p.parse_args(argv)
@@ -435,18 +481,54 @@ def main(argv: list[str] | None = None) -> int:
         format="%(levelname)s %(name)s: %(message)s",
     )
 
-    fetch_idx, fetch_filing = _http_fetcher(args.user_agent)
-    log.info("fetching form.idx for %d Q%d", args.year, args.quarter)
-    idx_text = fetch_idx(args.year, args.quarter)
-    entries = parse_form_idx(idx_text)
-    log.info("found %d 13D/G entries in form.idx", len(entries))
-    if args.limit:
-        entries = entries[: args.limit]
-        log.info("limiting to first %d entries", len(entries))
+    # Resolve which quarters to ingest. New --year-quarter wins; otherwise
+    # fall back to the legacy single --year/--quarter pair; otherwise
+    # nothing-to-do is an error.
+    quarters: list[tuple[int, int]]
+    if args.year_quarter:
+        quarters = args.year_quarter
+    elif args.year is not None and args.quarter is not None:
+        quarters = [(args.year, args.quarter)]
+    else:
+        raise SystemExit(
+            "[fatal] must pass --year-quarter (preferred) or --year + --quarter"
+        )
 
-    edges = build_edges(entries, fetch_filing)
-    log.info("extracted %d filer->subject edges", len(edges))
-    edges_to_parquet(edges, args.out)
+    fetch_idx, fetch_filing = _http_fetcher(args.user_agent)
+    all_edges: list[Filing13DGEdge] = []
+    for year, quarter in quarters:
+        log.info("fetching form.idx for %d Q%d", year, quarter)
+        try:
+            idx_text = fetch_idx(year, quarter)
+        except Exception as exc:  # noqa: BLE001
+            log.warning("form.idx fetch failed for %d Q%d: %s; skipping", year, quarter, exc)
+            continue
+        entries = parse_form_idx(idx_text)
+        log.info("  %d Q%d -> %d 13D/G entries in form.idx", year, quarter, len(entries))
+        if args.limit:
+            entries = entries[: args.limit]
+            log.info("    capped to %d entries", len(entries))
+        edges = build_edges(entries, fetch_filing)
+        log.info("    extracted %d filer->subject edges", len(edges))
+        all_edges.extend(edges)
+
+    # De-dup by accession in case the same filing appears across quarters
+    # (e.g. amendments straddle a quarter boundary in EDGAR's index).
+    seen: set[str] = set()
+    deduped: list[Filing13DGEdge] = []
+    for e in all_edges:
+        if e.accession in seen:
+            continue
+        seen.add(e.accession)
+        deduped.append(e)
+    log.info(
+        "total: %d edges across %d quarters (%d before dedup)",
+        len(deduped),
+        len(quarters),
+        len(all_edges),
+    )
+
+    edges_to_parquet(deduped, args.out)
     log.info("wrote %s", args.out)
     return 0
 

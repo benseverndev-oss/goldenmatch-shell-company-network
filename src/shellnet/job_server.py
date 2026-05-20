@@ -703,10 +703,14 @@ _ALLOWED_SCRIPTS = {
     ],
     "ingest_sec_13dg_bulk": [
         "scripts/ingest_sec_13dg_bulk.py",
-        "--year",
-        "2025",
-        "--quarter",
-        "4",
+        # Phase 13: ingest 4 quarters instead of 1. Cap is per-quarter,
+        # so max total filings = 4 x 5000 = 20,000. Rate-limited at
+        # ~9 req/s, that's ~37 min Railway-side.
+        "--year-quarter",
+        "2025/1",
+        "2025/2",
+        "2025/3",
+        "2025/4",
         "--out",
         "/data/processed/sec_13dg_edges.parquet",
         "--limit",
