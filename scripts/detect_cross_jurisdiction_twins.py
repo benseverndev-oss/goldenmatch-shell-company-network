@@ -303,9 +303,7 @@ def detect_twins(
     # cross-join. Applied to dedicated strict_left/strict_right frames so
     # the abbreviation paths (which join across roots) keep their inputs.
     shared_roots = (
-        left.select("root")
-        .unique()
-        .join(right.select("root").unique(), on="root", how="inner")
+        left.select("root").unique().join(right.select("root").unique(), on="root", how="inner")
     )
     strict_left = left.join(shared_roots, on="root", how="inner")
     strict_right = right.join(shared_roots, on="root", how="inner")
@@ -352,13 +350,11 @@ def detect_twins(
             .rename({"abbrev_root": "root"})
         )
 
-        def _semi_join(
-            a: pl.DataFrame, b: pl.DataFrame
-        ) -> tuple[pl.DataFrame, pl.DataFrame]:
+        def _semi_join(a: pl.DataFrame, b: pl.DataFrame) -> tuple[pl.DataFrame, pl.DataFrame]:
             """Filter both ``a`` and ``b`` to rows whose ``root`` value
             also appears in the other side. Cheap two-pass semi-join."""
-            shared = a.select("root").unique().join(
-                b.select("root").unique(), on="root", how="inner"
+            shared = (
+                a.select("root").unique().join(b.select("root").unique(), on="root", how="inner")
             )
             return (
                 a.join(shared, on="root", how="inner"),
