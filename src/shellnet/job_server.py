@@ -753,6 +753,13 @@ _ALLOWED_SCRIPTS = {
         # the parquet isn't on disk yet (first recluster).
         "--extra-seeds",
         "/data/processed/anomaly_seed_uids.parquet",
+        # Phase 12: 3-hop BFS with per-hop degree pruning to reach
+        # bridged SEC/registry nodes that sit one hop past the
+        # rare-officer set.
+        "--hops",
+        "3",
+        "--min-frontier-degree-deep",
+        "2",
         "--dossier-parquet",
         "/data/processed/rare_officer_dossiers.parquet",
         "--out-edges",

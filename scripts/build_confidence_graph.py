@@ -137,11 +137,24 @@ def _build_subgraph(
     seed_uids: set[str],
     hops: int = 2,
     max_nodes: int = 8000,
+    min_frontier_degree_deep: int = 2,
 ) -> pl.DataFrame:
-    """Edges within `hops` of any seed_uid, capped at max_nodes by BFS expansion."""
+    """Edges within ``hops`` of any ``seed_uid``, capped at ``max_nodes``
+    by BFS expansion.
+
+    Phase 12: at hops >= 3 the BFS frontier grows roughly with the
+    quadratic of the average node degree, which on this corpus
+    explodes from ~8k nodes to >100k and makes Louvain unusable.
+    Past hop 2 we apply a per-hop degree filter:
+    ``min_frontier_degree_deep`` is the minimum number of edges a
+    candidate node must have INTO the existing visited set before we
+    admit it. Set to 1 to reproduce the pre-Phase-12 behaviour, or
+    higher to tighten reach in exchange for smaller subgraphs.
+    """
+
     frontier = set(seed_uids)
     visited = set(seed_uids)
-    for _ in range(hops):
+    for hop_i in range(hops):
         if len(visited) >= max_nodes:
             break
         adjacent = edges.filter(
@@ -153,22 +166,43 @@ def _build_subgraph(
         ) - visited
         if not next_frontier:
             break
-        # If adding next_frontier would blow past the cap, take the highest-
-        # degree subset of it.
+
+        # Build an adjacency counts table once per hop — both the deep-
+        # hop degree filter and the max-nodes cap use it.
+        counts = (
+            pl.concat(
+                [
+                    adjacent.select(pl.col("src_node").alias("n")),
+                    adjacent.select(pl.col("dst_node").alias("n")),
+                ]
+            )
+            .group_by("n")
+            .len()
+            .sort("len", descending=True)
+        )
+
+        # Phase 12: past hop 2, only keep candidates that bridge >= N
+        # visited nodes. Stops one-degree leaves from inflating the
+        # subgraph at depth.
+        if hop_i >= 2 and min_frontier_degree_deep > 1:
+            qualifying = counts.filter(pl.col("len") >= min_frontier_degree_deep)
+            qualifying_set = set(qualifying.select("n").to_series().to_list())
+            before = len(next_frontier)
+            next_frontier &= qualifying_set
+            log.debug(
+                "hop %d: deep-pruning kept %d/%d candidates (min_degree=%d)",
+                hop_i,
+                len(next_frontier),
+                before,
+                min_frontier_degree_deep,
+            )
+            if not next_frontier:
+                break
+
+        # If adding next_frontier would blow past the cap, take the
+        # highest-degree subset of it.
         if len(visited) + len(next_frontier) > max_nodes:
             allowed = max_nodes - len(visited)
-            # Rank by appearance count in the adjacency.
-            counts = (
-                pl.concat(
-                    [
-                        adjacent.select(pl.col("src_node").alias("n")),
-                        adjacent.select(pl.col("dst_node").alias("n")),
-                    ]
-                )
-                .group_by("n")
-                .len()
-                .sort("len", descending=True)
-            )
             top_n = counts.filter(pl.col("n").is_in(list(next_frontier))).head(allowed)
             next_frontier = set(top_n.select("n").to_series().to_list())
         frontier = next_frontier
@@ -251,6 +285,15 @@ def main(
             "Phase 11 raised this from 8,000 to 16,000 — the extra "
             "anomaly seeds + their 2-hop neighbourhoods push the BFS "
             "past the old cap."
+        ),
+    ),
+    min_frontier_degree_deep: int = typer.Option(
+        2,
+        "--min-frontier-degree-deep",
+        help=(
+            "Phase 12: past hop 2, only admit BFS candidates that bridge "
+            "this many edges into the already-visited set. Stops random "
+            "one-degree leaves from inflating the subgraph at hops >= 3."
         ),
     ),
     seed: int = typer.Option(42, "--seed"),
@@ -369,7 +412,13 @@ def main(
             sec_icij_bridges_parquet,
         )
 
-    sub_edges = _build_subgraph(all_edges, seeds, hops=hops, max_nodes=max_nodes)
+    sub_edges = _build_subgraph(
+        all_edges,
+        seeds,
+        hops=hops,
+        max_nodes=max_nodes,
+        min_frontier_degree_deep=min_frontier_degree_deep,
+    )
     log.info("subgraph edges: %d", sub_edges.height)
 
     # Annotate edges with provenance-weighted credibility:
