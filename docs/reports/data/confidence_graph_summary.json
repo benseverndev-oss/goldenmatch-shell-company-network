@@ -2,7 +2,7 @@
   "subgraph": {
     "n_seed_uids": 363,
     "n_nodes": 7888,
-    "n_edges": 23677,
+    "n_edges": 23637,
     "hops": 2,
     "max_nodes_cap": 8000
   },
@@ -51,12 +51,12 @@
     "path_propagation_formula": "P(connection | path) = \u220f_i cred(e_i)",
     "cluster_confidence_formula": "conf(C) = mean_cred(C) \u00d7 (1 - \u03bb \u00b7 contradiction_density(C))",
     "graph_entropy_formula": "H(G) = (1/|E|) \u00b7 \u03a3_e [-p log p - (1-p) log(1-p)]    (nats)",
-    "graph_total_entropy_nats": 11832.6124,
-    "graph_mean_entropy_per_edge_nats": 0.4998,
-    "graph_normalised_entropy": 0.721,
-    "graph_mean_edge_credibility": 0.7963,
-    "n_clusters_with_contradictions": 388,
-    "n_clusters_scored": 6931,
+    "graph_total_entropy_nats": 11818.6872,
+    "graph_mean_entropy_per_edge_nats": 0.5,
+    "graph_normalised_entropy": 0.7214,
+    "graph_mean_edge_credibility": 0.7961,
+    "n_clusters_with_contradictions": 391,
+    "n_clusters_scored": 6934,
     "mean_cluster_confidence": 0.0079,
     "independence_assumption_note": "Path propagation assumes conditional independence of edges given underlying truth. This is conservative \u2014 real-world edges correlate, so the computed path probability is a lower bound on the true probability."
   },
@@ -67,28 +67,28 @@
   ],
   "per_threshold": {
     "0.50": {
-      "n_communities": 50,
-      "largest_community_size": 3128,
-      "median_community_size": 11,
+      "n_communities": 49,
+      "largest_community_size": 3082,
+      "median_community_size": 12,
       "n_singletons": 3,
-      "edges_retained": 23644,
+      "edges_retained": 23604,
       "isolated_nodes": 3
     },
     "0.70": {
-      "n_communities": 50,
-      "largest_community_size": 3128,
-      "median_community_size": 11,
-      "n_singletons": 3,
-      "edges_retained": 23644,
-      "isolated_nodes": 3
+      "n_communities": 100,
+      "largest_community_size": 3083,
+      "median_community_size": 1,
+      "n_singletons": 52,
+      "edges_retained": 23543,
+      "isolated_nodes": 52
     },
     "0.90": {
-      "n_communities": 6931,
-      "largest_community_size": 203,
+      "n_communities": 6934,
+      "largest_community_size": 207,
       "median_community_size": 1,
-      "n_singletons": 6852,
-      "edges_retained": 957,
-      "isolated_nodes": 6852
+      "n_singletons": 6855,
+      "edges_retained": 954,
+      "isolated_nodes": 6855
     }
   },
   "stability": {
@@ -98,8 +98,8 @@
       0.9
     ],
     "n_nodes_evaluated": 7888,
-    "mean_jaccard": 0.074,
-    "n_nodes_overlap_ge_0_5": 486,
-    "fraction_overlap_ge_0_5": 0.062
+    "mean_jaccard": 0.072,
+    "n_nodes_overlap_ge_0_5": 480,
+    "fraction_overlap_ge_0_5": 0.061
   }
 }
