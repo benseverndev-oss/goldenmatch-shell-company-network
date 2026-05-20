@@ -60,6 +60,9 @@ _EDGE_KIND_CREDIBILITY: dict[str, float] = {
     "connected_to": 0.75,
     "same_name_as": 0.50,
     "similar": 0.50,
+    # Open Ownership PSC controller-of edges are mandated state
+    # disclosures (UK Companies Act 2006 s790); treat as structural.
+    "psc_controller_of": 0.92,
 }
 _DEFAULT_EDGE_KIND_CREDIBILITY = 0.70
 
@@ -84,6 +87,11 @@ _SOURCE_CREDIBILITY: dict[str, float] = {
     "GLEIF": 0.99,
     "UK PSC": 0.95,
     "UK disqualified": 0.95,
+    # Open Ownership pre-processed UK PSC bundle (CC0; Companies House
+    # data normalised into BODS v0.4). Treated as authoritative state-
+    # issued; slightly above raw UK PSC because OO has done the
+    # canonicalisation work.
+    "Open Ownership UK PSC (BODS v0.4)": 0.97,
 }
 _DEFAULT_SOURCE_CREDIBILITY = 0.85
 
@@ -167,6 +175,16 @@ def main(
         INTERIM_DIR / "icij_edges.parquet",
         "--edges",
     ),
+    oo_uk_psc_edges: Path = typer.Option(
+        PROCESSED_DIR / "oo_uk_psc_relationships.parquet",
+        "--oo-uk-psc-edges",
+        help=(
+            "Open Ownership UK PSC ownership edges (produced by "
+            "scripts/ingest_openownership_uk_psc.py). Optional; "
+            "concatenated with the ICIJ edges before subgraph extraction. "
+            "Skipped silently if the file isn't present."
+        ),
+    ),
     dossier_parquet: Path = typer.Option(
         PROCESSED_DIR / "rare_officer_dossiers.parquet",
         "--dossier-parquet",
@@ -226,7 +244,23 @@ def main(
     if "source_label" in edge_cols:
         select_cols.append("source_label")
     all_edges = pl.scan_parquet(edges_parquet).select(select_cols).collect()
-    log.info("total edges in corpus: %d", all_edges.height)
+    log.info("ICIJ edges loaded: %d", all_edges.height)
+
+    # Concatenate Open Ownership UK PSC edges if the file is on disk.
+    # The OO uids are `oo:gb-coh-...`, distinct from `icij:...`, so the
+    # union doesn't risk node-id collisions. Cross-jurisdictional bridges
+    # (UK <-> Malta name twins) come in a later phase, not here.
+    if oo_uk_psc_edges.exists():
+        oo_cols = pl.scan_parquet(oo_uk_psc_edges).collect_schema().names()
+        oo_select = ["src_node", "dst_node", "kind_raw"]
+        if "source_label" in oo_cols:
+            oo_select.append("source_label")
+        oo_edges = pl.scan_parquet(oo_uk_psc_edges).select(oo_select).collect()
+        log.info("Open Ownership UK PSC edges loaded: %d", oo_edges.height)
+        all_edges = pl.concat([all_edges, oo_edges], how="diagonal")
+        log.info("combined edges: %d", all_edges.height)
+    else:
+        log.info("Open Ownership UK PSC edges not found at %s; skipping", oo_uk_psc_edges)
 
     sub_edges = _build_subgraph(all_edges, seeds, hops=hops, max_nodes=max_nodes)
     log.info("subgraph edges: %d", sub_edges.height)
