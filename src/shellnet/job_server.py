@@ -659,6 +659,8 @@ _ALLOWED_SCRIPTS = {
         "scripts/build_confidence_graph.py",
         "--edges",
         "/data/interim/icij_edges.parquet",
+        "--oo-uk-psc-edges",
+        "/data/processed/oo_uk_psc_relationships.parquet",
         "--dossier-parquet",
         "/data/processed/rare_officer_dossiers.parquet",
         "--out-edges",
