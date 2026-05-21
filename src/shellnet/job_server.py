@@ -1017,6 +1017,11 @@ _ALLOWED_SCRIPTS = {
         "--co-number",
         "00c51843",
     ],
+    # Three high-stakes story probes in one run: sanctions overlap with
+    # SEC filers, Marinakis-family ICIJ expansion, PEP overlap with SEC.
+    "probe_high_stakes_bridges": [
+        "scripts/probe_high_stakes_bridges.py",
+    ],
 }
 
 
