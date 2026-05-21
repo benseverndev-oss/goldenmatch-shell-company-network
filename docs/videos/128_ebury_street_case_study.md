@@ -166,21 +166,49 @@ Status polling rolls past. Real durations.
 
 ## Act 4 — The findings (4:00–7:00)
 
-### Shot 4.1 — The address-centred network (4:00–4:45)
+### Shot 4.1 — The three-layer infrastructure (4:00–5:00)
 
-**Visual:** Animated graph:
-- Centre node: 128 Ebury Street (orange)
-- Two ICIJ-named officers: Youssef Tohme, Ramez Sarkis (red)
-- Cloud of 52 BVI / Panama company nodes (blue)
-- 18 named beneficial-owner nodes (green) clustered around the
-  blue cloud
-- 119 property nodes (small grey dots) attached to the blue cloud
+**Visual:** Animated graph in three horizontal bands:
+
+```
+LAYER 1: THE ADMINISTRATORS
+  128 Ebury Street ──► Rawi Co Associates Ltd (UK accountancy)
+                   ──► Tohme + Sarkis family (Lebanese-British,
+                                              + Saudi/UAE branches)
+
+LAYER 2: THE VEHICLES (52 offshore companies in Panama Papers)
+  SULGER ASSETS   JAMERS INTERNATIONAL   HEMSLEY PROPERTIES   ...
+       │                                                  │
+       └──────────────────────────────────────────────────┘
+                              │
+                              ▼
+LAYER 3: THE OWNERS (18 named individuals, 10 nationalities)
+  Sheikh Thani Al-Thani (QA)     Namir El Akabi (JO, x4 cos)
+  Huda Al-Tahhan (IQ, x4 cos)   Saud Akeel (SA)
+  Aman Singh Uppal (GB)          Teddy Sagi (CY)   ...
+                              │
+                              ▼
+                  119 UK PROPERTIES (HMLR OCOD May 2026)
+```
 
 **Narration:**
-> The network the pipeline reconstructs starts at the Belgravia
-> address. From there, fifty-two offshore companies. From those,
-> eighteen natural persons declared as the people who control them.
-> From those, one hundred and nineteen UK properties.
+> The network has three distinct layers. At the top, the
+> *administrators* — the family of professional intermediaries
+> based at 128 Ebury Street: members of the Tohme and Sarkis
+> families, mostly UK-resident, with branches surfaced in ICIJ
+> records spanning Saudi Arabia and the United Arab Emirates. They
+> have their own network of family offshore vehicles — twenty-five
+> or more in the Panama Papers — but those vehicles do not own UK
+> property. In the middle, the *vehicles* themselves: fifty-two
+> offshore companies whose UK proprietor correspondence address is
+> 128 Ebury Street, all of which also appear in the Panama Papers
+> leak. At the bottom, the *owners* — eighteen named natural
+> persons declared to UK Companies House as the beneficial owners
+> behind those vehicles. Ten nationalities surface across the
+> eighteen, from a Qatari royal to British, Iraqi, Jordanian,
+> Lebanese, Cypriot, Omani, Tunisian, American, and Saudi
+> nationals. The pipeline reconstructed all three layers in a
+> single run.
 
 ### Shot 4.2 — The nationality breakdown (4:45–5:30)
 
