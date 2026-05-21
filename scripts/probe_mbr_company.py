@@ -9,10 +9,12 @@ investigator can drop the output straight into a bundle.
 Two data sources:
 
 1. **OpenCorporates** (``https://api.opencorporates.com/v0.4.8/``)
-   mirrors MBR with a ~12-month lag. Free tier: 200 requests/day.
-   No API key required for read-only company search; passing one
-   raises the cap. Returns JSON: registration number, current status,
-   officers (current + historical), registered address.
+   mirrors MBR with a ~12-month lag. **API token required as of 2025**
+   — free-tier signup at https://opencorporates.com/users/sign_up
+   gives 200 requests/day with no card. Set the env var
+   ``OPENCORPORATES_API_TOKEN`` before running. Returns JSON:
+   registration number, current status, officers (current +
+   historical), registered address.
 
 2. **Wayback Machine** (``https://archive.org/wayback/available``)
    for prior snapshots of the MBR portal page if OpenCorporates is
@@ -45,6 +47,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import os
 import sys
 import time
 from collections.abc import Callable
@@ -152,6 +155,21 @@ def _http_get_factory(
     return fetcher
 
 
+def _params_with_token(params: dict) -> dict:
+    """Attach OPENCORPORATES_API_TOKEN to params if the env var is set.
+
+    OpenCorporates tightened access in 2025: even read-only search
+    returns 401 without a token. Free-tier signup at
+    https://opencorporates.com/users/sign_up (5 minutes, 200 requests
+    per day, no card required).
+    """
+    token = os.environ.get("OPENCORPORATES_API_TOKEN")
+    if token:
+        params = dict(params)
+        params["api_token"] = token
+    return params
+
+
 def search_opencorporates(
     name: str,
     *,
@@ -167,8 +185,16 @@ def search_opencorporates(
         fetcher = _http_get_factory(_DEFAULT_UA)
     status, payload, _ = fetcher(
         _OC_SEARCH_URL,
-        {"q": name, "jurisdiction_code": jurisdiction, "order": "score"},
+        _params_with_token({"q": name, "jurisdiction_code": jurisdiction, "order": "score"}),
     )
+    if status == 401:
+        log.warning(
+            "OpenCorporates returned 401 for %s. Free-tier signup is required "
+            "as of 2025: https://opencorporates.com/users/sign_up. After "
+            "signup, set OPENCORPORATES_API_TOKEN and re-run.",
+            name,
+        )
+        return None
     if status != 200 or not payload:
         log.warning("OpenCorporates search failed: status=%s for %s", status, name)
         return None
@@ -192,7 +218,7 @@ def fetch_opencorporates_detail(
     if fetcher is None:
         fetcher = _http_get_factory(_DEFAULT_UA)
     url = _OC_COMPANY_URL.format(juris=jurisdiction, number=company_number)
-    status, payload, _ = fetcher(url, None)
+    status, payload, _ = fetcher(url, _params_with_token({}))
     if status != 200 or not payload:
         log.warning(
             "OpenCorporates detail failed: status=%s for %s/%s",
