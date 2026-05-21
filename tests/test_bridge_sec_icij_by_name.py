@@ -241,11 +241,15 @@ def _metadata_df(rows: list[dict]) -> pl.DataFrame:
 
 def test_filter_large_cap_filers_drops_large_accelerated(mod):
     """Phase 17a: a Large Accelerated Filer (e.g. Royal Bank of Canada)
-    must be dropped even when its bridge passes the name match."""
+    must be dropped even when its bridge passes the name match. SEC
+    emits the category in lowercase ("Large accelerated filer") with
+    optional HTML linebreaks appended — verify the substring match
+    handles both."""
     bridges = _bridges_df(
         [
-            ("sec:0001000275", "icij:rbc-coincidence"),  # large cap
-            ("sec:0002022852", "icij:offshore-match"),  # smaller filer
+            ("sec:0001000275", "icij:rbc-coincidence"),
+            ("sec:0001234567", "icij:rbc2-variant"),
+            ("sec:0002022852", "icij:offshore-match"),
         ]
     )
     meta = _metadata_df(
@@ -253,22 +257,47 @@ def test_filter_large_cap_filers_drops_large_accelerated(mod):
             {
                 "cik": "0001000275",
                 "sic": "6020",
-                "category": "Large Accelerated Filer",
+                # Real SEC string per data.sec.gov 2026-05-21.
+                "category": "Large accelerated filer",
                 "tickers": "RY",
+            },
+            {
+                "cik": "0001234567",
+                "sic": "6770",
+                # Concatenated variant with HTML linebreak suffix.
+                "category": "Large accelerated filer<br>Well-known seasoned issuer",
+                "tickers": "",
             },
             {
                 "cik": "0002022852",
                 "sic": "6770",
-                "category": "Non-accelerated Filer",
+                "category": "Non-accelerated filer",
                 "tickers": "",
             },
         ]
     )
     kept, counts = mod.filter_large_cap_filers(bridges, meta)
-    assert kept.height == 1
+    assert kept.height == 1, f"only the non-accelerated bridge should survive: {kept}"
     assert kept["src_uid"].to_list() == ["sec:0002022852"]
-    assert counts["dropped_large_filer"] == 1
+    assert counts["dropped_large_filer"] == 2
     assert counts["kept"] == 1
+
+
+def test_filer_category_helper_non_accelerated_not_flagged(mod):
+    """The substring 'accelerated filer' must NOT fire for
+    'Non-accelerated filer' (the common SEC string for small filers)."""
+
+    assert mod._filer_category_is_large_cap("Non-accelerated filer") is False
+    assert mod._filer_category_is_large_cap("non-accelerated filer") is False
+    assert mod._filer_category_is_large_cap("Smaller reporting company") is False
+    assert mod._filer_category_is_large_cap("") is False
+    # And the positive cases
+    assert mod._filer_category_is_large_cap("Large accelerated filer") is True
+    assert mod._filer_category_is_large_cap("Accelerated filer") is True
+    assert (
+        mod._filer_category_is_large_cap("Large accelerated filer<br>Well-known seasoned issuer")
+        is True
+    )
 
 
 def test_filter_drops_blocked_sic(mod):

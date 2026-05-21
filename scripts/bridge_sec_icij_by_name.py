@@ -97,13 +97,34 @@ _BLOCKLIST_SIC_PREFIXES: tuple[str, ...] = (
     "493",  # combination utility
 )
 
-# Filer-category strings that signal a large-cap US public issuer.
-# SEC categories (per data.sec.gov submissions docs): "Large Accelerated
-# Filer", "Accelerated Filer", "Non-accelerated Filer", "Smaller
-# Reporting Company". The first two are the noise source.
-_BLOCKLIST_FILER_CATEGORIES: frozenset[str] = frozenset(
-    {"Large Accelerated Filer", "Accelerated Filer"}
+# Filer-category substrings that signal a large-cap US public issuer.
+# SEC actually emits "Large accelerated filer" (lowercase `a`) plus
+# concatenated variants like "Large accelerated filer<br>Well-known
+# seasoned issuer" — verified against data.sec.gov 2026-05-21. The
+# filter does a case-insensitive substring match against this list so
+# whitespace, HTML linebreaks, and case variants all hit.
+_BLOCKLIST_FILER_CATEGORY_SUBSTRINGS: tuple[str, ...] = (
+    "large accelerated",
+    "accelerated filer",  # picks up "Accelerated filer" but NOT
+    # "Non-accelerated filer" (the lookup is "not in", but as a
+    # substring this also matches the non- prefix — handled below).
 )
+
+
+def _filer_category_is_large_cap(category: str) -> bool:
+    """True if the SEC-emitted ``category`` string indicates a Large
+    Accelerated or Accelerated filer. Robust to case + HTML linebreaks
+    (``"Large accelerated filer<br>Well-known seasoned issuer"``).
+
+    The naive substring match on ``"accelerated filer"`` also fires for
+    ``"Non-accelerated filer"`` which is wrong; we exclude that
+    explicitly.
+    """
+
+    c = (category or "").lower()
+    if "non-accelerated" in c:
+        return False
+    return any(needle in c for needle in _BLOCKLIST_FILER_CATEGORY_SUBSTRINGS)
 
 
 def _normalize_name_series(col: pl.Expr) -> pl.Expr:
@@ -268,7 +289,7 @@ def filter_large_cap_filers(
         .alias("_blocked_sic"),
         pl.col("category")
         .fill_null("")
-        .is_in(list(_BLOCKLIST_FILER_CATEGORIES))
+        .map_elements(_filer_category_is_large_cap, return_dtype=pl.Boolean)
         .alias("_large_filer"),
         (pl.col("tickers").fill_null("").str.len_chars() > 0).alias("_has_ticker"),
     )
