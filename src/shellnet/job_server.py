@@ -1022,6 +1022,12 @@ _ALLOWED_SCRIPTS = {
     "probe_high_stakes_bridges": [
         "scripts/probe_high_stakes_bridges.py",
     ],
+    # Cross-reference UK disqualified directors against UK PSC persons
+    # (by name+DOB, identity-grade) and ICIJ Paradise Papers officers
+    # (name-only, candidate-grade). Two JSONs out.
+    "probe_disqualified_overlap": [
+        "scripts/probe_disqualified_overlap.py",
+    ],
 }
 
 
