@@ -135,7 +135,24 @@ def _startup() -> None:
     ICIJ_RAW.mkdir(parents=True, exist_ok=True)
     LOGS_DIR.mkdir(parents=True, exist_ok=True)
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
-    _load_state()  # touch / create
+    # state.json persists on the volume across redeploys. Any stage
+    # marked `running` at startup means a previous container died
+    # mid-script (OOM, manual redeploy, force kill, ...). Flip those
+    # to `failed` so /run-script's _require_idle check doesn't lock
+    # the stage out forever after a stuck job.
+    state = _load_state()
+    orphans: list[str] = []
+    for stage_name, info in state.get("stages", {}).items():
+        if info.get("status") == "running":
+            orphans.append(stage_name)
+    if orphans:
+        for stage_name in orphans:
+            state["stages"][stage_name]["status"] = "failed"
+            state["stages"][stage_name]["finished_at"] = _now()
+            state["stages"][stage_name]["error"] = "container restart killed running script"
+        _save_state(state)
+        log.warning("startup: reset %d orphaned 'running' stages -> 'failed': %s",
+                    len(orphans), orphans)
     log.info("shellnet-job ready; data dir = %s", DATA_DIR)
 
 
