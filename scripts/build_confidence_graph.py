@@ -142,74 +142,99 @@ def _build_subgraph(
     """Edges within ``hops`` of any ``seed_uid``, capped at ``max_nodes``
     by BFS expansion.
 
-    Phase 12: at hops >= 3 the BFS frontier grows roughly with the
-    quadratic of the average node degree, which on this corpus
-    explodes from ~8k nodes to >100k and makes Louvain unusable.
-    Past hop 2 we apply a per-hop degree filter:
-    ``min_frontier_degree_deep`` is the minimum number of edges a
-    candidate node must have INTO the existing visited set before we
-    admit it. Set to 1 to reproduce the pre-Phase-12 behaviour, or
-    higher to tighten reach in exchange for smaller subgraphs.
+    Phase 14 rewrite: the previous implementation used
+    ``pl.col(...).is_in(list(frontier))`` which polars scans linearly
+    per row, taking >40 min on 3.3M edges with a 50k-node frontier.
+    This version uses semi-joins against a single-column DataFrame of
+    frontier UIDs; polars builds a hash table once and probes the
+    edges in O(edges) per hop. The visited and frontier sets stay as
+    polars DataFrames throughout so we don't churn Python lists across
+    the PyO3 boundary every hop.
+
+    Phase 12 behaviour preserved: past hop 2 we apply a per-hop degree
+    filter via ``min_frontier_degree_deep`` (set to 1 to disable).
     """
 
-    frontier = set(seed_uids)
-    visited = set(seed_uids)
+    # Frontier and visited as single-column DataFrames. Schema matches
+    # ``src_node`` / ``dst_node`` so semi-joins can land on either.
+    frontier_df = pl.DataFrame({"node": sorted(seed_uids)}, schema={"node": pl.String})
+    visited_df = frontier_df.clone()
+
+    def _semi_filter_edges(edges_df: pl.DataFrame, nodes_df: pl.DataFrame) -> pl.DataFrame:
+        """Edges where src_node OR dst_node is in nodes_df['node']."""
+        src_hits = edges_df.join(nodes_df.rename({"node": "src_node"}), on="src_node", how="semi")
+        dst_hits = edges_df.join(nodes_df.rename({"node": "dst_node"}), on="dst_node", how="semi")
+        # Concat + unique is cheaper than a union join for typical
+        # hop sizes; the duplicate is just edges hitting on both sides.
+        return pl.concat([src_hits, dst_hits]).unique()
+
     for hop_i in range(hops):
-        if len(visited) >= max_nodes:
+        if visited_df.height >= max_nodes:
             break
-        adjacent = edges.filter(
-            pl.col("src_node").is_in(list(frontier)) | pl.col("dst_node").is_in(list(frontier))
-        )
-        next_frontier = (
-            set(adjacent.select("src_node").to_series().to_list())
-            | set(adjacent.select("dst_node").to_series().to_list())
-        ) - visited
-        if not next_frontier:
+        adjacent = _semi_filter_edges(edges, frontier_df)
+        if adjacent.is_empty():
             break
 
-        # Build an adjacency counts table once per hop — both the deep-
-        # hop degree filter and the max-nodes cap use it.
+        # Candidates = endpoints of adjacent edges that aren't already
+        # visited. Anti-join replaces set difference.
+        candidate_nodes = (
+            pl.concat(
+                [
+                    adjacent.select(pl.col("src_node").alias("node")),
+                    adjacent.select(pl.col("dst_node").alias("node")),
+                ]
+            )
+            .unique()
+            .join(visited_df, on="node", how="anti")
+        )
+        if candidate_nodes.is_empty():
+            break
+
+        # Build the adjacency counts table once per hop — the deep-hop
+        # degree filter and the max-nodes cap both read from it.
         counts = (
             pl.concat(
                 [
-                    adjacent.select(pl.col("src_node").alias("n")),
-                    adjacent.select(pl.col("dst_node").alias("n")),
+                    adjacent.select(pl.col("src_node").alias("node")),
+                    adjacent.select(pl.col("dst_node").alias("node")),
                 ]
             )
-            .group_by("n")
+            .group_by("node")
             .len()
             .sort("len", descending=True)
         )
 
-        # Phase 12: past hop 2, only keep candidates that bridge >= N
-        # visited nodes. Stops one-degree leaves from inflating the
-        # subgraph at depth.
+        # Phase 12 deep-pruning past hop 2.
         if hop_i >= 2 and min_frontier_degree_deep > 1:
-            qualifying = counts.filter(pl.col("len") >= min_frontier_degree_deep)
-            qualifying_set = set(qualifying.select("n").to_series().to_list())
-            before = len(next_frontier)
-            next_frontier &= qualifying_set
+            qualifying = counts.filter(pl.col("len") >= min_frontier_degree_deep).select("node")
+            before = candidate_nodes.height
+            candidate_nodes = candidate_nodes.join(qualifying, on="node", how="semi")
             log.debug(
                 "hop %d: deep-pruning kept %d/%d candidates (min_degree=%d)",
                 hop_i,
-                len(next_frontier),
+                candidate_nodes.height,
                 before,
                 min_frontier_degree_deep,
             )
-            if not next_frontier:
+            if candidate_nodes.is_empty():
                 break
 
-        # If adding next_frontier would blow past the cap, take the
-        # highest-degree subset of it.
-        if len(visited) + len(next_frontier) > max_nodes:
-            allowed = max_nodes - len(visited)
-            top_n = counts.filter(pl.col("n").is_in(list(next_frontier))).head(allowed)
-            next_frontier = set(top_n.select("n").to_series().to_list())
-        frontier = next_frontier
-        visited |= next_frontier
+        # max-nodes cap: if adding all candidates would blow past, keep
+        # the highest-degree subset.
+        room = max_nodes - visited_df.height
+        if candidate_nodes.height > room:
+            top_nodes = (
+                counts.join(candidate_nodes, on="node", how="semi").head(room).select("node")
+            )
+            candidate_nodes = top_nodes
 
-    sub = edges.filter(
-        pl.col("src_node").is_in(list(visited)) & pl.col("dst_node").is_in(list(visited))
+        frontier_df = candidate_nodes
+        visited_df = pl.concat([visited_df, candidate_nodes]).unique()
+
+    # Final cut: edges where BOTH endpoints are visited. Two semi-joins
+    # is cheaper than a single is_in over a large list at 50k+ visited.
+    sub = edges.join(visited_df.rename({"node": "src_node"}), on="src_node", how="semi").join(
+        visited_df.rename({"node": "dst_node"}), on="dst_node", how="semi"
     )
     return sub
 
