@@ -50,16 +50,38 @@ def main(argv: list[str] | None = None) -> int:
         format="%(levelname)s %(name)s: %(message)s",
     )
 
-    if not args.input.exists():
-        raise SystemExit(
-            f"[fatal] OCOD CSV missing: {args.input}\n"
-            "Download manually from "
-            "https://use-land-property-data.service.gov.uk/datasets/ocod (free "
-            "but requires email signup + licence acceptance), then upload "
-            "to Railway via /upload-zip or similar."
-        )
+    # HMLR ships the CSV with a dated filename (e.g. OCOD_FULL_2026_05.csv)
+    # inside the zip. If the exact --input path doesn't exist, fall back
+    # to the first OCOD_FULL*.csv in the same directory.
+    input_path = args.input
+    if not input_path.exists():
+        parent = input_path.parent
+        candidates = sorted(parent.glob("OCOD_FULL*.csv"))
+        if candidates:
+            input_path = candidates[-1]
+            log.info("--input not found; falling back to %s", input_path)
+        else:
+            raise SystemExit(
+                f"[fatal] OCOD CSV missing: {args.input}\n"
+                "Download manually from "
+                "https://use-land-property-data.service.gov.uk/datasets/ocod "
+                "(free but requires email signup + licence acceptance), then "
+                "upload to Railway via /upload-file?slot=hmlr_ocod_zip + "
+                "/unzip-file."
+            )
 
-    hmlr_ocod.ingest(args.input, out=args.out, snapshot_date=args.snapshot_date)
+    # Derive snapshot_date from filename if not provided. HMLR uses
+    # OCOD_FULL_YYYY_MM.csv — extract YYYY-MM as a stable identifier.
+    snapshot_date = args.snapshot_date
+    if not snapshot_date:
+        import re
+
+        m = re.search(r"(\d{4})_(\d{2})", input_path.name)
+        if m:
+            snapshot_date = f"{m.group(1)}-{m.group(2)}"
+            log.info("snapshot_date inferred from filename: %s", snapshot_date)
+
+    hmlr_ocod.ingest(input_path, out=args.out, snapshot_date=snapshot_date)
     return 0
 
 
