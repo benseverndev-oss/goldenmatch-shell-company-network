@@ -95,9 +95,9 @@ def probe_sanctions_overlap() -> dict:
 
     os_ent = (
         pl.scan_parquet(_OS_ENTITIES)
-        .select("id", "name", "schema", "topics", "datasets")
+        .select("source_id", "name", "entity_schema", "topics", "datasets", "normalized_name")
         .collect()
-        .with_columns(_norm_expr("name").alias("normalized"))
+        .with_columns(pl.col("normalized_name").alias("normalized"))
     )
     log.info("  %d OpenSanctions entities", os_ent.height)
 
@@ -112,8 +112,8 @@ def probe_sanctions_overlap() -> dict:
 
     # Name-equality join on normalized
     joined = sec.join(
-        sanctioned.select("id", "name", "topics", "datasets", "normalized").rename(
-            {"name": "os_name", "id": "os_id"}
+        sanctioned.select("source_id", "name", "topics", "datasets", "normalized").rename(
+            {"name": "os_name", "source_id": "os_id"}
         ),
         on="normalized",
         how="inner",
@@ -170,12 +170,12 @@ def probe_marinakis_expanded() -> dict:
         ent_normalized = ent.with_columns(_norm_expr("name").alias("normalized"))
         os_ent = (
             pl.scan_parquet(_OS_ENTITIES)
-            .select("id", "name", "topics", "datasets")
+            .select("source_id", "name", "topics", "datasets", "normalized_name")
             .collect()
-            .with_columns(_norm_expr("name").alias("normalized"))
+            .with_columns(pl.col("normalized_name").alias("normalized"))
         )
         os_match = ent_normalized.join(
-            os_ent.rename({"name": "os_name", "id": "os_id"}),
+            os_ent.rename({"name": "os_name", "source_id": "os_id"}),
             on="normalized",
             how="inner",
         )
@@ -214,15 +214,15 @@ def probe_pep_overlap() -> dict:
     peps = (
         pl.scan_parquet(_OS_ENTITIES)
         .filter(pl.col("topics").list.contains("pep"))
-        .select("id", "name", "schema", "topics", "datasets")
+        .select("source_id", "name", "entity_schema", "topics", "datasets", "normalized_name")
         .collect()
-        .with_columns(_norm_expr("name").alias("normalized"))
+        .with_columns(pl.col("normalized_name").alias("normalized"))
     )
     log.info("  %d PEP-flagged OS entities", peps.height)
 
     joined = sec.join(
-        peps.select("id", "name", "topics", "datasets", "normalized").rename(
-            {"name": "os_name", "id": "os_id"}
+        peps.select("source_id", "name", "topics", "datasets", "normalized").rename(
+            {"name": "os_name", "source_id": "os_id"}
         ),
         on="normalized",
         how="inner",
