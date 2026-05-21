@@ -1,6 +1,6 @@
 # Confidence-aware graph reconstruction
 
-_Generated 2026-05-21 01:53 UTC from `processed/confidence_graph_edges.parquet`,
+_Generated 2026-05-21 12:17 UTC from `processed/confidence_graph_edges.parquet`,
 `processed/confidence_communities.parquet`, and
 `processed/confidence_graph_summary.json`. Companion to
 [`methodology.md` §6](../paper/methodology.md)._
@@ -20,7 +20,7 @@ relations (`same_name_as`, `similar`) are soft. This report:
    we drop low-credibility edges?
 
 The scope is the 2-hop subgraph anchored on the **dossier seed set**
-(the 446 entities from `rare_officer_dossiers.parquet`),
+(the 1991 entities from `rare_officer_dossiers.parquet`),
 not the full 3.3M-edge ICIJ corpus. Bounded compute, investigatively-
 aligned subgraph.
 
@@ -28,9 +28,9 @@ aligned subgraph.
 
 | Metric | Value |
 |---|---:|
-| Seed UIDs (dossier anchors) | 446 |
+| Seed UIDs (dossier anchors) | 1,991 |
 | Subgraph nodes | 29,888 |
-| Subgraph edges | 67,962 |
+| Subgraph edges | 66,681 |
 | BFS depth | 3 hops |
 
 ## Edge-credibility priors
@@ -57,26 +57,26 @@ aligned subgraph.
 
 | Credibility bucket | Edges |
 |---|---:|
-| 0.70–0.90 | 68,414 |
-| ≥0.90 (structural) | 1,332 |
-| 0.50–0.70 | 130 |
+| 0.70–0.90 | 67,545 |
+| 0.50–0.70 | 1,672 |
+| ≥0.90 (structural) | 1,356 |
 | <0.50 | 37 |
 
 ### Per-kind breakdown (subgraph)
 
 | Edge kind | Credibility | Edges in subgraph |
 |---|---:|---:|
-| `officer_of` | 0.77 | 34,245 |
-| `registered_address` | 0.90 | 28,842 |
-| `intermediary_of` | 0.85 | 6,176 |
-| `beneficial_owner_of` | 0.89 | 453 |
-| `cross_jurisdictional_twin` | 0.68 | 99 |
-| `same_company_as` | 0.77 | 39 |
+| `officer_of` | 0.77 | 30,397 |
+| `registered_address` | 0.90 | 23,231 |
+| `beneficial_owner_of` | 0.89 | 7,757 |
+| `intermediary_of` | 0.85 | 7,488 |
+| `same_company_as` | 0.77 | 1,580 |
+| `cross_jurisdictional_twin` | 0.68 | 100 |
 | `similar` | 0.42 | 21 |
 | `same_name_as` | 0.42 | 16 |
-| `underlying` | 0.72 | 12 |
-| `same_id_as` | 0.90 | 4 |
-| `same_as` | 0.81 | 4 |
+| `underlying` | 0.72 | 11 |
+| `same_as` | 0.81 | 5 |
+| `same_id_as` | 0.90 | 2 |
 | `probably_same_officer_as` | 0.63 | 1 |
 | `psc_controller_of` | 0.89 | 1 |
 
@@ -89,9 +89,9 @@ filtered graph.
 
 | Threshold | Edges retained | Communities | Largest | Median | Singletons |
 |---:|---:|---:|---:|---:|---:|
-| 0.50 | 67,927 | 64 | 17,460 | 10 | 4 |
-| 0.70 | 67,797 | 172 | 17,460 | 1 | 103 |
-| 0.90 | 1,332 | 28560 | 339 | 1 | 28465 |
+| 0.50 | 66,646 | 277 | 12,853 | 3 | 4 |
+| 0.70 | 64,974 | 1416 | 12,947 | 2 | 701 |
+| 0.90 | 1,356 | 28555 | 307 | 1 | 28456 |
 
 
 ## Stability across thresholds
@@ -103,8 +103,8 @@ most-permissive threshold (0.50) and the most-strict threshold
 | Metric | Value |
 |---|---:|
 | Nodes evaluated | 29,888 |
-| Mean Jaccard overlap | **0.028** |
-| Nodes with overlap ≥ 0.5 | 653 (2.2%) |
+| Mean Jaccard overlap | **0.033** |
+| Nodes with overlap ≥ 0.5 | 785 (2.6%) |
 
 A mean Jaccard of 0.03 means **the community structure is
 unstable to credibility-threshold changes**.
@@ -126,16 +126,16 @@ relevant, not just structurally large).
 
 | Community ID | Size | Seed members |
 |---:|---:|---:|
-| 40 | 339 | 2 |
-| 42 | 245 | 2 |
-| 44 | 197 | 35 |
-| 45 | 182 | 3 |
+| 43 | 307 | 2 |
+| 45 | 234 | 2 |
+| 46 | 184 | 35 |
+| 48 | 176 | 3 |
 | 53 | 69 | 69 |
-| 43 | 56 | 4 |
-| 47 | 31 | 1 |
-| 41 | 20 | 3 |
-| 46 | 15 | 4 |
-| 48 | 14 | 14 |
+| 47 | 52 | 4 |
+| 39 | 51 | 0 |
+| 82 | 26 | 1 |
+| 40 | 23 | 0 |
+| 44 | 21 | 3 |
 
 
 ## Anomaly-ranked communities at threshold 0.90
@@ -156,16 +156,16 @@ Top 10:
 
 | Rank | Community | Size | Seeds | Seed density | Isolation | Anomaly score |
 |---:|---:|---:|---:|---:|---:|---:|
-| 1 | 6 | 3 | 3 | 1.00 | 1.00 | 1.000 |
-| 2 | 48 | 14 | 14 | 1.00 | 1.00 | 1.000 |
-| 3 | 19 | 3 | 3 | 1.00 | 1.00 | 1.000 |
-| 4 | 22 | 3 | 3 | 1.00 | 1.00 | 1.000 |
-| 5 | 31 | 3 | 3 | 1.00 | 1.00 | 1.000 |
-| 6 | 55 | 4 | 4 | 1.00 | 1.00 | 1.000 |
-| 7 | 58 | 3 | 3 | 1.00 | 1.00 | 1.000 |
-| 8 | 76 | 3 | 3 | 1.00 | 1.00 | 1.000 |
-| 9 | 53 | 69 | 69 | 1.00 | 1.00 | 1.000 |
-| 10 | 59 | 5 | 5 | 1.00 | 1.00 | 1.000 |
+| 1 | 24 | 3 | 3 | 1.00 | 1.00 | 1.000 |
+| 2 | 21 | 3 | 3 | 1.00 | 1.00 | 1.000 |
+| 3 | 60 | 5 | 5 | 1.00 | 1.00 | 1.000 |
+| 4 | 7 | 3 | 3 | 1.00 | 1.00 | 1.000 |
+| 5 | 49 | 14 | 14 | 1.00 | 1.00 | 1.000 |
+| 6 | 32 | 3 | 3 | 1.00 | 1.00 | 1.000 |
+| 7 | 56 | 4 | 4 | 1.00 | 1.00 | 1.000 |
+| 8 | 53 | 69 | 69 | 1.00 | 1.00 | 1.000 |
+| 9 | 59 | 3 | 3 | 1.00 | 1.00 | 1.000 |
+| 10 | 77 | 3 | 3 | 1.00 | 1.00 | 1.000 |
 
 The top-ranked community here is the lead-generation engine's graph-level recommendation: investigate **this cluster** because its structural signature (isolated + seed-dense + size-distinctive) is most unlike everything else in the subgraph.
 
@@ -211,55 +211,55 @@ Mean / min edge credibility within each community at the strict threshold (0.90)
 
 | Community | Internal edges | Mean credibility | Min credibility |
 |---:|---:|---:|---:|
-| 40 | 338 | 0.903 | 0.902 |
-| 42 | 244 | 0.902 | 0.902 |
-| 44 | 196 | 0.902 | 0.902 |
-| 45 | 181 | 0.902 | 0.902 |
+| 43 | 306 | 0.902 | 0.902 |
+| 45 | 233 | 0.902 | 0.902 |
+| 46 | 183 | 0.902 | 0.902 |
+| 48 | 175 | 0.902 | 0.902 |
+| 39 | 72 | 0.903 | 0.902 |
 | 53 | 68 | 0.902 | 0.902 |
-| 43 | 55 | 0.902 | 0.902 |
-| 47 | 30 | 0.902 | 0.902 |
-| 41 | 19 | 0.903 | 0.902 |
-| 46 | 14 | 0.902 | 0.902 |
-| 48 | 13 | 0.902 | 0.902 |
+| 47 | 51 | 0.902 | 0.902 |
+| 82 | 25 | 0.902 | 0.902 |
+| 40 | 22 | 0.902 | 0.902 |
+| 44 | 20 | 0.903 | 0.902 |
 
 ### Contradiction-aware closure
 
-Node pairs that share a community at the loose threshold but split across distinct communities at the strict threshold — the soft edges between them are the load-bearing assumptions. Detected: **5,092** pairs (capped).
+Node pairs that share a community at the loose threshold but split across distinct communities at the strict threshold — the soft edges between them are the load-bearing assumptions. Detected: **5,070** pairs (capped).
 
 | Node A | Node B | Loose community | Strict A | Strict B |
 |---|---|---:|---:|---:|
-| `icij:12141655` | `icij:12027859` | 0 | 20 | 27559 |
-| `icij:12141655` | `icij:13005490` | 0 | 20 | 37 |
-| `icij:12141655` | `icij:14086135` | 0 | 20 | 37 |
-| `icij:12141655` | `icij:10093416` | 0 | 20 | 102 |
-| `icij:12141655` | `icij:12142942` | 0 | 20 | 27558 |
-| `icij:12141655` | `icij:10077287` | 0 | 20 | 0 |
-| `icij:12141655` | `icij:11003326` | 0 | 20 | 101 |
-| `icij:12141655` | `icij:12038376` | 0 | 20 | 27570 |
-| `icij:12141655` | `icij:12213516` | 0 | 20 | 27571 |
-| `icij:12141655` | `oo:gb-coh-oe010705` | 0 | 20 | 28271 |
+| `icij:12002436` | `icij:12002521` | 0 | 22094 | 22095 |
+| `icij:12002436` | `icij:14029376` | 0 | 22094 | 17 |
+| `icij:12002436` | `icij:10032973` | 0 | 22094 | 112 |
+| `icij:12002436` | `icij:12132752` | 0 | 22094 | 17 |
+| `icij:12002436` | `icij:10105758` | 0 | 22094 | 202 |
+| `icij:12002436` | `icij:10102324` | 0 | 22094 | 209 |
+| `icij:12002436` | `icij:10208459` | 0 | 22094 | 364 |
+| `icij:12002436` | `icij:11000123` | 0 | 22094 | 111 |
+| `icij:12002436` | `icij:12002835` | 0 | 22094 | 22097 |
+| `icij:12002436` | `icij:12002435` | 0 | 22094 | 22093 |
 
 ### Review-priority ranking
 
-Edges in the gray zone (credibility 0.4–0.75) that touch contradiction-prone nodes or dossier seeds, ranked by `uncertainty × impact`. These are the highest-leverage manual-review targets — a yes/no decision on each rewrites large parts of the community structure. Total: **144**.
+Edges in the gray zone (credibility 0.4–0.75) that touch contradiction-prone nodes or dossier seeds, ranked by `uncertainty × impact`. These are the highest-leverage manual-review targets — a yes/no decision on each rewrites large parts of the community structure. Total: **1,679**.
 
 | Node A | Node B | Edge credibility | Uncertainty | Impact | Priority |
 |---|---|---:|---:|---:|---:|
-| `icij:10203410` | `oo:gb-coh-03894052` | 0.680 | 0.400 | 11.000 | 4.400 |
-| `icij:10142285` | `oo:gb-coh-04333597` | 0.680 | 0.400 | 5.800 | 2.320 |
-| `icij:240461414` | `oo:gb-coh-ni712702` | 0.680 | 0.400 | 5.600 | 2.240 |
-| `icij:240461414` | `oo:gb-coh-13440613` | 0.680 | 0.400 | 5.600 | 2.240 |
-| `icij:240083540` | `oo:gb-coh-11782738` | 0.680 | 0.400 | 5.000 | 2.000 |
-| `icij:240031341` | `oo:gb-coh-ni601357` | 0.680 | 0.400 | 5.000 | 2.000 |
-| `icij:240031341` | `oo:gb-coh-15526522` | 0.680 | 0.400 | 5.000 | 2.000 |
-| `icij:240020686` | `oo:gb-coh-oe014681` | 0.680 | 0.400 | 5.000 | 2.000 |
-| `oo:gb-coh-ni712702` | `icij:20159944` | 0.680 | 0.400 | 4.600 | 1.840 |
-| `oo:gb-coh-ni712702` | `icij:200135162` | 0.680 | 0.400 | 4.600 | 1.840 |
-| `icij:20159944` | `oo:gb-coh-13440613` | 0.680 | 0.400 | 4.600 | 1.840 |
-| `icij:200135162` | `oo:gb-coh-13440613` | 0.680 | 0.400 | 4.600 | 1.840 |
-| `icij:12122088` | `icij:12118435` | 0.425 | 0.143 | 11.600 | 1.657 |
-| `icij:240031907` | `oo:gb-coh-11782738` | 0.680 | 0.400 | 4.000 | 1.600 |
-| `icij:10093416` | `oo:gb-coh-oe010705` | 0.680 | 0.400 | 3.400 | 1.360 |
+| `icij:55081490` | `oo:gb-coh-14161090` | 0.680 | 0.400 | 19.600 | 7.840 |
+| `icij:55081490` | `oo:gb-coh-16027143` | 0.680 | 0.400 | 19.600 | 7.840 |
+| `icij:55049444` | `oo:gb-coh-11520150` | 0.680 | 0.400 | 19.600 | 7.840 |
+| `icij:55057137` | `oo:gb-coh-15120320` | 0.680 | 0.400 | 19.600 | 7.840 |
+| `icij:55054932` | `oo:gb-coh-ni680284` | 0.680 | 0.400 | 19.600 | 7.840 |
+| `icij:55051774` | `oo:gb-coh-09146042` | 0.680 | 0.400 | 19.600 | 7.840 |
+| `icij:10143602` | `oo:gb-coh-15120320` | 0.680 | 0.400 | 19.300 | 7.720 |
+| `oo:gb-coh-11520150` | `icij:200287` | 0.680 | 0.400 | 19.300 | 7.720 |
+| `icij:10067729` | `oo:gb-coh-09146042` | 0.680 | 0.400 | 19.300 | 7.720 |
+| `icij:55081280` | `oo:gb-coh-13399004` | 0.680 | 0.400 | 13.500 | 5.400 |
+| `icij:55081280` | `oo:gb-coh-10827470` | 0.680 | 0.400 | 13.500 | 5.400 |
+| `icij:10172921` | `sec:0001542769` | 0.510 | 0.629 | 7.200 | 4.526 |
+| `icij:10173464` | `sec:0001005788` | 0.510 | 0.629 | 7.200 | 4.526 |
+| `icij:10212642` | `sec:0000733590` | 0.510 | 0.629 | 7.200 | 4.526 |
+| `icij:10145890` | `sec:0001822571` | 0.510 | 0.629 | 5.200 | 3.269 |
 
 ## What this report does NOT prove
 
