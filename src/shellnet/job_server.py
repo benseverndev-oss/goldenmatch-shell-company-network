@@ -1066,6 +1066,13 @@ _ALLOWED_SCRIPTS = {
     "probe_hmlr_ocod_crossref": [
         "scripts/probe_hmlr_ocod_crossref.py",
     ],
+    # Case-study deep-dive on the three BVI-jurisdiction-confirmed
+    # ICIJ ∩ OCOD bridges (SULGER ASSETS, JAMERS INTERNATIONAL,
+    # CARDINAL INVESTMENT SERVICES). Pulls full ICIJ network + UK
+    # property history per candidate.
+    "probe_bvi_confirmed_deepdive": [
+        "scripts/probe_bvi_confirmed_deepdive.py",
+    ],
 }
 
 
