@@ -71,6 +71,12 @@ def test_bundle_runs_cluster_47(b, tmp_path):
         community_id=47,
         person="peter kevin perry",
         out_path=out,
+        # Disable archive_sources here: this test validates bundle
+        # assembly, not the archiver. The default-on archive would
+        # (a) hit ICIJ for real ~50+ times and (b) write an
+        # archived_sources/ directory inside the repo's pack dir,
+        # which leaks into other tests' globs.
+        archive_sources=False,
     )
     assert result == out
     assert out.exists()
@@ -103,3 +109,120 @@ def test_bundle_runs_cluster_47(b, tmp_path):
         readme = zf.read("README.md").decode("utf-8")
         assert "Cluster 47" in readme
         assert "alephclient" in readme
+
+
+def test_bundle_includes_archived_sources(b, tmp_path, monkeypatch):
+    """Phase 18: the bundle must include archived ICIJ source-page HTML
+    captures, not just URLs. Uses dependency-injected fetcher so the
+    test never touches the network. Builds a minimal pack on disk."""
+    import json
+
+    pack = tmp_path / "pack"
+    data = pack / "data"
+    data.mkdir(parents=True)
+
+    # Minimal FTM with one Person entity referencing an ICIJ URL.
+    ftm_lines = [
+        json.dumps(
+            {
+                "id": "gm-c99-p-icij-12345",
+                "schema": "Person",
+                "properties": {
+                    "name": ["Test Person"],
+                    "sourceUrl": ["https://offshoreleaks.icij.org/nodes/12345"],
+                    "publisher": ["GoldenMatch test"],
+                },
+            }
+        ),
+        json.dumps(
+            {
+                "id": "gm-c99-co-icij-67890",
+                "schema": "Company",
+                "properties": {
+                    "name": ["Test Company Ltd"],
+                    "sourceUrl": ["https://offshoreleaks.icij.org/nodes/67890"],
+                    "publisher": ["GoldenMatch test"],
+                },
+            }
+        ),
+    ]
+    (data / "cluster_99_ftm.json").write_text("\n".join(ftm_lines), encoding="utf-8")
+
+    # Stub the archiver's HTTP fetcher so no real network IO happens.
+    import shellnet.archive.icij_archiver as archiver
+
+    def fake_factory():
+        def fake_fetcher(url: str, ua: str) -> tuple[int, bytes]:
+            return (200, f"<html><body>captured {url}</body></html>".encode())
+
+        return fake_fetcher
+
+    monkeypatch.setattr(archiver, "_http_fetcher_factory", fake_factory)
+
+    out = tmp_path / "out.zip"
+    b.build_bundle(
+        community_id=99,
+        person="test person",
+        pack_dir=pack,
+        out_path=out,
+        archive_min_interval_s=0.0,
+        archive_request_wayback=False,
+    )
+
+    import zipfile
+
+    with zipfile.ZipFile(out) as zf:
+        names = set(zf.namelist())
+        # Both ICIJ pages captured under archived_sources/icij/nodes/
+        assert "archived_sources/icij/nodes/12345.html" in names, sorted(names)
+        assert "archived_sources/icij/nodes/67890.html" in names
+        # Manifest documents the captures.
+        assert "archived_sources/icij/manifest.json" in names
+        manifest = json.loads(zf.read("archived_sources/icij/manifest.json"))
+        assert len(manifest["entries"]) == 2
+        assert all(e["status_code"] == 200 for e in manifest["entries"])
+        # Bundle manifest carries the archive summary.
+        bundle_manifest = json.loads(zf.read("manifest.json"))
+        archive_stats = bundle_manifest["stats"]["archived_sources"]
+        assert archive_stats["succeeded"] == 2
+        assert archive_stats["failed"] == 0
+
+
+def test_no_archive_sources_flag_skips_archival(b, tmp_path):
+    """The --no-archive-sources flag (archive_sources=False) skips the
+    fetch step entirely — no archived_sources/ subtree in the zip."""
+    import json
+
+    pack = tmp_path / "pack"
+    data = pack / "data"
+    data.mkdir(parents=True)
+    (data / "cluster_99_ftm.json").write_text(
+        json.dumps(
+            {
+                "id": "x",
+                "schema": "Person",
+                "properties": {
+                    "name": ["X"],
+                    "sourceUrl": ["https://offshoreleaks.icij.org/nodes/1"],
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+    out = tmp_path / "out.zip"
+    b.build_bundle(
+        community_id=99,
+        person="x",
+        pack_dir=pack,
+        out_path=out,
+        archive_sources=False,
+    )
+
+    import zipfile
+
+    with zipfile.ZipFile(out) as zf:
+        names = zf.namelist()
+        assert not any(n.startswith("archived_sources/") for n in names), names
+        # Bundle manifest still has the field, with zero counts.
+        manifest = json.loads(zf.read("manifest.json"))
+        assert manifest["stats"]["archived_sources"]["succeeded"] == 0
