@@ -1262,28 +1262,33 @@ def _do_unzip_file(stage: str, path: Path) -> None:
         _mark(stage, status="failed", finished_at=_now(), error=repr(exc))
 
 
-@app.post("/upload-file", dependencies=[Depends(_auth)])
-async def upload_file(file: UploadFile, dest: str) -> dict[str, Any]:
-    """Upload an arbitrary file to a path under /data.
+# Fixed whitelist of upload slots. Each slot is a code-controlled
+# destination path; the caller picks a slot by name from this dict
+# rather than supplying an arbitrary path. Defends against
+# path-injection at the schema layer (no taint flow from user input
+# to filesystem path).
+_UPLOAD_SLOTS: dict[str, Path] = {
+    "hmlr_ocod_zip": DATA_DIR / "raw" / "hmlr" / "OCOD_FULL.zip",
+    "hmlr_ocod_csv": DATA_DIR / "raw" / "hmlr" / "OCOD_FULL.csv",
+    "hmlr_ccod_zip": DATA_DIR / "raw" / "hmlr" / "CCOD_FULL.zip",
+    "hmlr_ccod_csv": DATA_DIR / "raw" / "hmlr" / "CCOD_FULL.csv",
+}
 
-    ``dest`` is the destination path relative to /data (e.g.
-    ``raw/hmlr/OCOD_FULL.zip``). The file is streamed in 8 MiB chunks
-    and atomically moved into place via .partial -> rename.
+
+@app.post("/upload-file", dependencies=[Depends(_auth)])
+async def upload_file(file: UploadFile, slot: str) -> dict[str, Any]:
+    """Upload an arbitrary file to a fixed, code-controlled slot.
+
+    ``slot`` is a key into ``_UPLOAD_SLOTS`` — the actual destination
+    path is determined by this code, not by user input. Adding a new
+    slot requires a code change + redeploy, which is the right
+    security model for arbitrary file uploads.
     """
-    if dest.startswith("/") or ".." in Path(dest).parts:
-        raise HTTPException(400, "dest must be a relative path inside /data")
-    # Belt-and-braces: resolve to canonical and re-check containment.
-    # The string-level guard above catches the obvious cases; this
-    # catches symlink-based escape vectors that CodeQL's path-injection
-    # flow analysis cares about.
-    data_root = DATA_DIR.resolve()
-    full = (DATA_DIR / dest).resolve()
-    try:
-        full.relative_to(data_root)
-    except ValueError as exc:
-        raise HTTPException(400, "dest resolves outside /data") from exc
+    if slot not in _UPLOAD_SLOTS:
+        raise HTTPException(400, f"unknown slot; available: {sorted(_UPLOAD_SLOTS)}")
+    full = _UPLOAD_SLOTS[slot]
     full.parent.mkdir(parents=True, exist_ok=True)
-    stage = f"upload_{full.stem}"
+    stage = f"upload_{slot}"
     _require_idle(stage)
     _mark(stage, status="running", started_at=_now(), name=file.filename, dest=str(full))
     tmp = full.with_suffix(full.suffix + ".partial")
