@@ -45,49 +45,83 @@ providers.
 
 ---
 
-## Act 1 — The hook (0:00–1:00)
+## Act 1 — The hook (0:00–1:15)
 
-### Shot 1.1 — Cold open (0:00–0:12)
+### Shot 1.1 — Cold open (0:00–0:15)
 
-**Visual:** Street View pan along Ebury Street, Belgravia. Slow
-push-in onto the door of 128 Ebury Street. Standard Georgian
-terrace, brass nameplate, unmarked.
+**Visual:** Slow Street View pan along Ebury Street, Belgravia.
+Push-in onto the door of 128 Ebury Street. Standard Georgian
+terrace, brass nameplate.
 
 **Narration (VO):**
-> This is a four-storey Georgian terrace in Belgravia, central
-> London. The brass nameplate by the door reads RAWI CO ASSOCIATES
-> LTD — a firm of accountants, incorporated in 2015, registered
-> with the Institute of Chartered Accountants in England and Wales.
-> From this single address, the people behind 119 UK properties
-> file their British paperwork.
+> This video is **not about discovering** an offshore-property
+> advisory operation in Belgravia. That operation has been on the
+> public record since June 2023, when the UK High Court ruled on a
+> profit-share dispute between members of the advisory team and
+> three of its clients. *Al-Rawi v Sidawi & Ors*, citation
+> twenty-twenty-three EWHC fourteen-fifteen, Chancery Division.
+>
+> This video is about how much *more* there is than what the
+> litigation disclosed.
 
-### Shot 1.2 — Title card (0:12–0:18)
+### Shot 1.2 — Title card (0:15–0:22)
 
 **Visual:** Black card. White serif text:
 ```
-ONE ADDRESS, ONE HUNDRED AND NINETEEN PROPERTIES
-A worked example of public-data investigative methodology
+SCALE, NOT DISCOVERY
+What a 2023 High Court case named, and what one public-data
+pipeline finds beyond it
 ```
 
-### Shot 1.3 — The setup (0:18–1:00)
+### Shot 1.3 — What the court case did and didn't disclose (0:22–1:15)
 
-**Visual:** Stacked screen-captures of:
-1. ICIJ Offshore Leaks Database — "C/O Waterbridge Estates; 128
-   Ebury Street; London SW1W 9QQ; UK" — `icij:14033543`
-2. UK Companies House — RAWI CO ASSOCIATES LTD (#09389698),
-   registered office 128 Ebury Street
-3. HM Land Registry OCOD — 119 rows where proprietor_address
-   contains "128 Ebury Street"
+**Visual:** Split-screen.
+
+**Left column ("What the court ruled on, June 2023"):**
+```
+Al-Rawi v Sidawi & Ors [2023] EWHC 1415 (Ch)
+
+Claimant:    Faris Al-Rawi (Radwan's son)
+Defendants:  Sami Wadi Sidawi (Abu Dhabi / London)
+             Wael Hourani (Dubai)
+             Amal Hourani (Beirut)
+
+Properties named:
+  Draycott   — Chelsea
+  Thurloe    — South Kensington
+  KHN        — Kensington
+  Cromwell   — South Kensington
+
+= 3 clients, 4 properties
+```
+
+**Right column ("What the pipeline finds in the same structure"):**
+```
+Same operating address: 128 Ebury Street SW1W 9QQ
+Same advisor firm: Rawi & Co (Radwan Al-Rawi)
+Same operating brand: Waterbridge
+
+But also:
+
+119 UK properties (per HM Land Registry, May 2026)
+52 of those companies in ICIJ Panama Papers (2016)
+18 named beneficial owners (per UK Companies House ROE)
+10 nationalities
+£137M+ in recorded transaction values
+2 acquisition waves: 2006–2017, 2020–2021
+```
 
 **Narration:**
-> Three corporate-data sources have something specific to say about
-> 128 Ebury Street. ICIJ's Panama Papers leak records it as the
-> registered correspondence address of offshore companies. UK
-> Companies House lists it as the registered office of a 2015
-> accountancy firm. HM Land Registry records 119 UK property titles
-> whose foreign proprietor lists it as their UK correspondence
-> point. This video uses a pipeline to connect those three sources
-> and tells you what's in the overlap.
+> The court case named one father-son advisor team, three clients,
+> and four prime Central London properties. The pipeline takes the
+> same Belgravia address — 128 Ebury Street — and joins three free
+> public datasets: ICIJ's Panama Papers leak, HM Land Registry's
+> overseas-company ownership data, and the UK Register of Overseas
+> Entities. In five minutes of compute, it surfaces a portfolio
+> of one hundred and nineteen UK properties, fifty-two of which
+> sit in the Panama Papers, with eighteen named beneficial owners
+> across ten nationalities. The court case showed the existence
+> of the operation. The pipeline shows its scale.
 
 ---
 
