@@ -1041,6 +1041,16 @@ _ALLOWED_SCRIPTS = {
     "probe_sajid_bashir_icij": [
         "scripts/probe_sajid_bashir_icij.py",
     ],
+    # Look up icij:14090036 — Sajid Bashir's registered-address node in
+    # Panama Papers. The address is the only remaining disambiguator
+    # we can pull on the ICIJ side (no DOB available there).
+    "probe_icij_address_bashir": [
+        "scripts/probe_icij_address_lookup.py",
+        "--source-id",
+        "14090036",
+        "--slug",
+        "bashir_address",
+    ],
 }
 
 
