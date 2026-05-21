@@ -1272,7 +1272,16 @@ async def upload_file(file: UploadFile, dest: str) -> dict[str, Any]:
     """
     if dest.startswith("/") or ".." in Path(dest).parts:
         raise HTTPException(400, "dest must be a relative path inside /data")
-    full = DATA_DIR / dest
+    # Belt-and-braces: resolve to canonical and re-check containment.
+    # The string-level guard above catches the obvious cases; this
+    # catches symlink-based escape vectors that CodeQL's path-injection
+    # flow analysis cares about.
+    data_root = DATA_DIR.resolve()
+    full = (DATA_DIR / dest).resolve()
+    try:
+        full.relative_to(data_root)
+    except ValueError as exc:
+        raise HTTPException(400, "dest resolves outside /data") from exc
     full.parent.mkdir(parents=True, exist_ok=True)
     stage = f"upload_{full.stem}"
     _require_idle(stage)
