@@ -1028,6 +1028,12 @@ _ALLOWED_SCRIPTS = {
     "probe_disqualified_overlap": [
         "scripts/probe_disqualified_overlap.py",
     ],
+    # Diagnostic: what does the disqualified DOB column actually look
+    # like, plus full record for the two ICIJ candidates Sajid Bashir
+    # + Santokh Singh.
+    "probe_inspect_disq_dob": [
+        "scripts/probe_inspect_disq_dob.py",
+    ],
 }
 
 
