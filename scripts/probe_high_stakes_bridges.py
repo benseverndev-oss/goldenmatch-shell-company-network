@@ -36,7 +36,7 @@ _SEC_EDGES = Path("/data/processed/sec_13dg_edges.parquet")
 _ICIJ_ENTITIES = Path("/data/interim/icij_entities.parquet")
 _ICIJ_OFFICERS = Path("/data/interim/icij_officers.parquet")
 _ICIJ_EDGES = Path("/data/interim/icij_edges.parquet")
-_OS_ENTITIES = Path("/data/processed/opensanctions_entities.parquet")
+_OS_ENTITIES = Path("/data/interim/opensanctions_entities.parquet")
 
 # Sanctions-emitting datasets — substring matched against OS `datasets`
 # column. CLAUDE.md notes ``us_sam_exclusions`` is where the
