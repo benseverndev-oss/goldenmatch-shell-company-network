@@ -7,7 +7,19 @@ House Register of Overseas Entities can surface — in single-digit
 minutes of compute — that a single Belgravia address administers
 **119 UK properties owned by overseas companies, 52 of which appear
 in the ICIJ Panama Papers leak**, with declared beneficial owners
-spanning 10+ nationalities.
+spanning 10+ nationalities and a recorded transaction value of
+**£137M+ across just 29 of the 119 priced titles**.
+
+The case study has *court-validated* corroboration: a 2023 UK High
+Court judgment — **Al-Rawi v Sidawi & Ors [2023] EWHC 1415 (Ch)**
+— independently confirms the operating model the pipeline
+reconstructed, naming Radwan Al-Rawi as principal of Rawi & Co, the
+Waterbridge corporate-services companies as the operating brand,
+and four specific prime Central London projects (Chelsea, two in
+South Kensington, one in Kensington) with named investors (Sami
+Wadi Sidawi of Abu Dhabi; Wael & Amal Hourani of Dubai and Beirut).
+The pipeline reveals the structure's *wider* footprint beyond the
+four properties named in the litigation.
 
 This case study is harder to dismiss than a single-family finding
 because it's an *infrastructure* story: the headline is the
@@ -270,9 +282,92 @@ Limited.
 > public source we can find. The methodology surfaces it in under
 > five minutes of compute.
 
+### Shot 4.5 — Court-validated corroboration (7:00–8:00)
+
+**Visual:** BAILII page header showing the judgment:
+```
+Al-Rawi v Sidawi & Ors [2023] EWHC 1415 (Ch)
+England and Wales High Court (Chancery Division)
+Mr Justice Rajah, 12 June 2023
+```
+
+Then a stylised cast list pulled from the judgment text:
+```
+Claimant:      FARIS AL-RAWI         — London, real estate ~25 years
+                                      Operated through Waterbridge
+                                      Estates Ltd + Waterbridge Designs
+
+Defendant 1:   SAMI WADI SIDAWI       — Abu Dhabi (construction co) +
+                                      London (family base)
+
+Defendant 2:   WAEL HOURANI           — Dubai businessman
+
+Defendant 3:   AMAL HOURANI           — Beirut engineer (Wael's father)
+
+Court-named: RADWAN AL-RAWI           — Chartered accountant + principal
+            (Faris's father)         at Rawi & Co, Mayfair-based
+                                      "advisor on appropriate structures"
+```
+
+Then four named projects from the judgment, side-by-side with the
+pipeline's OCOD geographic-hotspot table:
+```
+Court-named projects                  Pipeline geographic hotspots
+─────────────────────                  ────────────────────────────
+Draycott  — Chelsea (2010)             SW3 Chelsea     — 3 titles
+Thurloe   — South Kensington (2011)    SW7 S.Ken       — 3 titles
+KHN       — Kensington (2011)          W8  Kensington  — 6 titles
+Cromwell  — South Kensington (2014)    W14 W.Ken       — 4 titles
+                                       (+15 more in W2 Bayswater,
+                                        W1H Marylebone, etc.)
+```
+
+**Narration:**
+> The methodology surfaced 128 Ebury Street, Radwan Al-Rawi, the
+> Waterbridge corporate-services brand, and a Central-London-
+> concentrated property portfolio. In June 2023, the High Court
+> independently confirmed the operating model. The case
+> *Al-Rawi v Sidawi & Ors* [2023] EWHC 1415 (Ch) is a Chancery
+> Division judgment over a profit-share dispute between Radwan
+> Al-Rawi's son Faris and three named clients of the
+> Waterbridge structure: Sami Wadi Sidawi of Abu Dhabi, Wael
+> Hourani of Dubai, and Amal Hourani of Beirut. The court
+> describes Radwan as a chartered accountant and principal of Rawi
+> & Co, who acts as "the advisor on the appropriate structures to
+> use" for the clients' UK property investments. The four projects
+> named in the judgment — Draycott, Thurloe, KHN, and Cromwell —
+> sit in exactly the four postcodes where the pipeline detected
+> the heaviest concentration of overseas-company-owned property:
+> Chelsea, South Kensington, and Kensington. The pipeline finds
+> the structure; the court record explains how it operates. They
+> are independent confirmations of the same picture.
+
+### Shot 4.6 — Portfolio scale headline (8:00–8:30)
+
+**Visual:** Animated counter for the headline numbers:
+```
+119 UK properties
+52 in Panama Papers (ICIJ confirmed)
+18 named beneficial owners
+10 nationalities
+2 acquisition waves: 2006-2017, 2020-2021
+£137,702,695 in recorded transaction values (just 29 of 119 priced)
+Top single transaction: £31M at 44 Brook Green, London W14
+```
+
+**Narration:**
+> Behind the case the court ruled on — those four properties — the
+> pipeline finds a portfolio of one hundred and nineteen UK
+> properties administered from 128 Ebury Street. Two clear waves
+> of acquisitions, the larger between 2006 and 2017. Just under
+> one third of the titles carry a recorded purchase price; those
+> alone total over one hundred and thirty-seven million pounds.
+> The single largest recorded transaction is thirty-one million,
+> at 44 Brook Green in West Kensington.
+
 ---
 
-## Act 5 — The honest caveat + the takeaway (7:00–8:30)
+## Act 5 — The honest caveat + the takeaway (8:30–10:00)
 
 ### Shot 5.1 — Caveats (7:00–7:30)
 
