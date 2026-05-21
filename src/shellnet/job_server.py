@@ -1262,6 +1262,40 @@ def _do_unzip_file(stage: str, path: Path) -> None:
         _mark(stage, status="failed", finished_at=_now(), error=repr(exc))
 
 
+@app.post("/upload-file", dependencies=[Depends(_auth)])
+async def upload_file(file: UploadFile, dest: str) -> dict[str, Any]:
+    """Upload an arbitrary file to a path under /data.
+
+    ``dest`` is the destination path relative to /data (e.g.
+    ``raw/hmlr/OCOD_FULL.zip``). The file is streamed in 8 MiB chunks
+    and atomically moved into place via .partial -> rename.
+    """
+    if dest.startswith("/") or ".." in Path(dest).parts:
+        raise HTTPException(400, "dest must be a relative path inside /data")
+    full = DATA_DIR / dest
+    full.parent.mkdir(parents=True, exist_ok=True)
+    stage = f"upload_{full.stem}"
+    _require_idle(stage)
+    _mark(stage, status="running", started_at=_now(), name=file.filename, dest=str(full))
+    tmp = full.with_suffix(full.suffix + ".partial")
+    bytes_written = 0
+    try:
+        with tmp.open("wb") as fh:
+            while True:
+                chunk = await file.read(8 * 1024 * 1024)
+                if not chunk:
+                    break
+                fh.write(chunk)
+                bytes_written += len(chunk)
+        tmp.replace(full)
+    except Exception as exc:  # noqa: BLE001
+        tmp.unlink(missing_ok=True)
+        _mark(stage, status="failed", finished_at=_now(), error=repr(exc))
+        raise HTTPException(500, repr(exc)) from exc
+    _mark(stage, status="completed", finished_at=_now(), bytes=bytes_written, path=str(full))
+    return {"ok": True, "bytes": bytes_written, "path": str(full)}
+
+
 @app.post("/unzip-file", dependencies=[Depends(_auth)])
 def trigger_unzip_file(bg: BackgroundTasks, path: str) -> dict[str, Any]:
     """Extract a zip file under /data to its parent directory."""
