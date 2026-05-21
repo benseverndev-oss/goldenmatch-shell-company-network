@@ -169,6 +169,16 @@ def render_readme(community_id: int, person: str, manifest: dict[str, Any]) -> s
         "| `archived_sources/icij/manifest.json` | "
         "Per-URL fetch metadata: sha256, status, retrieval timestamp, "
         "best-effort Wayback Machine backstop URL. |\n"
+        "| `investigations/<slug>/evidence_record.yaml` | "
+        "Per-entity verdict scaffold from `scripts/probe_mbr_company.py`. "
+        "Promote `verdict: pending_review` to `confirmed_same`, "
+        "`different_entity`, or `ambiguous` once an investigator has "
+        "diffed the OpenCorporates officer roster against the ICIJ context. |\n"
+        "| `investigations/<slug>/opencorporates_*.json` | "
+        "Raw OpenCorporates API responses (search + detail). Free, "
+        "MBR-mirroring, ~12-month lag. |\n"
+        "| `investigations/<slug>/wayback_snapshots.json` | "
+        "Wayback Machine snapshot URL for the OpenCorporates page. |\n"
         "\n"
     )
 
@@ -330,6 +340,7 @@ def build_bundle(
     archive_sources: bool = True,
     archive_min_interval_s: float = 1.0,
     archive_request_wayback: bool = True,
+    investigations_dir: Path | None = None,
 ) -> Path:
     base = (pack_dir or repo_root / "docs" / "validation").resolve()
     data = base / "data"
@@ -419,12 +430,30 @@ def build_bundle(
                     )
                     zf.write(path, arc_path)
 
+        # Investigation evidence records (Phase 17a follow-ups). One
+        # subdirectory per (slug) under data/investigations/, each
+        # containing opencorporates_search.json + evidence_record.yaml
+        # produced by scripts/probe_mbr_company.py. Surfaces alongside
+        # the bundle so the reviewer can promote pending_review verdicts
+        # to confirmed / different / ambiguous in-place.
+        inv_root = investigations_dir or (repo_root / "data" / "investigations")
+        inv_count = 0
+        if inv_root.exists():
+            for path in sorted(inv_root.rglob("*")):
+                if path.is_file():
+                    arc_path = "investigations/" + str(path.relative_to(inv_root)).replace(
+                        "\\", "/"
+                    )
+                    zf.write(path, arc_path)
+                    inv_count += 1
+
     log.info(
-        "wrote %s (%d pack files, %d FTM entities, %d archived sources)",
+        "wrote %s (%d pack files, %d FTM entities, %d archived sources, %d investigation artefacts)",
         out,
         len(bundle_files) + 1,
         entity_count,
         archive_summary["succeeded"],
+        inv_count,
     )
     return out
 
@@ -462,6 +491,18 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Skip the best-effort Wayback Machine save request per URL.",
     )
+    p.add_argument(
+        "--investigations-dir",
+        type=Path,
+        default=None,
+        help=(
+            "Optional path to a data/investigations/ root. Every "
+            "<slug>/* file is included in the bundle under "
+            "investigations/<slug>/* so reviewer-resolved evidence "
+            "records ship inside the same zip as the FTM + archived "
+            "sources. Default: repo's data/investigations/."
+        ),
+    )
     p.add_argument("-v", "--verbose", action="store_true")
     args = p.parse_args(argv)
 
@@ -478,6 +519,7 @@ def main(argv: list[str] | None = None) -> int:
         archive_sources=not args.no_archive_sources,
         archive_min_interval_s=args.archive_min_interval,
         archive_request_wayback=not args.no_wayback,
+        investigations_dir=args.investigations_dir,
     )
     try:
         rel = out.relative_to(PROJECT_ROOT)

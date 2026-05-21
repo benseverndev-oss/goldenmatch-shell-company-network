@@ -188,6 +188,65 @@ def test_bundle_includes_archived_sources(b, tmp_path, monkeypatch):
         assert archive_stats["failed"] == 0
 
 
+def test_bundle_includes_investigations(b, tmp_path):
+    """Bundle should fold an investigations/ dir (per scripts/probe_mbr_company.py)
+    into the zip under investigations/<slug>/ so verdict records ship
+    inside the same zip as the FTM + archived sources."""
+
+    import json
+    import zipfile
+
+    pack = tmp_path / "pack"
+    data = pack / "data"
+    data.mkdir(parents=True)
+    (data / "cluster_99_ftm.json").write_text(
+        json.dumps(
+            {
+                "id": "x",
+                "schema": "Person",
+                "properties": {"name": ["X"]},
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    # Build a fake investigations/ dir matching probe_mbr_company.py shape.
+    inv = tmp_path / "investigations"
+    rhea_dir = inv / "rhea_marine"
+    rhea_dir.mkdir(parents=True)
+    (rhea_dir / "opencorporates_search.json").write_text('{"results":{}}', encoding="utf-8")
+    (rhea_dir / "evidence_record.yaml").write_text(
+        json.dumps(
+            {
+                "entity": "RHEA MARINE LTD",
+                "slug": "rhea_marine",
+                "verdict": "pending_review",
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    out = tmp_path / "out.zip"
+    b.build_bundle(
+        community_id=99,
+        person="x",
+        pack_dir=pack,
+        out_path=out,
+        archive_sources=False,
+        investigations_dir=inv,
+    )
+
+    with zipfile.ZipFile(out) as zf:
+        names = set(zf.namelist())
+        assert "investigations/rhea_marine/opencorporates_search.json" in names, sorted(
+            n for n in names if n.startswith("investigations/")
+        )
+        assert "investigations/rhea_marine/evidence_record.yaml" in names
+        body = json.loads(zf.read("investigations/rhea_marine/evidence_record.yaml"))
+        assert body["entity"] == "RHEA MARINE LTD"
+        assert body["verdict"] == "pending_review"
+
+
 def test_no_archive_sources_flag_skips_archival(b, tmp_path):
     """The --no-archive-sources flag (archive_sources=False) skips the
     fetch step entirely — no archived_sources/ subtree in the zip."""
