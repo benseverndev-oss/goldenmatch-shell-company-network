@@ -47,9 +47,9 @@ import json
 import logging
 import re
 import time
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterable
 
 log = logging.getLogger(__name__)
 
@@ -158,7 +158,7 @@ def archive_urls(
     user_agent: str = DEFAULT_USER_AGENT,
     min_interval_s: float = 1.0,
     request_wayback_save: bool = True,
-    fetch_filing: "callable[[str, str], tuple[int, bytes]] | None" = None,
+    fetch_filing: callable[[str, str], tuple[int, bytes]] | None = None,
 ) -> ArchiveResult:
     """Fetch each URL, save the body, write a manifest.
 

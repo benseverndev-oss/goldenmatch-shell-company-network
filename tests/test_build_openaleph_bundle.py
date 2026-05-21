@@ -147,7 +147,7 @@ def test_bundle_includes_archived_sources(b, tmp_path, monkeypatch):
 
     def fake_factory():
         def fake_fetcher(url: str, ua: str) -> tuple[int, bytes]:
-            return (200, f"<html><body>captured {url}</body></html>".encode("utf-8"))
+            return (200, f"<html><body>captured {url}</body></html>".encode())
 
         return fake_fetcher
 
