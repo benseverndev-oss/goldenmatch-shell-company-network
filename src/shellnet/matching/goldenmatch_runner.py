@@ -64,3 +64,78 @@ def run_match(
         "Loaded GoldenMatch config %s with %d matchkeys", config_path, summary["matchkey_count"]
     )
     return summary
+
+
+def match_names(
+    target: pl.DataFrame,
+    reference: pl.DataFrame,
+    *,
+    name_col: str = "normalized",
+    fuzzy_threshold: float = 0.90,
+    blocking_cols: list[str] | None = None,
+) -> pl.DataFrame:
+    """Match two name-bearing tables with GoldenMatch's calibrated
+    fuzzy scorer.
+
+    Phase 15a entry point. Replaces the bespoke exact-name match used by
+    ``scripts/bridge_sec_icij_by_name.py`` with GoldenMatch's
+    Jaro-Winkler-plus-blocking pipeline. Output preserves the input
+    column set plus a ``prob`` column carrying the calibrated match
+    probability.
+
+    Args:
+        target: Polars DataFrame to match (e.g. SEC filer names).
+        reference: Polars DataFrame to match against (e.g. ICIJ entities).
+        name_col: Column to fuzzy-match on. Must exist on both sides.
+        fuzzy_threshold: Minimum similarity for the matcher to emit a row.
+            0.90 corresponds to "very strong" matches under GoldenMatch's
+            default scoring; 0.95+ for "near-identical".
+        blocking_cols: Optional columns to block on (jurisdiction, etc.)
+            to cut candidate set before fuzzy scoring. None = no blocking.
+
+    Returns: a Polars DataFrame with target + reference columns and a
+    ``prob`` score column. May be empty if no pairs cross the threshold.
+    """
+
+    from goldenmatch import match_df  # type: ignore
+
+    if name_col not in target.columns or name_col not in reference.columns:
+        raise ValueError(
+            f"name_col={name_col!r} must exist on both target ({target.columns}) "
+            f"and reference ({reference.columns})"
+        )
+
+    result = match_df(
+        target,
+        reference,
+        fuzzy={name_col: fuzzy_threshold},
+        blocking=blocking_cols,
+    )
+    matched = result.matched
+    if matched is None or matched.is_empty():
+        # Empty result with at least the columns the caller expects.
+        empty_schema: dict[str, Any] = {c: pl.String for c in target.columns}
+        empty_schema.update({f"{c}_ref": pl.String for c in reference.columns})
+        empty_schema["prob"] = pl.Float64
+        return pl.DataFrame(schema=empty_schema)
+
+    # Surface the score column under a stable name. GoldenMatch may use
+    # any of ``__score__`` / ``score`` / ``__prob__`` depending on
+    # version; pick whatever's present.
+    score_aliases = ("__score__", "score", "__prob__", "prob")
+    for alias in score_aliases:
+        if alias in matched.columns and alias != "prob":
+            matched = matched.rename({alias: "prob"})
+            break
+    if "prob" not in matched.columns:
+        # Fall back to fuzzy_threshold as a constant — calibration is
+        # then a downstream concern. Logged loudly so a future SDK
+        # bump can be caught.
+        log.warning(
+            "GoldenMatch match_df did not surface a score column; "
+            "filling prob=%.2f. Columns were: %s",
+            fuzzy_threshold,
+            matched.columns,
+        )
+        matched = matched.with_columns(pl.lit(fuzzy_threshold).alias("prob"))
+    return matched

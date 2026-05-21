@@ -183,6 +183,89 @@ def test_phase11_max_nodes_default_raised(graph_mod):
     assert value == 16000, f"expected 16000, got {value!r}"
 
 
+def test_phase14_no_is_in_list_in_subgraph(graph_mod):
+    """Phase 14 guard: _build_subgraph must use semi-joins, not
+    is_in(list(...)). The list-scan version OOMs Railway at 50k
+    frontiers."""
+    # Inspect the compiled function's code object — that strips the
+    # docstring and comments automatically, leaving only executable
+    # bytecode constants. If the function ever calls is_in on a Python
+    # list literal, "is_in" appears in co_names and "list" would be
+    # a global reference. Simpler check: the AST.
+    import ast
+    import inspect
+
+    tree = ast.parse(inspect.getsource(graph_mod._build_subgraph))
+    for node in ast.walk(tree):
+        # Reject `<x>.is_in(list(<y>))` — any nested condition combined into
+        # one to satisfy SIM102 (no nested-if lint).
+        if (
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Attribute)
+            and node.func.attr == "is_in"
+            and node.args
+            and isinstance(node.args[0], ast.Call)
+            and isinstance(node.args[0].func, ast.Name)
+            and node.args[0].func.id == "list"
+        ):
+            raise AssertionError(
+                "_build_subgraph regressed to is_in(list(...)); replace with .join(..., how='semi')"
+            )
+
+
+def test_phase14_50k_frontier_completes_quickly(graph_mod):
+    """Perf regression: BFS on a 50k-node synthetic graph with a 50k
+    frontier must finish in < 20s. The pre-Phase-14 is_in(list)
+    implementation took >40 min."""
+    import time
+
+    import polars as pl
+
+    n = 50_000
+    # Ring topology: every node connects to the next; degree=2 each.
+    src_nodes = [f"n{i}" for i in range(n)]
+    dst_nodes = [f"n{(i + 1) % n}" for i in range(n)]
+    edges = pl.DataFrame(
+        {
+            "src_node": src_nodes,
+            "dst_node": dst_nodes,
+            "kind_raw": ["officer_of"] * n,
+        }
+    )
+    # Seed with every other node — forces a large frontier.
+    seeds = {f"n{i}" for i in range(0, n, 2)}
+
+    t0 = time.monotonic()
+    sub = graph_mod._build_subgraph(
+        edges, seed_uids=seeds, hops=2, max_nodes=n, min_frontier_degree_deep=1
+    )
+    elapsed = time.monotonic() - t0
+    assert elapsed < 20.0, f"BFS took {elapsed:.1f}s, perf regression"
+    assert sub.height > 0
+
+
+def test_phase14_correctness_unchanged_on_small_graph(graph_mod):
+    """Sanity: the rewritten BFS produces the same visited node set as
+    a hand-computed reachable-within-2-hops on a small graph."""
+    import polars as pl
+
+    edges = pl.DataFrame(
+        {
+            "src_node": ["a", "b", "c", "d"],
+            "dst_node": ["b", "c", "d", "e"],
+            "kind_raw": ["officer_of"] * 4,
+        }
+    )
+    sub = graph_mod._build_subgraph(
+        edges, seed_uids={"a"}, hops=2, max_nodes=100, min_frontier_degree_deep=1
+    )
+    visited = set(sub["src_node"].to_list()) | set(sub["dst_node"].to_list())
+    # From "a" with 2 hops: a -> b -> c. So visited = {a, b, c}.
+    # Edges in subgraph: a-b, b-c. NOT c-d (d isn't visited).
+    assert visited == {"a", "b", "c"}, visited
+    assert sub.height == 2
+
+
 def test_phase3_and_phase6_allowlist_and_workflows():
     """Phase 3 / Phase 6 heavy scripts must be triggerable via the same
     Railway dispatch pattern as Phases 0 / 7 (otherwise compute can't be
