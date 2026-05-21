@@ -716,15 +716,14 @@ _ALLOWED_SCRIPTS = {
         "/data/processed/sec_13dg_edges.parquet",
         "--icij-entities",
         "/data/interim/icij_entities.parquet",
-        # Phase 15a: enable GoldenMatch's calibrated fuzzy matcher.
-        # Replaces the exact-normalized-name match with per-pair
-        # probabilities. Expected to drop large-cap false-positive
-        # bridges (Delta Air Lines, Royal Bank of Canada) while
-        # keeping the substantive offshore-vehicle matches that
-        # land in dossier clusters.
-        "--use-goldenmatch",
-        "--gm-threshold",
-        "0.92",
+        # Phase 15a (GoldenMatch fuzzy) is implemented but disabled.
+        # See docs/phase-17-bridge-disambiguation-roadmap.md — the
+        # fuzzy scorer can't disambiguate name-coincidence false
+        # positives (Royal Bank of Canada, Delta Air Lines, Equitable
+        # Holdings) from real offshore-vehicle bridges; it just scores
+        # both at 1.0. The disambiguation signal is jurisdiction /
+        # SIC code / officer overlap, not name similarity. Leaving the
+        # default-off behaviour until Phase 17 adds that gate.
         "--out",
         "/data/processed/sec_icij_bridges.parquet",
     ],
