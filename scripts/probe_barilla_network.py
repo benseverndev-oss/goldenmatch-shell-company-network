@@ -24,6 +24,9 @@ log = logging.getLogger("probe_barilla_network")
 # Focal officer needles (case-insensitive substring on normalized_name)
 _FOCAL_OFFICERS = (
     "emanuela barilla",
+    "guido maria barilla",
+    "luca barilla",
+    "paolo barilla",
     "maya international foundation",
 )
 
