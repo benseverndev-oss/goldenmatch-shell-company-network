@@ -63,9 +63,7 @@ def _add(zf: zipfile.ZipFile, src: Path, arc: str, manifest: list[dict]) -> None
     manifest.append(
         {
             "arc": arc,
-            "source": str(src.relative_to(REPO_ROOT))
-            if REPO_ROOT in src.parents
-            else str(src),
+            "source": str(src.relative_to(REPO_ROOT)) if REPO_ROOT in src.parents else str(src),
             "size_bytes": src.stat().st_size,
             "sha256": _sha256(src),
         }
@@ -182,13 +180,34 @@ def main(argv: list[str] | None = None) -> int:
 
     cited_urls = [
         ("ICIJ 128 Ebury address node", "https://offshoreleaks.icij.org/nodes/14033543"),
-        ("HMLR OCOD download portal", "https://use-land-property-data.service.gov.uk/datasets/ocod"),
-        ("Companies House — RAWI CO ASSOCIATES LTD", "https://find-and-update.company-information.service.gov.uk/company/09389698"),
-        ("Companies House — Small Property Limited (Al-Thani worked example)", "https://find-and-update.company-information.service.gov.uk/company/OE003363/persons-with-significant-control"),
-        ("Companies House — HEMSLEY PROPERTIES (Akeel)", "https://find-and-update.company-information.service.gov.uk/company/OE033110/persons-with-significant-control"),
-        ("Companies House — TASS INVESTMENTS (Uppal)", "https://find-and-update.company-information.service.gov.uk/company/OE001400/persons-with-significant-control"),
-        ("UNHCR — Sheikh Thani Al-Thani Eminent Advocate", "https://www.unhcr.org/asia/about-unhcr/our-partners/prominent-supporters/eminent-advocates/his-excellency-sheikh-thani-bin"),
-        ("Open-source pipeline (MIT)", "https://github.com/benseverndev-oss/goldenmatch-shell-company-network"),
+        (
+            "HMLR OCOD download portal",
+            "https://use-land-property-data.service.gov.uk/datasets/ocod",
+        ),
+        (
+            "Companies House — RAWI CO ASSOCIATES LTD",
+            "https://find-and-update.company-information.service.gov.uk/company/09389698",
+        ),
+        (
+            "Companies House — Small Property Limited (Al-Thani worked example)",
+            "https://find-and-update.company-information.service.gov.uk/company/OE003363/persons-with-significant-control",
+        ),
+        (
+            "Companies House — HEMSLEY PROPERTIES (Akeel)",
+            "https://find-and-update.company-information.service.gov.uk/company/OE033110/persons-with-significant-control",
+        ),
+        (
+            "Companies House — TASS INVESTMENTS (Uppal)",
+            "https://find-and-update.company-information.service.gov.uk/company/OE001400/persons-with-significant-control",
+        ),
+        (
+            "UNHCR — Sheikh Thani Al-Thani Eminent Advocate",
+            "https://www.unhcr.org/asia/about-unhcr/our-partners/prominent-supporters/eminent-advocates/his-excellency-sheikh-thani-bin",
+        ),
+        (
+            "Open-source pipeline (MIT)",
+            "https://github.com/benseverndev-oss/goldenmatch-shell-company-network",
+        ),
     ]
 
     manifest: list[dict] = []
@@ -260,9 +279,7 @@ def main(argv: list[str] | None = None) -> int:
                     "case_study": "128 Ebury Street, Belgravia",
                     "generator": "scripts/build_128_ebury_bundle.py",
                     "generator_url": "https://github.com/benseverndev-oss/goldenmatch-shell-company-network",
-                    "cited_urls": [
-                        {"label": label, "url": url} for label, url in cited_urls
-                    ],
+                    "cited_urls": [{"label": label, "url": url} for label, url in cited_urls],
                     "files": manifest,
                     "human_review_required": True,
                     "publication_safe_by_default": False,
