@@ -1034,6 +1034,13 @@ _ALLOWED_SCRIPTS = {
     "probe_inspect_disq_dob": [
         "scripts/probe_inspect_disq_dob.py",
     ],
+    # Deep-dive on the substantive lead: all ICIJ records naming
+    # 'Sajid Bashir', plus entities + edges connected to him, so we
+    # can see if the Panama Papers Sajid Bashir is the same person
+    # as the UK-disqualified one (Huddersfield, DOB 1993-01-26).
+    "probe_sajid_bashir_icij": [
+        "scripts/probe_sajid_bashir_icij.py",
+    ],
 }
 
 
