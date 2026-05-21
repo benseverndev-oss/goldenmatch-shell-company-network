@@ -260,7 +260,9 @@ def main(argv: list[str] | None = None) -> int:
                     "case_study": "128 Ebury Street, Belgravia",
                     "generator": "scripts/build_128_ebury_bundle.py",
                     "generator_url": "https://github.com/benseverndev-oss/goldenmatch-shell-company-network",
-                    "cited_urls": [{"label": l, "url": u} for l, u in cited_urls],
+                    "cited_urls": [
+                        {"label": label, "url": url} for label, url in cited_urls
+                    ],
                     "files": manifest,
                     "human_review_required": True,
                     "publication_safe_by_default": False,
