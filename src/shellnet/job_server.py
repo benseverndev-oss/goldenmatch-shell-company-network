@@ -753,18 +753,18 @@ _ALLOWED_SCRIPTS = {
         # the parquet isn't on disk yet (first recluster).
         "--extra-seeds",
         "/data/processed/anomaly_seed_uids.parquet",
-        # Phase 12: 3-hop BFS. The original deep-pruning default (=2)
-        # killed the SEC bridges because each bridge is a degree-1
-        # connection from ICIJ to SEC — exactly the case we want to
-        # preserve. min-degree=1 disables the prune. The 16k max-nodes
-        # cap was also binding (degree-tiebreak dropped the low-degree
-        # bridge endpoints), so we raise to 50k.
+        # Phase 12: 3-hop BFS, deep-pruning disabled (min-degree=1) so
+        # the degree-1 SEC bridges survive. Backed max-nodes off from
+        # 50k to 30k — at 50k the BFS hit a polars perf cliff where
+        # is_in(list) on the 3.3M-edge frame with tens of thousands of
+        # frontier UIDs took >40 min without finishing. 30k is the
+        # sweet spot: 2x the 16k cap that worked, well under the cliff.
         "--hops",
         "3",
         "--min-frontier-degree-deep",
         "1",
         "--max-nodes",
-        "50000",
+        "30000",
         "--dossier-parquet",
         "/data/processed/rare_officer_dossiers.parquet",
         "--out-edges",
