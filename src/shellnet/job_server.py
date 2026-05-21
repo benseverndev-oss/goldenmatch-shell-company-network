@@ -1002,6 +1002,21 @@ _ALLOWED_SCRIPTS = {
         "--uid",
         "oo:gb-coh-12587022",
     ],
+    # Resolve corporate-PSC UIDs to names by substring-matching the
+    # focal company numbers across the entire entities + persons table
+    # (catches synthetic oo:gb-coh-ent-* UIDs that don't appear in the
+    # standard entity_uid join).
+    "probe_psc_apeiron_corporate": [
+        "scripts/probe_psc_corporate_uids.py",
+        "--slug",
+        "apeiron_corporate",
+        "--co-number",
+        "10339937",
+        "--co-number",
+        "12587022",
+        "--co-number",
+        "00c51843",
+    ],
 }
 
 
