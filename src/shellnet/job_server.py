@@ -1051,6 +1051,21 @@ _ALLOWED_SCRIPTS = {
         "--slug",
         "bashir_address",
     ],
+    # HM Land Registry OCOD ingest + cross-reference. Requires the
+    # operator to have manually downloaded the OCOD CSV from
+    # use-land-property-data.service.gov.uk and dropped it at
+    # /data/raw/hmlr/OCOD_FULL.csv on the Railway volume.
+    # See docs/sources/hmlr_ocod.md for the full flow.
+    "ingest_hmlr_ocod": [
+        "scripts/ingest_hmlr_ocod.py",
+        "--input",
+        "/data/raw/hmlr/OCOD_FULL.csv",
+        "--out",
+        "/data/processed/hmlr_ocod.parquet",
+    ],
+    "probe_hmlr_ocod_crossref": [
+        "scripts/probe_hmlr_ocod_crossref.py",
+    ],
 }
 
 
