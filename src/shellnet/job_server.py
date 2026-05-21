@@ -716,6 +716,15 @@ _ALLOWED_SCRIPTS = {
         "/data/processed/sec_13dg_edges.parquet",
         "--icij-entities",
         "/data/interim/icij_entities.parquet",
+        # Phase 15a: enable GoldenMatch's calibrated fuzzy matcher.
+        # Replaces the exact-normalized-name match with per-pair
+        # probabilities. Expected to drop large-cap false-positive
+        # bridges (Delta Air Lines, Royal Bank of Canada) while
+        # keeping the substantive offshore-vehicle matches that
+        # land in dossier clusters.
+        "--use-goldenmatch",
+        "--gm-threshold",
+        "0.92",
         "--out",
         "/data/processed/sec_icij_bridges.parquet",
     ],
