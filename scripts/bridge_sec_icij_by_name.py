@@ -266,18 +266,17 @@ def main(argv: list[str] | None = None) -> int:
         )
         log.info("  -> %d candidate matches from GoldenMatch", gm_out.height)
 
-        # GoldenMatch suffixes reference columns ("_right" by default).
-        # Locate the ref-side id column robustly.
-        ref_id_col = next(
-            (c for c in gm_out.columns if c in {"id_right", "id_ref"} or c.startswith("id_")),
-            None,
-        )
-        if ref_id_col is None and not gm_out.is_empty():
-            raise SystemExit(
-                f"[fatal] GoldenMatch output missing ref-side id column; got {gm_out.columns}"
-            )
+        # GoldenMatch's current version prefixes columns: target_*
+        # for the left side, ref_* for the right side. We projected to
+        # an "id" column on both sides, so they surface as target_id +
+        # ref_id. Stay robust to future suffix changes by accepting
+        # either pattern.
+        def _find_col(prefix: str, base: str) -> str:
+            for cand in (f"{prefix}_{base}", f"{base}_{prefix}", f"{base}_right", base):
+                if cand in gm_out.columns:
+                    return cand
+            return ""
 
-        # Rejoin to recover SEC role (filer) and ICIJ source_id name.
         if gm_out.is_empty():
             bridges = pl.DataFrame(
                 schema={
@@ -291,23 +290,28 @@ def main(argv: list[str] | None = None) -> int:
                 }
             )
         else:
+            tgt_id = _find_col("target", "id")
+            tgt_name = _find_col("target", "name")
+            ref_id = _find_col("ref", "id")
+            ref_name = _find_col("ref", "name")
+            tgt_norm = _find_col("target", "normalized") or _find_col("ref", "normalized")
+            if not (tgt_id and ref_id):
+                raise SystemExit(
+                    f"[fatal] GoldenMatch output missing id columns; got {gm_out.columns}"
+                )
+
             sec_lookup = sec_df.select(
-                pl.col("cik").alias("id"),
+                pl.col("cik").alias(tgt_id),
                 pl.col("role").alias("sec_role"),
             )
-            icij_lookup = icij_df.select(
-                pl.col("source_id").cast(pl.String).alias(ref_id_col),
-                pl.col("name").alias("icij_name_full"),
-            )
             bridges = (
-                gm_out.join(sec_lookup, on="id", how="left")
-                .join(icij_lookup, on=ref_id_col, how="left")
+                gm_out.join(sec_lookup, on=tgt_id, how="left")
                 .select(
-                    (pl.lit("sec:") + pl.col("id")).alias("src_uid"),
-                    (pl.lit("icij:") + pl.col(ref_id_col)).alias("dst_uid"),
-                    pl.col("name").alias("sec_name"),
-                    pl.col("icij_name_full").alias("icij_name"),
-                    pl.col("normalized"),
+                    (pl.lit("sec:") + pl.col(tgt_id)).alias("src_uid"),
+                    (pl.lit("icij:") + pl.col(ref_id)).alias("dst_uid"),
+                    pl.col(tgt_name).alias("sec_name"),
+                    pl.col(ref_name).alias("icij_name"),
+                    pl.col(tgt_norm).alias("normalized"),
                     pl.col("sec_role"),
                     pl.col("prob"),
                 )

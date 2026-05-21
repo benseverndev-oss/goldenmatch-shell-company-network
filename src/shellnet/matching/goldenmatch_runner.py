@@ -119,10 +119,11 @@ def match_names(
         empty_schema["prob"] = pl.Float64
         return pl.DataFrame(schema=empty_schema)
 
-    # Surface the score column under a stable name. GoldenMatch may use
-    # any of ``__score__`` / ``score`` / ``__prob__`` depending on
-    # version; pick whatever's present.
-    score_aliases = ("__score__", "score", "__prob__", "prob")
+    # Surface the score column under a stable name. GoldenMatch's
+    # version on disk emits ``__match_score__`` (the literal column
+    # name in the matched frame); older versions used ``__score__`` /
+    # ``score`` / ``__prob__``. Pick whatever's present.
+    score_aliases = ("__match_score__", "__score__", "score", "__prob__", "prob")
     for alias in score_aliases:
         if alias in matched.columns and alias != "prob":
             matched = matched.rename({alias: "prob"})
