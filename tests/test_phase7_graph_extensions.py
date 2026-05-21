@@ -209,8 +209,7 @@ def test_phase14_no_is_in_list_in_subgraph(graph_mod):
             and node.args[0].func.id == "list"
         ):
             raise AssertionError(
-                "_build_subgraph regressed to is_in(list(...)); "
-                "replace with .join(..., how='semi')"
+                "_build_subgraph regressed to is_in(list(...)); replace with .join(..., how='semi')"
             )
 
 
