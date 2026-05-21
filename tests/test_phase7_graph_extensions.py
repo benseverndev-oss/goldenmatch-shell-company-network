@@ -197,19 +197,21 @@ def test_phase14_no_is_in_list_in_subgraph(graph_mod):
 
     tree = ast.parse(inspect.getsource(graph_mod._build_subgraph))
     for node in ast.walk(tree):
-        if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute):
-            if node.func.attr == "is_in":
-                # Reject if the first arg is a call to list(...).
-                if (
-                    node.args
-                    and isinstance(node.args[0], ast.Call)
-                    and isinstance(node.args[0].func, ast.Name)
-                    and node.args[0].func.id == "list"
-                ):
-                    raise AssertionError(
-                        "_build_subgraph regressed to is_in(list(...)); "
-                        "replace with .join(..., how='semi')"
-                    )
+        # Reject `<x>.is_in(list(<y>))` — any nested condition combined into
+        # one to satisfy SIM102 (no nested-if lint).
+        if (
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Attribute)
+            and node.func.attr == "is_in"
+            and node.args
+            and isinstance(node.args[0], ast.Call)
+            and isinstance(node.args[0].func, ast.Name)
+            and node.args[0].func.id == "list"
+        ):
+            raise AssertionError(
+                "_build_subgraph regressed to is_in(list(...)); "
+                "replace with .join(..., how='semi')"
+            )
 
 
 def test_phase14_50k_frontier_completes_quickly(graph_mod):
