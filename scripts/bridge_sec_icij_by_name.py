@@ -208,6 +208,22 @@ def main(argv: list[str] | None = None) -> int:
         type=Path,
         default=Path("/data/processed/sec_icij_bridges.parquet"),
     )
+    p.add_argument(
+        "--use-goldenmatch",
+        action="store_true",
+        help=(
+            "Phase 15a: instead of exact normalised-name match, run "
+            "GoldenMatch's calibrated fuzzy matcher and surface a per-"
+            "row `prob` column. Default off so a regression in the "
+            "matcher doesn't silently change the credibility graph."
+        ),
+    )
+    p.add_argument(
+        "--gm-threshold",
+        type=float,
+        default=0.92,
+        help="Fuzzy threshold passed to GoldenMatch when --use-goldenmatch is on.",
+    )
     p.add_argument("-v", "--verbose", action="store_true")
     args = p.parse_args(argv)
 
@@ -223,7 +239,83 @@ def main(argv: list[str] | None = None) -> int:
 
     sec_df = load_sec_names(args.sec_edges)
     icij_df = load_icij_us_entities(args.icij_entities)
-    bridges = build_bridges(sec_df, icij_df)
+
+    if args.use_goldenmatch:
+        log.info("running GoldenMatch fuzzy matcher (threshold=%.2f)", args.gm_threshold)
+        from shellnet.matching.goldenmatch_runner import match_names
+
+        # GoldenMatch's match_df requires identical column sets on both
+        # sides. Project both frames to a common (id, name, normalized)
+        # schema, run the matcher, then rejoin against the original
+        # frames to recover the SEC role + ICIJ source_id full rows.
+        sec_for_gm = sec_df.select(
+            pl.col("cik").alias("id"),
+            pl.col("name"),
+            pl.col("normalized"),
+        )
+        icij_for_gm = icij_df.select(
+            pl.col("source_id").cast(pl.String).alias("id"),
+            pl.col("name"),
+            pl.col("normalized"),
+        )
+        gm_out = match_names(
+            sec_for_gm,
+            icij_for_gm,
+            name_col="normalized",
+            fuzzy_threshold=args.gm_threshold,
+        )
+        log.info("  -> %d candidate matches from GoldenMatch", gm_out.height)
+
+        # GoldenMatch suffixes reference columns ("_right" by default).
+        # Locate the ref-side id column robustly.
+        ref_id_col = next(
+            (c for c in gm_out.columns if c in {"id_right", "id_ref"} or c.startswith("id_")),
+            None,
+        )
+        if ref_id_col is None and not gm_out.is_empty():
+            raise SystemExit(
+                f"[fatal] GoldenMatch output missing ref-side id column; got {gm_out.columns}"
+            )
+
+        # Rejoin to recover SEC role (filer) and ICIJ source_id name.
+        if gm_out.is_empty():
+            bridges = pl.DataFrame(
+                schema={
+                    "src_uid": pl.String,
+                    "dst_uid": pl.String,
+                    "sec_name": pl.String,
+                    "icij_name": pl.String,
+                    "normalized": pl.String,
+                    "sec_role": pl.String,
+                    "prob": pl.Float64,
+                }
+            )
+        else:
+            sec_lookup = sec_df.select(
+                pl.col("cik").alias("id"),
+                pl.col("role").alias("sec_role"),
+            )
+            icij_lookup = icij_df.select(
+                pl.col("source_id").cast(pl.String).alias(ref_id_col),
+                pl.col("name").alias("icij_name_full"),
+            )
+            bridges = (
+                gm_out.join(sec_lookup, on="id", how="left")
+                .join(icij_lookup, on=ref_id_col, how="left")
+                .select(
+                    (pl.lit("sec:") + pl.col("id")).alias("src_uid"),
+                    (pl.lit("icij:") + pl.col(ref_id_col)).alias("dst_uid"),
+                    pl.col("name").alias("sec_name"),
+                    pl.col("icij_name_full").alias("icij_name"),
+                    pl.col("normalized"),
+                    pl.col("sec_role"),
+                    pl.col("prob"),
+                )
+                .unique(subset=["src_uid", "dst_uid"])
+            )
+        log.info("  -> %d unique bridge pairs after dedup", bridges.height)
+    else:
+        bridges = build_bridges(sec_df, icij_df)
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     bridges.write_parquet(args.out)
