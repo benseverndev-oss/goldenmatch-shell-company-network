@@ -1086,6 +1086,12 @@ _ALLOWED_SCRIPTS = {
     "probe_128_ebury_hub": [
         "scripts/probe_128_ebury_hub.py",
     ],
+    # Expand the Tohme/Sarkis family ICIJ network — every entity any
+    # Tohme/Sarkis-named officer controls, every co-officer, every UK
+    # property owned by entities they control.
+    "probe_tohme_sarkis_network": [
+        "scripts/probe_tohme_sarkis_network.py",
+    ],
 }
 
 
