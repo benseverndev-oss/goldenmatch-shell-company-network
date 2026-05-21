@@ -1092,6 +1092,12 @@ _ALLOWED_SCRIPTS = {
     "probe_tohme_sarkis_network": [
         "scripts/probe_tohme_sarkis_network.py",
     ],
+    # Expand the Gulbenkian-dynasty ICIJ network (Micael Paul Sarkis
+    # Gulbenkian + three Malta-incorporated entities surfaced by the
+    # Tohme/Sarkis probe).
+    "probe_gulbenkian_network": [
+        "scripts/probe_gulbenkian_network.py",
+    ],
 }
 
 
