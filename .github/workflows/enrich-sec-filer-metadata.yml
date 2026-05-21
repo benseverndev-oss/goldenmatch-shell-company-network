@@ -1,0 +1,59 @@
+name: Phase 17a — enrich SEC filer metadata (Railway-side)
+
+# Pulls data.sec.gov/submissions/CIK{cik10}.json for every unique
+# SEC filer CIK in sec_13dg_edges.parquet. Emits sec_filer_metadata.parquet
+# with SIC code + filer category + US ticker. Phase 10's bridge consumes
+# this to drop large-cap false-positive bridges.
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: enrich-sec-filer-metadata
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    # ~3k unique CIKs at 9 req/s ≈ 6 min. 20 min cap with margin.
+    timeout-minutes: 20
+    env:
+      SHELLNET_JOB_URL: ${{ vars.SHELLNET_JOB_URL }}
+      SHELLNET_JOB_TOKEN: ${{ secrets.SHELLNET_JOB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+      - run: uv sync --frozen --no-dev
+      - run: curl -fsS "$SHELLNET_JOB_URL/healthz"
+
+      - name: Trigger enrich_sec_filer_metadata
+        run: |
+          set -euo pipefail
+          curl -fsS -X POST -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+            "$SHELLNET_JOB_URL/run-script?name=enrich_sec_filer_metadata"
+          echo
+
+      - name: Poll until complete
+        run: |
+          set -euo pipefail
+          stage="script_enrich_sec_filer_metadata"
+          done=false
+          for _ in $(seq 1 240); do
+            sleep 5
+            s=$(curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" "$SHELLNET_JOB_URL/status" \
+                | python -c "import sys,json; d=json.load(sys.stdin); print(d['stages'].get('$stage',{}).get('status','?'))")
+            echo "  $stage: $s"
+            case "$s" in
+              completed) done=true; break ;;
+              failed)
+                curl -fsS -H "Authorization: Bearer $SHELLNET_JOB_TOKEN" \
+                  "$SHELLNET_JOB_URL/logs/$stage?tail=200" || true
+                exit 1 ;;
+            esac
+          done
+          if [ "$done" != "true" ]; then echo "::error::poll timed out"; exit 1; fi

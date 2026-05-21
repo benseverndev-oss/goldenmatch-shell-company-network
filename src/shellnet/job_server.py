@@ -710,12 +710,28 @@ _ALLOWED_SCRIPTS = {
     # Phase 10: name-match SEC issuers/filers against ICIJ US entities to
     # emit sec:CIK <-> icij:uid bridge edges. Without this, the SEC
     # corpus sits in a topologically disconnected namespace.
+    # Phase 17a — enrich SEC filer CIKs with submissions metadata
+    # (SIC code, filer category, US ticker). The bridge job below
+    # consumes this parquet to drop large-cap false positives.
+    "enrich_sec_filer_metadata": [
+        "scripts/enrich_sec_filer_metadata.py",
+        "--sec-edges",
+        "/data/processed/sec_13dg_edges.parquet",
+        "--out",
+        "/data/processed/sec_filer_metadata.parquet",
+    ],
     "bridge_sec_icij_by_name": [
         "scripts/bridge_sec_icij_by_name.py",
         "--sec-edges",
         "/data/processed/sec_13dg_edges.parquet",
         "--icij-entities",
         "/data/interim/icij_entities.parquet",
+        # Phase 17a: load the SEC submissions metadata so we can drop
+        # bridge rows where the filer is a Large Accelerated Filer,
+        # has a US ticker, or has a blocked SIC code (banks, airlines,
+        # insurers, telecoms, utilities).
+        "--filer-metadata",
+        "/data/processed/sec_filer_metadata.parquet",
         # Phase 15a (GoldenMatch fuzzy) is implemented but disabled.
         # See docs/phase-17-bridge-disambiguation-roadmap.md — the
         # fuzzy scorer can't disambiguate name-coincidence false

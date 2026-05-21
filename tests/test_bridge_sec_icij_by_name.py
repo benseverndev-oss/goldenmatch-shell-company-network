@@ -213,3 +213,144 @@ def test_no_hardcoded_absolute_paths():
     src = SCRIPT_PATH.read_text(encoding="utf-8")
     for token in ("C:\\Users", "/home/", "/Users/"):
         assert token not in src
+
+
+def _bridges_df(rows: list[tuple[str, str]]) -> pl.DataFrame:
+    return pl.DataFrame(
+        {
+            "src_uid": [r[0] for r in rows],
+            "dst_uid": [r[1] for r in rows],
+            "sec_name": ["x"] * len(rows),
+            "icij_name": ["y"] * len(rows),
+            "normalized": ["z"] * len(rows),
+            "sec_role": ["filer"] * len(rows),
+        }
+    )
+
+
+def _metadata_df(rows: list[dict]) -> pl.DataFrame:
+    """Helper: takes [{cik, sic, category, tickers}, ...]."""
+    schema = {
+        "cik": pl.String,
+        "sic": pl.String,
+        "category": pl.String,
+        "tickers": pl.String,
+    }
+    return pl.DataFrame(rows, schema=schema)
+
+
+def test_filter_large_cap_filers_drops_large_accelerated(mod):
+    """Phase 17a: a Large Accelerated Filer (e.g. Royal Bank of Canada)
+    must be dropped even when its bridge passes the name match."""
+    bridges = _bridges_df(
+        [
+            ("sec:0001000275", "icij:rbc-coincidence"),  # large cap
+            ("sec:0002022852", "icij:offshore-match"),  # smaller filer
+        ]
+    )
+    meta = _metadata_df(
+        [
+            {
+                "cik": "0001000275",
+                "sic": "6020",
+                "category": "Large Accelerated Filer",
+                "tickers": "RY",
+            },
+            {
+                "cik": "0002022852",
+                "sic": "6770",
+                "category": "Non-accelerated Filer",
+                "tickers": "",
+            },
+        ]
+    )
+    kept, counts = mod.filter_large_cap_filers(bridges, meta)
+    assert kept.height == 1
+    assert kept["src_uid"].to_list() == ["sec:0002022852"]
+    assert counts["dropped_large_filer"] == 1
+    assert counts["kept"] == 1
+
+
+def test_filter_drops_blocked_sic(mod):
+    """A filer with SIC 6020 (commercial banks) is dropped even if not
+    Large Accelerated and ticker is empty (rare but possible)."""
+    bridges = _bridges_df(
+        [
+            ("sec:0001", "icij:bank-noise"),
+            ("sec:0002", "icij:real-match"),
+        ]
+    )
+    meta = _metadata_df(
+        [
+            {
+                "cik": "0001",
+                "sic": "6020",
+                "category": "Non-accelerated Filer",
+                "tickers": "",
+            },
+            {
+                "cik": "0002",
+                "sic": "6770",
+                "category": "Non-accelerated Filer",
+                "tickers": "",
+            },
+        ]
+    )
+    kept, counts = mod.filter_large_cap_filers(bridges, meta)
+    assert kept["src_uid"].to_list() == ["sec:0002"]
+    assert counts["dropped_blocked_sic"] == 1
+
+
+def test_filter_drops_us_ticker(mod):
+    """Any filer with a US-exchange ticker is dropped."""
+    bridges = _bridges_df([("sec:0001", "icij:noise"), ("sec:0002", "icij:keep")])
+    meta = _metadata_df(
+        [
+            {
+                "cik": "0001",
+                "sic": "6770",
+                "category": "Smaller Reporting Company",
+                "tickers": "AAPL",
+            },
+            {
+                "cik": "0002",
+                "sic": "6770",
+                "category": "Smaller Reporting Company",
+                "tickers": "",
+            },
+        ]
+    )
+    kept, counts = mod.filter_large_cap_filers(bridges, meta)
+    assert kept["src_uid"].to_list() == ["sec:0002"]
+    assert counts["dropped_us_ticker"] == 1
+
+
+def test_filter_missing_metadata_keeps_bridge(mod):
+    """A bridge whose filer has no metadata row is kept (no signal to
+    drop it on). This avoids losing real offshore shells just because
+    SEC submissions API returned 404."""
+    bridges = _bridges_df([("sec:0099999999", "icij:keep")])
+    meta = _metadata_df([])
+    kept, counts = mod.filter_large_cap_filers(bridges, meta)
+    assert kept.height == 1
+    assert counts["kept"] == 1
+
+
+def test_filter_empty_input_returns_empty(mod):
+    """No bridges in -> no bridges out, no error."""
+    empty = pl.DataFrame(
+        schema={
+            "src_uid": pl.String,
+            "dst_uid": pl.String,
+            "sec_name": pl.String,
+            "icij_name": pl.String,
+            "normalized": pl.String,
+            "sec_role": pl.String,
+        }
+    )
+    meta = _metadata_df(
+        [{"cik": "x", "sic": "6020", "category": "Large Accelerated Filer", "tickers": ""}]
+    )
+    kept, counts = mod.filter_large_cap_filers(empty, meta)
+    assert kept.is_empty()
+    assert counts["input_rows"] == 0
