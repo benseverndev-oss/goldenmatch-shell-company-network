@@ -1073,6 +1073,12 @@ _ALLOWED_SCRIPTS = {
     "probe_bvi_confirmed_deepdive": [
         "scripts/probe_bvi_confirmed_deepdive.py",
     ],
+    # Expand the Emanuela Barilla / Maya International Foundation
+    # ICIJ network — every entity they control, every co-officer at
+    # those entities, every UK property the network owns.
+    "probe_barilla_network": [
+        "scripts/probe_barilla_network.py",
+    ],
 }
 
 
