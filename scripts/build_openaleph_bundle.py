@@ -95,6 +95,7 @@ def build_manifest(
     profile: dict[str, Any] | None,
     file_count: int,
     entity_count: int,
+    archive_summary: dict[str, int] | None = None,
 ) -> dict[str, Any]:
     """Aleph-compatible bundle metadata. ``foreign_id`` is the stable
     bundle identifier — re-ingestion overwrites by foreign_id."""
@@ -123,6 +124,7 @@ def build_manifest(
             "address_reuse_rate": odd.get("address_reuse_rate", "?"),
             "n_files_in_bundle": file_count,
             "n_ftm_entities": entity_count,
+            "archived_sources": archive_summary or {"attempted": 0, "succeeded": 0, "failed": 0},
         },
         "human_review_required": True,
         "publication_safe_by_default": False,
@@ -161,6 +163,12 @@ def render_readme(community_id: int, person: str, manifest: dict[str, Any]) -> s
         "| `documents/hit_scores.csv` | External-search results, scored by domain quality |\n"
         "| `documents/search_results.json` | Raw Tavily output (provenance for hit_scores) |\n"
         "| `documents/*.csv` | First-stage validation outputs (overlap, roles, infra, themes) |\n"
+        "| `archived_sources/icij/nodes/*.html` | "
+        "Captured HTML of each ICIJ Offshore Leaks node page referenced by the "
+        "FTM `sourceUrl` field. URLs are not evidence; these captures are. |\n"
+        "| `archived_sources/icij/manifest.json` | "
+        "Per-URL fetch metadata: sha256, status, retrieval timestamp, "
+        "best-effort Wayback Machine backstop URL. |\n"
         "\n"
     )
 
@@ -319,6 +327,9 @@ def build_bundle(
     pack_dir: Path | None = None,
     out_path: Path | None = None,
     repo_root: Path = PROJECT_ROOT,
+    archive_sources: bool = True,
+    archive_min_interval_s: float = 1.0,
+    archive_request_wayback: bool = True,
 ) -> Path:
     base = (pack_dir or repo_root / "docs" / "validation").resolve()
     data = base / "data"
@@ -338,12 +349,38 @@ def build_bundle(
     bundle_files = _resolve_pack_files(cid, base, data)
     entity_count = _count_ftm_entities(ftm_path)
 
+    # Archive ICIJ source pages alongside the bundle so the FTM
+    # `sourceUrl` references stay reproducible if ICIJ retires or
+    # rebuilds the pages. Output: archived_sources/icij/<node>.html
+    # + manifest.json. Skipped if archive_sources=False.
+    archived_root: Path | None = None
+    archive_summary: dict[str, int] = {"attempted": 0, "succeeded": 0, "failed": 0}
+    if archive_sources:
+        from shellnet.archive import archive_urls, parse_icij_urls_from_ftm
+
+        urls = parse_icij_urls_from_ftm(ftm_path)
+        if urls:
+            archived_root = data / f"cluster_{cid}_archived_sources"
+            archived_root.mkdir(parents=True, exist_ok=True)
+            res = archive_urls(
+                urls,
+                archived_root,
+                min_interval_s=archive_min_interval_s,
+                request_wayback_save=archive_request_wayback,
+            )
+            archive_summary = {
+                "attempted": len(res.entries),
+                "succeeded": len(res.successes),
+                "failed": len(res.failures),
+            }
+
     manifest = build_manifest(
         community_id=cid,
         person=person,
         profile=profile,
         file_count=len(bundle_files) + 1,  # +1 for entities.ftm.json itself
         entity_count=entity_count,
+        archive_summary=archive_summary,
     )
 
     index_rows = build_file_index(bundle_files, entity_count)
@@ -372,11 +409,22 @@ def build_bundle(
         for src, bundle_path in bundle_files:
             zf.write(src, bundle_path)
 
+        # Archived ICIJ source pages — preserve directory structure
+        # under archived_sources/ inside the zip.
+        if archived_root and archived_root.exists():
+            for path in sorted(archived_root.rglob("*")):
+                if path.is_file():
+                    arc_path = "archived_sources/" + str(path.relative_to(archived_root)).replace(
+                        "\\", "/"
+                    )
+                    zf.write(path, arc_path)
+
     log.info(
-        "wrote %s (%d files, %d FTM entities)",
+        "wrote %s (%d pack files, %d FTM entities, %d archived sources)",
         out,
         len(bundle_files) + 1,
         entity_count,
+        archive_summary["succeeded"],
     )
     return out
 
@@ -393,6 +441,27 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--person", type=str, required=True)
     p.add_argument("--pack-dir", type=Path, default=None)
     p.add_argument("--out", type=Path, default=None)
+    p.add_argument(
+        "--no-archive-sources",
+        action="store_true",
+        help=(
+            "Skip fetching + bundling ICIJ source-page HTML captures. "
+            "Useful for fast local iteration; production bundles should "
+            "always include them so the FTM sourceUrl references stay "
+            "reproducible if ICIJ retires pages."
+        ),
+    )
+    p.add_argument(
+        "--archive-min-interval",
+        type=float,
+        default=1.0,
+        help=("Seconds between ICIJ page fetches. Default 1.0 (1 req/s); polite for a small NGO."),
+    )
+    p.add_argument(
+        "--no-wayback",
+        action="store_true",
+        help="Skip the best-effort Wayback Machine save request per URL.",
+    )
     p.add_argument("-v", "--verbose", action="store_true")
     args = p.parse_args(argv)
 
@@ -406,6 +475,9 @@ def main(argv: list[str] | None = None) -> int:
         person=args.person,
         pack_dir=args.pack_dir,
         out_path=args.out,
+        archive_sources=not args.no_archive_sources,
+        archive_min_interval_s=args.archive_min_interval,
+        archive_request_wayback=not args.no_wayback,
     )
     try:
         rel = out.relative_to(PROJECT_ROOT)
