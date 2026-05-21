@@ -1079,6 +1079,13 @@ _ALLOWED_SCRIPTS = {
     "probe_barilla_network": [
         "scripts/probe_barilla_network.py",
     ],
+    # Address-centred subgraph: every reference to 128 Ebury Street
+    # SW1W 9QQ across ICIJ + HMLR OCOD. Surfaces the corporate-
+    # services hub that administers multiple Mossack Fonseca-era
+    # offshore-property-holding companies.
+    "probe_128_ebury_hub": [
+        "scripts/probe_128_ebury_hub.py",
+    ],
 }
 
 
