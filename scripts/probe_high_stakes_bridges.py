@@ -79,6 +79,17 @@ def _norm_expr(col: str) -> pl.Expr:
 # ---------------------------------------------------------------------------
 
 
+def probe_inspect_os_topics() -> dict:
+    """Diagnostic: dump the unique topics in OpenSanctions so we can
+    see what the actual string values are (e.g. 'pep' vs 'role.pep')."""
+    log.info("inspecting OS topics...")
+    os_ent = pl.scan_parquet(_OS_ENTITIES).select("topics").collect()
+    flat = os_ent.explode("topics").drop_nulls()
+    counts = flat.group_by("topics").len().sort("len", descending=True).head(30)
+    log.info("top topics: %s", counts.to_dicts())
+    return {"top_topics": counts.to_dicts()}
+
+
 def probe_sanctions_overlap() -> dict:
     log.info("loading SEC filers + OpenSanctions...")
     sec = (
@@ -112,15 +123,28 @@ def probe_sanctions_overlap() -> dict:
 
     # Name-equality join on normalized
     joined = sec.join(
-        sanctioned.select("source_id", "name", "topics", "datasets", "normalized").rename(
-            {"name": "os_name", "source_id": "os_id"}
-        ),
+        sanctioned.select(
+            "source_id", "name", "entity_schema", "topics", "datasets", "normalized"
+        ).rename({"name": "os_name", "source_id": "os_id"}),
         on="normalized",
         how="inner",
     ).filter(
-        # Drop one-word or very-short matches (defamation guard).
-        (pl.col("normalized").str.len_chars() >= 12)
-        & ((pl.col("normalized").str.count_matches(" ") + 1) >= 3)
+        # Defamation guard: companies need >=3 tokens + 12 chars (loose
+        # name-coincidence is too easy at the company tail). Natural
+        # persons (entity_schema=Person) need >=2 tokens + 8 chars so
+        # we don't reject 'Ivan Ivanov' style names. The schema filter
+        # makes this safe — Person names are intrinsically more
+        # distinctive than generic company names.
+        (
+            (pl.col("entity_schema") == "Person")
+            & (pl.col("normalized").str.len_chars() >= 8)
+            & ((pl.col("normalized").str.count_matches(" ") + 1) >= 2)
+        )
+        | (
+            (pl.col("entity_schema") != "Person")
+            & (pl.col("normalized").str.len_chars() >= 12)
+            & ((pl.col("normalized").str.count_matches(" ") + 1) >= 3)
+        )
     )
     log.info("  %d SEC<->sanctions matches after defamation guard", joined.height)
 
@@ -211,9 +235,13 @@ def probe_pep_overlap() -> dict:
         .collect()
     )
 
+    # OS uses multiple topic strings for PEPs across versions: 'pep'
+    # (oldest), 'role.pep' (mid), 'poi' (point-of-interest / replaced),
+    # 'role.rca' (relatives & close associates). Match any of them.
     peps = (
         pl.scan_parquet(_OS_ENTITIES)
-        .filter(pl.col("topics").list.contains("pep"))
+        .with_columns(pl.col("topics").cast(pl.List(pl.String)).list.join(",").alias("_topics_str"))
+        .filter(pl.col("_topics_str").str.contains("(?i)pep|poi|role.rca"))
         .select("source_id", "name", "entity_schema", "topics", "datasets", "normalized_name")
         .collect()
         .with_columns(pl.col("normalized_name").alias("normalized"))
@@ -221,14 +249,23 @@ def probe_pep_overlap() -> dict:
     log.info("  %d PEP-flagged OS entities", peps.height)
 
     joined = sec.join(
-        peps.select("source_id", "name", "topics", "datasets", "normalized").rename(
-            {"name": "os_name", "source_id": "os_id"}
-        ),
+        peps.select(
+            "source_id", "name", "entity_schema", "topics", "datasets", "normalized"
+        ).rename({"name": "os_name", "source_id": "os_id"}),
         on="normalized",
         how="inner",
     ).filter(
-        (pl.col("normalized").str.len_chars() >= 12)
-        & ((pl.col("normalized").str.count_matches(" ") + 1) >= 3)
+        # Same dual guard as sanctions: relaxed for Person schemas
+        (
+            (pl.col("entity_schema") == "Person")
+            & (pl.col("normalized").str.len_chars() >= 8)
+            & ((pl.col("normalized").str.count_matches(" ") + 1) >= 2)
+        )
+        | (
+            (pl.col("entity_schema") != "Person")
+            & (pl.col("normalized").str.len_chars() >= 12)
+            & ((pl.col("normalized").str.count_matches(" ") + 1) >= 3)
+        )
     )
     log.info("  %d SEC<->PEP matches after defamation guard", joined.height)
 
@@ -259,6 +296,7 @@ def main(argv: list[str] | None = None) -> int:
     args.out_dir.mkdir(parents=True, exist_ok=True)
 
     for slug, fn in [
+        ("os_topics_diagnostic", probe_inspect_os_topics),
         ("sanctions_overlap", probe_sanctions_overlap),
         ("marinakis_expanded", probe_marinakis_expanded),
         ("pep_sec_overlap", probe_pep_overlap),
