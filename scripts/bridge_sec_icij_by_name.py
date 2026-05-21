@@ -75,6 +75,36 @@ log = logging.getLogger("bridge_sec_icij_by_name")
 _MIN_NAME_CHARS = 12
 _MIN_NAME_TOKENS = 3
 
+# Phase 17a — SIC ranges with zero overlap with ICIJ's offshore corpus.
+# Drop any SEC filer whose 4-digit SIC starts with one of these prefixes.
+# Sourced from SEC EDGAR's published SIC code list. Includes commercial
+# banks, broker-dealers, insurance carriers, air transportation,
+# telecoms, utilities. These are large-cap regulated US issuers that
+# show up in the bridge purely by name-coincidence ("First Finance Ltd"
+# the BVI shell vs. a real ICIJ entity sharing the name).
+_BLOCKLIST_SIC_PREFIXES: tuple[str, ...] = (
+    "60",  # depository institutions / commercial banks
+    "61",  # non-depository credit
+    "62",  # security/commodity brokers, dealers
+    "63",  # insurance carriers
+    "451",  # air transportation, scheduled
+    "452",  # air transportation, non-scheduled
+    "481",  # telephone communications
+    "482",  # telegraph
+    "489",  # other communications
+    "491",  # electric services
+    "492",  # gas distribution
+    "493",  # combination utility
+)
+
+# Filer-category strings that signal a large-cap US public issuer.
+# SEC categories (per data.sec.gov submissions docs): "Large Accelerated
+# Filer", "Accelerated Filer", "Non-accelerated Filer", "Smaller
+# Reporting Company". The first two are the noise source.
+_BLOCKLIST_FILER_CATEGORIES: frozenset[str] = frozenset(
+    {"Large Accelerated Filer", "Accelerated Filer"}
+)
+
 
 def _normalize_name_series(col: pl.Expr) -> pl.Expr:
     """Polars-native equivalent of normalize_company_name for the parts
@@ -187,6 +217,101 @@ def build_bridges(sec_df: pl.DataFrame, icij_df: pl.DataFrame) -> pl.DataFrame:
 
 
 # ---------------------------------------------------------------------------
+# Phase 17a — drop bridges where the SEC filer is a large-cap US issuer
+# ---------------------------------------------------------------------------
+
+
+def filter_large_cap_filers(
+    bridges: pl.DataFrame,
+    filer_metadata: pl.DataFrame,
+) -> tuple[pl.DataFrame, dict[str, int]]:
+    """Drop bridge rows where the SEC filer is a large-cap US issuer.
+
+    A filer is "large-cap" if any of:
+      * its filer category is ``Large Accelerated Filer`` or ``Accelerated Filer``
+      * its US-exchange ticker list is non-empty
+      * its 4-digit SIC code prefix is in ``_BLOCKLIST_SIC_PREFIXES``
+        (banks, airlines, insurers, telecoms, utilities).
+
+    Args:
+        bridges: output of :func:`build_bridges`. Must carry ``src_uid``
+            in the form ``sec:<cik>``.
+        filer_metadata: output of ``scripts/enrich_sec_filer_metadata.py``.
+            Must carry ``cik``, ``sic``, ``category``, ``tickers``.
+
+    Returns: (filtered_bridges, counts_dict) where counts_dict has keys
+    ``input_rows``, ``dropped_large_filer``, ``dropped_us_ticker``,
+    ``dropped_blocked_sic``, ``kept``.
+    """
+
+    counts = {
+        "input_rows": bridges.height,
+        "dropped_large_filer": 0,
+        "dropped_us_ticker": 0,
+        "dropped_blocked_sic": 0,
+        "kept": 0,
+    }
+    if bridges.is_empty() or filer_metadata.is_empty():
+        counts["kept"] = bridges.height
+        return bridges, counts
+
+    # Project metadata to (cik, drop_reason) — pick the first reason
+    # the row trips so the dropped tally is unambiguous.
+    meta = filer_metadata.with_columns(
+        # SIC blocklist: starts-with-any of the prefixes.
+        pl.col("sic")
+        .fill_null("")
+        .map_elements(
+            lambda s: any(s.startswith(p) for p in _BLOCKLIST_SIC_PREFIXES),
+            return_dtype=pl.Boolean,
+        )
+        .alias("_blocked_sic"),
+        pl.col("category")
+        .fill_null("")
+        .is_in(list(_BLOCKLIST_FILER_CATEGORIES))
+        .alias("_large_filer"),
+        (pl.col("tickers").fill_null("").str.len_chars() > 0).alias("_has_ticker"),
+    )
+    drop_rules = meta.with_columns(
+        pl.when(pl.col("_large_filer"))
+        .then(pl.lit("large_filer"))
+        .when(pl.col("_has_ticker"))
+        .then(pl.lit("us_ticker"))
+        .when(pl.col("_blocked_sic"))
+        .then(pl.lit("blocked_sic"))
+        .otherwise(pl.lit(""))
+        .alias("drop_reason"),
+    ).select("cik", "drop_reason")
+
+    # Match bridges' src_uid (sec:<cik>) against metadata cik.
+    annotated = (
+        bridges.with_columns(pl.col("src_uid").str.replace("^sec:", "").alias("_cik"))
+        .join(drop_rules.rename({"cik": "_cik"}), on="_cik", how="left")
+        .with_columns(pl.col("drop_reason").fill_null(""))
+    )
+
+    counts["dropped_large_filer"] = int(
+        annotated.filter(pl.col("drop_reason") == "large_filer").height
+    )
+    counts["dropped_us_ticker"] = int(annotated.filter(pl.col("drop_reason") == "us_ticker").height)
+    counts["dropped_blocked_sic"] = int(
+        annotated.filter(pl.col("drop_reason") == "blocked_sic").height
+    )
+    kept = annotated.filter(pl.col("drop_reason") == "").drop("_cik", "drop_reason")
+    counts["kept"] = kept.height
+    log.info(
+        "Phase 17a filter: %d input -> %d kept "
+        "(dropped: %d large-cap filer, %d US ticker, %d blocked SIC)",
+        counts["input_rows"],
+        counts["kept"],
+        counts["dropped_large_filer"],
+        counts["dropped_us_ticker"],
+        counts["dropped_blocked_sic"],
+    )
+    return kept, counts
+
+
+# ---------------------------------------------------------------------------
 # Driver
 # ---------------------------------------------------------------------------
 
@@ -207,6 +332,17 @@ def main(argv: list[str] | None = None) -> int:
         "--out",
         type=Path,
         default=Path("/data/processed/sec_icij_bridges.parquet"),
+    )
+    p.add_argument(
+        "--filer-metadata",
+        type=Path,
+        default=None,
+        help=(
+            "Phase 17a: parquet from enrich_sec_filer_metadata.py. If "
+            "present, drop bridge rows where the SEC filer is a "
+            "Large/Accelerated Filer, has a US-exchange ticker, or has "
+            "a blocked SIC prefix (banks/airlines/insurers/etc)."
+        ),
     )
     p.add_argument(
         "--use-goldenmatch",
@@ -320,6 +456,18 @@ def main(argv: list[str] | None = None) -> int:
         log.info("  -> %d unique bridge pairs after dedup", bridges.height)
     else:
         bridges = build_bridges(sec_df, icij_df)
+
+    # Phase 17a: drop large-cap US issuer false positives.
+    if args.filer_metadata:
+        if not args.filer_metadata.exists():
+            log.warning(
+                "--filer-metadata %s missing; skipping Phase-17a filter "
+                "(run scripts/enrich_sec_filer_metadata.py first)",
+                args.filer_metadata,
+            )
+        else:
+            meta_df = pl.read_parquet(args.filer_metadata)
+            bridges, _counts = filter_large_cap_filers(bridges, meta_df)
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     bridges.write_parquet(args.out)
