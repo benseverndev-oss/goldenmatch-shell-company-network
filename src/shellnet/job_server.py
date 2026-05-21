@@ -1051,6 +1051,21 @@ _ALLOWED_SCRIPTS = {
         "--slug",
         "bashir_address",
     ],
+    # HM Land Registry OCOD ingest + cross-reference. Requires the
+    # operator to have manually downloaded the OCOD CSV from
+    # use-land-property-data.service.gov.uk and dropped it at
+    # /data/raw/hmlr/OCOD_FULL.csv on the Railway volume.
+    # See docs/sources/hmlr_ocod.md for the full flow.
+    "ingest_hmlr_ocod": [
+        "scripts/ingest_hmlr_ocod.py",
+        "--input",
+        "/data/raw/hmlr/OCOD_FULL.csv",
+        "--out",
+        "/data/processed/hmlr_ocod.parquet",
+    ],
+    "probe_hmlr_ocod_crossref": [
+        "scripts/probe_hmlr_ocod_crossref.py",
+    ],
 }
 
 
@@ -1245,6 +1260,54 @@ def _do_unzip_file(stage: str, path: Path) -> None:
     except Exception as exc:  # noqa: BLE001
         log.exception("unzip_file failed")
         _mark(stage, status="failed", finished_at=_now(), error=repr(exc))
+
+
+# Fixed whitelist of upload slots. Each slot is a code-controlled
+# destination path; the caller picks a slot by name from this dict
+# rather than supplying an arbitrary path. Defends against
+# path-injection at the schema layer (no taint flow from user input
+# to filesystem path).
+_UPLOAD_SLOTS: dict[str, Path] = {
+    "hmlr_ocod_zip": DATA_DIR / "raw" / "hmlr" / "OCOD_FULL.zip",
+    "hmlr_ocod_csv": DATA_DIR / "raw" / "hmlr" / "OCOD_FULL.csv",
+    "hmlr_ccod_zip": DATA_DIR / "raw" / "hmlr" / "CCOD_FULL.zip",
+    "hmlr_ccod_csv": DATA_DIR / "raw" / "hmlr" / "CCOD_FULL.csv",
+}
+
+
+@app.post("/upload-file", dependencies=[Depends(_auth)])
+async def upload_file(file: UploadFile, slot: str) -> dict[str, Any]:
+    """Upload an arbitrary file to a fixed, code-controlled slot.
+
+    ``slot`` is a key into ``_UPLOAD_SLOTS`` — the actual destination
+    path is determined by this code, not by user input. Adding a new
+    slot requires a code change + redeploy, which is the right
+    security model for arbitrary file uploads.
+    """
+    if slot not in _UPLOAD_SLOTS:
+        raise HTTPException(400, f"unknown slot; available: {sorted(_UPLOAD_SLOTS)}")
+    full = _UPLOAD_SLOTS[slot]
+    full.parent.mkdir(parents=True, exist_ok=True)
+    stage = f"upload_{slot}"
+    _require_idle(stage)
+    _mark(stage, status="running", started_at=_now(), name=file.filename, dest=str(full))
+    tmp = full.with_suffix(full.suffix + ".partial")
+    bytes_written = 0
+    try:
+        with tmp.open("wb") as fh:
+            while True:
+                chunk = await file.read(8 * 1024 * 1024)
+                if not chunk:
+                    break
+                fh.write(chunk)
+                bytes_written += len(chunk)
+        tmp.replace(full)
+    except Exception as exc:  # noqa: BLE001
+        tmp.unlink(missing_ok=True)
+        _mark(stage, status="failed", finished_at=_now(), error=repr(exc))
+        raise HTTPException(500, repr(exc)) from exc
+    _mark(stage, status="completed", finished_at=_now(), bytes=bytes_written, path=str(full))
+    return {"ok": True, "bytes": bytes_written, "path": str(full)}
 
 
 @app.post("/unzip-file", dependencies=[Depends(_auth)])
