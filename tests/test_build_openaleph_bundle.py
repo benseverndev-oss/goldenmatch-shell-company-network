@@ -71,6 +71,12 @@ def test_bundle_runs_cluster_47(b, tmp_path):
         community_id=47,
         person="peter kevin perry",
         out_path=out,
+        # Disable archive_sources here: this test validates bundle
+        # assembly, not the archiver. The default-on archive would
+        # (a) hit ICIJ for real ~50+ times and (b) write an
+        # archived_sources/ directory inside the repo's pack dir,
+        # which leaks into other tests' globs.
+        archive_sources=False,
     )
     assert result == out
     assert out.exists()
