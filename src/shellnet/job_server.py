@@ -989,6 +989,19 @@ _ALLOWED_SCRIPTS = {
         "--needle",
         "gewiet",
     ],
+    # Trace the PSCs of Apeiron Investment Group Ltd (Companies House
+    # #10339937 = oo:gb-coh-10339937) and its sister variant
+    # #12587022. The named-substring probe missed Angermayer; this
+    # asks "who DOES PSC declare for these specific companies?"
+    "probe_psc_apeiron_ig_uids": [
+        "scripts/probe_psc_by_uid.py",
+        "--slug",
+        "apeiron_ig_uids",
+        "--uid",
+        "oo:gb-coh-10339937",
+        "--uid",
+        "oo:gb-coh-12587022",
+    ],
 }
 
 
