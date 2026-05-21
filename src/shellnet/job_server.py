@@ -970,6 +970,25 @@ _ALLOWED_SCRIPTS = {
         "--out-dir",
         "/data/processed",
     ],
+    # Investigative probe for the Apeiron / Angermayer drill-down. The
+    # slug + needle args are passed via the workflow_dispatch inputs
+    # so the same allowlist entry can serve future per-candidate
+    # probes without code changes.
+    "probe_psc_apeiron_angermayer": [
+        "scripts/probe_psc_for_names.py",
+        "--slug",
+        "apeiron_angermayer",
+        "--needle",
+        "apeiron",
+        "--needle",
+        "angermayer",
+        "--needle",
+        "jorg werner",
+        "--needle",
+        "parker.*turner",
+        "--needle",
+        "gewiet",
+    ],
 }
 
 
