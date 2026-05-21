@@ -151,8 +151,9 @@ def _startup() -> None:
             state["stages"][stage_name]["finished_at"] = _now()
             state["stages"][stage_name]["error"] = "container restart killed running script"
         _save_state(state)
-        log.warning("startup: reset %d orphaned 'running' stages -> 'failed': %s",
-                    len(orphans), orphans)
+        log.warning(
+            "startup: reset %d orphaned 'running' stages -> 'failed': %s", len(orphans), orphans
+        )
     log.info("shellnet-job ready; data dir = %s", DATA_DIR)
 
 
@@ -737,6 +738,17 @@ _ALLOWED_SCRIPTS = {
         "--user-agent",
         "Ben Severn bsevern@mjhlifesciences.com",
     ],
+    # Phase 16: emit SEC bridge endpoints as extra seeds. Putting
+    # the SEC side of each Phase-10 bridge into hop 0 of the next
+    # recluster lets the 3-hop BFS walk SEC-to-SEC beneficial_owner_of
+    # edges from each bridge landing site.
+    "select_bridge_endpoints": [
+        "scripts/select_bridge_endpoints.py",
+        "--bridges",
+        "/data/processed/sec_icij_bridges.parquet",
+        "--out",
+        "/data/processed/bridge_endpoint_seeds.parquet",
+    ],
     # Phase 11: select top-N anomaly communities' member UIDs from the
     # previous recluster as extra seeds for the next pass.
     "select_anomaly_seeds": [
@@ -766,10 +778,13 @@ _ALLOWED_SCRIPTS = {
         "/data/processed/sec_13dg_edges.parquet",
         "--sec-icij-bridges",
         "/data/processed/sec_icij_bridges.parquet",
-        # Phase 11: anomaly-community extra seeds. Skipped silently if
-        # the parquet isn't on disk yet (first recluster).
+        # Phases 11 + 16: extra-seed parquets. Each gets its own
+        # --extra-seeds invocation. Missing files are skipped with a
+        # warning so a first-deploy still runs.
         "--extra-seeds",
         "/data/processed/anomaly_seed_uids.parquet",
+        "--extra-seeds",
+        "/data/processed/bridge_endpoint_seeds.parquet",
         # Phase 12: 3-hop BFS, deep-pruning disabled (min-degree=1) so
         # the degree-1 SEC bridges survive. Backed max-nodes off from
         # 50k to 30k — at 50k the BFS hit a polars perf cliff where

@@ -255,14 +255,16 @@ def main(
         "--dossier-parquet",
         help="Source of seed entity UIDs. We anchor the subgraph on these.",
     ),
-    extra_seeds_parquet: Path | None = typer.Option(
-        None,
+    extra_seeds_parquet: list[Path] = typer.Option(
+        [],
         "--extra-seeds",
         help=(
-            "Optional Phase-11 anomaly_seed_uids.parquet (single 'uid' "
-            "column). UIDs added to the seed set BEFORE the BFS so their "
-            "2-hop neighbourhoods enter the subgraph alongside the "
-            "rare-officer dossier set. Skipped silently if missing."
+            "Zero or more parquets each carrying a 'uid' column. UIDs "
+            "added to the seed set BEFORE the BFS so their 2-hop "
+            "neighbourhoods enter the subgraph alongside the rare-officer "
+            "dossier set. Phase 11 produces anomaly_seed_uids; Phase 16 "
+            "produces bridge_endpoint_seeds. Missing files are skipped "
+            "with a warning so the recluster still runs on first deploy."
         ),
     ),
     out_edges: Path = typer.Option(
@@ -330,20 +332,26 @@ def main(
         len(seed_company_uids),
     )
 
-    # Phase 11: optional anomaly-community seeds. These broaden the BFS
-    # reach so bridged SEC/registry entities sitting one hop past the
-    # rare-officer set can enter the subgraph.
-    if extra_seeds_parquet and extra_seeds_parquet.exists():
-        extra_df = pl.read_parquet(extra_seeds_parquet)
+    # Phases 11 + 16: optional extra-seed parquets. These broaden the
+    # BFS reach so bridged SEC/registry entities sitting one hop past
+    # the rare-officer set can enter the subgraph. Each parquet must
+    # carry a 'uid' column; missing files are warned and skipped (so
+    # a fresh deploy without Phase 11/16 outputs still runs).
+    for seed_path in extra_seeds_parquet:
+        if not seed_path.exists():
+            log.warning("--extra-seeds %s missing; skipping", seed_path)
+            continue
+        extra_df = pl.read_parquet(seed_path)
         if "uid" not in extra_df.columns:
             raise SystemExit(
-                f"[fatal] {extra_seeds_parquet} must have a 'uid' column; got {extra_df.columns}"
+                f"[fatal] {seed_path} must have a 'uid' column; got {extra_df.columns}"
             )
         extra_uids = extra_df["uid"].drop_nulls().to_list()
         new_seeds = set(extra_uids) - seeds
         seeds |= set(extra_uids)
         log.info(
-            "Phase-11 extra seeds: +%d new (%d in parquet, %d already in dossier set)",
+            "extra seeds from %s: +%d new (%d in parquet, %d already in seed set)",
+            seed_path.name,
             len(new_seeds),
             len(extra_uids),
             len(extra_uids) - len(new_seeds),
