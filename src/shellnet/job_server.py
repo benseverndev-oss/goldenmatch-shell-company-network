@@ -1191,6 +1191,13 @@ _ALLOWED_SCRIPTS = {
     "probe_roe_noncompliance_strict": [
         "scripts/probe_roe_noncompliance_strict.py",
     ],
+    # Expand each named-thread case study: full title list,
+    # proprietor-address co-tenancy across the non-compliant set,
+    # ICIJ officer-edge expansion (what other entities each named
+    # individual is tied to in the leak graph).
+    "probe_named_threads_expand": [
+        "scripts/probe_named_threads_expand.py",
+    ],
 }
 
 
