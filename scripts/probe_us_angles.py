@@ -116,9 +116,7 @@ def _is_filtered_sec_filer(meta_row: dict) -> bool:
         exch = meta_row["exchanges"].upper()
         if "NASDAQ" in exch or "NYSE" in exch or "AMEX" in exch:
             return True
-    if meta_row.get("sic") in _SIC_BLOCKLIST:
-        return True
-    return False
+    return meta_row.get("sic") in _SIC_BLOCKLIST
 
 
 def main(argv: list[str] | None = None) -> int:
