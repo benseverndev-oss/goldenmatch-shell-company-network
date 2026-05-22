@@ -154,14 +154,7 @@ def main(argv: list[str] | None = None) -> int:
     with httpx.Client(headers={"User-Agent": _UA}, follow_redirects=True) as client:
         last = 0.0
         for i, row in enumerate(queue, start=1):
-            log.info(
-                "[%d/%d] %s (DOB %s, nat %s)",
-                i,
-                len(queue),
-                row.get("disq_canonical_name"),
-                row.get("disq_birth_date"),
-                row.get("disq_nationality"),
-            )
+            log.info("[%d/%d] candidate", i, len(queue))
 
             # CH side
             ch_url = row.get("disq_source_url")
