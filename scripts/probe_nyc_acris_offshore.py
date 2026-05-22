@@ -17,6 +17,10 @@ Now that nyc_acris_{master,parties,legals}.parquet exist on Railway
 Restrict to deed-document types (real-property transfers, not
 mortgages/refis) to avoid the noise of refinance party entries.
 
+Implementation note: 46M parties is too large for Python set-based
+`is_in` checks. We use polars lazy semi-joins instead, which stream
+the data and avoid materialising the cartesian intermediate.
+
 Output: ``/data/processed/probes/nyc_acris_offshore.json``.
 """
 
@@ -40,10 +44,7 @@ _ICIJ_ENTITIES = Path("/data/interim/icij_entities.parquet")
 _OS_SANCTIONED_PERSONS = Path("/data/processed/os_sanctioned_persons.parquet")
 
 
-# ACRIS doc_type values that represent ownership transfers (deeds).
-# Common deed types: DEED, DEED, EASEMENT, MEMORANDUM OF LEASE,
-# CONDO DECLARATION. Restrict to genuine deeds.
-_DEED_TYPES = {
+_DEED_TYPES = [
     "DEED",
     "DEED, BARGAIN AND SALE",
     "DEED, EXECUTOR'S",
@@ -52,7 +53,18 @@ _DEED_TYPES = {
     "DEED, CORRECTION",
     "DEEDS, OTHER",
     "DEED, IN LIEU OF FORECLOSURE",
-}
+]
+
+
+def _norm_expr(col: str) -> pl.Expr:
+    return (
+        pl.col(col)
+        .fill_null("")
+        .str.to_lowercase()
+        .str.replace_all(r"[^a-z0-9]+", " ")
+        .str.replace_all(r"\s+", " ")
+        .str.strip_chars()
+    )
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -67,107 +79,121 @@ def main(argv: list[str] | None = None) -> int:
         format="%(levelname)s %(name)s: %(message)s",
     )
 
-    log.info("loading ACRIS Master (filtering to deed docs)...")
-    master = (
+    # ------------------------------------------------------------
+    # Build lazy frames; let polars stream the joins.
+    # ------------------------------------------------------------
+    log.info("scanning ACRIS Master + Parties + Legals (lazy)...")
+    deeds_lf = (
         pl.scan_parquet(_MASTER)
-        .filter(pl.col("doc_type").is_in(list(_DEED_TYPES)))
+        .filter(pl.col("doc_type").is_in(_DEED_TYPES))
         .select("doc_id", "doc_type", "doc_date", "doc_amount_usd")
-        .collect()
     )
-    log.info("  deed documents: %d", master.height)
-    deed_ids = set(master["doc_id"].to_list())
-
-    log.info("loading ACRIS Parties (grantees only, deed docs only)...")
-    parties = (
+    parties_lf = (
         pl.scan_parquet(_PARTIES)
-        .filter(
-            (pl.col("party_type") == "2")  # grantee = buyer
-            & pl.col("doc_id").is_in(list(deed_ids))
-            & (pl.col("normalized_name") != "")
-        )
-        .select("doc_id", "name", "normalized_name", "address_1", "city", "state", "country", "zip")
-        .collect()
-    )
-    log.info("  deed-grantee party rows: %d", parties.height)
-    log.info("  distinct grantee names: %d", parties["normalized_name"].n_unique())
-
-    # ============================================================
-    # 1. ACRIS grantee x ICIJ entity overlap
-    # ============================================================
-    log.info("=== ACRIS grantee x ICIJ entity ===")
-    icij_norm_set = set(
-        pl.scan_parquet(_ICIJ_ENTITIES)
+        .filter((pl.col("party_type") == "2") & (pl.col("normalized_name") != ""))
         .select(
-            pl.col("name")
-            .fill_null("")
-            .str.to_lowercase()
-            .str.replace_all(r"[^a-z0-9]+", " ")
-            .str.replace_all(r"\s+", " ")
-            .str.strip_chars()
-            .alias("_norm")
+            "doc_id",
+            "name",
+            "normalized_name",
+            "address_1",
+            "city",
+            "state",
+            "country",
+            "zip",
         )
-        .filter(pl.col("_norm") != "")
-        .collect()["_norm"]
-        .to_list()
     )
-    log.info("  icij entities (deduped, normalized): %d", len(icij_norm_set))
+    icij_lf = (
+        pl.scan_parquet(_ICIJ_ENTITIES)
+        .with_columns(_norm_expr("name").alias("normalized_name"))
+        .filter(pl.col("normalized_name") != "")
+        .select(
+            "normalized_name", pl.col("name").alias("icij_name"), "jurisdiction", "source_label"
+        )
+        .unique(subset=["normalized_name"])
+    )
 
-    icij_grantee_hits = parties.filter(pl.col("normalized_name").is_in(list(icij_norm_set)))
+    # ------------------------------------------------------------
+    # 1. Deed-grantee parties (inner join with deeds to restrict)
+    # ------------------------------------------------------------
+    log.info("step 1: filter parties to deed grantees (lazy semi-join with deeds)")
+    deed_grantees_lf = parties_lf.join(deeds_lf, on="doc_id", how="inner")
+
+    # ------------------------------------------------------------
+    # 2. ICIJ match — semi-join on normalized_name
+    # ------------------------------------------------------------
+    log.info("step 2: ACRIS deed grantee x ICIJ name-match")
+    icij_hits_lf = deed_grantees_lf.join(icij_lf, on="normalized_name", how="inner")
+    icij_hits = icij_hits_lf.collect(engine="streaming")
+    log.info("  ICIJ-matched grantee rows: %d", icij_hits.height)
     log.info(
-        "  ACRIS grantees in ICIJ: %d (%d distinct names)",
-        icij_grantee_hits.height,
-        icij_grantee_hits["normalized_name"].n_unique(),
+        "  distinct ICIJ-matched grantee names: %d",
+        icij_hits["normalized_name"].n_unique(),
     )
 
-    # ============================================================
-    # 2. ACRIS grantee x OFAC SDN (Person schema with guard)
-    # ============================================================
-    log.info("=== ACRIS grantee x OFAC SDN sanctioned persons ===")
-    sanctioned: list[str] = []
+    # ------------------------------------------------------------
+    # 3. Sanctioned-person match
+    # ------------------------------------------------------------
+    sanctioned_hits = pl.DataFrame()
+    n_sanctioned = 0
     if _OS_SANCTIONED_PERSONS.exists():
-        os_df = pl.read_parquet(_OS_SANCTIONED_PERSONS)
-        for row in os_df.iter_rows(named=True):
-            nm = row.get("normalized_name") or ""
-            if len(nm.split()) >= 2 and len(nm) >= 8:
-                sanctioned.append(nm)
-        log.info("  sanctioned-person names (after defamation guard): %d", len(sanctioned))
-    sanctioned_set = set(sanctioned)
+        log.info("step 3: ACRIS deed grantee x OFAC SDN sanctioned persons")
+        os_lf = (
+            pl.scan_parquet(_OS_SANCTIONED_PERSONS)
+            .filter(
+                (pl.col("normalized_name").str.len_chars() >= 8)
+                & (pl.col("normalized_name").str.count_matches(r"\s") >= 1)
+            )
+            .select(
+                pl.col("normalized_name"),
+                pl.col("name").alias("sanctioned_name"),
+                pl.col("source").alias("sanctioned_source"),
+            )
+            .unique(subset=["normalized_name"])
+        )
+        sanctioned_hits = deed_grantees_lf.join(os_lf, on="normalized_name", how="inner").collect(
+            engine="streaming"
+        )
+        n_sanctioned = sanctioned_hits.height
+        log.info("  sanctioned-grantee rows: %d", n_sanctioned)
+        log.info(
+            "  distinct sanctioned-grantee names: %d",
+            sanctioned_hits["normalized_name"].n_unique() if n_sanctioned else 0,
+        )
 
-    sanctioned_grantee_hits = parties.filter(pl.col("normalized_name").is_in(list(sanctioned_set)))
-    log.info(
-        "  ACRIS grantees matching sanctioned persons: %d (%d distinct)",
-        sanctioned_grantee_hits.height,
-        sanctioned_grantee_hits["normalized_name"].n_unique(),
+    # ------------------------------------------------------------
+    # 4. Join matched docs to property addresses (Legals)
+    # ------------------------------------------------------------
+    log.info("step 4: join matched docs to property addresses (Legals)")
+    matched_doc_ids = (
+        pl.concat(
+            [
+                icij_hits.select("doc_id"),
+                sanctioned_hits.select("doc_id") if n_sanctioned else pl.DataFrame({"doc_id": []}),
+            ]
+        )
+        .unique()
+        .lazy()
     )
-
-    # ============================================================
-    # 3. Join ICIJ-matched grantees to property addresses via Legals
-    # ============================================================
-    log.info("=== joining matched grantees to property addresses ===")
-    matched_doc_ids = set(icij_grantee_hits["doc_id"].to_list()) | set(
-        sanctioned_grantee_hits["doc_id"].to_list()
-    )
-    log.info("  matched doc_ids: %d", len(matched_doc_ids))
-    legals = (
-        pl.scan_parquet(_LEGALS).filter(pl.col("doc_id").is_in(list(matched_doc_ids))).collect()
-    )
+    legals_lf = pl.scan_parquet(_LEGALS).join(matched_doc_ids, on="doc_id", how="inner")
+    legals = legals_lf.collect(engine="streaming")
     log.info("  legals rows for matched docs: %d", legals.height)
 
-    # Build the result
-    icij_hits_w_addr = icij_grantee_hits.join(legals, on="doc_id", how="left").join(
-        master, on="doc_id", how="left"
-    )
-    sanc_hits_w_addr = sanctioned_grantee_hits.join(legals, on="doc_id", how="left").join(
-        master, on="doc_id", how="left"
+    icij_w_addr = icij_hits.join(legals, on="doc_id", how="left").head(100).to_dicts()
+    sanc_w_addr = (
+        sanctioned_hits.join(legals, on="doc_id", how="left").head(100).to_dicts()
+        if n_sanctioned
+        else []
     )
 
-    # ============================================================
-    # 4. NYC ACRIS proprietor-address hubs (party correspondence
-    #    address concentration analogous to UK OCOD hubs)
-    # ============================================================
-    log.info("=== ACRIS grantee correspondence-address hubs ===")
+    # ------------------------------------------------------------
+    # 5. Grantee correspondence-address hubs (sample 1M for memory)
+    # ------------------------------------------------------------
+    log.info("step 5: grantee correspondence-address hub counter (stream)")
     hub_counter: Counter[str] = Counter()
-    for r in parties.iter_rows(named=True):
+    # Stream by collecting only the hub columns
+    addr_lf = deed_grantees_lf.select("address_1", "city", "zip")
+    addr_df = addr_lf.collect(engine="streaming")
+    for r in addr_df.iter_rows(named=True):
         addr = (r.get("address_1") or "").strip()
         city = (r.get("city") or "").strip()
         zip_ = (r.get("zip") or "").strip()
@@ -177,31 +203,29 @@ def main(argv: list[str] | None = None) -> int:
         hub_counter[key] += 1
     log.info("  distinct grantee correspondence keys: %d", len(hub_counter))
     top_hubs = hub_counter.most_common(50)
+    n_deed_grantees = int(addr_df.height)
 
+    # ------------------------------------------------------------
+    # Write result
+    # ------------------------------------------------------------
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(
         json.dumps(
             {
                 "totals": {
-                    "deed_documents": int(master.height),
-                    "grantee_party_rows": int(parties.height),
-                    "distinct_grantee_names": int(parties["normalized_name"].n_unique()),
-                    "icij_entities_loaded": len(icij_norm_set),
-                    "sanctioned_persons_loaded": len(sanctioned),
+                    "deed_grantee_party_rows": n_deed_grantees,
                 },
                 "icij_matches": {
-                    "n_grantee_rows": int(icij_grantee_hits.height),
-                    "n_distinct_grantee_names": int(
-                        icij_grantee_hits["normalized_name"].n_unique()
-                    ),
-                    "sample": icij_hits_w_addr.head(50).to_dicts(),
+                    "n_rows": int(icij_hits.height),
+                    "n_distinct_names": int(icij_hits["normalized_name"].n_unique()),
+                    "sample": icij_w_addr,
                 },
                 "sanctioned_matches": {
-                    "n_grantee_rows": int(sanctioned_grantee_hits.height),
-                    "n_distinct_grantee_names": int(
-                        sanctioned_grantee_hits["normalized_name"].n_unique()
-                    ),
-                    "sample": sanc_hits_w_addr.head(50).to_dicts(),
+                    "n_rows": n_sanctioned,
+                    "n_distinct_names": int(sanctioned_hits["normalized_name"].n_unique())
+                    if n_sanctioned
+                    else 0,
+                    "sample": sanc_w_addr,
                 },
                 "top_grantee_correspondence_hubs": [
                     {"address_key": k, "n_party_rows": n} for k, n in top_hubs
