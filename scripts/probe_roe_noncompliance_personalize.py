@@ -249,6 +249,7 @@ def main(argv: list[str] | None = None) -> int:
             with_date = nc_titles.with_columns(
                 pl.coalesce(
                     [
+                        pl.col(date_col).str.to_date("%d-%m-%Y", strict=False),
                         pl.col(date_col).str.to_date("%d/%m/%Y", strict=False),
                         pl.col(date_col).str.to_date("%Y-%m-%d", strict=False),
                         pl.col(date_col).str.to_date("%d %B %Y", strict=False),
