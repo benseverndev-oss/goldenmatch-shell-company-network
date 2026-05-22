@@ -1098,6 +1098,13 @@ _ALLOWED_SCRIPTS = {
     "probe_gulbenkian_network": [
         "scripts/probe_gulbenkian_network.py",
     ],
+    # Generalise the 128 Ebury hub finding — find every UK address
+    # that appears as proprietor_address for >=20 OCOD overseas-
+    # company titles. For each, count distinct proprietors, country
+    # mix, and ICIJ Panama/Paradise Papers overlap.
+    "probe_ocod_address_hubs": [
+        "scripts/probe_ocod_address_hubs.py",
+    ],
 }
 
 
