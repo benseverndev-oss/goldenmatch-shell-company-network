@@ -132,17 +132,18 @@ Sample (first in OCOD): **144 Portnall Road, London W9 3BQ**, price-paid **£910
 
 A name-search of ICIJ officers for "FENECH" returns 480 hits, including **Yorgen Fenech** — the Maltese businessman charged with masterminding the 2017 assassination of journalist Daphne Caruana Galizia, currently on trial in Malta. There is **no edge** in the ICIJ leak graph linking him to FENLAND LIMITED. He appears in the same Paradise Papers / Malta corporate-registry leak corpus, which is proximity, not connection. The direct named officers of FENLAND LIMITED in the Paradise Papers entry are **Lilian Fenech** and **Lawrence Fenech**. Fenech is one of the most common Maltese surnames; the bare name-overlap is not a finding without supporting evidence.
 
-## OpenSanctions overlap — the 13 sanctioned/PEP/crime-linked owners
+## OpenSanctions overlap — sanctioned/PEP/crime-linked owners
 
-Five high-confidence hits where a small, specifically-tagged entity appears as a UK property owner with no ROE filing:
+Five OS-flagged entities surface in the non-compliant set, but a follow-up drill (`probe_aar_igt_verify.py`) shows the **AAR International** hit is a false positive in context: it is AAR Corp, a US public aerospace MRO firm, whose `crime.traffick` topic comes from a historical US Directorate of Defense Trade Controls (ITAR / arms-export-controls) enforcement, not human trafficking. AAR Corp owns one UK-registered aircraft title at Crawley/Gatwick. Real OS-flagging exists but the finding is a regulatory housekeeping issue rather than a secrecy-jurisdiction concealment one.
+
+Four high-confidence hits remain:
 
 | Owner | OS topics | Jurisdiction |
 |---|---|---|
 | Harmony Ridge Limited | corp.offshore + sanction.linked | BVI |
 | Embassy Development Limited | debarment + sanction | GB/JE |
 | Ledra Trustee Services Ltd | debarment + sanction | Cyprus |
-| Igt Intergestions Trust Reg | debarment + sanction | Liechtenstein |
-| AAR International | crime.traffick | US |
+| Igt Intergestions Trust Reg | **debarment + sanction (on US OFAC SDN)** | Liechtenstein |
 
 The remaining 8 OS hits are large regulated institutions (Deutsche Bank, National Bank of Greece, Bank of New York, Bloomberg, Tesla, European Bank for Reconstruction and Development) tagged for historical `reg.action` enforcement. These are noise in this context — large institutions with reportable regulatory history rather than active ECTEA evaders.
 
@@ -244,6 +245,18 @@ LEDRA TRUSTEE SERVICES LIMITED  (Cyprus — no ROE filing, OS debarment+sanction
 ### Net finding
 
 The Mayfair flat at 45 Green Street W1K 7FX, held by Cyprus-incorporated LEDRA TRUSTEE SERVICES LIMITED without UK ROE filing, sits inside a verified structural pattern: the same Cyprus "Ledra" service-provider family is documented in Panama Papers as nominee for a multi-jurisdiction Metalloinvest BVI/Cyprus structure controlled by the OFAC-sanctioned Russian oligarch Alisher Usmanov. The brand-identity link is unambiguous; the corporate-control link between the UK-property-owning Ledra Trustee Services and the Panama Papers Ledra Services nominee would need separate corporate-registry verification.
+
+### IGT Intergestions Trust Reg — Liechtenstein Anstalt on the OFAC SDN list
+
+5 UK land titles. Sample: **LAND LYING TO THE SOUTH OF Highgate West Hill, London** — prime N6/NW3 boundary land. Proprietor address: **Aeulestrasse 6, 9490 Vaduz, Liechtenstein** — a known Liechtenstein corporate-services address. Country of incorporation Liechtenstein, structured as a "Trust Reg" (an Anstalt-style Liechtenstein vehicle).
+
+OpenSanctions tags this entity with `debarment + sanction` and lists it on **the actual US OFAC SDN list** (`us_ofac_sdn`), plus `us_sam_exclusions`, `ext_us_ofac_press_releases`, and `opencorporates`. The presence on `ext_us_ofac_press_releases` indicates a specific OFAC press release naming the entity (which would give the underlying designation reason).
+
+This is the verified-by-name Liechtenstein-Anstalt counterpart to the Ledra (Cyprus nominee) finding — same regulatory non-compliance pattern, different secrecy-jurisdiction.
+
+Two ICIJ records in the local Panama Papers neighborhood warrant flagging but not claiming: **GALLAGHER HOLDINGS LIMITED aka USM STEEL** (the "USM" branding is suggestive of Alisher Usmanov's USM Holdings metals empire, but the connection isn't established by an edge in our data) and **Mr. Mihran Poghosyan** (Armenian politician with known offshore allegations). Both appear in the same Panama Papers corpus rather than directly linked to IGT Intergestions in the leak graph.
+
+The net finding: an OFAC-SDN-listed Liechtenstein Anstalt holding 5 prime Highgate land titles, with no UK ROE filing. The OFAC designation reason would be the next verification step (via the linked OFAC press release).
 
 ## SE1 deepdive — reframing the largest postcode cluster
 
