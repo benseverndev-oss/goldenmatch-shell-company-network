@@ -1205,6 +1205,13 @@ _ALLOWED_SCRIPTS = {
     "probe_metalloinvest_verify": [
         "scripts/probe_metalloinvest_verify.py",
     ],
+    # Geographic deepdive on the SE1 non-compliant cluster (690 titles,
+    # the largest single outward-postcode cluster). Top proprietors,
+    # building-level concentration, sector breakdown, country mix,
+    # ICIJ overlap, acquisition-year distribution.
+    "probe_se1_deepdive": [
+        "scripts/probe_se1_deepdive.py",
+    ],
 }
 
 
