@@ -1178,6 +1178,19 @@ _ALLOWED_SCRIPTS = {
     "probe_fenland_deepdive": [
         "scripts/probe_fenland_deepdive.py",
     ],
+    # Per-target deepdive for non-compliant entities of interest.
+    # Currently runs for: edokpolo (BVI family cluster) + the three
+    # high-confidence OS sanction hits (Embassy Development, Harmony
+    # Ridge, Ledra Trustee).
+    "probe_named_threads_deepdive": [
+        "scripts/probe_named_threads_deepdive.py",
+    ],
+    # Tightened ROE non-compliance matcher with a fuzzy token-set
+    # second pass to drop name-form false positives (Deutsche Bank
+    # AG vs Aktiengesellschaft etc.).
+    "probe_roe_noncompliance_strict": [
+        "scripts/probe_roe_noncompliance_strict.py",
+    ],
 }
 
 
