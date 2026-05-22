@@ -42,7 +42,8 @@ import polars as pl
 log = logging.getLogger("probe_disqualified_wrongdoing")
 
 
-_DISQ = Path("/data/interim/uk_disqualified_directors.parquet")
+_DISQ_FULL = Path("/data/processed/uk_coh_disqualified_full.parquet")
+_DISQ_PARTIAL = Path("/data/interim/uk_disqualified_directors.parquet")
 _ICIJ_OFFICERS = Path("/data/interim/icij_officers.parquet")
 _ICIJ_ENTITIES = Path("/data/interim/icij_entities.parquet")
 _ICIJ_EDGES = Path("/data/interim/icij_edges.parquet")
@@ -77,8 +78,11 @@ def main(argv: list[str] | None = None) -> int:
     # ------------------------------------------------------------
     # Load disqualified directors
     # ------------------------------------------------------------
-    log.info("loading disqualified directors...")
-    disq = pl.read_parquet(_DISQ)
+    # Prefer the richer OpenSanctions gb_coh_disqualified dataset
+    # (~3-5k rows) over the partial 222-row local scrape.
+    disq_path = _DISQ_FULL if _DISQ_FULL.exists() else _DISQ_PARTIAL
+    log.info("loading disqualified directors from %s", disq_path)
+    disq = pl.read_parquet(disq_path)
     log.info("  rows: %d  cols: %s", disq.height, disq.columns)
 
     # Find the name + DOB columns by best-effort

@@ -1139,6 +1139,11 @@ _ALLOWED_SCRIPTS = {
     "probe_disqualified_wrongdoing": [
         "scripts/probe_disqualified_wrongdoing.py",
     ],
+    # Pull the full UK CH disqualified-directors register from
+    # OpenSanctions (~3-5k entities vs the partial 222-row scrape).
+    "ingest_os_gb_coh_disqualified": [
+        "scripts/ingest_os_gb_coh_disqualified.py",
+    ],
 }
 
 
