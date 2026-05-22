@@ -27,7 +27,7 @@ Non-compliant titles cluster in **prime central London** plus the SE1 regenerati
 
 | Outward postcode | Non-compliant titles | Area |
 |---|---:|---|
-| SE1 | 690 | South Bank / Bermondsey / Southwark |
+| SE1 | 690 | Dominated by **Park Plaza Westminster Bridge hotel-condo** (Dutch B.V. operator, 615+ titles) — see SE1 deepdive section |
 | SW7 | 152 | South Kensington |
 | W14 | 129 | Olympia / West Kensington |
 | SW5 | 122 | Earls Court |
@@ -244,6 +244,30 @@ LEDRA TRUSTEE SERVICES LIMITED  (Cyprus — no ROE filing, OS debarment+sanction
 ### Net finding
 
 The Mayfair flat at 45 Green Street W1K 7FX, held by Cyprus-incorporated LEDRA TRUSTEE SERVICES LIMITED without UK ROE filing, sits inside a verified structural pattern: the same Cyprus "Ledra" service-provider family is documented in Panama Papers as nominee for a multi-jurisdiction Metalloinvest BVI/Cyprus structure controlled by the OFAC-sanctioned Russian oligarch Alisher Usmanov. The brand-identity link is unambiguous; the corporate-control link between the UK-property-owning Ledra Trustee Services and the Panama Papers Ledra Services nominee would need separate corporate-registry verification.
+
+## SE1 deepdive — reframing the largest postcode cluster
+
+The headline geographic concentration figure listed SE1 with 690 non-compliant titles — the largest single outward-postcode cluster in the anti-join. A deepdive (`probe_se1_deepdive.py`) shows this number is misleading without context: **88% of those titles belong to one hotel-condo scheme**, not a distributed offshore-shell pattern.
+
+| Top SE1 proprietor | Titles | Country |
+|---|---:|---|
+| WESTMINSTER BRIDGE LONDON (REAL ESTATE) B.V. | 563 | Netherlands |
+| COUNTY HALL HOTEL HOLDINGS B.V. | 46 | Netherlands |
+| Next 69 proprietors combined | 81 | Various |
+
+**571 of those titles are at one address: 200 Westminster Bridge Road, SE1 7UT — the Park Plaza Westminster Bridge hotel.** Park Plaza Westminster Bridge is a 1,019-room hotel that operates as a **hotel-condo investment scheme** — each room is registered as a separate UK leasehold title. The Dutch B.V. is the operator-custodian entity that holds the title pool.
+
+Acquisition-year distribution confirms: **507 of the SE1 titles were registered in 2016**, the year the hotel-condo scheme rolled out. The remaining titles are small numbers across other years.
+
+Postcode-sector confirms: **642 of 690** SE1 titles are in **SE1 7** (the Westminster Bridge / Albert Embankment band where Park Plaza sits).
+
+ICIJ leak overlap within SE1 is small — only 7 distinct names — and includes the already-documented EKO IRE LIMITED (Edokpolo family, 3 SE1 titles including a Park Plaza Westminster Bridge room) plus two single-title leak-named entities.
+
+### Pattern read
+
+SE1 doesn't fit the Mayfair/Belgravia/Kensington offshore-secrecy-shell pattern that dominates the rest of the high-confidence findings. It's **a hotel-condo operator non-filing under ECTEA 2022**, which is still regulatory non-compliance, but a different shape — one Dutch entity owes one bulk filing rather than 600+ overseas-secrecy-jurisdiction shells owing 600+ separate filings.
+
+The 690 SE1 number should not be cited alongside the prime-central-London luxury postcode figures (W1K, SW1X, W8, SW3) without this qualification: those postcodes hold distributed shells, SE1 is concentrated in one hotel.
 
 ## Cross-thread address co-tenancy
 
