@@ -19,19 +19,24 @@ from pathlib import Path
 
 log = logging.getLogger("ingest_uk_ch_overseas_entities")
 
-_SRC = Path("data/uk_ch_overseas_entities.parquet")
+_SRC_CANDIDATES = [
+    Path("/data/raw/icij/uk_ch_overseas_entities.parquet"),
+    Path("/app/data/uk_ch_overseas_entities.parquet"),
+    Path("data/uk_ch_overseas_entities.parquet"),
+]
 _DST = Path("/data/processed/uk_ch_overseas_entities.parquet")
 
 
 def main() -> int:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
-    if not _SRC.exists():
-        log.error("source not found: %s", _SRC)
+    src = next((p for p in _SRC_CANDIDATES if p.exists()), None)
+    if src is None:
+        log.error("source not found in any of: %s", [str(p) for p in _SRC_CANDIDATES])
         return 1
     _DST.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(_SRC, _DST)
+    shutil.copy2(src, _DST)
     size = _DST.stat().st_size
-    log.info("copied %s -> %s (%d bytes)", _SRC, _DST, size)
+    log.info("copied %s -> %s (%d bytes)", src, _DST, size)
     return 0
 
 
