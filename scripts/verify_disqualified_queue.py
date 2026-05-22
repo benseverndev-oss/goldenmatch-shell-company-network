@@ -59,13 +59,19 @@ def _extract_ch_disq(text: str) -> dict:
         return rm.group(1).strip() if rm else None
 
     return {
-        "dob": m(r"Date of birth\s+([A-Za-z0-9 ]+?)(?=\s{2,}|Nationality|Disqualification|Address|$)"),
+        "dob": m(
+            r"Date of birth\s+([A-Za-z0-9 ]+?)(?=\s{2,}|Nationality|Disqualification|Address|$)"
+        ),
         "nationality": m(r"Nationality\s+([A-Za-z, ]+?)(?=\s{2,}|Date|Disqualification|Address|$)"),
-        "address": m(r"(?:Last known address|Address)\s+([^|]{10,300}?)(?=\s{2,}|Disqualification|$)"),
+        "address": m(
+            r"(?:Last known address|Address)\s+([^|]{10,300}?)(?=\s{2,}|Disqualification|$)"
+        ),
         "disq_starts": m(r"Date of order starts?\s+(\d{1,2} \w+ \d{4})"),
         "disq_length": m(r"Disqualification length\s+([0-9 a-zA-Z]+?)(?=\s{2,}|$)"),
         "disq_status": m(r"Status\s+([A-Za-z ]+?)(?=\s{2,}|$)"),
-        "conduct": (m(r"Reasons for disqualification\s+([^|]{20,2000}?)(?=\s{2,}Companies|$)") or "")[:1000],
+        "conduct": (
+            m(r"Reasons for disqualification\s+([^|]{20,2000}?)(?=\s{2,}Companies|$)") or ""
+        )[:1000],
         "companies": list(set(re.findall(r"([A-Z0-9 &.,'-]{4,80}?\s+LIMITED)", text)))[:10],
     }
 
@@ -73,7 +79,9 @@ def _extract_ch_disq(text: str) -> dict:
 def _extract_icij(text: str) -> dict:
     return {
         "country": _first_capture(text, r"Country[s:]?\s+([A-Za-z, ]+?)(?=\s{2,}|$)"),
-        "linked_to": list(set(re.findall(r"connected to\s+([A-Z][A-Za-z0-9 &.,'-]{3,80})", text)))[:10],
+        "linked_to": list(set(re.findall(r"connected to\s+([A-Z][A-Za-z0-9 &.,'-]{3,80})", text)))[
+            :10
+        ],
         "addresses": list(set(re.findall(r"Address\s+([^|]{10,200})", text)))[:5],
         "sources": list(set(re.findall(r"Data from:\s+([A-Za-z ]+)", text)))[:5],
     }
