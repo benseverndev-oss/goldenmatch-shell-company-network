@@ -45,12 +45,6 @@ def _strip(html: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
-def _section(text: str, start: str, stop: str) -> str | None:
-    """Return text between two labels (best-effort)."""
-    m = re.search(re.escape(start) + r"\s*\|?\s*(.{1,4000}?)\s*\|?\s*" + re.escape(stop), text)
-    return re.sub(r"\s+", " ", m.group(1)).strip() if m else None
-
-
 def _extract_ch_disq_deep(text: str) -> dict:
     """Best-effort deep extraction from a CH disqualified-director page.
 
