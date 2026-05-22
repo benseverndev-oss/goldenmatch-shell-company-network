@@ -170,30 +170,48 @@ def main(argv: list[str] | None = None) -> int:
     # ---------------- 2. OS sanctions/PEP overlap ----------------
     log.info("=== 2. OS sanctions/PEP overlap ===")
     os_flagged_hits: list[dict] = []
+    os_diag: dict = {}
     if _OS_ENTITIES.exists():
         try:
             lazy = pl.scan_parquet(_OS_ENTITIES)
-            cols = lazy.collect_schema().names()
+            schema = lazy.collect_schema()
+            cols = schema.names()
             log.info("  OS columns: %s", cols)
-            # Build topic filter — topics column may be List[str] or string
+            log.info("  OS topics dtype: %s", schema.get("topics"))
+            os_diag["columns"] = cols
+            os_diag["topics_dtype"] = str(schema.get("topics"))
             if "topics" in cols:
-                # Stringify list-of-topics, then substring-match
+                topics_dtype = schema.get("topics")
+                # Handle both list-of-string and plain-string topics
+                if str(topics_dtype).startswith("List"):
+                    topic_expr = pl.col("topics").list.join(",").alias("_topics_s")
+                else:
+                    topic_expr = pl.col("topics").cast(pl.Utf8).alias("_topics_s")
                 topic_strs = "|".join(_OS_FLAG_TOPICS)
+                # Pre-normalize name key on OS side
                 hits = (
-                    lazy.with_columns(pl.col("topics").cast(pl.Utf8).alias("_topics_s"))
-                    .filter(pl.col("_topics_s").str.contains(topic_strs))
-                    .with_columns(_norm_expr("name").alias("match_key"))
-                    .filter(pl.col("match_key").is_in(list(nc_keys)))
+                    lazy.with_columns([topic_expr, _norm_expr("name").alias("match_key")])
+                    .filter(
+                        pl.col("_topics_s").fill_null("").str.contains(topic_strs)
+                        & pl.col("match_key").is_in(list(nc_keys))
+                    )
                     .collect()
                 )
                 log.info("  OS sanction/PEP/crime hits in non-compliant: %d", hits.height)
-                os_flagged_hits = hits.head(80).to_dicts()
+                os_flagged_hits = hits.head(100).to_dicts()
+                # Sample of topics-string to confirm format
+                sample_topics = (
+                    lazy.with_columns(topic_expr).select("_topics_s").head(5).collect().to_dicts()
+                )
+                os_diag["topics_sample"] = [r["_topics_s"] for r in sample_topics]
             else:
                 log.warning("  OS topics column missing")
         except Exception as exc:  # noqa: BLE001
             log.warning("  OS load failed: %s", exc)
+            os_diag["error"] = str(exc)
     else:
-        log.warning("  OS file missing")
+        log.warning("  OS file missing at %s", _OS_ENTITIES)
+        os_diag["error"] = f"file missing: {_OS_ENTITIES}"
 
     # ---------------- 3. Date-aware non-compliance ----------------
     log.info("=== 3. Date-aware non-compliance ===")
@@ -215,15 +233,37 @@ def main(argv: list[str] | None = None) -> int:
     pre_2022: int | None = None
     post_2022: int | None = None
     post_2022_by_country: list[dict] = []
+    date_diag: dict = {}
     if date_col:
         log.info("  using date column: %s", date_col)
-        with_date = nc_titles.with_columns(pl.col(date_col).cast(pl.Date, strict=False))
+        dtype = nc_titles.schema.get(date_col)
+        date_diag["dtype"] = str(dtype)
+        # Sample raw values to confirm format before parsing
+        date_diag["sample_raw"] = nc_titles.select(date_col).head(8).to_series().to_list()
+        log.info("  date_col dtype=%s sample=%s", dtype, date_diag["sample_raw"])
+
+        if str(dtype).startswith("Date") or str(dtype).startswith("Datetime"):
+            with_date = nc_titles.with_columns(pl.col(date_col).alias("_d"))
+        else:
+            # String — try multiple UK CH date formats
+            with_date = nc_titles.with_columns(
+                pl.coalesce(
+                    [
+                        pl.col(date_col).str.to_date("%d/%m/%Y", strict=False),
+                        pl.col(date_col).str.to_date("%Y-%m-%d", strict=False),
+                        pl.col(date_col).str.to_date("%d %B %Y", strict=False),
+                        pl.col(date_col).str.to_date("%d-%b-%Y", strict=False),
+                    ]
+                ).alias("_d")
+            )
         cutover = pl.date(2022, 8, 1)
-        pre_2022 = int(with_date.filter(pl.col(date_col) < cutover).height)
-        post_2022 = int(with_date.filter(pl.col(date_col) >= cutover).height)
+        pre_2022 = int(with_date.filter(pl.col("_d") < cutover).height)
+        post_2022 = int(with_date.filter(pl.col("_d") >= cutover).height)
+        date_diag["pre_2022"] = pre_2022
+        date_diag["post_2022"] = post_2022
         if "country_incorporated" in ocod.columns:
             post_2022_by_country = (
-                with_date.filter(pl.col(date_col) >= cutover)
+                with_date.filter(pl.col("_d") >= cutover)
                 .group_by("country_incorporated")
                 .len()
                 .sort("len", descending=True)
@@ -249,7 +289,9 @@ def main(argv: list[str] | None = None) -> int:
                 },
                 "top_officer_links": officer_links[:75],
                 "os_sanction_pep_hits": os_flagged_hits,
+                "os_diag": os_diag,
                 "post_2022_by_country": post_2022_by_country,
+                "date_diag": date_diag,
             },
             indent=2,
             sort_keys=True,
