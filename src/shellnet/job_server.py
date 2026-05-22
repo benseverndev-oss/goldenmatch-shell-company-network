@@ -1144,6 +1144,11 @@ _ALLOWED_SCRIPTS = {
     "ingest_os_gb_coh_disqualified": [
         "scripts/ingest_os_gb_coh_disqualified.py",
     ],
+    # Build the ranked verification queue for the disqualified x ICIJ
+    # name-matches. Score = 1 / (same-name count on each side).
+    "probe_disqualified_verification_queue": [
+        "scripts/probe_disqualified_verification_queue.py",
+    ],
 }
 
 
