@@ -46,7 +46,7 @@ _OCOD = Path("/data/processed/hmlr_ocod.parquet")
 _ICIJ_ENTITIES = Path("/data/interim/icij_entities.parquet")
 _ICIJ_OFFICERS = Path("/data/interim/icij_officers.parquet")
 _ICIJ_EDGES = Path("/data/interim/icij_edges.parquet")
-_OS_DIR = Path("/data/processed/os")  # OpenSanctions
+_OS_SANCTIONED_PERSONS = Path("/data/processed/os_sanctioned_persons.parquet")
 _SEC_EDGES = Path("/data/processed/sec_13dg_edges.parquet")
 _SEC_META = Path("/data/processed/sec_filer_metadata.parquet")
 
@@ -73,19 +73,6 @@ _US_LABELS = {
     "CALIFORNIA",
     "NEW YORK",
     "TEXAS",
-}
-
-
-# Sanction-publishing datasets (NOT sanction.linked which is adjacency-only).
-_SANCTION_SOURCES = {
-    "us_ofac_sdn",
-    "us_ofac_consolidated",
-    "us_sam_exclusions",
-    "gb_fcdo_sanctions",
-    "gb_hmt_sanctions",
-    "eu_eeas_sanctions",
-    "eu_fsf",
-    "un_sc_sanctions",
 }
 
 
@@ -193,36 +180,22 @@ def main(argv: list[str] | None = None) -> int:
     # ============================================================
     log.info("=== B — Sanctioned-person → ICIJ → OCOD overlap ===")
     sanctioned_persons: list[dict] = []
-    if _OS_DIR.exists():
-        for parquet in _OS_DIR.glob("*.parquet"):
-            try:
-                df = pl.read_parquet(parquet)
-                if "source_id" not in df.columns:
-                    continue
-                if "topics" not in df.columns or "entity_schema" not in df.columns:
-                    continue
-                # Sanction-publishing sources + Person schema + sanction topic
-                filtered = df.filter(
-                    pl.col("source_id").is_in(list(_SANCTION_SOURCES))
-                    & (pl.col("entity_schema") == "Person")
-                    & pl.col("topics").str.contains("sanction(?!\\.linked)")
+    if _OS_SANCTIONED_PERSONS.exists():
+        df = pl.read_parquet(_OS_SANCTIONED_PERSONS)
+        for row in df.iter_rows(named=True):
+            nm = row.get("normalized_name") or _norm(row.get("name"))
+            # Defamation guard: ≥2 tokens, ≥8 chars
+            tokens = nm.split() if nm else []
+            if len(tokens) >= 2 and len(nm) >= 8:
+                sanctioned_persons.append(
+                    {
+                        "name": row.get("name"),
+                        "normalized_name": nm,
+                        "source": row.get("source"),
+                        "topics": str(row.get("topics") or ""),
+                        "countries": str(row.get("countries") or ""),
+                    }
                 )
-                for row in filtered.iter_rows(named=True):
-                    nm = row.get("normalized_name") or _norm(row.get("name"))
-                    # Defamation guard: ≥2 tokens, ≥8 chars
-                    tokens = nm.split() if nm else []
-                    if len(tokens) >= 2 and len(nm) >= 8:
-                        sanctioned_persons.append(
-                            {
-                                "source_id": row.get("source_id"),
-                                "name": row.get("name"),
-                                "normalized_name": nm,
-                                "topics": row.get("topics"),
-                                "countries": row.get("countries"),
-                            }
-                        )
-            except Exception as exc:  # noqa: BLE001
-                log.warning("  skipping %s: %s", parquet.name, exc)
     log.info("  sanctioned-person names loaded: %d", len(sanctioned_persons))
     sanctioned_normset = {s["normalized_name"] for s in sanctioned_persons}
 
