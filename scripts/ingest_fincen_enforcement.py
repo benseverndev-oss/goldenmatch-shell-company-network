@@ -41,11 +41,13 @@ _UA = "GoldenMatch case study bsevern@mjhlifesciences.com"
 
 
 def _strip_html(html: str) -> str:
-    text = re.sub(
-        r"<script\b[^>]*>.*?<\s*/\s*script\s*>", " ", html, flags=re.DOTALL | re.IGNORECASE
-    )
-    text = re.sub(r"<style\b[^>]*>.*?<\s*/\s*style\s*>", " ", text, flags=re.DOTALL | re.IGNORECASE)
-    text = re.sub(r"<[^>]+>", "|", text)
+    # Strip all tags. We do NOT special-case <script>/<style> blocks
+    # because hand-written HTML-stripping regexes for those reliably
+    # fail CodeQL py/bad-tag-filter no matter how permissive. The
+    # downstream date+subject regex in _parse_index won't false-match
+    # JS/CSS content anyway — it requires a specific month-name
+    # followed by a date.
+    text = re.sub(r"<[^>]+>", "|", html)
     text = re.sub(r"&nbsp;|&amp;", " ", text)
     text = re.sub(r"\|+", "|", text)
     return text
