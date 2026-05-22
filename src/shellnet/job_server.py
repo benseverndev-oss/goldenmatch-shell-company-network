@@ -1132,6 +1132,13 @@ _ALLOWED_SCRIPTS = {
     "probe_nyc_acris_offshore": [
         "scripts/probe_nyc_acris_offshore.py",
     ],
+    # Disqualified UK directors x ICIJ officers x OCOD UK property.
+    # Surfaces potential s.11 CDDA 1986 breaches (disqualified
+    # person involved in offshore company management with UK
+    # property holdings). Output is a lead list, not an accusation.
+    "probe_disqualified_wrongdoing": [
+        "scripts/probe_disqualified_wrongdoing.py",
+    ],
 }
 
 
