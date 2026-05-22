@@ -1159,6 +1159,12 @@ _ALLOWED_SCRIPTS = {
     "probe_roe_noncompliance": [
         "scripts/probe_roe_noncompliance.py",
     ],
+    # Drill into the 5,324 non-compliant proprietors. Cross-link
+    # against ICIJ leaks + OpenSanctions, plus geographic + date
+    # concentration of the 12,240 non-compliant titles.
+    "probe_roe_noncompliance_drill": [
+        "scripts/probe_roe_noncompliance_drill.py",
+    ],
 }
 
 
