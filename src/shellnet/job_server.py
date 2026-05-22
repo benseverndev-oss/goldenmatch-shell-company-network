@@ -1111,6 +1111,13 @@ _ALLOWED_SCRIPTS = {
     "probe_hub_deepdive": [
         "scripts/probe_hub_deepdive.py",
     ],
+    # Three US-angle probes in one pass:
+    # A. US-incorporated proprietors in UK OCOD
+    # B. Sanctioned-person → ICIJ officer → OCOD overlap
+    # C. SEC 13D/G filer → ICIJ entity (filtered)
+    "probe_us_angles": [
+        "scripts/probe_us_angles.py",
+    ],
 }
 
 
