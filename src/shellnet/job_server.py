@@ -1118,6 +1118,15 @@ _ALLOWED_SCRIPTS = {
     "probe_us_angles": [
         "scripts/probe_us_angles.py",
     ],
+    # Ingest NYC ACRIS Master + Parties + Legals into parquet (~10-20
+    # min Railway-side). Enables NYC equivalent of UK OCOD analysis.
+    "ingest_nyc_acris": [
+        "scripts/ingest_nyc_acris.py",
+    ],
+    # Scrape FinCEN enforcement-actions index into parquet.
+    "ingest_fincen_enforcement": [
+        "scripts/ingest_fincen_enforcement.py",
+    ],
 }
 
 
