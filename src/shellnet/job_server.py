@@ -1149,6 +1149,16 @@ _ALLOWED_SCRIPTS = {
     "probe_disqualified_verification_queue": [
         "scripts/probe_disqualified_verification_queue.py",
     ],
+    # UK Register of Overseas Entities — promote the locally-extracted
+    # OE-prefixed CH parquet to the Railway data volume.
+    "ingest_uk_ch_overseas_entities": [
+        "scripts/ingest_uk_ch_overseas_entities.py",
+    ],
+    # Anti-join OCOD foreign owners vs UK CH OE registry. Surfaces
+    # potentially non-compliant proprietors under ECTEA 2022 s.34.
+    "probe_roe_noncompliance": [
+        "scripts/probe_roe_noncompliance.py",
+    ],
 }
 
 
