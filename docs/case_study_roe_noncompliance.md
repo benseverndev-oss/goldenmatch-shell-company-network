@@ -165,9 +165,38 @@ The remaining 8 OS hits are large regulated institutions (Deutsche Bank, Nationa
 
 These are the highest-quality leads — overseas owners who acquired UK property in the post-Act window and never filed.
 
+## Strict matcher (fuzzy second-pass)
+
+A v2 matcher (`probe_roe_noncompliance_strict.py`) runs a token-set Jaccard fuzzy second pass after the exact-key anti-join, to suppress suffix-form false positives like "Deutsche Bank AG" vs "Deutsche Bank Aktiengesellschaft".
+
+| Pass | Non-compliant proprietors | Non-compliant titles |
+|---|---:|---:|
+| v1 (exact key, suffix-stripped) | 5,298 | 12,181 |
+| v2 (after fuzzy reclassification at Jaccard ≥ 0.7) | 4,174 | 9,198 |
+
+The fuzzy reclassifies 1,124 proprietors as likely-compliant under a different name form. **Caveat**: the v2 matcher is over-aggressive on serially-numbered SPVs (`SIR TRUSTEE 6 LIMITED` ↔ `sir trustee 3`, `ATHENA ASSET 5` ↔ `athena asset 7`) and on generic-token collisions (`P.S.G. INVESTMENT GROUP` ↔ `v k investment group`). The true strict count is between the v1 and v2 numbers — probably 4,500-4,800 proprietors. We surface both bounds rather than commit to a single figure.
+
+## Additional named-thread case studies
+
+### Edokpolo family — EKO IRE LIMITED (BVI, Pandora Papers / Alcogal)
+
+5 UK property titles. Proprietor correspondence address `PO Box 1490, Edokonsult, Lagos, Nigeria, 2 Tower Street, London WC2H 9NP` links the BVI entity to a Nigerian consultancy. Properties include hotel-room titles at Park Plaza Westminster Bridge (SE1). Named officers in the Pandora leak (Alemán, Cordero, Galindo & Lee / Alcogal record): **Grace Osemwonyemwen Edokpolo, Osatohanwen Aristotle Edokpolo, Osarobo Edward Edokpolo** — a family cluster confirmed.
+
+### Embassy Development — Battersea / Nine Elms
+
+3 titles across related Luxembourg + Jersey SPVs (`EMBASSY DEVELOPMENT E S.A.R.L`, `EMBASSY DEVELOPMENT F S.A R.L`, `EMBASSY DEVELOPMENT LIMITED`). OpenSanctions flags `debarment + sanction`. Sample title: **Plot E, Nine Elms Park, Nine Elms Lane, London SW8 5BB**, £44,267,787 price-paid, acquired 15 February 2022 — six months before ECTEA commencement. The multi-SPV structure (E, F, plus the parent) is consistent with a project-financing layered ownership. No ICIJ leak appearance.
+
+### Harmony Ridge Limited
+
+1 UK title — Flat 7, 27 and 29 Hornton Street, London W8 7NR (Kensington), £749,500, acquired 26 May 2010. OpenSanctions flags `corp.offshore + sanction.linked`. ICIJ presence: two BVI entities named Harmony Ridge in Panama Papers + Paradise Papers (Appleby record). **Jurisdictional mismatch** — OCOD records the proprietor as Jersey-incorporated, ICIJ records BVI. Could be a re-domiciliation or a name collision between two distinct entities. The match warrants manual CH verification before naming.
+
+### Ledra Trustee Services Limited — Cyprus nominee network
+
+2 Mayfair titles; sample: **45 Green Street, Mayfair W1K 7FX**, £310,000, acquired 26 March 2015. Proprietor correspondence at `15 Agiou Pavlou Street, Ledra House, Nicosia 1105`. OpenSanctions flags `debarment + sanction`. ICIJ presence is the most extensive of these four threads: 4 related Ledra-named entities (Nevis, BVI, Malta) and 40 nominee-officer matches — `LEDRA SERVICES (NOMINEES) LIMITED`, `LEDRA TRUSTEES LIMITED`, `LEDRA NOMINEES LIMITED`, all Cyprus. This is a complete Cyprus nominee infrastructure — the proprietor is itself a service-provider corporate shell.
+
 ## Status
 
-All four lenses (ICIJ leak overlap, OS sanctions/PEP overlap, postcode/jurisdiction concentration, pre/post-Aug-2022 split) now producing.
+All four lenses (ICIJ leak overlap, OS sanctions/PEP overlap, postcode/jurisdiction concentration, pre/post-Aug-2022 split) producing. Strict matcher gives a tighter lower bound (4,174 proprietors / 9,198 titles), with the methodology caveat surfaced. Named-thread deepdives complete for FENLAND, Edokpolo / EKO IRE, Embassy Development, Harmony Ridge, and Ledra Trustee Services.
 
 ## Sources
 
