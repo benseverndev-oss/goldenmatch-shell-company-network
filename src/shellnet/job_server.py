@@ -1105,6 +1105,12 @@ _ALLOWED_SCRIPTS = {
     "probe_ocod_address_hubs": [
         "scripts/probe_ocod_address_hubs.py",
     ],
+    # Deep-dive on the top-10 hubs in one pass: per hub, every OCOD
+    # title + price + date + country mix + postcode hotspots +
+    # acquisition timeline + portfolio value + ICIJ matches.
+    "probe_hub_deepdive": [
+        "scripts/probe_hub_deepdive.py",
+    ],
 }
 
 
