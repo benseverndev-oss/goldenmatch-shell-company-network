@@ -1,21 +1,24 @@
-# GoldenMatch shell-company-network — three case studies, one methodology
+# GoldenMatch shell-company-network — three case studies + one methodology appendix
 
-A coordinated production package: three video case studies, all
-generated from the same open-source pipeline that joins ICIJ
-Offshore Leaks, HM Land Registry OCOD, the UK Companies House
-Register of Overseas Entities, and the UK Companies House officers
-register.
+A coordinated production package: three UK video case studies plus
+a US methodology appendix, all generated from the same open-source
+pipeline that joins ICIJ Offshore Leaks, HM Land Registry OCOD,
+the UK Companies House Register of Overseas Entities, NYC ACRIS,
+and OpenSanctions.
 
-All three pieces source every claim to free public registers. None
+All four pieces source every claim to free public registers. None
 of them allege wrongdoing against any individual, firm, or entity
-named. Each one has a pre-publication checklist requiring UK media-
-lawyer review and right of reply.
+named. The three UK pieces have pre-publication checklists
+requiring UK media-lawyer review and right of reply; the US
+appendix has no individuals named and ships without lawyer
+review.
 
 | File | Scale | Audience | Status |
 | --- | --- | --- | --- |
 | [`128_ebury_street_case_study.md`](128_ebury_street_case_study.md) | One Belgravia firm + 119 titles + £137M | General-audience investigative | Drafted, pending lawyer review |
 | [`petrol_forecourts_jersey_case_study.md`](petrol_forecourts_jersey_case_study.md) | UK petrol-forecourts + logistics ROIs via Jersey + £15B+ | Industry / regulatory | Drafted, pending lawyer review |
 | [`channel_islands_hubs_case_study.md`](channel_islands_hubs_case_study.md) | The full top-10 hubs picture (£35.4B / 14,244 titles) | Methodology + national-policy | Drafted, pending lawyer review |
+| [`us_appendix_methodology_paper.md`](us_appendix_methodology_paper.md) | US methodology appendix — why the same join doesn't transplant from UK to NYC ACRIS without federal BO disclosure | OECD / EU 6AMLD / FinCEN CTA review / US Congress | Drafted, ready to ship (no individuals named) |
 | [`barilla_jamers_case_study.md`](barilla_jamers_case_study.md) | Single-family BVI structure | Filed for the future (already-reported finding) | Filed |
 
 ## Recommended publication order
