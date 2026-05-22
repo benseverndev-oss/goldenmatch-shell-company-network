@@ -1165,6 +1165,13 @@ _ALLOWED_SCRIPTS = {
     "probe_roe_noncompliance_drill": [
         "scripts/probe_roe_noncompliance_drill.py",
     ],
+    # Personalize the non-compliance story: ICIJ officer enrichment
+    # (named people behind the entities) + OS sanctions/PEP overlap
+    # with topic-filter to avoid OOM on the 2.7 GB consolidated file
+    # + auto-detected acquisition-date split (pre/post Aug 2022).
+    "probe_roe_noncompliance_personalize": [
+        "scripts/probe_roe_noncompliance_personalize.py",
+    ],
 }
 
 
