@@ -51,7 +51,12 @@ def main(argv: list[str] | None = None) -> int:
         type=Path,
         default=Path("/data/processed/probes/disqualified_verification_queue.json"),
     )
-    p.add_argument("--top-k", type=int, default=100, help="Top-K rows to include in the queue.")
+    p.add_argument(
+        "--top-k",
+        type=int,
+        default=500,
+        help="Top-K rows to include in the queue. Default 500 covers the full unique-on-both-sides set.",
+    )
     p.add_argument("-v", "--verbose", action="store_true")
     args = p.parse_args(argv)
     logging.basicConfig(
