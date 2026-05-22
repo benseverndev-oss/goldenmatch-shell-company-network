@@ -62,8 +62,7 @@ the repo. Each markdown report has a sibling JSON / parquet under
 
 ## Worked investigations
 
-Two case studies were the v1.0 deliverable and still hold up as the
-"this is what the pipeline does to a real seed" demonstration:
+Two v1.0 case studies still hold up as the "this is what the pipeline does to a real seed" demonstration:
 
 - **Phoenix Spree Deutschland** — 9-member ICIJ cluster, 100% GLEIF
   anchored.
@@ -76,7 +75,13 @@ Two case studies were the v1.0 deliverable and still hold up as the
   [`notebooks/02_epstein_case_study.ipynb`](notebooks/02_epstein_case_study.ipynb) ·
   [findings](reports/investigations/epstein_followup_2_findings.md).
 
-Beyond these two, the **top-candidates walkthrough** auto-generates
+The v2 wrongdoing track adds a regulatory-statute case study against ECTEA 2022:
+
+- **UK Register of Overseas Entities non-compliance** — anti-join of HM Land Registry OCOD (365k UK property titles owned by overseas companies) against the UK CH OE registry (30,221 registered entities). Surfaces ~4,200–5,300 non-compliant overseas proprietors holding 9,200–12,200 UK titles. Layered with ICIJ leak overlap (622 entities, 447 named-individual leads), OpenSanctions overlap (4 high-confidence, including the OFAC-SDN-listed Liechtenstein **IGT Intergestions Trust Reg**), and a verified Mayfair-property → Cyprus-nominee → Russian-sanctioned-oligarch chain via **Ledra Trustee Services → Metalloinvest → Alisher Usmanov**.
+  [`docs/case_study_roe_noncompliance.md`](docs/case_study_roe_noncompliance.md)
+  · probes: `probe_roe_noncompliance`, `probe_roe_noncompliance_drill`, `probe_roe_noncompliance_personalize`, `probe_roe_noncompliance_strict`, `probe_named_threads_deepdive`, `probe_named_threads_expand`, `probe_metalloinvest_verify`, `probe_aar_igt_verify`, `probe_se1_deepdive`, `probe_fenland_deepdive`.
+
+Beyond these, the **top-candidates walkthrough** auto-generates
 11 named candidates (shared intermediaries, cross-jurisdiction bridge
 officers, Louvain communities, non-obviousness-ranked rare officers)
 without requiring a hand-curated seed list — the unsupervised channels
