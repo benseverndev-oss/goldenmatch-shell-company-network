@@ -98,11 +98,41 @@ Each row pairs:
 - **Defunct / frozen owners.** Some flagged entities are defunct (e.g. PROFITABLE PLOTS post-fraud-conviction). OCOD does not always remove these promptly. The number of *currently-actively-non-compliant* entities is below the raw count.
 - **The leak corpora are themselves snapshots.** ICIJ data ends at the dates of the respective leaks (Panama 2015, Paradise 2017, Pandora 2021). Entities active today may have rotated their officer roster since.
 
+## Case study — FENLAND LIMITED (Isle of Man)
+
+The largest single non-compliant owner in the anti-join. **313 UK residential property titles** held by a single Isle of Man-incorporated company that has not filed under ECTEA 2022.
+
+| Fact | Value |
+|---|---|
+| OCOD titles | 313 (all attributed to **FENLAND LIMITED**) |
+| Jurisdiction | Isle of Man (all 313) |
+| Proprietor correspondence address | 8 St Georges Street, Douglas, Isle of Man, IM1 1AH (Isle of Man corporate-services address) |
+| ICIJ presence | FENLAND INC. (Panama Papers) + FENLAND LIMITED (Paradise Papers, Malta corporate registry) |
+| Paradise Papers named officers | **Lilian Fenech, Lawrence Fenech** |
+| UK ROE filing | None found (anti-join match) |
+
+Postcode concentration is striking — the portfolio is concentrated in a tight prime West London residential band:
+
+| Postcode | Titles | Area |
+|---|---:|---|
+| W14 | 85 | Olympia / West Kensington |
+| SW5 | 62 | Earls Court |
+| W8 | 55 | Kensington |
+| W2 | 53 | Bayswater / Paddington |
+| SW7 | 26 | South Kensington |
+| SW1V | 14 | Pimlico |
+| SW10 | 12 | West Brompton |
+
+Sample (first in OCOD): **144 Portnall Road, London W9 3BQ**, price-paid **£910,000**, acquired 02-09-2011.
+
+### Caveat — name coincidence ≠ connection
+
+A name-search of ICIJ officers for "FENECH" returns 480 hits, including **Yorgen Fenech** — the Maltese businessman charged with masterminding the 2017 assassination of journalist Daphne Caruana Galizia, currently on trial in Malta. There is **no edge** in the ICIJ leak graph linking him to FENLAND LIMITED. He appears in the same Paradise Papers / Malta corporate-registry leak corpus, which is proximity, not connection. The direct named officers of FENLAND LIMITED in the Paradise Papers entry are **Lilian Fenech** and **Lawrence Fenech**. Fenech is one of the most common Maltese surnames; the bare name-overlap is not a finding without supporting evidence.
+
 ## Open issues
 
-- OS sanctions/PEP/crime overlap (`probe_roe_noncompliance_personalize.py`) returned 0 hits on first run. Topic-encoding mismatch — fix in progress.
-- Date-aware split (pre/post Aug 2022) returned 0/0 — date parsing issue, fix in progress.
-- FENLAND LIMITED full deepdive — separate probe (`probe_fenland_deepdive.py`) walks all 313 titles + Fenech family ICIJ records.
+- OS sanctions/PEP overlap fixed (was 0, now 13 hits including `Harmony Ridge Limited` / `sanction.linked`, `AAR International` / `crime.traffick`, `Embassy Development Limited` / `debarment+sanction`).
+- Date-aware split — date_proprietor_added is `DD-MM-YYYY` not `DD/MM/YYYY`. Fix in progress.
 
 ## Sources
 
