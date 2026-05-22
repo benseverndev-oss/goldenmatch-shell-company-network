@@ -1127,6 +1127,11 @@ _ALLOWED_SCRIPTS = {
     "ingest_fincen_enforcement": [
         "scripts/ingest_fincen_enforcement.py",
     ],
+    # NYC ACRIS grantees cross-referenced against ICIJ + OFAC SDN.
+    # The NYC equivalent of the UK OCOD x ICIJ x ROE join.
+    "probe_nyc_acris_offshore": [
+        "scripts/probe_nyc_acris_offshore.py",
+    ],
 }
 
 
