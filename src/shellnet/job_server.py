@@ -1212,6 +1212,12 @@ _ALLOWED_SCRIPTS = {
     "probe_se1_deepdive": [
         "scripts/probe_se1_deepdive.py",
     ],
+    # Drill the remaining two high-confidence OS sanctions hits in
+    # the ROE non-compliant set: AAR International (crime.traffick)
+    # and Igt Intergestions Trust Reg (debarment+sanction, LI).
+    "probe_aar_igt_verify": [
+        "scripts/probe_aar_igt_verify.py",
+    ],
 }
 
 
