@@ -1198,6 +1198,13 @@ _ALLOWED_SCRIPTS = {
     "probe_named_threads_expand": [
         "scripts/probe_named_threads_expand.py",
     ],
+    # Verify the Ledra-Metalloinvest link surfaced by the named-threads
+    # expand: pull full ICIJ records for the Metalloinvest-named BVI
+    # entity, plus OS records for Metalloinvest + Usmanov, plus direct
+    # ICIJ edges between any Usmanov officer and the BVI entity.
+    "probe_metalloinvest_verify": [
+        "scripts/probe_metalloinvest_verify.py",
+    ],
 }
 
 

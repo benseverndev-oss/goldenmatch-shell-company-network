@@ -194,6 +194,48 @@ The fuzzy reclassifies 1,124 proprietors as likely-compliant under a different n
 
 2 Mayfair titles; sample: **45 Green Street, Mayfair W1K 7FX**, £310,000, acquired 26 March 2015. Proprietor correspondence at `15 Agiou Pavlou Street, Ledra House, Nicosia 1105`. OpenSanctions flags `debarment + sanction`. ICIJ presence is the most extensive of these four threads: 4 related Ledra-named entities (Nevis, BVI, Malta) and 40 nominee-officer matches — `LEDRA SERVICES (NOMINEES) LIMITED`, `LEDRA TRUSTEES LIMITED`, `LEDRA NOMINEES LIMITED`, all Cyprus. This is a complete Cyprus nominee infrastructure — the proprietor is itself a service-provider corporate shell.
 
+**Officer-edge expansion reveals Ledra as a hub**. Each of the 40 Ledra-named officers in ICIJ appears as the officer-of-record for a different BVI entity in Panama Papers. Selected connected entities:
+
+| Connected entity | Jurisdiction | Source |
+|---|---|---|
+| METALLOINVEST HOLDINGS B.V.I) LIMITED | BVI | Panama Papers |
+| SIBLEY INTERNATIONAL LIMITED | BVI | Panama Papers |
+| INDUSTRIAL PIPELINE CORPORATION | BVI | Panama Papers |
+| SWINSTAR HOLDINGS LIMITED | BVI | Panama Papers |
+| CONEY HOLDINGS GROUP LTD | BVI | Panama Papers |
+
+The METALLOINVEST name is notable: Metalloinvest is the Russian metals/mining holding controlled by Alisher Usmanov, who is US OFAC, EU and UK sanctioned. The Panama Papers entry naming a Cyprus "Ledra Services" entity as officer of a BVI "Metalloinvest Holdings"-named entity places Ledra in the Russian-sanctioned-oligarch asset-holding chain.
+
+**Important caveats on the Ledra-Metalloinvest link**:
+- The connected entity name has a typo (`B.V.I)` with a stray paren), raising the possibility it is a similarly-named but distinct entity from the actual Metalloinvest Holdings BVI vehicle. We cannot claim same-entity identity without manual CH / BVI registry verification.
+- "Officer of" in Panama Papers means nominee director, NOT beneficial owner. Ledra is the nominee service provider; the actual beneficial owners would be hidden behind it. The edge proves only that Ledra provides services to a BVI Metalloinvest-named entity; it does not prove Ledra knew or chose this work.
+
+The structural pattern that remains: Ledra Trustee Services Limited (1) holds UK property in Mayfair, (2) has filed no ROE, (3) is OpenSanctions-flagged for debarment + sanction, and (4) appears in Panama Papers as nominee for a BVI Metalloinvest-named entity in the wider Russian-sanctioned-oligarch supply chain.
+
+## Cross-thread address co-tenancy
+
+The expand probe also surfaced shared proprietor correspondence addresses across non-compliant proprietors — a signal that a thread sits inside a wider serviced-address cluster:
+
+| Thread | Shared address | Co-tenant non-compliant proprietors |
+|---|---|---|
+| FENLAND | 8 St Georges Street, Douglas IM1 1AH (IOM) | M.H.E. INVESTMENTS LIMITED, ROSSMOOR LIMITED |
+| Embassy Development | 14-16 Avenue Pasteur, L-2130 Luxembourg | (intra-thread: 2 of 3 SPVs) |
+| Harmony Ridge | 25 Iverna Court, London W8 6TY | THREE VALLEYS LIMITED |
+| EDOKPOLO | (none — Lagos/WC2H address unique) | — |
+| Ledra Trustee Services | (none on proprietor side — Cyprus address unique) | — |
+
+Each of the FENLAND, Embassy Development, and Harmony Ridge threads now expands into a small local cluster of non-compliant proprietors sharing a correspondence address.
+
+## Officer-edge expansion summary
+
+| Thread | Officers expanded | Notable connections |
+|---|---:|---|
+| FENLAND (Fenech) | 40 | Maltese agribusiness/services cluster (AGROFRUIT, ANDRICO, ITALCA, FENECH CLARKE & CO. LTD, PEP LIMITED) |
+| EDOKPOLO | 3 | Self-contained — only EKO IRE LIMITED |
+| Embassy Development | 0 (no leak presence) | — |
+| Harmony Ridge | 0 (limited expansion) | — |
+| Ledra Trustee Services | 40 | Cyprus nominee infrastructure servicing BVI entities including a Metalloinvest-named entity (caveats above) |
+
 ## Status
 
 All four lenses (ICIJ leak overlap, OS sanctions/PEP overlap, postcode/jurisdiction concentration, pre/post-Aug-2022 split) producing. Strict matcher gives a tighter lower bound (4,174 proprietors / 9,198 titles), with the methodology caveat surfaced. Named-thread deepdives complete for FENLAND, Edokpolo / EKO IRE, Embassy Development, Harmony Ridge, and Ledra Trustee Services.
