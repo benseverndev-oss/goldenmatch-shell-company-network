@@ -13,7 +13,10 @@ Cross-referencing the UK CH OE registry (30,221 registered entities, May 2026) a
 | OCOD distinct foreign-owner proprietors | 27,892 |
 | **Apparent ECTEA non-compliant proprietors** | **5,324 (19.1%)** |
 | **UK property titles held by non-compliant proprietors** | **12,240 (12.6%)** |
+| ...of which acquired pre-Aug-2022 (past transitional deadline) | 11,473 |
+| ...of which acquired post-Aug-2022 (unambiguous breach, no transitional defence) | **733** |
 | Non-compliant proprietors also named in ICIJ Offshore Leaks | 622 |
+| Non-compliant proprietors flagged by OpenSanctions (sanction / debarment / crime / PEP) | 13 (5 high-confidence) |
 | Named individuals surfaced via ICIJ officer enrichment | 447 |
 
 Read with appropriate caution: the name-key anti-join carries false-positive risk where the OCOD record uses a different name form than the OE filing (e.g. "Ltd" vs "Limited"). Suffix-stripping reduces but does not eliminate this. The true non-compliance rate is likely lower than the raw 19% — but plausibly still in the **5–15%** range, i.e. several thousand UK property titles whose foreign owners have not complied with the statute.
@@ -129,10 +132,42 @@ Sample (first in OCOD): **144 Portnall Road, London W9 3BQ**, price-paid **£910
 
 A name-search of ICIJ officers for "FENECH" returns 480 hits, including **Yorgen Fenech** — the Maltese businessman charged with masterminding the 2017 assassination of journalist Daphne Caruana Galizia, currently on trial in Malta. There is **no edge** in the ICIJ leak graph linking him to FENLAND LIMITED. He appears in the same Paradise Papers / Malta corporate-registry leak corpus, which is proximity, not connection. The direct named officers of FENLAND LIMITED in the Paradise Papers entry are **Lilian Fenech** and **Lawrence Fenech**. Fenech is one of the most common Maltese surnames; the bare name-overlap is not a finding without supporting evidence.
 
-## Open issues
+## OpenSanctions overlap — the 13 sanctioned/PEP/crime-linked owners
 
-- OS sanctions/PEP overlap fixed (was 0, now 13 hits including `Harmony Ridge Limited` / `sanction.linked`, `AAR International` / `crime.traffick`, `Embassy Development Limited` / `debarment+sanction`).
-- Date-aware split — date_proprietor_added is `DD-MM-YYYY` not `DD/MM/YYYY`. Fix in progress.
+Five high-confidence hits where a small, specifically-tagged entity appears as a UK property owner with no ROE filing:
+
+| Owner | OS topics | Jurisdiction |
+|---|---|---|
+| Harmony Ridge Limited | corp.offshore + sanction.linked | BVI |
+| Embassy Development Limited | debarment + sanction | GB/JE |
+| Ledra Trustee Services Ltd | debarment + sanction | Cyprus |
+| Igt Intergestions Trust Reg | debarment + sanction | Liechtenstein |
+| AAR International | crime.traffick | US |
+
+The remaining 8 OS hits are large regulated institutions (Deutsche Bank, National Bank of Greece, Bank of New York, Bloomberg, Tesla, European Bank for Reconstruction and Development) tagged for historical `reg.action` enforcement. These are noise in this context — large institutions with reportable regulatory history rather than active ECTEA evaders.
+
+## The post-Aug-2022 subset — unambiguous breach
+
+733 non-compliant titles were acquired AFTER the ECTEA commencement date (Aug 2022), so cannot claim the transitional-period defence. By jurisdiction:
+
+| Country | Post-Act non-compliant titles |
+|---|---:|
+| Luxembourg | 196 |
+| Jersey | 91 |
+| Isle of Man | 72 |
+| Netherlands | 63 |
+| British Virgin Islands | 44 |
+| Qatar | 27 |
+| Guernsey | 25 |
+| Spain | 21 |
+| France | 19 |
+| Ireland | 16 |
+
+These are the highest-quality leads — overseas owners who acquired UK property in the post-Act window and never filed.
+
+## Status
+
+All four lenses (ICIJ leak overlap, OS sanctions/PEP overlap, postcode/jurisdiction concentration, pre/post-Aug-2022 split) now producing.
 
 ## Sources
 
