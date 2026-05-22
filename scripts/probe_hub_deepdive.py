@@ -145,7 +145,7 @@ def main(argv: list[str] | None = None) -> int:
     log.info("  icij entries: %d", icij.height)
 
     hubs_out: list[dict] = []
-    for (first, pc), key in zip(targets, target_keys):
+    for (first, pc), key in zip(targets, target_keys, strict=True):
         rows = by_hub.get(key, [])
         log.info("=== %s (%s) — %d titles ===", first, pc, len(rows))
 
