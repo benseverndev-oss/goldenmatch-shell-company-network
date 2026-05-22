@@ -1172,6 +1172,12 @@ _ALLOWED_SCRIPTS = {
     "probe_roe_noncompliance_personalize": [
         "scripts/probe_roe_noncompliance_personalize.py",
     ],
+    # Deepdive on the FENLAND / Fenech (Malta) thread — the largest
+    # single non-compliant owner (313 UK titles, named in both Panama
+    # and Paradise Papers).
+    "probe_fenland_deepdive": [
+        "scripts/probe_fenland_deepdive.py",
+    ],
 }
 
 
