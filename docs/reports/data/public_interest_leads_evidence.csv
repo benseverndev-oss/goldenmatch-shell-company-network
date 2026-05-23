@@ -1,0 +1,136 @@
+rank,entity_name,evidence_class,evidence_value
+1,IGT Intergestions Trust Reg.,ocod_status,recorded as proprietor since 29 April 2013 per OCOD May 2026
+1,IGT Intergestions Trust Reg.,roe_status,no matching filing found
+1,IGT Intergestions Trust Reg.,icij_overlap,not in ICIJ data
+1,IGT Intergestions Trust Reg.,opensanctions_overlap,"US OFAC SDN (RUSSIA-EO14024), us_sam_exclusions, ext_us_ofac_press_releases, ua_war_sanctions, opencorporates, ext_gleif, permid, us_trade_csl; OFAC remarks: '(Linked To: TRADE INITIATIVE ESTABLISHMENT)'"
+1,IGT Intergestions Trust Reg.,companies_house_match,no UK Companies House entry under any of 11 tested variants or Liechtenstein company number or LEI (live search 22 May 2026)
+1,IGT Intergestions Trust Reg.,sanctions_or_enforcement_evidence,"OFAC SDN entry id=42998, Program RUSSIA-EO14024, Linked To TRADE INITIATIVE ESTABLISHMENT. Liechtenstein company number FL-0001.513.056-8, LEI 391200PWMHBZMLPKTA05. Established 20 Aug 1993."
+1,IGT Intergestions Trust Reg.,public_harm_exposure,prime central London land near major private residence (Witanhurst); ownership opacity
+1,IGT Intergestions Trust Reg.,offshore_structure_features,"Liechtenstein Trust Reg (Treuunternehmen); same registered address (Aeulestrasse, Vaduz) as another OFAC-sanctioned entity TRADE INITIATIVE ESTABLISHMENT for which IGT acts as corporate-services-of-record"
+1,IGT Intergestions Trust Reg.,visual_hook,"One Liechtenstein entity, five Highgate land titles, one OFAC sanctions list — fits on a single slide."
+1,IGT Intergestions Trust Reg.,safe_sentence,"A Liechtenstein-registered trust enterprise on the US Treasury OFAC Specially Designated Nationals list (IGT Intergestions Trust Reg., Liechtenstein company number FL-0001.513.056-8, designated under the Russia-related Executive Order 14024 programme as a linked entity of another OFAC-sanctioned entity, TRADE INITIATIVE ESTABLISHMENT) has been recorded since April 2013 as the proprietor of five UK Land Registry titles on Highgate West Hill, north London, with no matching filing found on the UK Register of Overseas Entities."
+2,TRADE INITIATIVE ESTABLISHMENT,ocod_status,not an OCOD proprietor under its own name
+2,TRADE INITIATIVE ESTABLISHMENT,roe_status,not directly an OCOD proprietor; linked via IGT
+2,TRADE INITIATIVE ESTABLISHMENT,icij_overlap,not in ICIJ data
+2,TRADE INITIATIVE ESTABLISHMENT,opensanctions_overlap,US OFAC SDN (RUSSIA-EO14024); SDN id 42997; LI company number FL-0001.026.862-1; established 27 Nov 1968
+2,TRADE INITIATIVE ESTABLISHMENT,companies_house_match,not on UK CH
+2,TRADE INITIATIVE ESTABLISHMENT,sanctions_or_enforcement_evidence,"OFAC SDN id=42997, Program RUSSIA-EO14024"
+2,TRADE INITIATIVE ESTABLISHMENT,public_harm_exposure,indirect via the IGT-held Highgate titles
+2,TRADE INITIATIVE ESTABLISHMENT,offshore_structure_features,"Older Liechtenstein establishment (1968), with IGT (1993) as its corporate-services-of-record"
+2,TRADE INITIATIVE ESTABLISHMENT,visual_hook,Same Vaduz address as IGT; the older 'parent' Liechtenstein entity on the OFAC list.
+2,TRADE INITIATIVE ESTABLISHMENT,safe_sentence,"Trade Initiative Establishment, a Liechtenstein company on the US OFAC Specially Designated Nationals list under the Russia-related Executive Order 14024 programme, is registered at the same Vaduz correspondence address as IGT Intergestions Trust Reg, the OFAC-sanctioned entity that is the recorded proprietor of five UK Land Registry titles in Highgate, London."
+3,FENLAND LIMITED,ocod_status,recorded as proprietor since 2011 per OCOD May 2026
+3,FENLAND LIMITED,roe_status,no matching filing found
+3,FENLAND LIMITED,icij_overlap,"FENLAND LIMITED (Malta, Paradise Papers); FENLAND INC. (Panama Papers, bearer)"
+3,FENLAND LIMITED,companies_house_match,no UK CH entry
+3,FENLAND LIMITED,public_harm_exposure,housing-leasehold extraction risk in prime central London residential market
+3,FENLAND LIMITED,offshore_structure_features,"Isle of Man administration via 8 St Georges Street, Douglas IM1 1AH (co-tenant address with M.H.E. INVESTMENTS LIMITED and ROSSMOOR LIMITED — both also non-compliant); Paradise Papers names Lilian Fenech and Lawrence Fenech as officers"
+3,FENLAND LIMITED,visual_hook,"One Isle of Man company, 313 prime West London titles, 85 in W14 alone."
+3,FENLAND LIMITED,safe_sentence,"FENLAND LIMITED, an Isle-of-Man-administered company, is recorded in HM Land Registry's Overseas Companies Ownership Data as the proprietor of 313 UK property titles concentrated in prime West London postcodes. The UK Register of Overseas Entities at Companies House contains no matching filing under that name. The Paradise Papers contains a Malta corporate registry record for an entity of the same name with named officers Lilian Fenech and Lawrence Fenech."
+4,PROFITABLE PLOTS PTE LTD,ocod_status,recorded as proprietor per OCOD May 2026 anti-join
+4,PROFITABLE PLOTS PTE LTD,roe_status,no matching filing found in OCOD-vs-OE-registry anti-join
+4,PROFITABLE PLOTS PTE LTD,icij_overlap,not surfaced
+4,PROFITABLE PLOTS PTE LTD,opensanctions_overlap,not directly tagged in current artefacts
+4,PROFITABLE PLOTS PTE LTD,companies_house_match,not on UK CH OE register (per anti-join)
+4,PROFITABLE PLOTS PTE LTD,disqualified_director_overlap,The 2014 prosecution of related individuals would put them on the UK CH disqualified-officers register — separate confirmation needed
+4,PROFITABLE PLOTS PTE LTD,sanctions_or_enforcement_evidence,The principals were convicted of fraud; the company entity itself is the public-record holder of the residual property titles
+4,PROFITABLE PLOTS PTE LTD,court_or_regulatory_evidence,2014 UK Serious Fraud Office prosecution and convictions; reportable
+4,PROFITABLE PLOTS PTE LTD,public_money_exposure,UK Serious Fraud Office prosecuted the related individuals (R v Profitable Plots / Land Options International)
+4,PROFITABLE PLOTS PTE LTD,public_harm_exposure,"UK retail investors defrauded in the original 2014 case; current status of the company's 1,335 titles is the public-interest question"
+4,PROFITABLE PLOTS PTE LTD,offshore_structure_features,Singapore Pte Ltd
+4,PROFITABLE PLOTS PTE LTD,visual_hook,"1,335 UK titles still in one Singapore company more than a decade after the SFO prosecution of its principals."
+4,PROFITABLE PLOTS PTE LTD,safe_sentence,"PROFITABLE PLOTS PTE LTD, a Singapore company whose principals were convicted in a 2014 UK Serious Fraud Office land-banking prosecution, is recorded in HM Land Registry's Overseas Companies Ownership Data as proprietor of 1,335 UK property titles, with no matching filing on the UK Register of Overseas Entities. The current operational status of the company and the title pool — including whether the titles are subject to receivership, confiscation, or compensation proceedings — has not been independently verified in this work."
+5,EMBASSY DEVELOPMENT (Lux + Jersey SPV cluster),ocod_status,recorded as proprietor since 15 Feb 2022 per OCOD May 2026 (pre-ECTEA commencement)
+5,EMBASSY DEVELOPMENT (Lux + Jersey SPV cluster),roe_status,no matching filing found
+5,EMBASSY DEVELOPMENT (Lux + Jersey SPV cluster),icij_overlap,no ICIJ leak presence
+5,EMBASSY DEVELOPMENT (Lux + Jersey SPV cluster),opensanctions_overlap,EMBASSY DEVELOPMENT LIMITED tagged debarment + sanction by OS (source needs lookup)
+5,EMBASSY DEVELOPMENT (Lux + Jersey SPV cluster),companies_house_match,no UK CH OE register entry
+5,EMBASSY DEVELOPMENT (Lux + Jersey SPV cluster),sanctions_or_enforcement_evidence,OS topic debarment + sanction — primary source lookup pending
+5,EMBASSY DEVELOPMENT (Lux + Jersey SPV cluster),public_money_exposure,Nine Elms is part of major UK regeneration zone with public-realm spending and TfL Northern Line extension; specific exposure to be confirmed
+5,EMBASSY DEVELOPMENT (Lux + Jersey SPV cluster),public_harm_exposure,potential public-money / regeneration-asset opacity
+5,EMBASSY DEVELOPMENT (Lux + Jersey SPV cluster),offshore_structure_features,"Three related SPVs: EMBASSY DEVELOPMENT E S.A.R.L (Luxembourg), EMBASSY DEVELOPMENT F S.A R.L (Luxembourg), EMBASSY DEVELOPMENT LIMITED (Jersey); two SPVs co-located at 14-16 Avenue Pasteur, L-2130 Luxembourg"
+5,EMBASSY DEVELOPMENT (Lux + Jersey SPV cluster),visual_hook,"Plot E, Nine Elms Park, £44M, acquired Feb 2022."
+5,EMBASSY DEVELOPMENT (Lux + Jersey SPV cluster),safe_sentence,"Three related SPVs — EMBASSY DEVELOPMENT E S.A.R.L (Luxembourg), EMBASSY DEVELOPMENT F S.A R.L (Luxembourg), and EMBASSY DEVELOPMENT LIMITED (Jersey) — are recorded in HM Land Registry's Overseas Companies Ownership Data as proprietors of three UK titles in Battersea / Nine Elms, including a £44 million title at Plot E, Nine Elms Park, acquired 15 February 2022. The UK Register of Overseas Entities contains no matching filing for any of the three names."
+6,LEDRA TRUSTEE SERVICES LIMITED,ocod_status,recorded as proprietor since March 2015 per OCOD May 2026
+6,LEDRA TRUSTEE SERVICES LIMITED,roe_status,no matching filing found
+6,LEDRA TRUSTEE SERVICES LIMITED,icij_overlap,Panama Papers nominee chain for 2 Metalloinvest-named BVI entities (via the related Cyprus brand 'Ledra Services Limited')
+6,LEDRA TRUSTEE SERVICES LIMITED,opensanctions_overlap,OS topics debarment + sanction for LEDRA TRUSTEE SERVICES LIMITED
+6,LEDRA TRUSTEE SERVICES LIMITED,companies_house_match,not on UK CH OE register
+6,LEDRA TRUSTEE SERVICES LIMITED,sanctions_or_enforcement_evidence,Holdingovaya Kompaniya Metalloinvest AO on us_ofac_sdn + us_sam_exclusions + ua_war_sanctions; Alisher Usmanov on us_ofac_sdn + us_sam_exclusions; OS topics for Ledra Trustee Services Limited include debarment + sanction
+6,LEDRA TRUSTEE SERVICES LIMITED,public_harm_exposure,UK property ownership in the orbit of a US-sanctioned Russian oligarch
+6,LEDRA TRUSTEE SERVICES LIMITED,offshore_structure_features,"Cyprus 'Ledra' service-provider brand family with multiple related entities (Ledra Trustee Services Limited, Ledra Services Limited, Ledra Trustees Limited, Ledra Nominees Limited); appears in Panama Papers as officer of BVI Metalloinvest entities; Bridgewater Isle of Man nominees co-officered"
+6,LEDRA TRUSTEE SERVICES LIMITED,visual_hook,Mayfair flat → Cyprus brand → Panama Papers nominee → Russia Metalloinvest → Usmanov (caveat-heavy).
+6,LEDRA TRUSTEE SERVICES LIMITED,safe_sentence,"LEDRA TRUSTEE SERVICES LIMITED, a Cyprus-registered trustee firm, is recorded as proprietor of two Mayfair property titles in HMLR's Overseas Companies Ownership Data, with no matching filing on the UK Register of Overseas Entities. OpenSanctions applies debarment and sanction topic tags to the entity. The same Cyprus 'Ledra' service-provider brand appears in the Panama Papers as registered officer of two BVI entities named for Metalloinvest, the Russian metals holding controlled by US-OFAC-sanctioned Alisher Usmanov. The brand-identity link is documented; the corporate-identity link between LEDRA TRUSTEE SERVICES LIMITED and Ledra Services Limited needs separate Cyprus-registry verification."
+7,HEALTHCARE PROPERTY HOLDINGS LIMITED,ocod_status,recorded as proprietor per OCOD May 2026 anti-join
+7,HEALTHCARE PROPERTY HOLDINGS LIMITED,roe_status,no matching filing found in OCOD-vs-OE-registry anti-join
+7,HEALTHCARE PROPERTY HOLDINGS LIMITED,icij_overlap,not surfaced in current artefacts
+7,HEALTHCARE PROPERTY HOLDINGS LIMITED,opensanctions_overlap,not surfaced
+7,HEALTHCARE PROPERTY HOLDINGS LIMITED,companies_house_match,not on UK CH OE register (per anti-join)
+7,HEALTHCARE PROPERTY HOLDINGS LIMITED,public_money_exposure,potential — healthcare landlords often receive NHS or local-authority payments via tenants
+7,HEALTHCARE PROPERTY HOLDINGS LIMITED,public_harm_exposure,potential — stable beneficial ownership of healthcare landlords matters to service continuity for residents and patients
+7,HEALTHCARE PROPERTY HOLDINGS LIMITED,offshore_structure_features,Jersey incorporation
+7,HEALTHCARE PROPERTY HOLDINGS LIMITED,visual_hook,"Care landlord with 37 UK titles, Jersey ownership, no UK BO disclosure."
+7,HEALTHCARE PROPERTY HOLDINGS LIMITED,safe_sentence,"HEALTHCARE PROPERTY HOLDINGS LIMITED, a Jersey-incorporated company whose name indicates healthcare-sector activity, is recorded in HMLR's Overseas Companies Ownership Data as proprietor of 37 UK property titles, with no matching filing found on the UK Register of Overseas Entities. The composition of the property portfolio and any healthcare-tenant relationships have not been independently verified."
+8,MEDICX PROPERTIES V LIMITED,ocod_status,recorded as proprietor per OCOD May 2026 anti-join
+8,MEDICX PROPERTIES V LIMITED,roe_status,no matching filing found in OCOD-vs-OE-registry anti-join
+8,MEDICX PROPERTIES V LIMITED,icij_overlap,not surfaced
+8,MEDICX PROPERTIES V LIMITED,opensanctions_overlap,not surfaced
+8,MEDICX PROPERTIES V LIMITED,companies_house_match,not on UK CH OE register (per anti-join)
+8,MEDICX PROPERTIES V LIMITED,public_money_exposure,NHS primary-care rent reimbursement potentially flows to medical-centre landlords
+8,MEDICX PROPERTIES V LIMITED,public_harm_exposure,medical-centre tenant relationships and any NHS rent-reimbursement exposure
+8,MEDICX PROPERTIES V LIMITED,offshore_structure_features,"Guernsey incorporation, numbered SPV (V) suggesting a series of related vehicles"
+8,MEDICX PROPERTIES V LIMITED,visual_hook,"A medical-centre landlord with 41 UK titles, Guernsey ownership, no UK BO disclosure."
+8,MEDICX PROPERTIES V LIMITED,safe_sentence,"MEDICX PROPERTIES V LIMITED, a Guernsey-incorporated company, is recorded as proprietor of 41 UK property titles in HM Land Registry's Overseas Companies Ownership Data, with no matching filing found on the UK Register of Overseas Entities. The MedicX corporate group has historically held medical-centre properties leased to NHS-funded primary care providers. The current beneficial ownership of MEDICX PROPERTIES V LIMITED and the composition of its 41-title portfolio have not been independently verified in this work."
+9,WESTMINSTER BRIDGE LONDON (REAL ESTATE) B.V. + COUNTY HALL HOTEL HOLDINGS B.V.,ocod_status,recorded per OCOD May 2026 anti-join
+9,WESTMINSTER BRIDGE LONDON (REAL ESTATE) B.V. + COUNTY HALL HOTEL HOLDINGS B.V.,roe_status,no matching filings found
+9,WESTMINSTER BRIDGE LONDON (REAL ESTATE) B.V. + COUNTY HALL HOTEL HOLDINGS B.V.,icij_overlap,small (≤7 distinct names within SE1)
+9,WESTMINSTER BRIDGE LONDON (REAL ESTATE) B.V. + COUNTY HALL HOTEL HOLDINGS B.V.,opensanctions_overlap,not surfaced
+9,WESTMINSTER BRIDGE LONDON (REAL ESTATE) B.V. + COUNTY HALL HOTEL HOLDINGS B.V.,companies_house_match,not on UK CH OE register (per anti-join)
+9,WESTMINSTER BRIDGE LONDON (REAL ESTATE) B.V. + COUNTY HALL HOTEL HOLDINGS B.V.,public_money_exposure,UK Home Office contracts for hotel accommodation are a relevant national policy area; this specific building's contract status is not known
+9,WESTMINSTER BRIDGE LONDON (REAL ESTATE) B.V. + COUNTY HALL HOTEL HOLDINGS B.V.,public_harm_exposure,hotel-condo investor protection
+9,WESTMINSTER BRIDGE LONDON (REAL ESTATE) B.V. + COUNTY HALL HOTEL HOLDINGS B.V.,offshore_structure_features,Dutch B.V. SPV structure; numbered-SPV pattern; 88% of SE1 cluster
+9,WESTMINSTER BRIDGE LONDON (REAL ESTATE) B.V. + COUNTY HALL HOTEL HOLDINGS B.V.,visual_hook,"One building, 1,019 hotel rooms, 609 separate UK title records."
+9,WESTMINSTER BRIDGE LONDON (REAL ESTATE) B.V. + COUNTY HALL HOTEL HOLDINGS B.V.,safe_sentence,"WESTMINSTER BRIDGE LONDON (REAL ESTATE) B.V. and COUNTY HALL HOTEL HOLDINGS B.V., two Dutch-incorporated companies, are recorded between them as proprietors of 609 UK property titles — the majority at the Park Plaza Westminster Bridge hotel-condo development at 200 Westminster Bridge Road, London — with no matching filings on the UK Register of Overseas Entities."
+10,EKO IRE LIMITED,ocod_status,recorded as proprietor per OCOD May 2026
+10,EKO IRE LIMITED,roe_status,no matching filing found
+10,EKO IRE LIMITED,icij_overlap,"EKO IRE LIMITED (BVI) named in Pandora Papers via Alemán, Cordero, Galindo & Lee (Alcogal); 3 Edokpolo-named officers"
+10,EKO IRE LIMITED,companies_house_match,not on UK CH OE register
+10,EKO IRE LIMITED,offshore_structure_features,BVI vehicle set up via Alcogal law firm (Pandora Papers source); Nigerian/Lagos correspondence at 'Edokonsult'
+10,EKO IRE LIMITED,visual_hook,"Family-named BVI vehicle owns hotel-condo room + 4 other UK titles, no UK BO disclosure."
+10,EKO IRE LIMITED,safe_sentence,"EKO IRE LIMITED, a British Virgin Islands company, is recorded as proprietor of five UK property titles in HMLR's Overseas Companies Ownership Data, with no matching filing on the UK Register of Overseas Entities. The Pandora Papers contains a corresponding Alemán, Cordero, Galindo & Lee record with three Edokpolo-surname officers."
+11,THE GAS TRANSPORTATION COMPANY LIMITED,ocod_status,recorded as proprietor per OCOD May 2026 anti-join
+11,THE GAS TRANSPORTATION COMPANY LIMITED,roe_status,no matching filing found in OCOD-vs-OE-registry anti-join
+11,THE GAS TRANSPORTATION COMPANY LIMITED,icij_overlap,not surfaced
+11,THE GAS TRANSPORTATION COMPANY LIMITED,opensanctions_overlap,not surfaced
+11,THE GAS TRANSPORTATION COMPANY LIMITED,companies_house_match,not on UK CH OE register (per anti-join)
+11,THE GAS TRANSPORTATION COMPANY LIMITED,public_money_exposure,possible Ofgem-regulated revenue if the entity is a licensed gas-network operator
+11,THE GAS TRANSPORTATION COMPANY LIMITED,public_harm_exposure,utility-regulated asset class with consumer billing implications
+11,THE GAS TRANSPORTATION COMPANY LIMITED,offshore_structure_features,"Guernsey incorporation, name suggesting infrastructure holding vehicle"
+11,THE GAS TRANSPORTATION COMPANY LIMITED,visual_hook,"A gas-named landlord with 41 UK titles, Guernsey ownership, no UK BO disclosure."
+11,THE GAS TRANSPORTATION COMPANY LIMITED,safe_sentence,"THE GAS TRANSPORTATION COMPANY LIMITED, a Guernsey-incorporated company, is recorded as proprietor of 41 UK property titles in HM Land Registry's Overseas Companies Ownership Data, with no matching filing found on the UK Register of Overseas Entities. Whether the company is an Ofgem-licensed UK gas-network operator or an unrelated holding vehicle has not been independently verified."
+12,HARMONY RIDGE LIMITED,ocod_status,recorded since 2010
+12,HARMONY RIDGE LIMITED,roe_status,no matching filing found
+12,HARMONY RIDGE LIMITED,icij_overlap,"Harmony Ridge Holdings Ltd (BVI, Panama); Harmony Ridge Limited (BVI, Paradise/Appleby) — note jurisdictional mismatch with OCOD-Jersey record"
+12,HARMONY RIDGE LIMITED,opensanctions_overlap,corp.offshore + sanction.linked
+12,HARMONY RIDGE LIMITED,companies_house_match,not on UK CH OE register
+12,HARMONY RIDGE LIMITED,offshore_structure_features,Single offshore-incorporation pattern; weak sanction.linked OS topic
+12,HARMONY RIDGE LIMITED,visual_hook,"Kensington flat, name-only chain to Panama/Paradise Papers entries."
+12,HARMONY RIDGE LIMITED,safe_sentence,"HARMONY RIDGE LIMITED, a Jersey-incorporated company, is recorded as proprietor of a single flat at Hornton Street, London W8 in HMLR's Overseas Companies Ownership Data. Two BVI-incorporated entities sharing the same name appear in the Panama and Paradise Papers and carry OpenSanctions topic tags of corp.offshore + sanction.linked. The Jersey-vs-BVI jurisdictional mismatch is unresolved and the entities may be distinct."
+13,AAR INTERNATIONAL INC,ocod_status,recorded since 2019
+13,AAR INTERNATIONAL INC,roe_status,no matching filing found
+13,AAR INTERNATIONAL INC,icij_overlap,Panama Papers contains entries for Alfa Group / AAR International / similar names but cross-reference is weak
+13,AAR INTERNATIONAL INC,opensanctions_overlap,"OS topic crime.traffick — but the source dataset is us_ddtc_enforcements (US arms-export-controls), not human-trafficking"
+13,AAR INTERNATIONAL INC,companies_house_match,not on UK CH OE register
+13,AAR INTERNATIONAL INC,sanctions_or_enforcement_evidence,"historical US DDTC settlement, not active sanctions"
+13,AAR INTERNATIONAL INC,court_or_regulatory_evidence,historical US DDTC enforcement
+13,AAR INTERNATIONAL INC,offshore_structure_features,"US public-company headquartered at Wood Dale, Chicago — NOT offshore-secrecy"
+13,AAR INTERNATIONAL INC,visual_hook,(downgrade example) The OS 'crime.traffick' topic is misleading without context.
+13,AAR INTERNATIONAL INC,safe_sentence,"AAR INTERNATIONAL INC, a US-incorporated entity associated with the publicly-listed aerospace maintenance firm AAR Corp, is recorded as proprietor of one UK title (an aviation parking title at Fleming Way, Crawley) with no matching filing on the UK Register of Overseas Entities. OpenSanctions tags the entity with topic 'crime.traffick' which in this case derives from a historical US Directorate of Defense Trade Controls enforcement record under the arms-export-controls regime, not human trafficking."
+14,UK CH disqualified-directors x ICIJ matches (multiple),ocod_status,n/a
+14,UK CH disqualified-directors x ICIJ matches (multiple),roe_status,n/a
+14,UK CH disqualified-directors x ICIJ matches (multiple),icij_overlap,219 distinct unique-on-both-sides matches surfaced; most filtered out on live verification
+14,UK CH disqualified-directors x ICIJ matches (multiple),opensanctions_overlap,OS gb_coh_disqualified dataset turned out to over-classify sanctioned individuals as 'corp.disqual' beyond the CDDA court register
+14,UK CH disqualified-directors x ICIJ matches (multiple),companies_house_match,0 of 219 names on the live UK CH disqualified-officers register (live search confirmed)
+14,UK CH disqualified-directors x ICIJ matches (multiple),disqualified_director_overlap,(this IS the disqualified-director track)
+14,UK CH disqualified-directors x ICIJ matches (multiple),visual_hook,0 of 219 names confirmed on live UK CH disqualified-officers register — a clean downgrade.
+14,UK CH disqualified-directors x ICIJ matches (multiple),safe_sentence,An earlier track that cross-referenced ICIJ officer names against the OpenSanctions 'gb_coh_disqualified' dataset returned ~219 unique-on-both-sides names. A live UK Companies House search confirmed that none of the 219 names appears on the current UK CH disqualified-officers register. The OS dataset appears to classify sanctioned individuals as 'corp.disqual' beyond the strict UK CDDA court register. The track was downgraded as a result and is documented here as a methodology example.

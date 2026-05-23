@@ -88,6 +88,22 @@ without requiring a hand-curated seed list — the unsupervised channels
 ask the pipeline to find investigation candidates the analyst didn't
 know to look for.
 
+### Public-interest lead ranking
+
+A separate triage layer ranks candidates by where hidden ownership
+intersects with public harm, public money, sanctions, court findings,
+or regulated services — not just "interesting entity":
+
+```bash
+uv run python scripts/rank_public_interest_leads.py
+```
+
+Outputs at
+[`docs/reports/public_interest_leads.md`](docs/reports/public_interest_leads.md)
+with machine-readable companions under `docs/reports/data/`. **Not an
+allegation of wrongdoing** — every candidate is a public-interest
+lead requiring human review.
+
 ## Corpus
 
 After ICIJ + OpenSanctions + GLEIF + UK PSC ingest:
