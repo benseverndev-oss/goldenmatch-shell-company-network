@@ -42,3 +42,4 @@ Thumbs.db
 
 # Bundle build side-effects (per-cluster archive scratch dirs)
 docs/validation/data/cluster_*_archived_sources/
+igt_pre_publication_artefacts/
