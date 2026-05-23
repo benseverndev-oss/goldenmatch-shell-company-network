@@ -1,0 +1,266 @@
+[
+  {
+    "rank": 1,
+    "candidate": "IGT Intergestions Trust Reg",
+    "hook": "A Liechtenstein Anstalt holds five plots of prime Highgate land in north London. The US Treasury OFAC has formally sanctioned the entity. The UK Register of Overseas Entities has no record of it filing.",
+    "evidence_strength": 5,
+    "public_interest_strength": 4,
+    "visual_clarity": 4,
+    "legal_risk": 2,
+    "false_positive_risk": 1,
+    "carescore": 10,
+    "recommendation": "lead",
+    "supported_by_files": [
+      "aar_igt_verify.json",
+      "roe_noncompliance.json",
+      "roe_noncompliance_personalize.json",
+      "roe_noncompliance_strict.json",
+      "docs/case_study_roe_noncompliance.md",
+      "scripts/probe_aar_igt_verify.py",
+      "scripts/probe_roe_noncompliance.py",
+      "scripts/probe_roe_noncompliance_strict.py"
+    ],
+    "record_chain": [
+      "OCOD May 2026: proprietor IGT INTERGESTIONS TRUST REG (Liechtenstein), correspondence Aeulestrasse 6, 9490 Vaduz; 5 UK land titles including LAND LYING TO THE SOUTH OF Highgate West Hill, London (added 29-04-2013)",
+      "UK CH OE registry May 2026 (30,221 entities): no matching name by exact key or token-set Jaccard fuzzy at threshold 0.7",
+      "OpenSanctions consolidated: entity Igt Intergestions Trust Reg (li), topics debarment + sanction, datasets us_ofac_sdn + us_sam_exclusions + ext_us_ofac_press_releases + opencorporates",
+      "Conclusion: an OFAC-SDN-listed Liechtenstein Anstalt is the registered overseas proprietor of UK land titles with no UK Register of Overseas Entities filing"
+    ],
+    "key_caveats": [
+      "The specific OFAC press release naming this entity has not been pulled into the repo; only the presence-on-press-releases dataset is confirmed",
+      "OCOD snapshot is May 2026; current-status confirmation against live HM Land Registry recommended before publication",
+      "Acquisition date 29-04-2013 falls in the ECTEA transitional regime; the breach is missing the 31 Jan 2023 transitional deadline, not a post-Aug-2022 acquisition",
+      "No person-to-company edge in our data; the story is corporate-level, not person-level",
+      "No wrongdoing alleged on the part of any individual"
+    ],
+    "manual_checks_required": [
+      "Pull the specific OFAC press release naming the entity (designation date + reason)",
+      "Live UK Companies House OE-register search for 'IGT Intergestions' and any variant",
+      "Verify the 5 OCOD rows against current OCOD or pull title registers from HM Land Registry",
+      "Right-of-reply enquiry to the Liechtenstein corp-services address (Aeulestrasse 6, Vaduz)",
+      "Pre-publication lawyer review focused on the OFAC-designated-entity framing"
+    ]
+  },
+  {
+    "rank": 2,
+    "candidate": "FENLAND LIMITED (Fenech / Malta-IOM)",
+    "hook": "A single Isle of Man company owns 313 residential property titles in prime West London. The Paradise Papers names Lilian and Lawrence Fenech as its officers. The UK Register of Overseas Entities has no filing for it.",
+    "evidence_strength": 4,
+    "public_interest_strength": 4,
+    "visual_clarity": 5,
+    "legal_risk": 3,
+    "false_positive_risk": 1,
+    "carescore": 9,
+    "recommendation": "backup",
+    "supported_by_files": [
+      "fenland_deepdive.json",
+      "named_threads_expand.json",
+      "roe_noncompliance_personalize.json",
+      "docs/case_study_roe_noncompliance.md",
+      "scripts/probe_fenland_deepdive.py",
+      "scripts/probe_named_threads_expand.py"
+    ],
+    "record_chain": [
+      "OCOD May 2026: proprietor FENLAND LIMITED (Isle of Man) at 8 St Georges Street, Douglas IM1 1AH; 313 UK residential titles concentrated W14 (85), SW5 (62), W8 (55), W2 (53)",
+      "UK CH OE registry: no matching entry by exact key or token-set Jaccard fuzzy",
+      "ICIJ Paradise Papers Malta-corporate-registry: entity FENLAND LIMITED (Malta) with named officers LILIAN FENECH and LAWRENCE FENECH",
+      "Address co-tenancy: 8 St Georges Street Douglas IM1 1AH shared with M.H.E. INVESTMENTS LIMITED + ROSSMOOR LIMITED (also non-compliant)",
+      "Conclusion: large-scale ECTEA non-compliance by a single IOM-administered overseas proprietor whose Paradise Papers Maltese-registry record names two specific officers"
+    ],
+    "key_caveats": [
+      "Fenech is one of the most common Maltese surnames (480+ Fenech officer entries in the Paradise Papers Malta-corporate-registry leak)",
+      "Yorgen Fenech (the Maltese businessman charged in the Caruana Galizia murder) appears in the same Paradise Papers / Malta corporate-registry leak corpus; there is NO edge linking him to FENLAND LIMITED. This must be drawn explicitly to avoid implication-by-proximity",
+      "Lilian and Lawrence Fenech are private individuals with no sanctions, PEP or wrongdoing tag in our data — naming them carries defamation risk that the structural ECTEA-non-compliance story does not",
+      "OCOD records IOM incorporation; Paradise Papers ICIJ record is in the Malta corporate-registry leak. Same name, very likely same entity, but separate IOM + Malta corporate-registry verification recommended",
+      "All sample acquisition dates pre-2022; falls in the ECTEA transitional regime (deadline 31 Jan 2023)",
+      "No wrongdoing alleged beyond the structural disclosure failure"
+    ],
+    "manual_checks_required": [
+      "Live UK Companies House search for FENLAND LIMITED on the OE register",
+      "IOM Companies Registry pull for FENLAND LIMITED — confirm status, directors, address history",
+      "Malta Business Registry pull for FENLAND LIMITED (Malta) to verify same-entity question",
+      "Spot-check 10 OCOD title registers from HM Land Registry",
+      "Right of reply to FENLAND LIMITED at the IOM address and to the named Fenech officers via Maltese channels",
+      "Lawyer review with explicit attention to the Yorgen Fenech non-link and the public-vs-private framing of the Fenechs"
+    ]
+  },
+  {
+    "rank": 3,
+    "candidate": "SE1 / Park Plaza Westminster Bridge",
+    "hook": "The biggest postcode cluster in the non-compliance headline (690 SE1 titles) turned out, on inspection, to be 88% one Dutch company running a hotel-condo investment scheme at the Park Plaza Westminster Bridge hotel — a reframing rather than a hero story.",
+    "evidence_strength": 5,
+    "public_interest_strength": 1,
+    "visual_clarity": 3,
+    "legal_risk": 1,
+    "false_positive_risk": 1,
+    "carescore": 7,
+    "recommendation": "downgrade",
+    "supported_by_files": [
+      "se1_deepdive.json",
+      "docs/case_study_roe_noncompliance.md",
+      "scripts/probe_se1_deepdive.py"
+    ],
+    "record_chain": [
+      "OCOD May 2026: 690 non-compliant titles in outward postcode SE1",
+      "Per-proprietor breakdown: WESTMINSTER BRIDGE LONDON (REAL ESTATE) B.V. (Netherlands) holds 563; COUNTY HALL HOTEL HOLDINGS B.V. (Netherlands) holds 46 — together 88%",
+      "Per-building breakdown: 571 at 200 Westminster Bridge Road (Park Plaza Westminster Bridge hotel)",
+      "Acquisition-year distribution: 507 of the 690 SE1 titles registered in 2016 (hotel-condo scheme rollout)",
+      "Conclusion: the SE1 cluster is a hotel-condo non-filer, not a distributed offshore-shell pattern; the original geographic-concentration framing for SE1 was misleading and has been corrected in the case study"
+    ],
+    "key_caveats": [
+      "Use only as the methodology / honest-reframing example, not as a standalone story",
+      "The Dutch entities remain ROE non-compliant in the anti-join; the reframing is about pattern shape, not absolution"
+    ],
+    "manual_checks_required": [
+      "Right-of-reply to the Dutch operator if used in a published methodology section",
+      "Side-by-side raw-cluster-table vs post-deepdive-table presentation"
+    ]
+  },
+  {
+    "rank": 4,
+    "candidate": "Ledra Trustee Services -> Metalloinvest -> Usmanov chain",
+    "hook": "A Cyprus company that owns a Mayfair flat shares its name with a Cyprus nominee that the Panama Papers names as the registered officer for a multi-jurisdiction Metalloinvest BVI structure controlled by the OFAC-sanctioned Russian oligarch Alisher Usmanov.",
+    "evidence_strength": 4,
+    "public_interest_strength": 5,
+    "visual_clarity": 5,
+    "legal_risk": 5,
+    "false_positive_risk": 3,
+    "carescore": 6,
+    "recommendation": "useful_context_only",
+    "supported_by_files": [
+      "named_threads_expand.json",
+      "metalloinvest_verify.json",
+      "metalloinvest_uk_ch.json",
+      "docs/case_study_roe_noncompliance.md",
+      "scripts/probe_named_threads_expand.py",
+      "scripts/probe_metalloinvest_verify.py",
+      "scripts/verify_metalloinvest_uk_ch.py"
+    ],
+    "record_chain": [
+      "OCOD May 2026: LEDRA TRUSTEE SERVICES LIMITED (Cyprus, Nicosia Ledra House) holds 2 Mayfair titles including 45 Green Street W1K 7FX (£310,000, 26-03-2015)",
+      "OpenSanctions: Ledra Trustee Services Limited tagged debarment + sanction",
+      "ICIJ Panama Papers: METALLOINVEST (BVI) LIMITED (inc 21-09-2006, status Defaulted) and METALLOINVEST HOLDINGS B.V.I) LIMITED (inc 18-05-2006, status Changed agent) with connected officers Ledra Services Limited (Cyprus), METALLOINVEST HOLDINGS (CYPRUS) LIMITED, Bridgewater 1st/2nd Nominees Limited (IOM)",
+      "OpenSanctions: Holdingovaya Kompaniya Metalloinvest AO on us_ofac_sdn + us_sam_exclusions; Mr Alisher Burkhanovich Usmanov on us_ofac_sdn + us_sam_exclusions + wikidata + multiple sanctions registries",
+      "ICIJ: 27 Usmanov officer records in Panama / Paradise Papers; zero direct edges between Usmanov officer nodes and the two BVI Metalloinvest entities",
+      "Live UK CH search: zero UK CH entities named 'metalloinvest'",
+      "Conclusion: brand-identity chain documented (Ledra family in Cyprus appears in both the UK property record and the Panama Papers Metalloinvest nominee record); corporate-identity chain between Ledra Trustee Services Limited and Ledra Services Limited is NOT documented from this data alone"
+    ],
+    "key_caveats": [
+      "BRAND vs CORPORATE identity: LEDRA TRUSTEE SERVICES LIMITED (UK property owner) and Ledra Services Limited (Panama Papers nominee) are distinct corporate names sharing 'Ledra' Cyprus branding; no parent/subsidiary edge in the data",
+      "No direct Usmanov edge in the leak graph reaching the BVI Metalloinvest entities; the nominee chain is the by-design layering pattern",
+      "The Metalloinvest BVI name 'METALLOINVEST HOLDINGS B.V.I) LIMITED' is typo'd in the leak record (stray paren); separate BVI registry pull recommended",
+      "OpenSanctions's gb_coh_disqualified tagging of Usmanov does NOT mean he is on the live UK CH disqualified-officers register; OS classifies sanctioned-as-deemed-disqualified beyond the CDDA court register",
+      "The Mayfair-flat-to-Usmanov claim is NOT supported as a corporate-identity claim and must NOT be made in those terms; a brand-family + sanctions-adjacency framing is what the data supports"
+    ],
+    "manual_checks_required": [
+      "Cyprus corporate registry pull for LEDRA TRUSTEE SERVICES LIMITED and Ledra Services Limited — establish or refute parent/subsidiary or common-ownership link",
+      "BVI corporate registry / gazette filings pull for the two BVI Metalloinvest entities",
+      "Pull the OFAC Treasury designation press release for Usmanov establishing Metalloinvest control",
+      "Right of reply to LEDRA TRUSTEE SERVICES LIMITED at the Mayfair correspondence + Nicosia Ledra House",
+      "Lawyer review with focus on whether brand-identity framing is supportable as published or whether the entire chain is held back pending Cyprus registry confirmation"
+    ]
+  },
+  {
+    "rank": 5,
+    "candidate": "Embassy Development (Battersea / Nine Elms)",
+    "hook": "A Luxembourg-and-Jersey corporate cluster acquired £44 million of Battersea regeneration land just before the 2022 UK law forcing overseas property owners to disclose ultimate ownership, and has not filed.",
+    "evidence_strength": 3,
+    "public_interest_strength": 3,
+    "visual_clarity": 4,
+    "legal_risk": 2,
+    "false_positive_risk": 3,
+    "carescore": 5,
+    "recommendation": "useful_context_only",
+    "supported_by_files": [
+      "named_threads_deepdive.json",
+      "named_threads_expand.json",
+      "roe_noncompliance_personalize.json",
+      "docs/case_study_roe_noncompliance.md",
+      "scripts/probe_named_threads_deepdive.py"
+    ],
+    "record_chain": [
+      "OCOD May 2026: 3 titles across EMBASSY DEVELOPMENT E S.A.R.L (Luxembourg), EMBASSY DEVELOPMENT F S.A R.L (Luxembourg), EMBASSY DEVELOPMENT LIMITED (Jersey); sample Plot E, Nine Elms Park, SW8 5BB, £44,267,787, acquired 15-02-2022",
+      "Address co-tenancy: 2 of 3 SPVs share 14-16 Avenue Pasteur, L-2130, Luxembourg",
+      "OpenSanctions: EMBASSY DEVELOPMENT LIMITED flagged debarment + sanction",
+      "ICIJ: zero leak presence for any Embassy Development entity",
+      "UK CH OE registry: no matching name in anti-join",
+      "Conclusion: pre-ECTEA acquisition by a layered Lux/Jersey SPV cluster with OS-flagged anonymous concerns and no Register of Overseas Entities filing"
+    ],
+    "key_caveats": [
+      "Acquisition Feb 2022 is pre-ECTEA commencement; the entity falls in the transitional regime (deadline 31 Jan 2023)",
+      "OS topic 'debarment + sanction' without a named individual is anonymous; the underlying debarment record needs separate lookup",
+      "Zero ICIJ leak presence; this is more consistent with conventional project-financing SPVs than secrecy concealment vehicles"
+    ],
+    "manual_checks_required": [
+      "OpenSanctions source-page lookup for the EMBASSY DEVELOPMENT LIMITED debarment listing",
+      "Cross-reference Nine Elms development consortium public filings to identify the project sponsor",
+      "Live UK CH OE-register search for all three Embassy Development name variants"
+    ]
+  },
+  {
+    "rank": 6,
+    "candidate": "Edokpolo / EKO IRE LIMITED",
+    "hook": "A British Virgin Islands company set up via the Alcogal law firm leaked in the Pandora Papers owns five UK property titles including a Park Plaza Westminster Bridge hotel room, and has not filed under the UK Register of Overseas Entities.",
+    "evidence_strength": 4,
+    "public_interest_strength": 2,
+    "visual_clarity": 3,
+    "legal_risk": 4,
+    "false_positive_risk": 1,
+    "carescore": 4,
+    "recommendation": "discard",
+    "supported_by_files": [
+      "named_threads_deepdive.json",
+      "named_threads_expand.json",
+      "roe_noncompliance_personalize.json",
+      "docs/case_study_roe_noncompliance.md",
+      "scripts/probe_named_threads_deepdive.py"
+    ],
+    "record_chain": [
+      "OCOD May 2026: EKO IRE LIMITED (British Virgin Islands), 5 titles, sample Room 1285 Park Plaza Westminster Bridge SE1 7UT (added 25-08-2010), correspondence PO Box 1490 Edokonsult Lagos Nigeria 2 Tower Street London WC2H 9NP",
+      "ICIJ Pandora Papers (Alemán, Cordero, Galindo & Lee / Alcogal): EKO IRE LIMITED (BVI) with officers GRACE OSEMWONYEMWEN EDOKPOLO + OSATOHANWEN ARISTOTLE EDOKPOLO + OSAROBO EDWARD EDOKPOLO",
+      "UK CH OE registry: no matching entry",
+      "Conclusion: small-scale ECTEA non-compliance by a Nigerian-family BVI vehicle"
+    ],
+    "key_caveats": [
+      "The Edokpolos are private individuals; no sanctions, PEP or wrongdoing tag in our data",
+      "One of the 5 titles is a Park Plaza Westminster Bridge hotel room — the hotel-condo scheme already reframed in the SE1 deepdive",
+      "Naming a private Nigerian family without a clear public-interest hook beyond ROE non-compliance is high defamation risk"
+    ],
+    "manual_checks_required": [
+      "If considered for use, requires an independent sanctions or PEP corroboration that the Edokpolo family is not in our data",
+      "Otherwise leave aggregated as one of the 622 ICIJ-overlap entries without naming"
+    ]
+  },
+  {
+    "rank": 7,
+    "candidate": "Harmony Ridge Limited",
+    "hook": "A Kensington flat is owned by a Jersey company whose name appears in both the Panama and Paradise Papers as a BVI entity OpenSanctions has flagged as sanction-linked.",
+    "evidence_strength": 2,
+    "public_interest_strength": 2,
+    "visual_clarity": 2,
+    "legal_risk": 3,
+    "false_positive_risk": 4,
+    "carescore": -1,
+    "recommendation": "discard",
+    "supported_by_files": [
+      "named_threads_deepdive.json",
+      "named_threads_expand.json",
+      "docs/case_study_roe_noncompliance.md"
+    ],
+    "record_chain": [
+      "OCOD May 2026: HARMONY RIDGE LIMITED (Jersey), 1 title at Flat 7, 27 and 29 Hornton Street, London W8 7NR, £749,500, acquired 26-05-2010",
+      "ICIJ: Harmony Ridge Holdings Ltd (BVI, Panama Papers) and Harmony Ridge Limited (BVI, Paradise Papers - Appleby) — note BVI not Jersey",
+      "OpenSanctions: Harmony Ridge Limited tagged corp.offshore + sanction.linked",
+      "UK CH OE registry: no matching entry",
+      "Conclusion: name-matching pattern only; the jurisdictional mismatch between OCOD (Jersey) and ICIJ (BVI) raises homonym risk"
+    ],
+    "key_caveats": [
+      "OCOD Jersey vs ICIJ BVI jurisdictional mismatch is unresolved; could be re-domiciliation or distinct entities sharing a name",
+      "Single title; very small scale",
+      "sanction.linked is the weakest OS sanctions topic (linked, not direct)"
+    ],
+    "manual_checks_required": [
+      "Jersey + BVI corporate registry pulls to resolve same-entity question — but not worth doing for a single-title thread"
+    ]
+  }
+]
