@@ -64,7 +64,7 @@ def main(
     persons: Path = typer.Option(..., "--persons", help="uk_psc_persons.parquet"),
     out_parquet: Path = typer.Option(..., "--out-parquet"),
     out_md: Path = typer.Option(..., "--out-md"),
-    window_days: int = typer.Option(180, "--window-days", help="± window around designation"),
+    window_days: int = typer.Option(730, "--window-days", help="± window around designation"),
 ) -> None:
     logging.basicConfig(
         level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s"
