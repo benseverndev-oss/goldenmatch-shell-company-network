@@ -1,125 +1,94 @@
-# Finding: an OFAC- & UK-sanctioned cyber-crime host is an active UK company with a named PSC
+# Finding: the UK corporate footprint of sanctioned parties (UK PSC ∩ OpenSanctions)
 
-_Run date: 2026-05-25. Source: first execution of the survivor pipeline output against the **real** corpus (not the test fixture)._
+_Run date: 2026-05-25. First execution of the survivor-pipeline output against the **real** corpus, plus a BODS relationship-layer resolution and live Companies House status checks._
 
-> **Status:** the company-level sanction is an established public fact (OFAC SDN,
-> 1 July 2025). The person named below is the **registered Person with Significant
-> Control** per the UK PSC register — that is a public-record fact, **not** an
-> allegation of personal wrongdoing. Treat as an investigative lead.
+> **Status / framing.** Company-level sanctions and PSC declarations below are
+> public-record facts. Individuals named as PSCs are the **registered** controllers —
+> that is a public fact, **not** an allegation of personal wrongdoing. Treat as
+> investigative leads.
 
-## The trail (one hop, three independent sources)
+## Honest bottom line (read first)
 
-```
-Marat Timurov  ──registered PSC of──▶  AEZA INTERNATIONAL LTD  ◀──sanctioned by──  OFAC SDN + UK FCDO
-(KZ national, b.1999)                  UK company 15109642                          (+ Ukraine, Canada, NZ)
-                                       incorporated 2023-09-01
-                                       active in the register*
-```
+Cross-source convergence between the **UK PSC register** and **OpenSanctions** —
+two sources no single-source search joins — surfaces a coherent, **named** set of
+sanctioned parties with UK corporate vehicles: an OFAC/UK-sanctioned cyber-crime
+host and five Russian oligarchs. **A recognizable name at the end of the trail:
+yes.** An *active, operating* company at the other end: **no** — every resolved
+company is now **dissolved or in liquidation**, consistent with post-sanctions
+wind-down of UK entities. The value here is a verified, named, cross-source
+**corporate-footprint map** of sanctioned parties, not a live operating company.
 
-This is the "wow" the engine was built to surface: not a dense-but-nameless graph
-blob, but a **recognizable, current, real-world sanctioned target** (the July 2025
-OFAC/NCA "Aeza" bulletproof-hosting takedown) sitting **one hop** from an **active
-UK-incorporated company** with a **named human at the Companies House helm** — and
-it falls out of cross-source convergence between the **UK PSC register** and
-**OpenSanctions**, two sources no single-source search joins.
+(An earlier draft of this note called Aeza "active"; that was true only of the
+March-2025 PSC snapshot. Live Companies House checks on 2026-05-25 show it
+dissolved. Corrected below.)
 
-## Evidence, entirely from our own corpus
+## 1. The Aeza cyber-crime host
 
-**1. The company is sanctioned** — `processed/sanctions_overlay.parquet`:
+**AEZA INTERNATIONAL LTD** — UK company `GB-COH-15109642`, incorporated 2023-09-01,
+**now Dissolved** (Companies House, checked 2026-05-25; was live in the 2025-03 PSC
+snapshot, i.e. before sanctions).
 
-| os_id | caption | topics | datasets | juris |
-|---|---|---|---|---|
-| `NK-arBW8i9idYNbpyfj828LxD` | **AEZA INTERNATIONAL LTD** | corp.disqual; **sanction**; debarment | **us_ofac_sdn**, **gb_fcdo_sanctions**, ua_war_sanctions, us_sam_exclusions, us_trade_csl | **gb** |
+- **Sanctioned (company itself):** OpenSanctions `sanctions_overlay` row
+  `NK-arBW8i9idYNbpyfj828LxD`, jurisdiction `gb`, topics `corp.disqual; sanction;
+  debarment`, datasets **`us_ofac_sdn`, `gb_fcdo_sanctions`**, `ua_war_sanctions`,
+  `us_sam_exclusions`, `us_trade_csl`. Sister entities in the overlay: `Aeza Group
+  LLC`, `Aeza Logistic LLC`.
+- **Registered PSC:** `Mr Marat Timurov` (KZ national, b. 1999) — survivor match
+  (name + birth-year, score 1.0) to OpenSanctions' PSC-register mirror
+  `gb-coh-psc-`**`15109642`**`-…`, whose embedded company number resolves to AEZA
+  INTERNATIONAL LTD. (Timurov is **not** personally on an SDN list in our data.)
+- **External corroboration:** OFAC, coordinated with the UK, designated **Aeza
+  Group** (Russian "bulletproof hosting", enabling ransomware/cybercrime) on
+  **1 July 2025**, naming the UK entity Aeza International Ltd.
+  - <https://www.trmlabs.com/resources/blog/treasury-sanctions-global-bulletproof-hosting-service-aeza-group-for-enabling-cybercriminal-activity>
+  - <https://www.chainalysis.com/blog/ofac-sanctions-aeza-group-bulletproof-hosting-crypto-payments-july-2025>
 
-(Sister entities in the same overlay: `Aeza Group LLC`, `Aeza Logistic LLC` — the
-Russian parent network.)
+## 2. Sanctioned-oligarch UK corporate footprint
 
-**2. The company is a live UK registration** — `processed/oo_uk_psc_entities.parquet`:
+Identity-grade (name + DOB-year, score 1.0) matches between the UK PSC register
+and OpenSanctions-listed individuals. Each person's UK company was resolved from
+the **BODS relationship layer** (see method) and its **current** status checked
+live on Companies House (2026-05-25).
 
-| bods_subject | name | incorporated | dissolved | juris |
-|---|---|---|---|---|
-| `GB-COH-15109642` | **AEZA INTERNATIONAL LTD** | 2023-09-01 | _null_ | GB |
+| Sanctioned individual | Sanctions regime (OS datasets) | UK company (number) | Current CH status |
+|---|---|---|---|
+| **Igor Zyuzin** — Mechel chairman | EU asset-freeze `eu_fsf` + EU travel ban + Swiss SECO | **ORIEL RESOURCES LIMITED** (04818143), held via **Mechel PAO** | **In liquidation** |
+| **Arkady Volozh** — Yandex co-founder | Ukraine `ua_nsdc` / `ua_war` | **DELI INTERNATIONAL LIMITED** (13371836), held via **Yandex N.V.** | Dissolved |
+| **Roman Trotsenko** — AEON Corp | Australia / Belgium / Canada | **SIBERIAN GOLDFIELDS LIMITED** (10695797) | Dissolved |
+| **Nikita Mordashov** — Severstal heir | Canada / Japan / Ukraine | **NORD GOLD PLC** (13287342) | Dissolved |
+| **Oksana Marchenko** — wife of V. Medvedchuk | **UK `gb_fcdo_sanctions`** + Ukraine | **INTERMAY MANAGEMENT LTD** (04445610) | Dissolved |
 
-Exactly one company of this name in the register; the number is unambiguous.
+The corporate chains are coherent: Mechel acquired Oriel Resources (2008); Nord
+Gold is the Mordashov family's gold-mining business; Deli International is held by
+Yandex N.V. Register-mirror self-matches (Giner / Isaykin / Viktorov) were excluded
+— they match the PSC register *copied into* OpenSanctions, not a sanctions list.
 
-**3. The PSC link** — `reports/generated/investigative_grade_survivors.csv` row +
-`os_sanctioned_persons` (OpenSanctions `gb_coh_psc` mirror of the UK PSC register):
+## Method (reproducible)
 
-- Survivor match (score 1.0, name **and** birth-year match): UK PSC `Mr Marat Timurov`
-  (kz, DOB 1999-12) ⇄ OpenSanctions `gb-coh-psc-`**`15109642`**`-vc-bcdihogzslzit5zc-…`.
-- The company number `15109642` embedded in that PSC id resolves (source 2) to
-  AEZA INTERNATIONAL LTD. So the PSC linkage and the company identity come from two
-  independent ingests that agree.
+All inputs pulled from the Railway `/data` volume (`Authorization: Bearer
+$SHELLNET_JOB_TOKEN`); analysis run locally on the downloaded parquets.
 
-## External corroboration
+1. **Leads:** `reports/generated/investigative_grade_survivors.csv` — score-1.0
+   matches with name + birth-year agreement.
+2. **Sanctions topic + company sanction:** `processed/sanctions_overlay.parquet`
+   (filter `caption ~ "aeza"`, inspect `topics`/`datasets`).
+3. **Person → company (oligarchs):** the survivor `uk_psc:<uuid>` is the BODS
+   **person `statementId`**. In `raw/openownership/uk_bods.zip` →
+   `person_statement.parquet`, filter `statementId ∈ {uuids}`; the
+   `declarationSubject` column is `GB-COH-<companynumber>`. `entity_statement.parquet`
+   gives the company name and any corporate parent (e.g. Mechel PAO, Yandex N.V.).
+4. **Names + live status:** Companies House
+   `find-and-update.company-information.service.gov.uk/company/<number>`.
 
-On **1 July 2025** the US Treasury's OFAC, coordinated with the UK, designated
-**Aeza Group** — a Russian "bulletproof hosting" provider — for enabling ransomware
-and other cyber-criminal activity; the action named the UK entity **Aeza
-International Ltd** among the designated parties.
+## Next steps
 
-- US Treasury / TRM Labs: <https://www.trmlabs.com/resources/blog/treasury-sanctions-global-bulletproof-hosting-service-aeza-group-for-enabling-cybercriminal-activity>
-- Chainalysis: <https://www.chainalysis.com/blog/ofac-sanctions-aeza-group-bulletproof-hosting-crypto-payments-july-2025>
-- Elliptic: <https://www.elliptic.co/blog/ofac-sanctions-four-russian-affiliated-bulletproof-hosting-bph-entities>
-
-## Confidence & caveats (read before repeating this)
-
-- **Identity (company): high.** Name + GB jurisdiction + single register match +
-  the documented OFAC action all converge on company `15109642`.
-- **\*"Active" is as-of the PSC snapshot (2025-03-11), which predates the July 2025
-  sanctions.** The company was live in the register then; its **current** status
-  (it may since be in liquidation / struck off) must be checked on Companies House
-  before publication.
-- **The PSC is not personally on an SDN list** in our data — `Mr Marat Timurov`
-  appears only via the PSC-register mirror. A 1999-born Kazakhstan national listed
-  as PSC of a Russian-controlled sanctioned host is *consistent with* a nominee/
-  front pattern, but that is a hypothesis to verify, not a claim.
-- This is the UK PSC register ∩ OpenSanctions — **not** an ICIJ leak. It is novel
-  precisely because it isn't in the picked-over Panama/Pandora corpus.
-
-## Secondary cohort: sanctioned individuals with UK PSC declarations
-
-The same survivor file carries a cluster of **identity-grade (name + DOB-year)**
-matches between the UK PSC register and OpenSanctions-listed individuals. These are
-the inverse pattern (sanctioned *person* → UK company). Companies were **not**
-resolved here — the BODS person→company relationship layer isn't in the current
-processed artifacts (it lives in the raw `uk_bods.zip`), so this is the documented
-next step.
-
-| Person | Sanctions regime (OS datasets) | Public identity |
-|---|---|---|
-| **Igor Zyuzin** | EU asset-freeze `eu_fsf` + EU travel ban + Swiss SECO | Mechel chairman |
-| **Oksana Marchenko** | **UK `gb_fcdo_sanctions`** + Ukraine | wife of Viktor Medvedchuk |
-| **Roman Trotsenko** | Australia / Belgium / Canada | AEON Corp billionaire |
-| **Nikita Mordashov** | Canada / Japan / Ukraine | Severstal heir |
-| **Arkady Volozh** | Ukraine (NSDC / war) | Yandex co-founder |
-| **Igor Yusufov** (ICIJ-side) | Canada / Ukraine | ex-Russian energy minister |
-
-(Register-mirror self-matches — Giner / Isaykin / Viktorov — were excluded: they
-match the PSC register *copied into* OpenSanctions, not a sanctions list.)
-
-## Reproduce
-
-```bash
-# from the Railway job volume (auth: Authorization: Bearer $SHELLNET_JOB_TOKEN)
-GET /download?path=reports/generated/investigative_grade_survivors.csv
-GET /download?path=processed/sanctions_overlay.parquet
-GET /download?path=processed/oo_uk_psc_entities.parquet
-GET /download?path=processed/os_sanctioned_persons.parquet
-```
-
-1. In `sanctions_overlay`, filter `caption ~ "aeza"` → AEZA INTERNATIONAL LTD,
-   `topics` contains `sanction`, datasets include `us_ofac_sdn` + `gb_fcdo_sanctions`.
-2. In `survivors.csv`, find `Mr Marat Timurov` → OS id embeds company `15109642`.
-3. In `oo_uk_psc_entities`, `bods_subject == "GB-COH-15109642"` → AEZA INTERNATIONAL
-   LTD, `dissolution_date` null (as of snapshot).
-
-## Honest bottom line
-
-A recognizable name at the end of the trail: **yes.** The headline lead — an
-OFAC/UK-sanctioned bulletproof-hosting front that is a live UK company with a named
-PSC — is concrete, current, and cross-source-verified from the corpus. The
-oligarch-PSC cohort is a strong secondary seam but is one resolution step short
-(needs the BODS relationship layer to name each company). The next compounding move
-is to ingest the UK BODS person→company relationships so every sanctioned-PSC match
-resolves to a named, status-checked company automatically.
+- **Enumerate full footprints.** Each person above was resolved from the single PSC
+  statement that matched; joining `person_recorddetails_names` (surname + birth-year)
+  → all `person_statement`s would list *every* UK company each controlled.
+- **Persist the BODS relationship layer.** The `ingest_uk_bods` step drops
+  person→company edges; emitting `uk_psc_relationships.parquet` (subject /
+  interestedParty / company number) would make every future sanctioned-PSC match
+  resolve to a named, status-checked company automatically — without re-parsing the
+  3.5 GB zip.
+- **Lead, not verdict.** Dissolved/liquidated status means these are historical
+  footprints; any external use needs primary-source confirmation of dates and roles.
