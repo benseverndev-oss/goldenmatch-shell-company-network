@@ -26,8 +26,19 @@ def _grab(label: str, md: str) -> str | None:
     return m.group(1).strip() if m else None
 
 
+def _company_name(md: str) -> str | None:
+    """The company name is the first H1 heading. The CH page's leading heading
+    is the cookie-consent banner (an H2 ``## Cookies...``), so take the first
+    single-``#`` line and skip ``##`` boilerplate."""
+    for line in md.splitlines():
+        s = line.strip()
+        if s.startswith("# "):
+            return s[2:].strip().strip("*").strip() or None
+    return None
+
+
 def parse_ch_overview(markdown: str) -> dict[str, object]:
-    """Extract status / type / incorporation / SIC codes from CH page markdown."""
+    """Extract name / status / type / incorporation / SIC codes from CH markdown."""
     md = markdown or ""
     sics = re.findall(r"\b(\d{4,5})\b\s*[-–]\s*[A-Za-z]", md)
     # SIC codes appear in a "Nature of business (SIC)" block; fall back to any
@@ -36,6 +47,7 @@ def parse_ch_overview(markdown: str) -> dict[str, object]:
     if nature:
         sics = re.findall(r"\b(\d{4,5})\b", nature.group(0)) or sics
     return {
+        "company_name": _company_name(md),
         "company_status": (_grab("Company status", md) or "").lower() or None,
         "company_type": _grab("Company type", md),
         "incorporated_on": _grab("Incorporated on", md),

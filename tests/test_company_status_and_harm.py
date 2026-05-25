@@ -29,6 +29,7 @@ Nature of business (SIC)
 
 def test_parse_ch_overview():
     parsed = cs.parse_ch_overview(_CH_MARKDOWN)
+    assert parsed["company_name"] == "AEZA INTERNATIONAL LTD"
     assert parsed["company_status"] == "dissolved"
     assert parsed["company_type"] == "Private limited Company"
     assert parsed["incorporated_on"] == "1 September 2023"

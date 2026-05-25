@@ -81,7 +81,7 @@ def main(
             rows.append({"lead_id": lead_id, "active": None, "harm_category": "none"})
             continue
         parsed = cs.parse_ch_overview(md)
-        name_m = md.splitlines()[0].lstrip("# ").strip() if md else None
+        name_m = parsed["company_name"]
         cat = harm.classify_harm(parsed["sic_codes"], name_m)  # type: ignore[arg-type]
         rows.append(
             {
