@@ -1249,6 +1249,15 @@ _ALLOWED_SCRIPTS = {
         "--out-md",
         "/data/reports/generated/wrongdoing_leads.md",
     ],
+    # Phase 3 (issue #158): live Companies House status + harm category via
+    # Firecrawl (needs FIRECRAWL_API_KEY on the service). Feeds the Phase-2 gates.
+    "enrich_company_status": [
+        "scripts/enrich_company_status.py",
+        "--leads",
+        "/data/processed/wrongdoing_leads.parquet",
+        "--out",
+        "/data/processed/company_status.parquet",
+    ],
 }
 
 
