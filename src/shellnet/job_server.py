@@ -1284,6 +1284,17 @@ _ALLOWED_SCRIPTS = {
         "--top-n",
         "25",
     ],
+    # Phase 6 (issue #161): top-N precision + per-signal lift from the review
+    # outcomes log; the feedback that retunes Phase-2 weights.
+    "score_lead_precision": [
+        "scripts/score_lead_precision.py",
+        "--leads",
+        "/data/processed/wrongdoing_leads.parquet",
+        "--outcomes",
+        "/data/validation/outcomes.csv",
+        "--out-md",
+        "/data/reports/generated/lead_precision.md",
+    ],
 }
 
 
