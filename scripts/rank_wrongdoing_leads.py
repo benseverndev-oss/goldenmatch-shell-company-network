@@ -89,6 +89,9 @@ def main(
     leads = _evasion_signal(evasion)
 
     for sig in extra_signals:
+        if not sig.exists():
+            log.warning("extra-signals parquet missing, skipping: %s", sig)
+            continue
         leads = leads.join(pl.read_parquet(sig), on="lead_id", how="full", coalesce=True)
 
     if status is not None and status.exists():
