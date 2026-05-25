@@ -32,7 +32,14 @@ def _evasion_signal(path: Path) -> pl.DataFrame:
     """Phase-1 evasion parquet -> per-company signal + a representative summary."""
     ev = pl.read_parquet(path)
     if ev.height == 0:
-        return pl.DataFrame({"lead_id": [], "evasion_timing": [], "summary": []})
+        return pl.DataFrame(
+            schema={
+                "lead_id": pl.Utf8,
+                "evasion_timing": pl.Float64,
+                "principal_name": pl.Utf8,
+                "successor_name": pl.Utf8,
+            }
+        )
     return (
         ev.group_by("company_id")
         .agg(
