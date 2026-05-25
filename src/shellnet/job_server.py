@@ -1273,6 +1273,17 @@ _ALLOWED_SCRIPTS = {
         "--out",
         "/data/processed/regulatory_breach.parquet",
     ],
+    # Phase 5 (issue #160): per-lead verification dossiers (primary-source
+    # links + right-of-reply + defamation checklist gate).
+    "build_lead_dossier": [
+        "scripts/build_lead_dossier.py",
+        "--leads",
+        "/data/processed/wrongdoing_leads.parquet",
+        "--out-dir",
+        "/data/validation/leads",
+        "--top-n",
+        "25",
+    ],
 }
 
 
