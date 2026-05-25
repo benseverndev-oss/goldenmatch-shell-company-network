@@ -1218,6 +1218,24 @@ _ALLOWED_SCRIPTS = {
     "probe_aar_igt_verify": [
         "scripts/probe_aar_igt_verify.py",
     ],
+    # Phase 1 (issue #156): join uk_psc_relationships control dates against OS
+    # designation dates to flag control transfers near a sanction (the
+    # divest-to-a-relative/nominee pattern).
+    "sanctions_evasion_timing": [
+        "scripts/probe_sanctions_evasion_timing.py",
+        "--survivors",
+        "/data/reports/generated/investigative_grade_survivors.csv",
+        "--relationships",
+        "/data/interim/uk_psc_relationships.parquet",
+        "--os-entities",
+        "/data/interim/opensanctions_entities.parquet",
+        "--persons",
+        "/data/interim/uk_psc_persons.parquet",
+        "--out-parquet",
+        "/data/processed/sanctions_evasion_timing.parquet",
+        "--out-md",
+        "/data/reports/generated/sanctions_evasion_timing.md",
+    ],
 }
 
 
