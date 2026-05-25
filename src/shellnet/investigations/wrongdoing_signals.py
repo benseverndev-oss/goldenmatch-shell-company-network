@@ -25,13 +25,19 @@ import polars as pl
 
 __all__ = ["DEFAULT_WEIGHTS", "score_wrongdoing"]
 
-# Descending evidential weight (see the taxonomy in the roadmap / issue #157).
+# Descending evidential weight (see the taxonomy in the roadmap / issue #157,
+# refined by the precision roadmap). ``acting_director_breach`` (a disqualified
+# person who is a *current director*, P1) outweighs bare ``regulatory_breach``
+# (a disqualified person who merely *owns* >25% — not banned by s.11, so demoted
+# from 0.9 to 0.4). ``public_funds_fraud`` is the mined conduct severity (P4).
 DEFAULT_WEIGHTS: dict[str, float] = {
+    "acting_director_breach": 1.0,
     "evasion_timing": 1.0,
-    "regulatory_breach": 0.9,
+    "public_funds_fraud": 0.8,
     "bank_or_court_flag": 0.8,
     "nominee_front": 0.7,
     "sanctioned_parent": 0.6,
+    "regulatory_breach": 0.4,
 }
 
 

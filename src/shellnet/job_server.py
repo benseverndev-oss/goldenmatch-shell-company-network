@@ -1247,6 +1247,8 @@ _ALLOWED_SCRIPTS = {
         "/data/processed/company_status.parquet",
         "--extra-signals",
         "/data/processed/regulatory_breach.parquet",
+        "--extra-signals",
+        "/data/processed/director_breach.parquet",
         "--out-parquet",
         "/data/processed/wrongdoing_leads.parquet",
         "--out-md",
@@ -1275,6 +1277,29 @@ _ALLOWED_SCRIPTS = {
         "/data/interim/uk_psc_relationships.parquet",
         "--out",
         "/data/processed/regulatory_breach.parquet",
+    ],
+    # Precision P1-P3: grade each disqualified-PSC lead against the company's live
+    # CH officers page — acting director (s.11 candidate) vs passive shareholder —
+    # plus identity (name+DOB+address) and live confirmation. Needs FIRECRAWL_API_KEY.
+    "grade_director_breach": [
+        "scripts/grade_director_breach.py",
+        "--breach",
+        "/data/processed/regulatory_breach.parquet",
+        "--disqualified",
+        "/data/interim/uk_disqualified_directors.parquet",
+        "--out",
+        "/data/processed/director_breach.parquet",
+    ],
+    # Precision P6: defensible systemic aggregate — acting-director breaches (not
+    # raw PSC counts), broken down by conduct (Covid/BBL public-funds fraud).
+    "build_breach_aggregate": [
+        "scripts/build_breach_aggregate.py",
+        "--graded",
+        "/data/processed/director_breach.parquet",
+        "--breach",
+        "/data/processed/regulatory_breach.parquet",
+        "--out-md",
+        "/data/reports/generated/breach_aggregate.md",
     ],
     # Phase 5 (issue #160): per-lead verification dossiers (primary-source
     # links + right-of-reply + defamation checklist gate).

@@ -121,6 +121,7 @@ def detect_evasion_timing(
     persons: pl.DataFrame,
     *,
     window_days: int = 730,
+    drop_placeholder: bool = False,
 ) -> pl.DataFrame:
     """Flag PSC control transfers that cluster around a designation date.
 
@@ -128,6 +129,11 @@ def detect_evasion_timing(
     company(ies) they controlled, then surface any *other* PSC whose stake
     started within ``window_days`` of the designation — the candidate
     nominee/successor the control was handed to.
+
+    With ``drop_placeholder`` the detector discards designations whose date is a
+    placeholder (PEPs tracked before listing, dated midnight on Jan 1): the delta
+    against such a date is meaningless, so they are noise, not leads (precision
+    roadmap P5).
     """
     # Sanctioned principal -> their UK PSC statementId + the company they hold.
     # Keep only uk_psc-target rows (the others are ICIJ matches with no PSC edge).
@@ -138,6 +144,8 @@ def detect_evasion_timing(
     )
 
     surv = surv.join(designations, on="os_id", how="inner")
+    if drop_placeholder:
+        surv = surv.filter(pl.col("date_quality") != "placeholder")
 
     principal_edges = relationships.select(
         "person_source_id",
