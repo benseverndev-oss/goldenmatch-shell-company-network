@@ -88,6 +88,42 @@ _COMPANY_COLUMNS: tuple[str, ...] = (
     "normalized_address",
 )
 
+# Person -> company PSC edges. ``person_source_id`` is the BODS person
+# statementId, which is exactly the ``uk_psc:<id>`` key the unified person
+# table (``_build_persons``) emits — so a sanctioned-PSC match in the
+# survivor pipeline joins straight onto this edge to name the controlled
+# company. ``company_id`` is the raw ``GB-COH-<n>`` ref (matches the OO
+# entities ``bods_subject``); ``company_number`` is the bare number,
+# aligned with ``uk_psc_entities.company_number``.
+_PSC_RELATIONSHIP_COLUMNS: tuple[str, ...] = (
+    "source",
+    "person_source_id",
+    "person_record_id",
+    "company_id",
+    "company_number",
+    "control_type",
+    "direct_or_indirect",
+    "share_min",
+    "share_max",
+    "start_date",
+    "end_date",
+)
+
+
+def _coh_company_number(subject: str | None) -> str:
+    """``GB-COH-04818143`` -> ``04818143`` (normalized).
+
+    UK PSC relationship subjects carry the ``GB-COH-`` registry prefix;
+    strip it before normalizing so the number matches the
+    ``company_number`` column emitted by ``_build_entities``.
+    """
+    if not subject:
+        return ""
+    s = subject
+    if s.upper().startswith("GB-COH-"):
+        s = s[len("GB-COH-") :]
+    return normalize_identifier(s)
+
 
 def _build_persons(work_dir: Path) -> pl.DataFrame:
     spine = pl.read_parquet(work_dir / "person_statement.parquet").select(["_link", "statementId"])
@@ -189,6 +225,97 @@ def _build_entities(work_dir: Path) -> pl.DataFrame:
     )
     df = df.filter(pl.col("name").is_not_null() & (pl.col("name") != ""))
     return df.select(list(_COMPANY_COLUMNS))
+
+
+def _build_uk_psc_relationships(work_dir: Path) -> pl.DataFrame:
+    """Extract UK PSC person -> company control edges from the BODS bundle.
+
+    BODS shape:
+      - ``relationship_statement``: ``recordDetails_subject`` is the
+        controlled company (``GB-COH-<n>``), ``recordDetails_interestedParty``
+        is the controlling person's ``recordId`` (``GB-COH-PER-<n>-<hash>``).
+      - ``relationship_recorddetails_interests``: nature-of-control type,
+        direct/indirect, share band, dates (FK ``_link_relationship_statement``).
+      - ``person_statement``: maps each person ``recordId`` to its
+        ``statementId`` (the unified person table's ``source_id``).
+
+    Component sub-statements (``recordDetails_isComponent``) are dropped;
+    they decompose corporate chains rather than naming a direct PSC.
+    """
+    rel = pl.read_parquet(work_dir / "relationship_statement.parquet").select(
+        [
+            "_link",
+            "recordType",
+            "recordDetails_isComponent",
+            "recordDetails_subject",
+            "recordDetails_interestedParty",
+        ]
+    )
+    rel = rel.filter(
+        (pl.col("recordType") == "relationship")
+        & (pl.col("recordDetails_isComponent") != True)  # noqa: E712
+        & pl.col("recordDetails_subject").is_not_null()
+        & pl.col("recordDetails_interestedParty").is_not_null()
+    )
+    log.info("BODS: %d UK PSC relationship statements", rel.height)
+
+    interests_full = pl.read_parquet(work_dir / "relationship_recorddetails_interests.parquet")
+    available = set(interests_full.columns)
+    icols = ["_link_relationship_statement"]
+    icols += [
+        c
+        for c in (
+            "type",
+            "directOrIndirect",
+            "share_minimum",
+            "share_maximum",
+            "startDate",
+            "endDate",
+        )
+        if c in available
+    ]
+    interests = interests_full.select(icols).unique(
+        subset=["_link_relationship_statement"], keep="first"
+    )
+
+    persons = (
+        pl.read_parquet(work_dir / "person_statement.parquet")
+        .select(["statementId", "recordId"])
+        .filter(pl.col("recordId").is_not_null())
+        .unique(subset=["recordId"], keep="first")
+    )
+
+    edges = rel.join(
+        interests, left_on="_link", right_on="_link_relationship_statement", how="left"
+    ).join(persons, left_on="recordDetails_interestedParty", right_on="recordId", how="left")
+
+    cols = set(edges.columns)
+    edges = edges.with_columns(
+        pl.lit("uk_psc", dtype=pl.Utf8).alias("source"),
+        pl.col("statementId").alias("person_source_id"),
+        pl.col("recordDetails_interestedParty").alias("person_record_id"),
+        pl.col("recordDetails_subject").alias("company_id"),
+        pl.col("recordDetails_subject")
+        .map_elements(_coh_company_number, return_dtype=pl.Utf8)
+        .alias("company_number"),
+        (pl.col("type") if "type" in cols else pl.lit(None, dtype=pl.Utf8)).alias("control_type"),
+        (
+            pl.col("directOrIndirect")
+            if "directOrIndirect" in cols
+            else pl.lit(None, dtype=pl.Utf8)
+        ).alias("direct_or_indirect"),
+        (
+            pl.col("share_minimum") if "share_minimum" in cols else pl.lit(None, dtype=pl.Float64)
+        ).alias("share_min"),
+        (
+            pl.col("share_maximum") if "share_maximum" in cols else pl.lit(None, dtype=pl.Float64)
+        ).alias("share_max"),
+        (pl.col("startDate") if "startDate" in cols else pl.lit(None, dtype=pl.Utf8)).alias(
+            "start_date"
+        ),
+        (pl.col("endDate") if "endDate" in cols else pl.lit(None, dtype=pl.Utf8)).alias("end_date"),
+    )
+    return edges.select(list(_PSC_RELATIONSHIP_COLUMNS))
 
 
 _OWNERSHIP_EDGE_COLUMNS: tuple[str, ...] = (
@@ -320,6 +447,7 @@ def ingest(
     Writes:
       - ``uk_psc_persons.parquet`` (~12M rows after filtering empties)
       - ``uk_psc_entities.parquet`` (~5.8M rows)
+      - ``uk_psc_relationships.parquet`` (person -> company PSC edges)
 
     Caller can keep the extracted sub-table parquets around for the
     relationship-graph layer by passing ``keep_extracted=True``.
@@ -339,6 +467,8 @@ def ingest(
         "entity_statement.parquet",
         "entity_recorddetails_identifiers.parquet",
         "entity_recorddetails_addresses.parquet",
+        "relationship_statement.parquet",
+        "relationship_recorddetails_interests.parquet",
     )
     for m in members_to_extract:
         target = work_dir / m
@@ -360,10 +490,20 @@ def ingest(
     entities.write_parquet(entities_out)
     log.info("BODS: wrote %d UK PSC entities -> %s", entities.height, entities_out)
 
+    log.info("BODS: building relationships")
+    relationships = _build_uk_psc_relationships(work_dir)
+    relationships_out = out_dir / "uk_psc_relationships.parquet"
+    relationships.write_parquet(relationships_out)
+    log.info("BODS: wrote %d UK PSC relationships -> %s", relationships.height, relationships_out)
+
     if not keep_extracted:
         for m in members_to_extract:
             (work_dir / m).unlink(missing_ok=True)
         with contextlib.suppress(OSError):
             work_dir.rmdir()
 
-    return {"persons": persons_out, "entities": entities_out}
+    return {
+        "persons": persons_out,
+        "entities": entities_out,
+        "relationships": relationships_out,
+    }
