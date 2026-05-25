@@ -86,7 +86,7 @@ def main(
     leads = leads.join(disq, on=["disqualified_name", "dob_ym"], how="left")
 
     rows = []
-    for r in leads.iter_rows(named=True)[:limit]:
+    for r in leads.head(limit).iter_rows(named=True):
         num = _number(r["lead_id"])
         try:
             md = _scrape_officers(num, api_key, cache_dir)
