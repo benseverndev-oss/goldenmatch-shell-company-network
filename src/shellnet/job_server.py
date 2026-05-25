@@ -1218,6 +1218,83 @@ _ALLOWED_SCRIPTS = {
     "probe_aar_igt_verify": [
         "scripts/probe_aar_igt_verify.py",
     ],
+    # Phase 1 (issue #156): join uk_psc_relationships control dates against OS
+    # designation dates to flag control transfers near a sanction (the
+    # divest-to-a-relative/nominee pattern).
+    "sanctions_evasion_timing": [
+        "scripts/probe_sanctions_evasion_timing.py",
+        "--survivors",
+        "/data/reports/generated/investigative_grade_survivors.csv",
+        "--relationships",
+        "/data/interim/uk_psc_relationships.parquet",
+        "--os-entities",
+        "/data/interim/opensanctions_entities.parquet",
+        "--persons",
+        "/data/interim/uk_psc_persons.parquet",
+        "--out-parquet",
+        "/data/processed/sanctions_evasion_timing.parquet",
+        "--out-md",
+        "/data/reports/generated/sanctions_evasion_timing.md",
+    ],
+    # Phase 2 (issue #157): combine wrongdoing signals into a gated, ranked
+    # lead queue. --status is optional (Phase 3); missing file is tolerated.
+    "rank_wrongdoing_leads": [
+        "scripts/rank_wrongdoing_leads.py",
+        "--evasion",
+        "/data/processed/sanctions_evasion_timing.parquet",
+        "--status",
+        "/data/processed/company_status.parquet",
+        "--out-parquet",
+        "/data/processed/wrongdoing_leads.parquet",
+        "--out-md",
+        "/data/reports/generated/wrongdoing_leads.md",
+    ],
+    # Phase 3 (issue #158): live Companies House status + harm category via
+    # Firecrawl (needs FIRECRAWL_API_KEY on the service). Feeds the Phase-2 gates.
+    "enrich_company_status": [
+        "scripts/enrich_company_status.py",
+        "--leads",
+        "/data/processed/wrongdoing_leads.parquet",
+        "--out",
+        "/data/processed/company_status.parquet",
+    ],
+    # Phase 4 (issue #159): disqualified directors still acting as PSCs
+    # (candidate s.11 CDDA breach) — a join the relationship layer unlocks.
+    "disqualified_psc_breach": [
+        "scripts/probe_disqualified_psc_breach.py",
+        "--disqualified",
+        "/data/interim/uk_disqualified_directors.parquet",
+        "--persons",
+        "/data/interim/uk_psc_persons.parquet",
+        "--psc-dob",
+        "/data/processed/uk_psc_dob.parquet",
+        "--relationships",
+        "/data/interim/uk_psc_relationships.parquet",
+        "--out",
+        "/data/processed/regulatory_breach.parquet",
+    ],
+    # Phase 5 (issue #160): per-lead verification dossiers (primary-source
+    # links + right-of-reply + defamation checklist gate).
+    "build_lead_dossier": [
+        "scripts/build_lead_dossier.py",
+        "--leads",
+        "/data/processed/wrongdoing_leads.parquet",
+        "--out-dir",
+        "/data/validation/leads",
+        "--top-n",
+        "25",
+    ],
+    # Phase 6 (issue #161): top-N precision + per-signal lift from the review
+    # outcomes log; the feedback that retunes Phase-2 weights.
+    "score_lead_precision": [
+        "scripts/score_lead_precision.py",
+        "--leads",
+        "/data/processed/wrongdoing_leads.parquet",
+        "--outcomes",
+        "/data/validation/outcomes.csv",
+        "--out-md",
+        "/data/reports/generated/lead_precision.md",
+    ],
 }
 
 
