@@ -24,7 +24,14 @@ HARM_RULES: list[tuple[str, float, tuple[str, ...], tuple[str, ...]]] = [
         "adult_social_care",
         1.9,
         ("8710", "8730", "8810", "8899"),
-        ("care home", "nursing home", "domiciliary", "home care", "care support", "supported living"),
+        (
+            "care home",
+            "nursing home",
+            "domiciliary",
+            "home care",
+            "care support",
+            "supported living",
+        ),
     ),
     ("health", 1.7, ("86",), ("nhs", "clinic", "hospital", "ambulance", "pharmacy")),
     (
@@ -57,8 +64,18 @@ CONDUCT_RULES: list[tuple[str, float, tuple[str, ...]]] = [
     (
         "public_funds_fraud",
         1.8,
-        ("bounce back loan", "bbl", "cbils", "coronavirus", "covid", "furlough",
-         "government-backed", "government backed", "grant fund", "ppe"),
+        (
+            "bounce back loan",
+            "bbl",
+            "cbils",
+            "coronavirus",
+            "covid",
+            "furlough",
+            "government-backed",
+            "government backed",
+            "grant fund",
+            "ppe",
+        ),
     ),
     ("tax_fraud", 1.5, ("vat", "hmrc", " paye", "tax loss", "evaded tax", "duty")),
     (
@@ -69,7 +86,13 @@ CONDUCT_RULES: list[tuple[str, float, tuple[str, ...]]] = [
     (
         "creditor_harm",
         1.2,
-        ("creditor", "detriment of creditor", "preference", "misappropriat", "trading while insolvent"),
+        (
+            "creditor",
+            "detriment of creditor",
+            "preference",
+            "misappropriat",
+            "trading while insolvent",
+        ),
     ),
 ]
 

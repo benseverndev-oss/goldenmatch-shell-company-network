@@ -38,18 +38,18 @@ def main(
     )
     g = pl.read_parquet(graded)
     b = pl.read_parquet(breach)
-    conduct_cols = [c for c in ("conduct_category", "public_funds_fraud", "disqualified_name") if c in b.columns]
+    conduct_cols = [
+        c for c in ("conduct_category", "public_funds_fraud", "disqualified_name") if c in b.columns
+    ]
     df = g.join(b.select(["lead_id", *conduct_cols]), on="lead_id", how="left")
 
     grades = db.summarize(g)
     total = int(g.height)
     acting = grades.get("acting_director", 0)
-    acting_hi = (
-        df.filter(
-            (pl.col("breach_grade") == "acting_director")
-            & (pl.col("identity_confidence") >= min_confidence)
-        ).height
-    )
+    acting_hi = df.filter(
+        (pl.col("breach_grade") == "acting_director")
+        & (pl.col("identity_confidence") >= min_confidence)
+    ).height
     bbl_acting = 0
     if "public_funds_fraud" in df.columns:
         bbl_acting = df.filter(
@@ -90,7 +90,11 @@ def main(
     out_md.write_text("\n".join(lines), encoding="utf-8")
     log.info(
         "breach aggregate: total=%d acting=%d acting_hi_conf=%d bbl_acting=%d -> %s",
-        total, acting, acting_hi, bbl_acting, out_md,
+        total,
+        acting,
+        acting_hi,
+        bbl_acting,
+        out_md,
     )
     typer.echo(f"acting_director={acting} (hi-conf {acting_hi}, bbl {bbl_acting}) -> {out_md}")
 
