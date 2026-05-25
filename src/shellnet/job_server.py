@@ -1236,6 +1236,19 @@ _ALLOWED_SCRIPTS = {
         "--out-md",
         "/data/reports/generated/sanctions_evasion_timing.md",
     ],
+    # Phase 2 (issue #157): combine wrongdoing signals into a gated, ranked
+    # lead queue. --status is optional (Phase 3); missing file is tolerated.
+    "rank_wrongdoing_leads": [
+        "scripts/rank_wrongdoing_leads.py",
+        "--evasion",
+        "/data/processed/sanctions_evasion_timing.parquet",
+        "--status",
+        "/data/processed/company_status.parquet",
+        "--out-parquet",
+        "/data/processed/wrongdoing_leads.parquet",
+        "--out-md",
+        "/data/reports/generated/wrongdoing_leads.md",
+    ],
 }
 
 
