@@ -1258,6 +1258,21 @@ _ALLOWED_SCRIPTS = {
         "--out",
         "/data/processed/company_status.parquet",
     ],
+    # Phase 4 (issue #159): disqualified directors still acting as PSCs
+    # (candidate s.11 CDDA breach) — a join the relationship layer unlocks.
+    "disqualified_psc_breach": [
+        "scripts/probe_disqualified_psc_breach.py",
+        "--disqualified",
+        "/data/interim/uk_disqualified_directors.parquet",
+        "--persons",
+        "/data/interim/uk_psc_persons.parquet",
+        "--psc-dob",
+        "/data/processed/uk_psc_dob.parquet",
+        "--relationships",
+        "/data/interim/uk_psc_relationships.parquet",
+        "--out",
+        "/data/processed/regulatory_breach.parquet",
+    ],
 }
 
 
