@@ -21,6 +21,7 @@ from pathlib import Path
 import polars as pl
 import typer
 
+from shellnet.investigations import harm
 from shellnet.investigations import regulatory_breach as rb
 
 app = typer.Typer(add_completion=False, no_args_is_help=False)
@@ -62,6 +63,19 @@ def main(
     rels = pl.read_parquet(relationships).select("person_source_id", "company_id", "end_date")
 
     breaches = rb.detect_disqualified_psc(disq, psc_identity, rels)
+    # Mine the disqualification narrative for conduct severity (precision P4):
+    # the register is dominated by Covid Bounce Back Loan fraud (public money).
+    if breaches.height:
+        breaches = breaches.with_columns(
+            pl.col("conduct")
+            .map_elements(harm.classify_conduct, return_dtype=pl.Utf8)
+            .alias("conduct_category")
+        ).with_columns(
+            pl.when(pl.col("conduct_category") == "public_funds_fraud")
+            .then(1.0)
+            .otherwise(0.0)
+            .alias("public_funds_fraud")
+        )
     out.parent.mkdir(parents=True, exist_ok=True)
     breaches.write_parquet(out)
     log.info("wrote %d disqualified-PSC breach leads -> %s", breaches.height, out)

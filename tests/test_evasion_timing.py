@@ -84,3 +84,14 @@ def test_detect_evasion_timing_respects_window():
     out = et.detect_evasion_timing(survivors, relationships, designations, persons, window_days=10)
     # 40-day gap now exceeds the window -> nothing.
     assert out.height == 0
+
+
+def test_drop_placeholder_discards_placeholder_dated_designations():
+    survivors, relationships, designations, persons = _frames()
+    placeholder = designations.with_columns(pl.lit("placeholder").alias("date_quality"))
+    kept = et.detect_evasion_timing(survivors, relationships, placeholder, persons, window_days=180)
+    assert kept.height == 1  # default keeps it
+    dropped = et.detect_evasion_timing(
+        survivors, relationships, placeholder, persons, window_days=180, drop_placeholder=True
+    )
+    assert dropped.height == 0  # placeholder designation removed -> no lead

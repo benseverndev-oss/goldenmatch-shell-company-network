@@ -57,3 +57,17 @@ def test_classify_harm_picks_highest_weight():
     assert cat == "childrens_care"
     assert harm.harm_weight(cat) == 2.0
     assert harm.harm_weight("none") == 1.0
+
+
+def test_crypto_finance_no_longer_fires_on_generic_financial_sic():
+    # P4 fix: a PPI/consumer-finance firm must not be mislabelled crypto_finance.
+    assert harm.classify_harm(["64999"], "Tax Reclaim PPI Ltd") == "none"
+    assert harm.classify_harm([], "Acme Crypto Exchange") == "crypto_finance"
+
+
+def test_classify_conduct_flags_bounce_back_loan_fraud():
+    bbl = "Mr X caused Co to apply for a Bounce Back Loan of GBP50,000 it was not entitled to."
+    assert harm.classify_conduct(bbl) == "public_funds_fraud"
+    assert harm.conduct_weight("public_funds_fraud") == 1.8
+    assert harm.classify_conduct("ordinary trading dispute") == "none"
+    assert harm.conduct_weight("none") == 1.0

@@ -65,6 +65,9 @@ def main(
     out_parquet: Path = typer.Option(..., "--out-parquet"),
     out_md: Path = typer.Option(..., "--out-md"),
     window_days: int = typer.Option(730, "--window-days", help="± window around designation"),
+    drop_placeholder: bool = typer.Option(
+        True, "--drop-placeholder/--keep-placeholder", help="discard placeholder designation dates"
+    ),
 ) -> None:
     logging.basicConfig(
         level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s"
@@ -79,7 +82,9 @@ def main(
     desig = evasion_timing.build_designation_dates(pl.read_parquet(os_entities))
     ppl = pl.read_parquet(persons).select("source_id", "name")
 
-    leads = evasion_timing.detect_evasion_timing(surv, rels, desig, ppl, window_days=window_days)
+    leads = evasion_timing.detect_evasion_timing(
+        surv, rels, desig, ppl, window_days=window_days, drop_placeholder=drop_placeholder
+    )
 
     out_parquet.parent.mkdir(parents=True, exist_ok=True)
     out_md.parent.mkdir(parents=True, exist_ok=True)
